@@ -52,7 +52,7 @@
 			isa = PBXGroup;
 			children = (
 				F04628782C88A757008FB346 /* Sports_AlmanachApp.swift */,
-				F046287A2C88A757008FB346 /* ContentView.swift */,
+				F095C8EC2C88AB1F002C94FD /* Views */,
 				F046287C2C88A758008FB346 /* Assets.xcassets */,
 				F046287E2C88A759008FB346 /* Preview Content */,
 			);
@@ -65,6 +65,14 @@
 				F046287F2C88A759008FB346 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F095C8EC2C88AB1F002C94FD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F046287A2C88A757008FB346 /* ContentView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
