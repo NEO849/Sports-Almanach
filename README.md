@@ -1,5 +1,4 @@
 # Sports-Almanach <img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" align="right" width="150"/>
-
 ## Bet & Infos
 
 **Der Sportwetten-Begleiter für alle Fans.**
