@@ -2,50 +2,106 @@
 
 <img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" width="300" style="float: left; margin-right: 20px;"/>
 
-**Bet & Infos**
+## Bet & Infos
 
-**Sports-Almanach** ist die perfekte App für Sportfans, die umfassende Informationen über Sportarten und Events sucht. Mit dieser App kannst du:
+**Der Sportwetten-Begleiter für alle Fans.**
 
-- Dich über aktuelle Sportereignisse informieren.
-- Wetten mit Spielgeld abschließen.
-- Vielfältige Informationen zu Sportarten und Events abrufen.
+**Sports-Almanach** bietet dir umfassende Informationen zu aktuellen Sportereignissen und ermöglicht dir, Wetten mit Spielgeld abzuschließen. Bleib immer auf dem Laufenden und teste dein Wissen in der Welt des Sports.
+
+---
+
+## Warum Sports-Almanach?
+
+**Sports-Almanach** ist ideal für Sportfans, die jederzeit aktuelle Informationen zu Sportarten und Events erhalten möchten. Mit der App kannst du:
+- Die neuesten Informationen zu Sportevents abrufen.
+- Wetten mit Spielgeld platzieren und dein Sportwissen testen.
+- Von einer einfachen und intuitiven Navigation profitieren.
+
+Die App zeichnet sich durch eine reibungslose Integration mit Firebase und eine aufgeräumte MVVM-Architektur aus. So Stabilität und einfache Erweiterbarkeit garantiert.
+
+---
+
+## Design
+
+Screenshots der App:
+
+Hier später Screenshots
+
+---
 
 ## Features
 
-- **Benutzeranmeldung**: Melde dich an oder registriere dich, um alle Funktionen der App nutzen zu können.
-- **Sportarten und Events**: Erhalte aktuelle und detaillierte Informationen zu verschiedenen Sportarten und deren Events.
+- **Benutzeranmeldung**: Melde dich an oder registriere dich, um personalisierte Funktionen zu nutzen.
+- **Sportarten und Events**: Erhalte aktuelle Informationen zu verschiedenen Sportarten und Events.
 - **Wettmöglichkeiten**: Platziere Wetten mit Spielgeld und teste dein Wissen über Sport.
-- **Einfache Navigation**: Navigiere mühelos durch die App mit den Tabs für Home, Bet und Detail.
+- **Einfache Navigation**: Nutze Tabs für Home, Bet und Detail, um mühelos durch die App zu navigieren.
 
-## Aufbau
+---
 
-- **Firebase Integration**: Nutzung von Firebase für Authentication, Crashlytics und Echtzeit-Wettquoten.
-- **MVVM Architektur**: Trennung der Geschäftslogik von der UI-Logik für eine einfache Wartung und Erweiterbarkeit.
-- **Testing mit Mock-Daten**: Testen der App mit simulierten Benutzern, Fußball-Events, Wettmöglichkeiten und Quoten.
+## Technischer Aufbau
 
-<img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportsammlung.png?raw=true" alt="Wettbereich" width="600" />
+### Projektaufbau
+
+Die App ist nach dem **MVVM-Muster** (Model-View-ViewModel) strukturiert. Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleichtert Wartung und Erweiterungen. Die Ordnerstruktur ist wie folgt aufgebaut:
+
+Sports-Almanach/ │ ├── Models/ # Enthält alle Datenmodelle ├── Views/ # SwiftUI Views ├── ViewModels/ # Enthält die Geschäftslogik ├── Services/ # API und Datenzugriff ├── Assets/ # Grafiken und Medien └── Tests/ # Unit Tests und UI Tests
+
+### Datenspeicherung
+
+- **Firebase** wird verwendet für die Authentifizierung der Benutzer und für die Speicherung von Wettinformationen. Ich nutze Firebase aufgrund seiner Zuverlässigkeit und der Echtzeit-Synchronisierung.
+
+### API Calls
+
+Die App nutzt externe APIs, um Live-Daten zu Sportereignissen zu erhalten und Wettquoten in Echtzeit anzuzeigen.
+
+### 3rd-Party Frameworks
+
+- **Firebase**: Für Authentifizierung, Datenbanken und Crashlytics.
+- **SwiftUI**: Für das UI-Design und die Darstellung der Benutzeroberfläche.
+
+---
+
+## Ausblick
+
+In Zukunft möchten ich folgende Features hinzufügen, um die App weiter zu verbessern:
+
+- **Live-Benachrichtigungen** über Sportereignisse und Wettmöglichkeiten.
+- **Erweiterte Statistiken** zu Sportarten und Spielern.
+- **Personalisierte Wettvorschläge** basierend auf dKI ausgewerteten Daten.
+
+---
 
 ## Installation
 
 1. Klone das Repository:
-   ```bash
+   ```
    git clone https://github.com/NEO849/Sports-Almanach.git
-2. open Sports-Almanach.xcodeproj
+   ```
+2. Öffne das Projekt in Xcode:
+   ```
+   open Sports-Almanach.xcodeproj
+   ```
+
+---
 
 ## Verwendung
 
 - Starte die App und melde dich an oder registriere dich.
-- Nutze die Tabs, um zwischen Home, Bet und Detail zu navigieren.
-- Informiere dich über Sportereignisse und platziere Wetten.
+- Navigiere über die Tabs zwischen Home, Bet und Detail.
+- Informiere dich über Sportereignisse und platziere Wetten.   
+
+---
 
 ## Lizenz
 
-Dieses Projekt ist unter der MIT-Lizenz lizenziert - siehe die LICENSE Datei für Details.
+- Dieses Projekt ist unter der MIT-Lizenz lizenziert. Siehe die LICENSE Datei für weitere Details.      
 
-##Kontakt
+---
+
+## Kontakt
 
 Für Fragen oder Anmerkungen kannst du mich unter f.michi84.989@gmail.com erreichen.
 
-Viel Spaß beim Nutzen der App und beim Wetten mit Spielgeld!
-   
+---
 
+Viel Spaß beim Nutzen der App und beim Wetten mit Spielgeld!
