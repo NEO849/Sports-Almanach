@@ -35,16 +35,15 @@ Hier später Screenshots
 - **Jahres- und Liga-Auswahl**: Wähle ein Jahr und eine Liga aus, um relevante Fußball-Events anzuzeigen.
 - **Event-Details**: Sieh dir detaillierte Informationen zu Events an, einschließlich Wettquoten, Team-Logos und Event-Status.
 - **Event-Status**: Jeder Event-Status wird durch einen farbigen Kreis angezeigt (geplant, verschoben, gesperrt, abgesagt).
-  
-### Technischer Aufbau
 
 ## Projektaufbau
 
-Die App ist nach dem **MVVM-Muster** (Model-View-ViewModel) strukturiert. Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleichtert Wartung und Erweiterungen. Die Ordnerstruktur ist wie folgt aufgebaut:
+Die App ist nach dem **MVVM-Muster** (Model-View-ViewModel) strukturiert.
+Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleichtert Wartung und Erweiterungen. 
 
-**Model**: Beinhaltet die Datenstrukturen für Events und Benutzer.
-**View**: Stellt die Benutzeroberfläche dar und zeigt die Events an.
-**ViewModel**: Handhabt die Logik zum Abrufen und Verarbeiten der Event-Daten. Verbindet die View mit den Model-Daten.
+- **Model**: Beinhaltet die Datenstrukturen für Events und Benutzer.
+- **View**: Stellt die Benutzeroberfläche dar und zeigt die Events an.
+- **ViewModel**: Handhabt die Logik zum Abrufen und Verarbeiten der Event-Daten. Verbindet die View mit den Model-Daten.
 
 ## Datenspeicherung
 
