@@ -28,26 +28,36 @@ Hier später Screenshots
 
 ## Features
 
-- **Benutzeranmeldung**: Melde dich an oder registriere dich, um personalisierte Funktionen zu nutzen.
-- **Sportarten und Events**: Erhalte aktuelle Informationen zu verschiedenen Sportarten und Events.
-- **Wettmöglichkeiten**: Platziere Wetten mit Spielgeld und teste dein Wissen über Sport.
-- **Einfache Navigation**: Nutze Tabs für Home, Bet und Detail, um mühelos durch die App zu navigieren.
+**Benutzeranmeldung**: Melde dich an oder registriere dich, um personalisierte Funktionen nutzen zu können.
+**Sportarten und Events**: Erhalte aktuelle Informationen zu verschiedenen Sportarten und Events.
+**Wettmöglichkeiten**: Platziere Wetten mit Spielgeld und teste dein Wissen über Sport.
+**Einfache Navigation**: Nutze Tabs für Home, Bet und Detail, um mühelos durch die App zu navigieren.
+**Jahres- und Liga-Auswahl**: Wähle ein Jahr und eine Liga aus, um relevante Fußball-Events anzuzeigen.
+**Event-Details**: Sieh dir detaillierte Informationen zu Events an, einschließlich Wettquoten, Team-Logos und Event-Status.
+**Event-Status**: Jeder Event-Status wird durch einen farbigen Kreis angezeigt (geplant, verschoben, gesperrt, abgesagt).
+Technischer Aufbau
 
----
-
-## Technischer Aufbau
-
-### Projektaufbau
+## Projektaufbau
 
 Die App ist nach dem **MVVM-Muster** (Model-View-ViewModel) strukturiert. Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleichtert Wartung und Erweiterungen. Die Ordnerstruktur ist wie folgt aufgebaut:
 
-### Datenspeicherung
+**Model**: Beinhaltet die Datenstrukturen für Events und Benutzer.
+**View**: Stellt die Benutzeroberfläche dar und zeigt die Events an.
+**ViewModel**: Handhabt die Logik zum Abrufen und Verarbeiten der Event-Daten. Verbindet die View mit den Model-Daten.
 
-- **Firebase** wird verwendet für die Authentifizierung der Benutzer und für die Speicherung von Wettinformationen. Ich nutze Firebase aufgrund seiner Zuverlässigkeit und der Echtzeit-Synchronisierung.
+## Datenspeicherung
 
-### API Calls
+**Firebase** wird für die Authentifizierung der Benutzer und die Speicherung von Wettinformationen verwendet. Firebase bietet zuverlässige Echtzeit-Synchronisierung.
 
-Die App nutzt externe APIs, um Live-Daten zu Sportereignissen zu erhalten und Wettquoten in Echtzeit anzuzeigen.
+## API Calls
+
+Die App nutzt externe APIs, um Live-Daten zu Sportereignissen abzurufen und Wettquoten in Echtzeit anzuzeigen:
+
+**Sportdaten API**: Abrufen von Event-Daten basierend auf Jahr und Liga.
+   **Beispiel-URL**: https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=<LeagueID>&s=<Season>
+   **Parameter**:
+      **id**: Liga-ID
+      **s**: Saison im Format Jahr-Jahr
 
 ### 3rd-Party Frameworks
 
@@ -62,7 +72,7 @@ In Zukunft möchten ich folgende Features hinzufügen, um die App weiter zu verb
 
 - **Live-Benachrichtigungen** über Sportereignisse und Wettmöglichkeiten.
 - **Erweiterte Statistiken** zu Sportarten und Spielern.
-- **Personalisierte Wettvorschläge** basierend auf dKI ausgewerteten Daten.
+- **Personalisierte Wettvorschläge** basierend auf KI ausgewerteten Daten.
 
 ---
 
@@ -81,7 +91,7 @@ In Zukunft möchten ich folgende Features hinzufügen, um die App weiter zu verb
 
 ## Verwendung
 
-- Starte die App und melde dich an oder registriere dich.
+- Starte die App und registriere dich, anschliessend wirst du zur HomeVie weitergeleitet.
 - Navigiere über die Tabs zwischen Home, Bet und Detail.
 - Informiere dich über Sportereignisse und platziere Wetten.   
 
@@ -89,7 +99,7 @@ In Zukunft möchten ich folgende Features hinzufügen, um die App weiter zu verb
 
 ## Lizenz
 
-- Dieses Projekt ist unter der MIT-Lizenz lizenziert. Siehe die LICENSE Datei für weitere Details.      
+- Dieses Projekt ist unter der [MIT-Lizenz](https://github.com/NEO849/Sports-Almanach/tree/main#) lizenziert. Siehe die LICENSE Datei für weitere Details.     
 
 ---
 
