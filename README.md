@@ -1,6 +1,4 @@
-# Sports-Almanach
-
-<img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" width="300" style="float: left; margin-right: 20px;"/>
+# Sports-Almanach <img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" align="right" width="150"/>
 
 ## Bet & Infos
 
@@ -43,8 +41,6 @@ Hier später Screenshots
 ### Projektaufbau
 
 Die App ist nach dem **MVVM-Muster** (Model-View-ViewModel) strukturiert. Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleichtert Wartung und Erweiterungen. Die Ordnerstruktur ist wie folgt aufgebaut:
-
-Sports-Almanach/ │ ├── Models/ # Enthält alle Datenmodelle ├── Views/ # SwiftUI Views ├── ViewModels/ # Enthält die Geschäftslogik ├── Services/ # API und Datenzugriff ├── Assets/ # Grafiken und Medien └── Tests/ # Unit Tests und UI Tests
 
 ### Datenspeicherung
 
