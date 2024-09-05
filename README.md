@@ -1,6 +1,8 @@
 # Sports-Almanach
 
-<img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" width="300"/>
+<img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" width="300" style="float: left; margin-right: 20px;"/>
+
+**Bet & Infos**
 
 **Sports-Almanach** ist die perfekte App für Sportfans, die umfassende Informationen über Sportarten und Events sucht. Mit dieser App kannst du:
 
@@ -21,7 +23,7 @@
 - **MVVM Architektur**: Trennung der Geschäftslogik von der UI-Logik für eine einfache Wartung und Erweiterbarkeit.
 - **Testing mit Mock-Daten**: Testen der App mit simulierten Benutzern, Fußball-Events, Wettmöglichkeiten und Quoten.
 
-<img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportsammlung.png?raw=true" alt="Wettbereich" width="600"/>
+<img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportsammlung.png?raw=true" alt="Wettbereich" width="600" />
 
 ## Installation
 
