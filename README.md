@@ -14,7 +14,7 @@
 - Wetten mit Spielgeld platzieren und dein Sportwissen testen.
 - Von einer einfachen und intuitiven Navigation profitieren.
 
-Die App zeichnet sich durch eine reibungslose Integration mit Firebase und eine aufgeräumte MVVM-Architektur aus. So Stabilität und einfache Erweiterbarkeit garantiert.
+Die App zeichnet sich durch eine reibungslose Integration mit Firebase und eine aufgeräumte MVVM-Architektur aus. So wird Stabilität und einfache Erweiterbarkeit garantiert.
 
 ---
 
@@ -28,14 +28,15 @@ Hier später Screenshots
 
 ## Features
 
-**Benutzeranmeldung**: Melde dich an oder registriere dich, um personalisierte Funktionen nutzen zu können.
-**Sportarten und Events**: Erhalte aktuelle Informationen zu verschiedenen Sportarten und Events.
-**Wettmöglichkeiten**: Platziere Wetten mit Spielgeld und teste dein Wissen über Sport.
-**Einfache Navigation**: Nutze Tabs für Home, Bet und Detail, um mühelos durch die App zu navigieren.
-**Jahres- und Liga-Auswahl**: Wähle ein Jahr und eine Liga aus, um relevante Fußball-Events anzuzeigen.
-**Event-Details**: Sieh dir detaillierte Informationen zu Events an, einschließlich Wettquoten, Team-Logos und Event-Status.
-**Event-Status**: Jeder Event-Status wird durch einen farbigen Kreis angezeigt (geplant, verschoben, gesperrt, abgesagt).
-Technischer Aufbau
+- **Benutzeranmeldung**: Melde dich an oder registriere dich, um personalisierte Funktionen nutzen zu können.
+- **Sportarten und Events**: Erhalte aktuelle Informationen zu verschiedenen Sportarten und Events.
+- **Wettmöglichkeiten**: Platziere Wetten mit Spielgeld und teste dein Wissen über Sport.
+- **Einfache Navigation**: Nutze Tabs für Home, Bet und Detail, um mühelos durch die App zu navigieren.
+- **Jahres- und Liga-Auswahl**: Wähle ein Jahr und eine Liga aus, um relevante Fußball-Events anzuzeigen.
+- **Event-Details**: Sieh dir detaillierte Informationen zu Events an, einschließlich Wettquoten, Team-Logos und Event-Status.
+- **Event-Status**: Jeder Event-Status wird durch einen farbigen Kreis angezeigt (geplant, verschoben, gesperrt, abgesagt).
+  
+### Technischer Aufbau
 
 ## Projektaufbau
 
