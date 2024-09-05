@@ -53,11 +53,11 @@ Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleic
 
 Die App nutzt externe APIs, um Live-Daten zu Sportereignissen abzurufen und Wettquoten in Echtzeit anzuzeigen:
 
-**Sportdaten API**: Abrufen von Event-Daten basierend auf Jahr und Liga.
-   **Beispiel-URL**: https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=<LeagueID>&s=<Season>
-   **Parameter**:
-      **id**: Liga-ID
-      **s**: Saison im Format Jahr-Jahr
+- **Sportdaten API**: Abrufen von Event-Daten basierend auf Jahr und Liga.
+   - **Beispiel-URL**: https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=<LeagueID>&s=<Season>
+   - **Parameter**:
+      - **id**: Liga-ID
+      - **s**: Saison im Format Jahr-Jahr
 
 ### 3rd-Party Frameworks
 
