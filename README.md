@@ -23,9 +23,9 @@ Die App zeichnet sich durch eine reibungslose Integration mit Firebase und eine 
 Screenshots der App:
 
 <div>
-  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/screenshots/screenshot1.png?raw=true" alt="Screenshot 1" width="30%" />
-  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/screenshots/screenshot2.png?raw=true" alt="Screenshot 2" width="30%" />
-  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/screenshots/screenshot3.png?raw=true" alt="Screenshot 3" width="30%" />
+  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true" alt="Screenshot 1" width="30%" />
+  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot2.png?raw=true" alt="Screenshot 2" width="30%" />
+  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="30%" />
 </div>
 
 ---
