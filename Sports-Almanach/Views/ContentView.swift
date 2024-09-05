@@ -4,7 +4,7 @@
 //
 //  Created by Michael Fleps on 04.09.24.
 //
-// Push Test
+// Push Test.
 
 import SwiftUI
 
