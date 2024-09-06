@@ -85,6 +85,44 @@ Die App nutzt externe APIs, um Live-Daten zu Sportereignissen abzurufen und Wett
     </td>
   </tr>
 </table>
+
+
+<table>
+  <tr>
+    <th>Sportdaten API</th>
+  </tr>
+  <tr>
+    <td>Abrufen von Event-Daten basierend auf Jahr und Liga.</td>
+  </tr>
+  <tr>
+    <td>
+      <b>Beispiel-URL</b>: https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=&lt;LeagueID&gt;&amp;s=&lt;Season&gt;
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>Parameter</b>:
+      <ul>
+        <li><b>id</b>: Liga-ID (z.B. 4734)</li>
+        <li><b>s</b>: Saison im Format Jahr-Jahr (z.B. 2020-2021)</li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>Beispiel-URL für die Saison 2020-2021</b>: https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4734&s=2020-2021
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>Weitere Endpunkte</b>:
+      <ul>
+        <li><b>Alle Ligen abrufen</b>: https://www.thesportsdb.com/api/v1/json/3/search_all_leagues.php?s=Soccer</li>
+        <li><b>Beispiel-URL für alle Ligen im Fußball</b>: https://www.thesportsdb.com/api/v1/json/3/search_all_leagues.php?s=Soccer</li>
+      </ul>
+    </td>
+  </tr>
+</table>
      
 
 ### ![3rd-Party Frameworks](https://img.shields.io/badge/3rd--Party%20Frameworks-%2300b48a?style=for-the-badge&logo=none)
