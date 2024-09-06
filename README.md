@@ -149,4 +149,4 @@ Für Fragen, Feedback oder Anmerkungen kannst du mich unter f.michi84.989@gmail.
 
 Viel Spaß beim Nutzen der App, erweitern deines Sportwissens und beim Wetten mit Spielgeld!
 
-Euer  AI-Data-F3 Team
+**Euer  AI-Data-F3 Team**
