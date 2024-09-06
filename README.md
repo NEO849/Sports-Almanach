@@ -15,7 +15,7 @@ Die App zeichnet sich durch eine reibungslose Integration mit Firebase und eine 
 
 ---
 
-## Design
+## <img src="https://img.shields.io/badge/Design-%2300b48a?style=for-the-badge&logo=none" alt="Design" style="transform: scale(1.3);">
 
 Screenshots der App:
 
