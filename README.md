@@ -5,6 +5,9 @@
 **Der Sportwetten-Begleiter für alle Fans.**
 
 **Sports-Almanach** bietet dir umfassende Informationen zu aktuellen Sportereignissen und ermöglicht dir, Wetten mit Spielgeld abzuschließen. Bleib immer auf dem Laufenden und teste dein Wissen in der Welt des Sports.
+<br>
+<br>
+<br>
 
 ---
 
