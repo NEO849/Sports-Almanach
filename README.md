@@ -1,7 +1,13 @@
-<div style="display: flex; align-items: center;">
-  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" width="150" style="margin-right: 20px;" />
-  <h1 style="color: #00b48a;">Sports-Almanach</h1>
-</div>
+<table>
+  <tr>
+    <td>
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" width="150"/>
+    </td>
+    <td>
+      <h1 style="color: #00b48a;">Sports-Almanach</h1>
+    </td>
+  </tr>
+</table>
 
 <br>
 
