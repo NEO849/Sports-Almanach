@@ -74,11 +74,11 @@ Besonders vorteilhaft ist dies beim Testen der App mit **Mock-Daten** wie User, 
 
 ## ![Datenspeicherung](https://img.shields.io/badge/Datenspeicherung-%2300b48a?style=for-the-badge&logo=none)
 
-**Firebase** wird für die Authentifizierung der Benutzer und die Speicherung von Wettinformationen verwendet. Firebase bietet zuverlässige Echtzeit-Synchronisierung.
+**Firebase** wird für die Authentifizierung der Benutzer und die Speicherung von Wettinformationen verwendet. 
 
 ## ![API Calls](https://img.shields.io/badge/API%20Calls-%2300b48a?style=for-the-badge&logo=none)
 
-Die App nutzt externe APIs, um Live-Daten zu Sportereignissen abzurufen und Wettquoten in Echtzeit anzuzeigen:
+Die App nutzt externe APIs, um Daten zu Sportereignissen abzurufen und anzuzeigen:
     
 <table>
   <tr>
