@@ -32,26 +32,6 @@ Screenshots der App (Beispiel Images):
   <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="15%" />
 </div>
 
-<style>
-  table {
-    width: 100%;
-    table-layout: fixed;
-  }
-  td {
-    padding-right: 10px;
-    text-align: center; 
-  }
-  img {
-    width: 30%;
-    display: block; 
-    margin: 0 auto; 
-  }
-  p {
-    margin: 5px 0 0; 
-    font-size: 14px; 
-  }
-</style>
-
 <table>
   <tr>
     <td>
