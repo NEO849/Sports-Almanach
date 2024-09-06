@@ -32,19 +32,19 @@ Screenshots der App (Beispiel Images):
   <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="15%" />
 </div>
 
-<table style="width: 50%;">
+<table style="width: 45%; margin: 0 auto;">
   <tr>
-    <td style="text-align: center; padding: 50px; width: 50%;">
-      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true" alt="Screenshot 1" width="60%" />
-      <p>Erläuterung 1</p>
+    <td style="text-align: center; padding: 10px; width: 33.33%;">
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true" alt="Screenshot 1" width="100%" />
+      <p style="text-align: center;">Erläuterung 1</p>
     </td>
-    <td style="text-align: center; padding: 10px; width: 15%;">
-      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot2.png?raw=true" alt="Screenshot 2" width="60%" />
-      <p>Erläuterung 2</p>
+    <td style="text-align: center; padding: 10px; width: 33.33%;">
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot2.png?raw=true" alt="Screenshot 2" width="100%" />
+      <p style="text-align: center;">Erläuterung 2</p>
     </td>
-    <td style="text-align: center; padding: 10px; width: 15%;">
-      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="60%" />
-      <p>Erläuterung 3</p>
+    <td style="text-align: center; padding: 10px; width: 33.33%;">
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="100%" />
+      <p style="text-align: center;">Erläuterung 3</p>
     </td>
   </tr>
 </table>
