@@ -51,7 +51,7 @@ Screenshots der App (Beispiel Images):
 Die App ist nach dem **MVVM-Muster** (Model-View-ViewModel) strukturiert. Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleichtert Wartung und Erweiterungen. 
 Besonders vorteilhaft ist dies beim Testen der App mit **Mock-Daten** wie User, Events und Wettquoten. 
 
-### Projektstruktur:
+## ![Projektstruktur](https://img.shields.io/badge/Projektstruktur-%2300b48a?style=for-the-badge&logo=none)
 
 - **Model**: 
   - Enthält die Datenstrukturen für Events, Benutzer und Wettinformationen. 
@@ -65,7 +65,7 @@ Besonders vorteilhaft ist dies beim Testen der App mit **Mock-Daten** wie User, 
   - Es stellt die benötigten Daten in einer Form bereit, die die View direkt verwenden kann, z.B. durch **@Published** Properties, die automatisch Änderungen in der UI reflektieren.
   - Hier werden API-Aufrufe über das **Repository**-Muster abgewickelt, um die Daten zu organisieren und zwischen verschiedenen Datenquellen zu trennen (z.B. Remote-API oder Mock-Daten). 
 
-### Data Handling und Mock-Daten:
+## ![Data Handling und Mock-Daten](https://img.shields.io/badge/Data Handling und Mock-Daten-%2300b48a?style=for-the-badge&logo=none)
 
 Um die App flexibel testen zu können, wird ein **Repository** verwendet, das entweder echte API-Daten oder **Mock-Daten** zurückgibt. Die Nutzung von Mock-Daten ist nützlich für Tests ohne aktive API-Verbindung. 
 
