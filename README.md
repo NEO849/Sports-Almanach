@@ -48,12 +48,33 @@ Screenshots der App (Beispiel Images):
 
 ## ![Projektaufbau](https://img.shields.io/badge/Projektaufbau-%2300b48a?style=for-the-badge&logo=none)
 
-Die App ist nach dem **MVVM-Muster** (Model-View-ViewModel) strukturiert.
-Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleichtert Wartung und Erweiterungen. 
+Die App ist nach dem **MVVM-Muster** (Model-View-ViewModel) strukturiert. Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleichtert Wartung und Erweiterungen. 
+Besonders vorteilhaft ist dies beim Testen der App mit **Mock-Daten** wie User, Events und Wettquoten. 
 
-- **Model**: Beinhaltet die Datenstrukturen für Events und Benutzer.
-- **View**: Stellt die Benutzeroberfläche dar und zeigt die Events an.
-- **ViewModel**: Handhabt die Logik zum Abrufen und Verarbeiten der Event-Daten. Verbindet die View mit den Model-Daten.
+### Projektstruktur:
+
+- **Model**: 
+  - Enthält die Datenstrukturen für Events, Benutzer und Wettinformationen. 
+  - Datenmodelle wie `Event`, `User` und `BetOdds` sind hier definiert. Diese Klassen repräsentieren die eigentlichen Daten, die von den APIs oder Mock-Datenquellen abgerufen werden.
+
+- **View**: 
+  - Stellt die Benutzeroberfläche dar und zeigt die Events an.
+
+- **ViewModel**:
+  - Das ViewModel verbindet die View mit dem Model und enthält die Logik zum Abrufen und Verarbeiten von Daten.
+  - Es stellt die benötigten Daten in einer Form bereit, die die View direkt verwenden kann, z.B. durch **@Published** Properties, die automatisch Änderungen in der UI reflektieren.
+  - Hier werden API-Aufrufe über das **Repository**-Muster abgewickelt, um die Daten zu organisieren und zwischen verschiedenen Datenquellen zu trennen (z.B. Remote-API oder Mock-Daten). 
+
+### Data Handling und Mock-Daten:
+
+Um die App flexibel testen zu können, wird ein **Repository** verwendet, das entweder echte API-Daten oder **Mock-Daten** zurückgibt. Die Nutzung von Mock-Daten ist nützlich für Tests ohne aktive API-Verbindung. 
+
+- **Repository**: 
+  - Die **Repository-Schicht** dient als zentrale Stelle, um Daten zu beziehen. Es agiert als Schnittstelle zwischen dem ViewModel und den eigentlichen Datenquellen (wie APIs oder lokalen Datenbanken/Mockdaten).
+
+- **Mock-Daten**:
+  - In der frühen Entwicklungsphase nutze ich die Mock-Daten, die das tatsächliche Verhalten der App simulieren. Dies ist ideal, um UI-Elemente zu überprüfen oder Logik zu testen.
+  - Beispiel: Ein `MockEventRepository` kann eine Liste von Sportereignissen zurückgeben, die von der API kommen **könnten**, aber lokal definiert sind. 
 
 ## ![Datenspeicherung](https://img.shields.io/badge/Datenspeicherung-%2300b48a?style=for-the-badge&logo=none)
 
