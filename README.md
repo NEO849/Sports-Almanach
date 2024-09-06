@@ -1,8 +1,6 @@
-# ![Sports-Almanach](https://img.shields.io/badge/Sports--Almanach-%2300b48a?style=for-the-badge&logo=none)
-
+# Sports-Almanach 
 <img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" align="right" width="150"/>
-
-## ![Bet & Infos](https://img.shields.io/badge/Bet%20%26%20Infos-%2300b48a?style=for-the-badge&logo=none)
+## Bet & Infos
 
 **Der Sportwetten-Begleiter für alle Fans.**
 
@@ -13,7 +11,7 @@
 
 ---
 
-## ![Warum Sports-Almanach?](https://img.shields.io/badge/Warum%20Sports--Almanach-%2300b48a?style=for-the-badge&logo=none)
+## Warum Sports-Almanach?
 
 **Sports-Almanach** ist ideal für Sportfans, die jederzeit aktuelle Informationen zu Sportarten und Events erhalten möchten. Mit der App kannst du:
 - Die neuesten Informationen zu Sportevents abrufen.
@@ -24,7 +22,7 @@ Die App zeichnet sich durch eine reibungslose Integration mit Firebase und eine 
 
 ---
 
-## ![Design](https://img.shields.io/badge/Design-%2300b48a?style=for-the-badge&logo=none)
+## Design
 
 Screenshots der App:
 
@@ -36,7 +34,7 @@ Screenshots der App:
 
 ---
 
-## ![Features](https://img.shields.io/badge/Features-%2300b48a?style=for-the-badge&logo=none)
+## Features
 
 - **Benutzeranmeldung**: Melde dich an oder registriere dich, um personalisierte Funktionen nutzen zu können.
 - **Sportarten und Events**: Erhalte aktuelle Informationen zu verschiedenen Sportarten und Events.
@@ -46,7 +44,7 @@ Screenshots der App:
 - **Event-Details**: Sieh dir detaillierte Informationen zu Events an, einschließlich Wettquoten, Team-Logos und Event-Status.
 - **Event-Status**: Jeder Event-Status wird durch einen farbigen Kreis angezeigt (geplant, verschoben, gesperrt, abgesagt).
 
-## ![Projektaufbau](https://img.shields.io/badge/Projektaufbau-%2300b48a?style=for-the-badge&logo=none)
+## Projektaufbau
 
 Die App ist nach dem **MVVM-Muster** (Model-View-ViewModel) strukturiert.
 Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleichtert Wartung und Erweiterungen. 
@@ -55,11 +53,11 @@ Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleic
 - **View**: Stellt die Benutzeroberfläche dar und zeigt die Events an.
 - **ViewModel**: Handhabt die Logik zum Abrufen und Verarbeiten der Event-Daten. Verbindet die View mit den Model-Daten.
 
-## ![Datenspeicherung](https://img.shields.io/badge/Datenspeicherung-%2300b48a?style=for-the-badge&logo=none)
+## Datenspeicherung
 
 **Firebase** wird für die Authentifizierung der Benutzer und die Speicherung von Wettinformationen verwendet. Firebase bietet zuverlässige Echtzeit-Synchronisierung.
 
-## ![API Calls](https://img.shields.io/badge/API%20Calls-%2300b48a?style=for-the-badge&logo=none)
+## API Calls
 
 Die App nutzt externe APIs, um Live-Daten zu Sportereignissen abzurufen und Wettquoten in Echtzeit anzuzeigen:
 
@@ -69,16 +67,16 @@ Die App nutzt externe APIs, um Live-Daten zu Sportereignissen abzurufen und Wett
       - **id**: Liga-ID
       - **s**: Saison im Format Jahr-Jahr
 
-### ![3rd-Party Frameworks](https://img.shields.io/badge/3rd--Party%20Frameworks-%2300b48a?style=for-the-badge&logo=none)
+### 3rd-Party Frameworks
 
 - **Firebase**: Für Authentifizierung, Datenbanken und Crashlytics.
 - **SwiftUI**: Für das UI-Design und die Darstellung der Benutzeroberfläche.
 
 ---
 
-## ![Ausblick](https://img.shields.io/badge/Ausblick-%2300b48a?style=for-the-badge&logo=none)
+## Ausblick
 
-In Zukunft möchten wir folgende Features hinzufügen, um die App weiter zu verbessern:
+In Zukunft möchten ich folgende Features hinzufügen, um die App weiter zu verbessern:
 
 - **Live-Benachrichtigungen** über Sportereignisse und Wettmöglichkeiten.
 - **Erweiterte Statistiken** zu Sportarten und Spielern.
@@ -86,17 +84,16 @@ In Zukunft möchten wir folgende Features hinzufügen, um die App weiter zu verb
 
 ---
 
-## ![Installation](https://img.shields.io/badge/Installation-%2300b48a?style=for-the-badge&logo=none)
+## Installation
 
 1. Klone das Repository:
+   
+git clone https://github.com/NEO849/Sports-Almanach.git
 
-   ```
-   git clone https://github.com/NEO849/Sports-Almanach.git
-   ```
 2. Öffne das Projekt in Xcode:
-   ```
-   open Sports-Almanach.xcodeproj
-   ```
+   
+open Sports-Almanach.xcodeproj
+
 
 ---
 
