@@ -17,7 +17,7 @@ Die App zeichnet sich durch eine reibungslose Integration mit Firebase und eine 
 
 ## <img src="https://img.shields.io/badge/Design-%2300b48a?style=for-the-badge&logo=none" alt="Design" style="transform: scale(1.3);">
 
-Screenshots der App:
+Screenshots der App (Beispiel Images):
 
 <div>
   <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true" alt="Screenshot 1" width="30%" />
@@ -27,7 +27,7 @@ Screenshots der App:
 
 ---
 
-## Features
+## <img src="https://img.shields.io/badge/Features-%2300b48a?style=for-the-badge&logo=none" alt="Features" style="transform: scale(1.3);">
 
 - **Benutzeranmeldung**: Melde dich an oder registriere dich, um personalisierte Funktionen nutzen zu können.
 - **Sportarten und Events**: Erhalte aktuelle Informationen zu verschiedenen Sportarten und Events.
@@ -37,7 +37,7 @@ Screenshots der App:
 - **Event-Details**: Sieh dir detaillierte Informationen zu Events an, einschließlich Wettquoten, Team-Logos und Event-Status.
 - **Event-Status**: Jeder Event-Status wird durch einen farbigen Kreis angezeigt (geplant, verschoben, gesperrt, abgesagt).
 
-## Projektaufbau
+## <img src="https://img.shields.io/badge/Projektaufbau-%2300b48a?style=for-the-badge&logo=none" alt="Projektaufbau" style="transform: scale(1.3);">
 
 Die App ist nach dem **MVVM-Muster** (Model-View-ViewModel) strukturiert.
 Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleichtert Wartung und Erweiterungen. 
@@ -46,11 +46,12 @@ Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleic
 - **View**: Stellt die Benutzeroberfläche dar und zeigt die Events an.
 - **ViewModel**: Handhabt die Logik zum Abrufen und Verarbeiten der Event-Daten. Verbindet die View mit den Model-Daten.
 
-## Datenspeicherung
+## <img src="https://img.shields.io/badge/Datenspeicherung-%2300b48a?style=for-the-badge&logo=none" alt="Datenspeicherung" style="transform: scale(1.3);">
 
 **Firebase** wird für die Authentifizierung der Benutzer und die Speicherung von Wettinformationen verwendet. Firebase bietet zuverlässige Echtzeit-Synchronisierung.
 
-## API Calls
+## <img src="https://img.shields.io/badge/API%20Calls-%2300b48a?style=for-the-badge&logo=none" alt="API%20Calls" style="transform: scale(1.3);">
+## ![API Calls](https://img.shields.io/badge/API%20Calls-%2300b48a?style=for-the-badge&logo=none)
 
 Die App nutzt externe APIs, um Live-Daten zu Sportereignissen abzurufen und Wettquoten in Echtzeit anzuzeigen:
 
