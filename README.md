@@ -4,7 +4,7 @@
 <br>
 <br>
 
-## <img src="https://img.shields.io/badge/Warum%20Sports--Almanach-%2300b48a?style=for-the-badge&logo=none" alt="Warum Sports-Almanach?" style="transform: scale(1.8);">
+## ![Warum Sports-Almanach?](https://img.shields.io/badge/Warum%20Sports--Almanach-%2300b48a?style=for-the-badge&logo=none)
 
 **Sports-Almanach** Der Sportwetten-Begleiter ist ideal für Sportfans, die jederzeit aktuelle Informationen zu Sportarten und Events erhalten möchten. Mit der App kannst du:
 - Die neuesten Informationen zu Sportevents abrufen.
@@ -15,7 +15,7 @@ Die App zeichnet sich durch eine reibungslose Integration mit Firebase und eine 
 
 ---
 
-## <img src="https://img.shields.io/badge/Design-%2300b48a?style=for-the-badge&logo=none" alt="Design" style="transform: scale(1.3);">
+## ![Design](https://img.shields.io/badge/Design-%2300b48a?style=for-the-badge&logo=none)
 
 Screenshots der App (Beispiel Images):
 
@@ -27,7 +27,7 @@ Screenshots der App (Beispiel Images):
 
 ---
 
-## <img src="https://img.shields.io/badge/Features-%2300b48a?style=for-the-badge&logo=none" alt="Features" style="transform: scale(1.3);">
+## ![Features](https://img.shields.io/badge/Features-%2300b48a?style=for-the-badge&logo=none)
 
 - **Benutzeranmeldung**: Melde dich an oder registriere dich, um personalisierte Funktionen nutzen zu können.
 - **Sportarten und Events**: Erhalte aktuelle Informationen zu verschiedenen Sportarten und Events.
@@ -37,7 +37,7 @@ Screenshots der App (Beispiel Images):
 - **Event-Details**: Sieh dir detaillierte Informationen zu Events an, einschließlich Wettquoten, Team-Logos und Event-Status.
 - **Event-Status**: Jeder Event-Status wird durch einen farbigen Kreis angezeigt (geplant, verschoben, gesperrt, abgesagt).
 
-## <img src="https://img.shields.io/badge/Projektaufbau-%2300b48a?style=for-the-badge&logo=none" alt="Projektaufbau" style="transform: scale(1.3);">
+## ![Projektaufbau](https://img.shields.io/badge/Projektaufbau-%2300b48a?style=for-the-badge&logo=none)
 
 Die App ist nach dem **MVVM-Muster** (Model-View-ViewModel) strukturiert.
 Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleichtert Wartung und Erweiterungen. 
@@ -46,11 +46,10 @@ Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleic
 - **View**: Stellt die Benutzeroberfläche dar und zeigt die Events an.
 - **ViewModel**: Handhabt die Logik zum Abrufen und Verarbeiten der Event-Daten. Verbindet die View mit den Model-Daten.
 
-## <img src="https://img.shields.io/badge/Datenspeicherung-%2300b48a?style=for-the-badge&logo=none" alt="Datenspeicherung" style="transform: scale(1.3);">
+## ![Datenspeicherung](https://img.shields.io/badge/Datenspeicherung-%2300b48a?style=for-the-badge&logo=none)
 
 **Firebase** wird für die Authentifizierung der Benutzer und die Speicherung von Wettinformationen verwendet. Firebase bietet zuverlässige Echtzeit-Synchronisierung.
 
-## <img src="https://img.shields.io/badge/API%20Calls-%2300b48a?style=for-the-badge&logo=none" alt="API%20Calls" style="transform: scale(1.3);">
 ## ![API Calls](https://img.shields.io/badge/API%20Calls-%2300b48a?style=for-the-badge&logo=none)
 
 Die App nutzt externe APIs, um Live-Daten zu Sportereignissen abzurufen und Wettquoten in Echtzeit anzuzeigen:
@@ -61,14 +60,14 @@ Die App nutzt externe APIs, um Live-Daten zu Sportereignissen abzurufen und Wett
       - **id**: Liga-ID
       - **s**: Saison im Format Jahr-Jahr
 
-### 3rd-Party Frameworks
+### ![3rd-Party Frameworks](https://img.shields.io/badge/3rd--Party%20Frameworks-%2300b48a?style=for-the-badge&logo=none)
 
 - **Firebase**: Für Authentifizierung, Datenbanken und Crashlytics.
 - **SwiftUI**: Für das UI-Design und die Darstellung der Benutzeroberfläche.
 
 ---
 
-## Ausblick
+## ![Ausblick](https://img.shields.io/badge/Ausblick-%2300b48a?style=for-the-badge&logo=none)
 
 In Zukunft möchten ich folgende Features hinzufügen, um die App weiter zu verbessern:
 
@@ -78,7 +77,7 @@ In Zukunft möchten ich folgende Features hinzufügen, um die App weiter zu verb
 
 ---
 
-## Installation
+## ![Installation](https://img.shields.io/badge/Installation-%2300b48a?style=for-the-badge&logo=none)
 
 1. Klone das Repository:
    
@@ -91,7 +90,7 @@ open Sports-Almanach.xcodeproj
 
 ---
 
-## Verwendung
+## ![Verwendung](https://img.shields.io/badge/Verwendung-%2300b48a?style=for-the-badge&logo=none)
 
 - Starte die App und registriere dich, anschliessend wirst du zur HomeVie weitergeleitet.
 - Navigiere über die Tabs zwischen Home, Bet und Detail.
@@ -99,13 +98,13 @@ open Sports-Almanach.xcodeproj
 
 ---
 
-## Lizenz
+## ![Lizenz](https://img.shields.io/badge/Lizenz-%2300b48a?style=for-the-badge&logo=none)
 
 - Dieses Projekt ist unter der [MIT-Lizenz](https://github.com/NEO849/Sports-Almanach/tree/main#) lizenziert. Siehe die LICENSE Datei für weitere Details.     
 
 ---
 
-## Kontakt
+## ![Kontakt](https://img.shields.io/badgeKontakt-%2300b48a?style=for-the-badge&logo=none)
 
 Für Fragen oder Anmerkungen kannst du mich unter f.michi84.989@gmail.com erreichen.
 
