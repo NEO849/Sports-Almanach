@@ -13,12 +13,12 @@
 
 ## ![Warum Sports-Almanach?](https://img.shields.io/badge/Warum%20Sports--Almanach-%2300b48a?style=for-the-badge&logo=none)
 
-**Die App** ist ideal für Sportfans, die jederzeit aktuelle Informationen zu Sportarten und Events erhalten möchten. Mit der App kannst du:
+**Die App** ist ideal für Sportfans, die jederzeit Informationen zu Sportarten und Events erhalten möchten. Mit der App kannst du:
 - Informationen zu verschiedenen Sportevents abrufen.
 - Wetten mit Spielgeld platzieren und dein Sportwissen testen.
 - Von einer einfachen und intuitiven Navigation profitieren.
 
-Die App zeichnet sich durch eine reibungslose Integration mit Firebase und eine aufgeräumte MVVM-Architektur aus. So wird Stabilität und einfache Erweiterbarkeit garantiert.
+Die App zeichnet sich durch eine reibungslose Integration mit Firebase und eine aufgeräumte MVVM-Architektur aus. Die Stabilität und einfache Erweiterbarkeit garantiert.
 
 ---
 
@@ -135,8 +135,10 @@ open Sports-Almanach.xcodeproj
 
 ## ![Kontakt](https://img.shields.io/badge/Kontakt-%2300b48a?style=for-the-badge&logo=none)
 
-Für Fragen oder Anmerkungen kannst du mich unter f.michi84.989@gmail.com erreichen.
+Für Fragen, Feedback oder Anmerkungen kannst du mich unter f.michi84.989@gmail.com erreichen.
 
 ---
 
-Viel Spaß beim Nutzen der App und beim Wetten mit Spielgeld!
+Viel Spaß beim Nutzen der App, erweitern deines Sportwissens und beim Wetten mit Spielgeld!
+
+Euer  AI-Data-F3 Team
