@@ -72,30 +72,6 @@ Die App nutzt externe APIs, um Live-Daten zu Sportereignissen abzurufen und Wett
   </tr>
   <tr>
     <td>
-      <b>Beispiel-URL</b>: https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=&lt;LeagueID&gt;&amp;s=&lt;Season&gt;
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <b>Parameter</b>:
-      <ul>
-        <li><b>id</b>: Liga-ID</li>
-        <li><b>s</b>: Saison im Format Jahr-Jahr</li>
-      </ul>
-    </td>
-  </tr>
-</table>
-
-
-<table>
-  <tr>
-    <th>Sportdaten API</th>
-  </tr>
-  <tr>
-    <td>Abrufen von Event-Daten basierend auf Jahr und Liga.</td>
-  </tr>
-  <tr>
-    <td>
       <b>Parameter</b>:
       <ul>
         <li><b>id</b>: Liga-ID (z.B. 4734)</li>
