@@ -65,10 +65,6 @@ Besonders vorteilhaft ist dies beim Testen der App mit **Mock-Daten** wie User, 
   - Es stellt die benötigten Daten in einer Form bereit, die die View direkt verwenden kann, z.B. durch **@Published** Properties, die automatisch Änderungen in der UI reflektieren.
   - Hier werden API-Aufrufe über das **Repository**-Muster abgewickelt, um die Daten zu organisieren und zwischen verschiedenen Datenquellen zu trennen (z.B. Remote-API oder Mock-Daten). 
 
-## ![Data Handling und Mock-Daten](https://img.shields.io/badge/Data Handling und Mock-Daten-%2300b48a?style=for-the-badge&logo=none)
-
-Um die App flexibel testen zu können, wird ein **Repository** verwendet, das entweder echte API-Daten oder **Mock-Daten** zurückgibt. Die Nutzung von Mock-Daten ist nützlich für Tests ohne aktive API-Verbindung. 
-
 - **Repository**: 
   - Die **Repository-Schicht** dient als zentrale Stelle, um Daten zu beziehen. Es agiert als Schnittstelle zwischen dem ViewModel und den eigentlichen Datenquellen (wie APIs oder lokalen Datenbanken/Mockdaten).
 
