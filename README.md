@@ -27,9 +27,9 @@ Die App zeichnet sich durch eine reibungslose Integration mit Firebase und eine 
 Screenshots der App (Beispiel Images):
 
 <div>
-  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true" alt="Screenshot 1" width="30%" />
-  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot2.png?raw=true" alt="Screenshot 2" width="30%" />
-  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="30%" />
+  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true" alt="Screenshot 1" width="15%" />
+  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot2.png?raw=true" alt="Screenshot 2" width="15%" />
+  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="15%" />
 </div>
 
 ---
@@ -66,6 +66,30 @@ Die App nutzt externe APIs, um Live-Daten zu Sportereignissen abzurufen und Wett
    - **Parameter**:
       - **id**: Liga-ID
       - **s**: Saison im Format Jahr-Jahr
+    
+<table>
+  <tr>
+    <th>Sportdaten API</th>
+  </tr>
+  <tr>
+    <td>Abrufen von Event-Daten basierend auf Jahr und Liga.</td>
+  </tr>
+  <tr>
+    <td>
+      <b>Beispiel-URL</b>: https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=&lt;LeagueID&gt;&amp;s=&lt;Season&gt;
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>Parameter</b>:
+      <ul>
+        <li><b>id</b>: Liga-ID</li>
+        <li><b>s</b>: Saison im Format Jahr-Jahr</li>
+      </ul>
+    </td>
+  </tr>
+</table>
+     
 
 ### ![3rd-Party Frameworks](https://img.shields.io/badge/3rd--Party%20Frameworks-%2300b48a?style=for-the-badge&logo=none)
 
@@ -87,14 +111,16 @@ In Zukunft möchten ich folgende Features hinzufügen, um die App weiter zu verb
 ## ![Installation](https://img.shields.io/badge/Installation-%2300b48a?style=for-the-badge&logo=none)
 
 1. Klone das Repository:
-   
+
+```   
 git clone https://github.com/NEO849/Sports-Almanach.git
+```
 
 2. Öffne das Projekt in Xcode:
-   
+
+```  
 open Sports-Almanach.xcodeproj
-
-
+```
 ---
 
 ## ![Verwendung](https://img.shields.io/badge/Verwendung-%2300b48a?style=for-the-badge&logo=none)
