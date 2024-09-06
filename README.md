@@ -104,7 +104,7 @@ open Sports-Almanach.xcodeproj
 
 ---
 
-## ![Kontakt](https://img.shields.io/badgeKontakt-%2300b48a?style=for-the-badge&logo=none)
+## ![Kontakt](https://img.shields.io/badge/Kontakt-%2300b48a?style=for-the-badge&logo=none)
 
 Für Fragen oder Anmerkungen kannst du mich unter f.michi84.989@gmail.com erreichen.
 
