@@ -18,7 +18,7 @@
 - Wetten mit Spielgeld platzieren und dein Sportwissen testen.
 - Von einer einfachen und intuitiven Navigation profitieren.
 
-Die App zeichnet sich durch eine reibungslose Integration mit Firebase und eine aufgeräumte MVVM-Architektur aus. Die Stabilität und einfache Erweiterbarkeit garantiert.
+**Die App zeichnet sich durch eine reibungslose Integration mit Firebase und eine aufgeräumte MVVM-Architektur aus. Die Stabilität und einfache Erweiterbarkeit garantiert.**
 
 ---
 
