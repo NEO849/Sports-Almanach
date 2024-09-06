@@ -32,23 +32,19 @@ Screenshots der App (Beispiel Images):
   <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="15%" />
 </div>
 
-<div>
-  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true" alt="Screenshot 1" width="15%" style="margin-right: 10px;" />
-  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot2.png?raw=true" alt="Screenshot 2" width="15%" style="margin-right: 10px;" />
-  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="15%" />
-</div>
-
-<div style="display: flex; gap: 10px;">
-  <div>
-    <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true" alt="Screenshot 1" width="15%" />
-  </div>
-  <div>
-    <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot2.png?raw=true" alt="Screenshot 2" width="15%" />
-  </div>
-  <div>
-    <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="15%" />
-  </div>
-</div>
+<table>
+  <tr>
+    <td style="padding-right: 10px;">
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true" alt="Screenshot 1" width="15%" />
+    </td>
+    <td style="padding-right: 10px;">
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot2.png?raw=true" alt="Screenshot 2" width="15%" />
+    </td>
+    <td>
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="15%" />
+    </td>
+  </tr>
+</table>
 
 ---
 
