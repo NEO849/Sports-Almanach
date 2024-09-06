@@ -52,17 +52,9 @@ Besonders vorteilhaft ist dies beim Testen der App mit **Mock-Daten** wie User, 
 
 ## ![Projektstruktur](https://img.shields.io/badge/Projektstruktur-%2300b48a?style=for-the-badge&logo=none)
 
-- **Model**: 
-  - Enthält die Datenstrukturen für Events, Benutzer und Wettinformationen. 
-  - Datenmodelle wie `Event`, `User` und `BetOdds` sind hier definiert. Diese Klassen repräsentieren die eigentlichen Daten, die von den APIs oder Mock-Datenquellen abgerufen werden.
-
-- **View**: 
-  - Stellt die Benutzeroberfläche dar und zeigt die Events an.
-
-- **ViewModel**:
-  - Das ViewModel verbindet die View mit dem Model und enthält die Logik zum Abrufen und Verarbeiten von Daten.
-  - Es stellt die benötigten Daten in einer Form bereit, die die View direkt verwenden kann, z.B. durch **@Published** Properties, die automatisch Änderungen in der UI reflektieren.
-  - Hier werden API-Aufrufe über das **Repository**-Muster abgewickelt, um die Daten zu organisieren und zwischen verschiedenen Datenquellen zu trennen (z.B. Remote-API oder Mock-Daten). 
+- **Model**: Enthält die Datenstrukturen für Events, Benutzer und Wettinformationen. 
+- **View**: Stellt die Benutzeroberfläche dar und zeigt die Events an.
+- **ViewModel**: Verbindet die View mit dem Model, enthält die Logik zum Abrufen und Verarbeiten von Daten. (Über das **Repository**-Muster, Remote-API oder Mock-Daten abwickeln.
 
 - **Repository**: 
   - Die **Repository-Schicht** dient als zentrale Stelle, um Daten zu beziehen. Es agiert als Schnittstelle zwischen dem ViewModel und den eigentlichen Datenquellen (wie APIs oder lokalen Datenbanken/Mockdaten).
