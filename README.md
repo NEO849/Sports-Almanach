@@ -96,11 +96,6 @@ Die App nutzt externe APIs, um Live-Daten zu Sportereignissen abzurufen und Wett
   </tr>
   <tr>
     <td>
-      <b>Beispiel-URL</b>: https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=&lt;LeagueID&gt;&amp;s=&lt;Season&gt;
-    </td>
-  </tr>
-  <tr>
-    <td>
       <b>Parameter</b>:
       <ul>
         <li><b>id</b>: Liga-ID (z.B. 4734)</li>
@@ -117,7 +112,6 @@ Die App nutzt externe APIs, um Live-Daten zu Sportereignissen abzurufen und Wett
     <td>
       <b>Weitere Endpunkte</b>:
       <ul>
-        <li><b>Alle Ligen abrufen</b>: https://www.thesportsdb.com/api/v1/json/3/search_all_leagues.php?s=Soccer</li>
         <li><b>Beispiel-URL für alle Ligen im Fußball</b>: https://www.thesportsdb.com/api/v1/json/3/search_all_leagues.php?s=Soccer</li>
       </ul>
     </td>
