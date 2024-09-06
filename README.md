@@ -4,7 +4,7 @@
       <img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" width="150"/>
     </td>
     <td>
-      <h1 style="color: #00b48a;">Sports-Almanach</h1>
+      <h1 style="color: #00b48a; font-size: 3em;">Sports-Almanach</h1>
     </td>
   </tr>
 </table>
@@ -60,12 +60,6 @@ Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleic
 ## ![API Calls](https://img.shields.io/badge/API%20Calls-%2300b48a?style=for-the-badge&logo=none)
 
 Die App nutzt externe APIs, um Live-Daten zu Sportereignissen abzurufen und Wettquoten in Echtzeit anzuzeigen:
-
-- **Sportdaten API**: Abrufen von Event-Daten basierend auf Jahr und Liga.
-   - **Beispiel-URL**: https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=<LeagueID>&s=<Season>
-   - **Parameter**:
-      - **id**: Liga-ID
-      - **s**: Saison im Format Jahr-Jahr
     
 <table>
   <tr>
