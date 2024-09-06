@@ -38,7 +38,6 @@ Screenshots der App (Beispiel Images):
 
 ## ![Features](https://img.shields.io/badge/Features-%2300b48a?style=for-the-badge&logo=none)
 
-- **Benutzeranmeldung**: Registriere dich und Melde dich an, um personalisierte Funktionen nutzen zu können.
 - **Sportarten und Events**: Erhalte aktuelle Informationen zu verschiedenen Sportarten und Events.
 - **Wettmöglichkeiten**: Platziere Wetten mit Spielgeld und teste dein Wissen über Sport.
 - **Einfache Navigation**: Nutze Tabs für Home, Bet und Detail, um mühelos durch die App zu navigieren.
@@ -146,7 +145,7 @@ open Sports-Almanach.xcodeproj
 
 ## ![Verwendung](https://img.shields.io/badge/Verwendung-%2300b48a?style=for-the-badge&logo=none)
 
-- Starte die App und registriere dich, anschliessend wirst du zur HomeVie weitergeleitet.
+- Starte die App und registriere dich, melde dich an und anschliessend wirst du zur HomeView weitergeleitet.
 - Navigiere über die Tabs zwischen Home, Bet und Detail.
 - Informiere dich über Sportereignisse und platziere Wetten.   
 
