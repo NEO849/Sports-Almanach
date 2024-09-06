@@ -40,6 +40,23 @@ Screenshots der App (Beispiel Images):
 |:---:|:---:|:---:|
 | Erläuterung 1 | Erläuterung 2 | Erläuterung 3 |
 
+<table>
+  <tr>
+    <td style="text-align: center;">
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true" alt="Screenshot 1" width="15%" />
+      <p>Erläuterung 1</p>
+    </td>
+    <td style="text-align: center;">
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot2.png?raw=true" alt="Screenshot 2" width="15%" />
+      <p>Erläuterung 2</p>
+    </td>
+    <td style="text-align: center;">
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="15%" />
+      <p>Erläuterung 3</p>
+    </td>
+  </tr>
+</table>
+
 ---
 
 ## ![Features](https://img.shields.io/badge/Features-%2300b48a?style=for-the-badge&logo=none)
