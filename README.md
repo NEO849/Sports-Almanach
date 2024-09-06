@@ -6,7 +6,7 @@
 
 ---
 
-## Warum Sports-Almanach?
+## <span style="color: white; background-color: green; padding: 5px;">Warum Sports-Almanach?</span>
 
 **Sports-Almanach** Der Sportwetten-Begleiter ist ideal für Sportfans, die jederzeit aktuelle Informationen zu Sportarten und Events erhalten möchten. Mit der App kannst du:
 - Die neuesten Informationen zu Sportevents abrufen.
