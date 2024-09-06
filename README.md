@@ -32,35 +32,38 @@ Screenshots der App (Beispiel Images):
   <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="15%" />
 </div>
 
-<table>
-  <tr>
-    <td style="padding-right: 10px;">
-      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true" alt="Screenshot 1" width="30%" />
-      <p>Erläuterung</p>
-    </td>
-    <td style="padding-right: 10px;">
-      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot2.png?raw=true" alt="Screenshot 2" width="30%" />
-      <p>Erläuterung</p>
-    </td>
-    <td>
-      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="30%" />
-      <p>Erläuterung</p>
-    </td>
-  </tr>
-</table>
+<style>
+  table {
+    width: 100%;
+    table-layout: fixed;
+  }
+  td {
+    padding-right: 10px;
+    text-align: center; 
+  }
+  img {
+    width: 30%;
+    display: block; 
+    margin: 0 auto; 
+  }
+  p {
+    margin: 5px 0 0; 
+    font-size: 14px; 
+  }
+</style>
 
 <table>
   <tr>
-    <td style="padding-right: 10px; width: auto;">
-      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true" alt="Screenshot 1" width="30%" />
+    <td>
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true" alt="Screenshot 1" />
       <p>Erläuterung</p>
     </td>
-    <td style="padding-right: 10px; width: auto;">
-      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot2.png?raw=true" alt="Screenshot 2" width="30%" />
+    <td>
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot2.png?raw=true" alt="Screenshot 2" />
       <p>Erläuterung</p>
     </td>
-    <td style="width: auto;">
-      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="30%" />
+    <td>
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" />
       <p>Erläuterung</p>
     </td>
   </tr>
