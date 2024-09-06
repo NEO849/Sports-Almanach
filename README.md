@@ -13,8 +13,8 @@
 
 ## ![Warum Sports-Almanach?](https://img.shields.io/badge/Warum%20Sports--Almanach-%2300b48a?style=for-the-badge&logo=none)
 
-**Sports-Almanach** Der Sportwetten-Begleiter ist ideal für Sportfans, die jederzeit aktuelle Informationen zu Sportarten und Events erhalten möchten. Mit der App kannst du:
-- Die neuesten Informationen zu Sportevents abrufen.
+**Sports-Almanach:** Der Sportwetten-Begleiter ist ideal für Sportfans, die jederzeit aktuelle Informationen zu Sportarten und Events erhalten möchten. Mit der App kannst du:
+- Informationen zu verschiedenen Sportevents abrufen.
 - Wetten mit Spielgeld platzieren und dein Sportwissen testen.
 - Von einer einfachen und intuitiven Navigation profitieren.
 
