@@ -1,8 +1,9 @@
-# Sports-Almanach 
-<img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" align="right" width="150"/>
-<br>
-<br>
-<br>
+<div style="display: flex; align-items: center;">
+  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" width="150"/>
+  <h1 style="color: #00b48a; margin-left: 20px;">Sports-Almanach</h1>
+</div>
+
+<br><br><br>
 
 ## ![Warum Sports-Almanach?](https://img.shields.io/badge/Warum%20Sports--Almanach-%2300b48a?style=for-the-badge&logo=none)
 
