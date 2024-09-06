@@ -26,17 +26,28 @@ Die App zeichnet sich durch eine reibungslose Integration mit Firebase und eine 
 
 Screenshots der App (Beispiel Images):
 
-
-| ![Screenshot 1](https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true) | ![Screenshot 2](https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot2.png?raw=true) | ![Screenshot 3](https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true) |
-|:---:|:---:|:---:|
-| Erläuterung 1 | Erläuterung 2 | Erläuterung 3 |
-
-
 <div>
   <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true" alt="Screenshot 1" width="15%" />
   <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot2.png?raw=true" alt="Screenshot 2" width="15%" />
   <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="15%" />
 </div>
+
+<table style="width: 60%; margin: auto;">
+  <tr>
+    <td style="text-align: center; padding: 10px;">
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot1.png?raw=true" alt="Screenshot 1" width="30%" />
+      <p>Erläuterung 1</p>
+    </td>
+    <td style="text-align: center; padding: 10px;">
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot2.png?raw=true" alt="Screenshot 2" width="30%" />
+      <p>Erläuterung 2</p>
+    </td>
+    <td style="text-align: center; padding: 10px;">
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="30%" />
+      <p>Erläuterung 3</p>
+    </td>
+  </tr>
+</table>
 
 ---
 
