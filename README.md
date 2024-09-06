@@ -34,8 +34,6 @@ Screenshots der App (Beispiel Images):
   <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="15%" />
 </div>
 
-
-
 ---
 
 ## ![Features](https://img.shields.io/badge/Features-%2300b48a?style=for-the-badge&logo=none)
