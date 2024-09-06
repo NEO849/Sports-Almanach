@@ -1,10 +1,10 @@
 <table>
   <tr>
     <td>
-      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" width="150"/>
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" width="250"/>
     </td>
     <td>
-      <h1 style="color: #00b48a; font-size: 3em;">Sports-Almanach</h1>
+      <h1 style="color: #00b48a;">Sports-Almanach</h1>
     </td>
   </tr>
 </table>
