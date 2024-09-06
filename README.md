@@ -1,10 +1,5 @@
 # Sports-Almanach 
 <img src="https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" align="right" width="150"/>
-## Bet & Infos
-
-**Der Sportwetten-Begleiter für alle Fans.**
-
-**Sports-Almanach** bietet dir umfassende Informationen zu aktuellen Sportereignissen und ermöglicht dir, Wetten mit Spielgeld abzuschließen. Bleib immer auf dem Laufenden und teste dein Wissen in der Welt des Sports.
 <br>
 <br>
 <br>
@@ -13,7 +8,7 @@
 
 ## Warum Sports-Almanach?
 
-**Sports-Almanach** ist ideal für Sportfans, die jederzeit aktuelle Informationen zu Sportarten und Events erhalten möchten. Mit der App kannst du:
+**Sports-Almanach** Der Sportwetten-Begleiter ist ideal für Sportfans, die jederzeit aktuelle Informationen zu Sportarten und Events erhalten möchten. Mit der App kannst du:
 - Die neuesten Informationen zu Sportevents abrufen.
 - Wetten mit Spielgeld platzieren und dein Sportwissen testen.
 - Von einer einfachen und intuitiven Navigation profitieren.
