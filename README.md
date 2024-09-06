@@ -46,6 +46,18 @@ Screenshots der App (Beispiel Images):
       <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="30%" />
       <p>Erläuterung 3</p>
     </td>
+    <td style="text-align: center; padding: 10px;">
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="30%" />
+      <p>Erläuterung 3</p>
+    </td>
+    <td style="text-align: center; padding: 10px;">
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="30%" />
+      <p>Erläuterung 3</p>
+    </td>
+    <td style="text-align: center; padding: 10px;">
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="30%" />
+      <p>Erläuterung 3</p>
+    </td>
   </tr>
 </table>
 
