@@ -1,7 +1,8 @@
 <table>
   <tr>
     <td>
-  <img ![Sport Almanach Klein](https://github.com/NEO849/Sports-Almanach/blob/main/sportalmanachklein.png?raw=true)
+      <!-- Bild-Tag für "Sport Almanach Klein" -->
+      <img src="https://github.com/NEO849/Sports-Almanach/blob/main/Images/sportalmanachklein.png?raw=true" alt="Sport Almanach Klein" width="150" />
     </td>
     <td>
       <h1 style="color: #00b48a;">Sports-Almanach</h1>
