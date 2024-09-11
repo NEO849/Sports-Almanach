@@ -37,6 +37,6 @@ import SwiftUI
 //
 //#Preview {
 //    ContentView()
-//        .environmentObject(UserViewModel()) // Zum Testen der Preview
-//        .environmentObject(EventViewModel()) // Zum Testen der Preview
+//        .environmentObject(UserViewModel()) 
+//        .environmentObject(EventViewModel())
 //}
