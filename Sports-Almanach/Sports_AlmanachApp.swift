@@ -9,9 +9,17 @@ import SwiftUI
 
 @main
 struct Sports_AlmanachApp: App {
+    /// Instanzen
+    @StateObject private var userViewModel = UserViewModel()
+    @StateObject private var eventViewModel = EventViewModel()
+    
     var body: some Scene {
+        
         WindowGroup {
-            ContentView()
+    
+//            ContentView()
+//                .environmentObject(userViewModel)
+//                .environmentObject(eventViewModel) 
         }
     }
 }

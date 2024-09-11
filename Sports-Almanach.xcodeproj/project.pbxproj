@@ -16,6 +16,10 @@
 		F095C8FD2C8FAEE2002C94FD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C8FC2C8FAEE2002C94FD /* User.swift */; };
 		F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C8FE2C8FAF01002C94FD /* MockEvents.swift */; };
 		F095C9012C8FAF24002C94FD /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C9002C8FAF24002C94FD /* MockUser.swift */; };
+		F095C9042C8FB084002C94FD /* EventRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C9032C8FB084002C94FD /* EventRepository.swift */; };
+		F095C9062C8FB0A0002C94FD /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C9052C8FB0A0002C94FD /* UserRepository.swift */; };
+		F095C9092C8FB0DE002C94FD /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C9082C8FB0DE002C94FD /* EventViewModel.swift */; };
+		F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +33,10 @@
 		F095C8FC2C8FAEE2002C94FD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		F095C8FE2C8FAF01002C94FD /* MockEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEvents.swift; sourceTree = "<group>"; };
 		F095C9002C8FAF24002C94FD /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
+		F095C9032C8FB084002C94FD /* EventRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRepository.swift; sourceTree = "<group>"; };
+		F095C9052C8FB0A0002C94FD /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		F095C9082C8FB0DE002C94FD /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
+		F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +71,9 @@
 			children = (
 				F04628782C88A757008FB346 /* Sports_AlmanachApp.swift */,
 				F095C8F32C89F71A002C94FD /* Enums */,
-				F095C8F42C89F725002C94FD /* Datas */,
+				F095C8F42C89F725002C94FD /* Data */,
+				F095C9022C8FB06D002C94FD /* Repositories */,
+				F095C9072C8FB0C2002C94FD /* ViewModels */,
 				F095C8EC2C88AB1F002C94FD /* Views */,
 				F046287C2C88A758008FB346 /* Assets.xcassets */,
 				F046287E2C88A759008FB346 /* Preview Content */,
@@ -83,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				F046287A2C88A757008FB346 /* ContentView.swift */,
+				F095C90C2C8FD5B5002C94FD /* Components */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -95,13 +106,13 @@
 			path = Enums;
 			sourceTree = "<group>";
 		};
-		F095C8F42C89F725002C94FD /* Datas */ = {
+		F095C8F42C89F725002C94FD /* Data */ = {
 			isa = PBXGroup;
 			children = (
 				F095C8F62C8FAE58002C94FD /* MockData */,
 				F095C8F72C8FAE74002C94FD /* Models */,
 			);
-			path = Datas;
+			path = Data;
 			sourceTree = "<group>";
 		};
 		F095C8F62C8FAE58002C94FD /* MockData */ = {
@@ -120,6 +131,31 @@
 				F095C8FC2C8FAEE2002C94FD /* User.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		F095C9022C8FB06D002C94FD /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				F095C9032C8FB084002C94FD /* EventRepository.swift */,
+				F095C9052C8FB0A0002C94FD /* UserRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		F095C9072C8FB0C2002C94FD /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				F095C9082C8FB0DE002C94FD /* EventViewModel.swift */,
+				F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		F095C90C2C8FD5B5002C94FD /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -193,7 +229,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */,
+				F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */,
 				F046287B2C88A757008FB346 /* ContentView.swift in Sources */,
+				F095C9062C8FB0A0002C94FD /* UserRepository.swift in Sources */,
+				F095C9092C8FB0DE002C94FD /* EventViewModel.swift in Sources */,
+				F095C9042C8FB084002C94FD /* EventRepository.swift in Sources */,
 				F04628792C88A757008FB346 /* Sports_AlmanachApp.swift in Sources */,
 				F095C8FD2C8FAEE2002C94FD /* User.swift in Sources */,
 				F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */,
