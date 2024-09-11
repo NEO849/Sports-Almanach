@@ -146,7 +146,7 @@ open Sports-Almanach.xcodeproj
 
 ## ![Lizenz](https://img.shields.io/badge/Lizenz-%2300b48a?style=for-the-badge&logo=none)
 
-- Dieses Projekt ist unter der [MIT-Lizenz](https://github.com/NEO849/Sports-Almanach/tree/main#) lizenziert. Siehe die LICENSE Datei für weitere Details.     
+- Dieses Projekt ist unter der [CC0 1.0 Universal (CC0 1.0)](https://github.com/NEO849/Sports-Almanach/tree/main#) lizenziert. Siehe die LICENSE Datei für weitere Details.     
 
 ---
 
