@@ -8,7 +8,7 @@
 import Foundation
 
 class UserViewModel: ObservableObject {
-    
+
     @Published var users: [User] = []
     private var userRepository = UserRepository()
     @Published var errorMessage: String?
@@ -22,22 +22,50 @@ class UserViewModel: ObservableObject {
     }
 
     func signIn(email: String, password: String) {
-        // Logik zur Benutzeranmeldung
+        // Überprüfen, ob der Benutzer existiert 
+        if let user = users.first(where: { $0.email == email }) {
+            // Erfolgreich angemeldet
+            print("Benutzer angemeldet: \(user.name)")
+        } else {
+            errorMessage = ApiError.requestFailed.errorDescription
+        }
     }
 
-    func signUp(username: String, email: String, password: String, amount: Double, age: Int) {
-        let newUser = User(name: username, email: email, startMoney: amount, age: age)
-        
-        if userRepository.validateUser(user: newUser) {
+    func signUp(username: String, email: String, password: String, passwordRepeat: String, amount: Double, age: Int) {
+        // Überprüfen, ob Email und Passwort gültig sind
+        guard isValidateEmailAndPassword(email: email, password: password, passwordRepeat: passwordRepeat) else {
+            return
+        }
+
+        // Berechnet das Geburtsdatum basierend auf dem Alter
+        let birthday = Calendar.current.date(byAdding: .year, value: -age, to: Date())!
+
+        // Erstellt den neuen Benutzer
+        let newUser = User(id: UUID(), name: username, email: email, startMoney: amount, birthday: birthday)
+
+        // Überprüft, ob der Benutzer gültig ist
+        if validateUser(user: newUser) {
             users.append(newUser)
         } else {
-            errorMessage = "Benutzer ist nicht gültig!"
+            errorMessage = ApiError.decodingFailed.errorDescription
         }
+    }
+
+    func validateUser(user: User) -> Bool {
+        let age = calculateAge(birthday: user.birthday)
+        return age >= 18
+    }
+
+    /// Berechnet das Alter basierend auf dem Geburtsdatum
+    func calculateAge(birthday: Date) -> Int {
+        let calendar = Calendar.current
+        let ageComponents = calendar.dateComponents([.year], from: birthday, to: Date())
+        return ageComponents.year!
     }
 
     func isValidateEmailAndPassword(email: String, password: String, passwordRepeat: String) -> Bool {
         if !isValidEmail(email) {
-            errorMessage = "Ungültige Email Adresse"
+            errorMessage = ApiError.invalidURL.errorDescription
             return false
         }
 

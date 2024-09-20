@@ -17,7 +17,7 @@ struct MockEvents {
             name: "Crystal Palace vs Arsenal",
             homeTeam: "Crystal Palace",
             awayTeam: "Arsenal",
-            date: "2022-08-05",
+            date: dateFormatter.date(from: "2022-08-05")!,
             time: "19:00",
             venue: "Selhurst Park",
             official: "Lothar Matthäus",
@@ -34,7 +34,7 @@ struct MockEvents {
             name: "Premier League Spieltag 5",
             homeTeam: "Manchester United",
             awayTeam: "Liverpool FC",
-            date: "2024-09-12",
+            date: dateFormatter.date(from: "2024-09-12")!,
             time: "20:45",
             venue: "Old Trafford",
             official: "Michael Oliver",
@@ -51,7 +51,7 @@ struct MockEvents {
             name: "La Liga Clásico",
             homeTeam: "FC Barcelona",
             awayTeam: "Real Madrid",
-            date: "2024-10-05",
+            date: dateFormatter.date(from:"2024-10-05")!,
             time: "21:00",
             venue: "Camp Nou",
             official: "Antonio Mateu Lahoz",
@@ -68,7 +68,7 @@ struct MockEvents {
             name: "Serie A Derby",
             homeTeam: "AC Mailand",
             awayTeam: "Inter Mailand",
-            date: "2024-11-15",
+            date: dateFormatter.date(from:"2024-11-15")!,
             time: "19:00",
             venue: "San Siro",
             official: "Daniele Orsato",
@@ -85,7 +85,7 @@ struct MockEvents {
             name: "Ligue 1 Klassiker",
             homeTeam: "Paris Saint-Germain",
             awayTeam: "Olympique Marseille",
-            date: "2024-12-01",
+            date: dateFormatter.date(from:"2024-12-01")!,
             time: "20:00",
             venue: "Parc des Princes",
             official: "Clément Turpin",
@@ -102,7 +102,7 @@ struct MockEvents {
             name: "Champions League Finale",
             homeTeam: "Manchester City",
             awayTeam: "FC Bayern München",
-            date: "2025-05-25",
+            date: dateFormatter.date(from:"2025-05-25")!,
             time: "20:45",
             venue: "Wembley Stadium",
             official: "Björn Kuipers",
@@ -119,7 +119,7 @@ struct MockEvents {
             name: "Europa League Finale",
             homeTeam: "Arsenal FC",
             awayTeam: "AS Rom",
-            date: "2025-05-18",
+            date: dateFormatter.date(from:"2025-05-18")!,
             time: "21:00",
             venue: "Olympiastadion Berlin",
             official: "Cüneyt Çakır",
@@ -136,7 +136,7 @@ struct MockEvents {
             name: "DFB-Pokal Finale",
             homeTeam: "RB Leipzig",
             awayTeam: "Eintracht Frankfurt",
-            date: "2025-06-10",
+            date: dateFormatter.date(from:"2025-06-10")!,
             time: "20:00",
             venue: "Olympiastadion Berlin",
             official: "Deniz Aytekin",
@@ -153,7 +153,7 @@ struct MockEvents {
             name: "FA Cup Finale",
             homeTeam: "Chelsea FC",
             awayTeam: "Tottenham Hotspur",
-            date: "2025-06-15",
+            date: dateFormatter.date(from:"2025-06-15")!,
             time: "18:00",
             venue: "Wembley Stadium",
             official: "Martin Atkinson",
@@ -170,7 +170,7 @@ struct MockEvents {
             name: "Supercopa de España",
             homeTeam: "Atlético Madrid",
             awayTeam: "FC Sevilla",
-            date: "2025-08-20",
+            date: dateFormatter.date(from:"2025-08-20")!,
             time: "22:00",
             venue: "Estadio Santiago Bernabéu",
             official: "Carlos del Cerro Grande",
@@ -184,3 +184,11 @@ struct MockEvents {
         )
     ]
 }
+
+/// DateFormatter zur Umwandlung von String in Date
+private var dateFormatter: DateFormatter {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd"
+    return formatter
+}
+

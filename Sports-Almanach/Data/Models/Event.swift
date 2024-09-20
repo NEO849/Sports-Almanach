@@ -12,7 +12,7 @@ struct Event: Identifiable, Codable {
     let name: String
     let homeTeam: String
     let awayTeam: String
-    let date: String
+    let date: Date
     let time: String
     let venue: String               // Ort, an dem das Event stattfindet
     let official: String            // Schiedsrichter Name

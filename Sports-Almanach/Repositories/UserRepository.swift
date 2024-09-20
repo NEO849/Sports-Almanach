@@ -13,9 +13,4 @@ class UserRepository {
         // Hier aus einer Datenbank oder mittelks API
         return MockUsers.users
     }
-    
-    /// Überprüft, ob der Benutzer gültig ist
-    func validateUser(user: User) -> Bool {
-        return user.age >= 18
-    }
 }

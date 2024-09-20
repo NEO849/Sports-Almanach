@@ -9,17 +9,16 @@ import SwiftUI
 
 @main
 struct Sports_AlmanachApp: App {
-    /// Instanzen
+    /// Instanzen der VM
     @StateObject private var userViewModel = UserViewModel()
     @StateObject private var eventViewModel = EventViewModel()
     
     var body: some Scene {
-        
         WindowGroup {
-    
-//            ContentView()
-//                .environmentObject(userViewModel)
-//                .environmentObject(eventViewModel) 
+            // Übergabe der ViewModels an die ContentView
+            ContentView()
+                .environmentObject(userViewModel) // ViewModel für Benutzerdaten
+                .environmentObject(eventViewModel) // ViewModel für Ereignisdaten
         }
     }
 }

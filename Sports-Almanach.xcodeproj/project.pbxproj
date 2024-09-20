@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F00CB7032C9CEF11003D70E3 /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7022C9CEEF9003D70E3 /* ApiError.swift */; };
+		F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7042C9CF430003D70E3 /* HomeView.swift */; };
+		F00CB7072C9CF484003D70E3 /* BetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7062C9CF47F003D70E3 /* BetView.swift */; };
+		F00CB7092C9CF4B4003D70E3 /* EventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7082C9CF4AF003D70E3 /* EventsView.swift */; };
+		F00CB70B2C9CF51E003D70E3 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70A2C9CF51A003D70E3 /* InfoView.swift */; };
+		F00CB70E2C9CF74E003D70E3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70D2C9CF747003D70E3 /* LoginView.swift */; };
+		F00CB7102C9CF7BD003D70E3 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */; };
 		F04628792C88A757008FB346 /* Sports_AlmanachApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04628782C88A757008FB346 /* Sports_AlmanachApp.swift */; };
 		F046287B2C88A757008FB346 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F046287A2C88A757008FB346 /* ContentView.swift */; };
 		F046287D2C88A758008FB346 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F046287C2C88A758008FB346 /* Assets.xcassets */; };
@@ -23,6 +30,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F00CB7022C9CEEF9003D70E3 /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
+		F00CB7042C9CF430003D70E3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		F00CB7062C9CF47F003D70E3 /* BetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetView.swift; sourceTree = "<group>"; };
+		F00CB7082C9CF4AF003D70E3 /* EventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsView.swift; sourceTree = "<group>"; };
+		F00CB70A2C9CF51A003D70E3 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		F00CB70D2C9CF747003D70E3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		F04628752C88A757008FB346 /* Sports-Almanach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sports-Almanach.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F04628782C88A757008FB346 /* Sports_AlmanachApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sports_AlmanachApp.swift; sourceTree = "<group>"; };
 		F046287A2C88A757008FB346 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -50,6 +64,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F00CB70C2C9CF732003D70E3 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */,
+				F00CB70D2C9CF747003D70E3 /* LoginView.swift */,
+			);
+			path = Register;
+			sourceTree = "<group>";
+		};
 		F046286C2C88A757008FB346 = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +116,7 @@
 			isa = PBXGroup;
 			children = (
 				F046287A2C88A757008FB346 /* ContentView.swift */,
+				F00CB70C2C9CF732003D70E3 /* Register */,
 				F095C90C2C8FD5B5002C94FD /* Components */,
 			);
 			path = Views;
@@ -101,6 +125,7 @@
 		F095C8F32C89F71A002C94FD /* Enums */ = {
 			isa = PBXGroup;
 			children = (
+				F00CB7022C9CEEF9003D70E3 /* ApiError.swift */,
 				F095C8F82C8FAE97002C94FD /* EventStatus.swift */,
 			);
 			path = Enums;
@@ -154,6 +179,10 @@
 		F095C90C2C8FD5B5002C94FD /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				F00CB70A2C9CF51A003D70E3 /* InfoView.swift */,
+				F00CB7082C9CF4AF003D70E3 /* EventsView.swift */,
+				F00CB7062C9CF47F003D70E3 /* BetView.swift */,
+				F00CB7042C9CF430003D70E3 /* HomeView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -228,14 +257,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F00CB70B2C9CF51E003D70E3 /* InfoView.swift in Sources */,
 				F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */,
 				F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */,
+				F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */,
 				F046287B2C88A757008FB346 /* ContentView.swift in Sources */,
 				F095C9062C8FB0A0002C94FD /* UserRepository.swift in Sources */,
+				F00CB70E2C9CF74E003D70E3 /* LoginView.swift in Sources */,
 				F095C9092C8FB0DE002C94FD /* EventViewModel.swift in Sources */,
+				F00CB7072C9CF484003D70E3 /* BetView.swift in Sources */,
+				F00CB7102C9CF7BD003D70E3 /* RegisterView.swift in Sources */,
+				F00CB7032C9CEF11003D70E3 /* ApiError.swift in Sources */,
 				F095C9042C8FB084002C94FD /* EventRepository.swift in Sources */,
 				F04628792C88A757008FB346 /* Sports_AlmanachApp.swift in Sources */,
 				F095C8FD2C8FAEE2002C94FD /* User.swift in Sources */,
+				F00CB7092C9CF4B4003D70E3 /* EventsView.swift in Sources */,
 				F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */,
 				F095C9012C8FAF24002C94FD /* MockUser.swift in Sources */,
 				F095C8F92C8FAE97002C94FD /* EventStatus.swift in Sources */,
