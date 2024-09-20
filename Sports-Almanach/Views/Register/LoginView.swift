@@ -16,7 +16,7 @@ struct LoginView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Image("your-background-image")
+                Image("hintergrundlogin")
                     .resizable()
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)

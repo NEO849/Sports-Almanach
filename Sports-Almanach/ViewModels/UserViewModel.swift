@@ -9,8 +9,8 @@ import Foundation
 
 class UserViewModel: ObservableObject {
 
-    @Published var users: [User] = []
     private var userRepository = UserRepository()
+    @Published var users: [User] = []
     @Published var errorMessage: String?
 
     init() {

@@ -15,10 +15,9 @@ struct Sports_AlmanachApp: App {
     
     var body: some Scene {
         WindowGroup {
-            // Übergabe der ViewModels an die ContentView
             ContentView()
-                .environmentObject(userViewModel) // ViewModel für Benutzerdaten
-                .environmentObject(eventViewModel) // ViewModel für Ereignisdaten
+                .environmentObject(userViewModel)
+                .environmentObject(eventViewModel)
         }
     }
 }
