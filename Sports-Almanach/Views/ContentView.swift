@@ -13,6 +13,7 @@ struct ContentView: View {
     
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var eventViewModel: EventViewModel
+    @EnvironmentObject var splashViewModel: SplashViewModel
     
     var body: some View {
         TabView {
@@ -38,4 +39,11 @@ struct ContentView: View {
                 }
         }
     }
+}
+
+#Preview {
+    ContentView()
+        .environmentObject(UserViewModel())
+        .environmentObject(EventViewModel())
+        .environmentObject(SplashViewModel())
 }

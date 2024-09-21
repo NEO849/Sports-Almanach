@@ -8,10 +8,28 @@
 import SwiftUI
 
 struct InfoView: View {
+    
     var body: some View {
-        Text("Hier finden Sie Informationen.")
-            .font(.largeTitle)
-            .padding()
-            /// TO DO
+        
+        NavigationStack {
+            
+            ZStack {
+                Image("splashsporthintergrund")
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
+
+                VStack {
+                    Text("Hier finden Sie Informationen.")
+                        .font(.largeTitle)
+                        .padding()
+                }
+            }
+            .navigationTitle("Infos")
+        }
     }
+}
+
+#Preview {
+    InfoView()
 }

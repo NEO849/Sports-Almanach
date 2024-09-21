@@ -9,13 +9,33 @@ import SwiftUI
 
 
 struct EventsView: View {
+    
     @EnvironmentObject var eventViewModel: EventViewModel
 
     var body: some View {
-        List(eventViewModel.events) { event in
-            Text(event.name) //  Eventnamen
+        
+        NavigationStack {
+            ZStack {
+                
+                Image("splashsporthintergrund")
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
+
+                // Liste der Events
+                List(eventViewModel.events) { event in
+                    Text(event.name)
+                        .listRowBackground(Color.clear)
+                }
+                .listStyle(InsetGroupedListStyle())
+                .navigationTitle("Events")
+                .background(Color.clear)
+            }
         }
-        .listStyle(InsetGroupedListStyle())
-        .navigationTitle("Events") 
     }
+}
+
+#Preview {
+    EventsView()
+        .environmentObject(EventViewModel())
 }

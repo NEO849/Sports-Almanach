@@ -8,10 +8,29 @@
 import SwiftUI
 
 struct HomeView: View {
+    
     var body: some View {
-        Text("Willkommen im Home-Bereich!")
-            .font(.largeTitle)
-            .padding()
-            /// TO DO
-    }
-}
+          
+          NavigationStack {
+              
+              ZStack {
+                  Image("splashsporthintergrund")
+                      .resizable()
+                      .scaledToFill()
+                      .edgesIgnoringSafeArea(.all)
+
+                  VStack {
+                      Text("Willkommen im Home-Bereich!")
+                          .font(.largeTitle)
+                          
+                  }
+              }
+              .navigationTitle("Home")
+              .navigationBarBackButtonHidden(true) 
+          }
+      }
+  }
+
+  #Preview {
+      HomeView()
+  }

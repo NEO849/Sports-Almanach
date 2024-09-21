@@ -12,12 +12,14 @@ struct Sports_AlmanachApp: App {
     /// Instanzen der VM
     @StateObject private var userViewModel = UserViewModel()
     @StateObject private var eventViewModel = EventViewModel()
+    @StateObject private var splashViewModel = SplashViewModel()
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            SplashView()
                 .environmentObject(userViewModel)
                 .environmentObject(eventViewModel)
+                .environmentObject(splashViewModel)
         }
     }
 }

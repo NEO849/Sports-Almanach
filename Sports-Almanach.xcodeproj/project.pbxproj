@@ -14,6 +14,8 @@
 		F00CB70B2C9CF51E003D70E3 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70A2C9CF51A003D70E3 /* InfoView.swift */; };
 		F00CB70E2C9CF74E003D70E3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70D2C9CF747003D70E3 /* LoginView.swift */; };
 		F00CB7102C9CF7BD003D70E3 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */; };
+		F00CB7132C9E4228003D70E3 /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7122C9E421D003D70E3 /* SplashViewModel.swift */; };
+		F00CB7162C9E480D003D70E3 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7152C9E47FC003D70E3 /* SplashView.swift */; };
 		F04628792C88A757008FB346 /* Sports_AlmanachApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04628782C88A757008FB346 /* Sports_AlmanachApp.swift */; };
 		F046287B2C88A757008FB346 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F046287A2C88A757008FB346 /* ContentView.swift */; };
 		F046287D2C88A758008FB346 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F046287C2C88A758008FB346 /* Assets.xcassets */; };
@@ -37,6 +39,8 @@
 		F00CB70A2C9CF51A003D70E3 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
 		F00CB70D2C9CF747003D70E3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
+		F00CB7122C9E421D003D70E3 /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
+		F00CB7152C9E47FC003D70E3 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		F04628752C88A757008FB346 /* Sports-Almanach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sports-Almanach.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F04628782C88A757008FB346 /* Sports_AlmanachApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sports_AlmanachApp.swift; sourceTree = "<group>"; };
 		F046287A2C88A757008FB346 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -73,6 +77,21 @@
 			path = Register;
 			sourceTree = "<group>";
 		};
+		F00CB7112C9E4201003D70E3 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		F00CB7142C9E47DF003D70E3 /* Splashscreen */ = {
+			isa = PBXGroup;
+			children = (
+				F00CB7152C9E47FC003D70E3 /* SplashView.swift */,
+			);
+			path = Splashscreen;
+			sourceTree = "<group>";
+		};
 		F046286C2C88A757008FB346 = {
 			isa = PBXGroup;
 			children = (
@@ -93,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				F04628782C88A757008FB346 /* Sports_AlmanachApp.swift */,
+				F00CB7112C9E4201003D70E3 /* Services */,
 				F095C8F32C89F71A002C94FD /* Enums */,
 				F095C8F42C89F725002C94FD /* Data */,
 				F095C9022C8FB06D002C94FD /* Repositories */,
@@ -116,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				F046287A2C88A757008FB346 /* ContentView.swift */,
+				F00CB7142C9E47DF003D70E3 /* Splashscreen */,
 				F00CB70C2C9CF732003D70E3 /* Register */,
 				F095C90C2C8FD5B5002C94FD /* Components */,
 			);
@@ -172,6 +193,7 @@
 			children = (
 				F095C9082C8FB0DE002C94FD /* EventViewModel.swift */,
 				F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */,
+				F00CB7122C9E421D003D70E3 /* SplashViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -258,6 +280,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F00CB70B2C9CF51E003D70E3 /* InfoView.swift in Sources */,
+				F00CB7132C9E4228003D70E3 /* SplashViewModel.swift in Sources */,
 				F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */,
 				F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */,
 				F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */,
@@ -274,6 +297,7 @@
 				F00CB7092C9CF4B4003D70E3 /* EventsView.swift in Sources */,
 				F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */,
 				F095C9012C8FAF24002C94FD /* MockUser.swift in Sources */,
+				F00CB7162C9E480D003D70E3 /* SplashView.swift in Sources */,
 				F095C8F92C8FAE97002C94FD /* EventStatus.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

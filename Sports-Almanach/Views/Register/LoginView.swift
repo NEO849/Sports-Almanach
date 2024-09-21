@@ -28,25 +28,23 @@ struct LoginView: View {
                     Text("Login")
                         .font(.largeTitle)
                         .fontWeight(.bold)
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         .padding(.bottom, 40)
 
-                    // E-Mail Textfeld
                     TextField("Email eingeben ...", text: $email)
                         .padding()
                         .background(Color.gray.opacity(0.3))
                         .cornerRadius(10)
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
                         .padding(.horizontal, 40)
 
-                    // Passwort Textfeld
                     SecureField("Passwort", text: $password)
                         .padding()
                         .background(Color.gray.opacity(0.3))
                         .cornerRadius(10)
-                        .foregroundColor(.white)
+                        .foregroundColor(.black)
                         .padding(.horizontal, 40)
                         .padding(.bottom, 20)
 
@@ -56,7 +54,7 @@ struct LoginView: View {
                     }) {
                         Text("LOGIN")
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundColor(.black)
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(Color.gray.opacity(0.8))
@@ -67,7 +65,7 @@ struct LoginView: View {
                     // Registrierung Button
                     HStack {
                         Text("Noch keinen Account?")
-                            .foregroundColor(.white)
+                            .foregroundColor(.black)
 
                         Button(action: {
                             showsSignUp = true
@@ -113,4 +111,8 @@ struct LoginView: View {
             }
         }
     }
+}
+
+#Preview {
+    LoginView()
 }

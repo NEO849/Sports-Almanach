@@ -9,9 +9,23 @@ import SwiftUI
 
 struct BetView: View {
     var body: some View {
-        Text("Wettoptionen werden hier angezeigt.")
-            .font(.largeTitle)
-            .padding()
-            /// TO DO
+        
+        ZStack {
+            Image("splashsporthintergrund")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                Text("Wettoptionen werden hier angezeigt.")
+                    .font(.largeTitle)
+                    .padding()
+                /// TO DO
+            }
+        }
     }
+}
+
+#Preview {
+    BetView()
 }
