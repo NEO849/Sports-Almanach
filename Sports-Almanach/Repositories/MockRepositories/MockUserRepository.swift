@@ -7,10 +7,10 @@
 
 import Foundation
 
-class UserRepository {
+class MockUserRepository: UserRepositoryProtocol {
     
+    /// Gibt eine Liste von Mock-Benutzern zurück
     func fetchUsers() -> [User] {
-        // Hier aus einer Datenbank oder mittelks API
         return MockUsers.users
     }
 }

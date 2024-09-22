@@ -13,9 +13,9 @@ struct ContentView: View {
     
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var eventViewModel: EventViewModel
-    @EnvironmentObject var splashViewModel: SplashViewModel
     
     var body: some View {
+        
         TabView {
             
             HomeView()
@@ -45,5 +45,4 @@ struct ContentView: View {
     ContentView()
         .environmentObject(UserViewModel())
         .environmentObject(EventViewModel())
-        .environmentObject(SplashViewModel())
 }

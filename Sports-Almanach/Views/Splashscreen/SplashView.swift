@@ -70,7 +70,9 @@ struct SplashView: View {
 
 #Preview {
     SplashView()
+        .environmentObject(SplashViewModel())
+    
+        // Benötigt für Vorschau zur nächsten View
         .environmentObject(UserViewModel())
         .environmentObject(EventViewModel())
-        .environmentObject(SplashViewModel())
 }

@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct BetView: View {
+    
+    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var eventViewModel: EventViewModel
+    
     var body: some View {
         
         ZStack {
@@ -28,4 +32,6 @@ struct BetView: View {
 
 #Preview {
     BetView()
+        .environmentObject(UserViewModel())
+        .environmentObject(EventViewModel())
 }

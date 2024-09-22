@@ -12,7 +12,7 @@ struct User: Identifiable, Codable {
     let name: String
     let email: String
     let startMoney: Double
-    let birthday: Date // Muss mindestens 18 Jahre alt sein, um sich zu registrieren
+    let birthday: Date // Muss mindestens 18 Jahre alt sein, um sich zu registrieren, Logik im VM
 
     // Benutzer gelten als gleich, wenn ihre ID übereinstimmen
     static func == (lhs: User, rhs: User) -> Bool {

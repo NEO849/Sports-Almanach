@@ -7,14 +7,14 @@
 
 import Foundation
 
-/// Definiert die möglichen Fehler
+/// Definiert die möglichen Fehler, die bei der API-Anfrage auftreten können
 enum ApiError: Error, LocalizedError {
     case invalidURL
     case requestFailed
     case decodingFailed
 
-    // Durch diesen Switch-Case, Fehlermeldung in Deutsch
-    var errorDescription: String? {
+    // Durch Switch-Case, Fehlermeldung in Deutsch
+    var errorDescriptionGerman: String? {
         switch self {
         case .invalidURL:
             return "Die URL war ungültig"

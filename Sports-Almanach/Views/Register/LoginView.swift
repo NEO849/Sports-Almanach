@@ -62,7 +62,7 @@ struct LoginView: View {
                             .padding(.horizontal, 40)
                     }
 
-                    // Registrierung Button
+                    // Registrierung
                     HStack {
                         Text("Noch keinen Account?")
                             .foregroundColor(.black)
