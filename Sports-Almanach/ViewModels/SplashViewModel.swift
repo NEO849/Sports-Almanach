@@ -9,7 +9,7 @@ import SwiftUI
 
 // Steuert die Logik des SplashScreens
 class SplashViewModel: ObservableObject {
-    @Published var isActive = false
+    @Published var showLoginView = false
 
     init() {
         simulateLoading()
@@ -17,7 +17,7 @@ class SplashViewModel: ObservableObject {
 
     private func simulateLoading() {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-            self.isActive = true
+            self.showLoginView = true
         }
     }
 }

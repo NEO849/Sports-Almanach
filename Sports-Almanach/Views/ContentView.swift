@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-/// Die Hauptansicht der App, die die Tabs enthält
-
 struct ContentView: View {
     
     @EnvironmentObject var userViewModel: UserViewModel
@@ -23,17 +21,17 @@ struct ContentView: View {
                     Label("Home", systemImage: "house")
                 }
             
-            BetView()
-                .tabItem {
-                    Label("Bet", systemImage: "dollarsign.circle")
-                }
-            
             EventsView()
                 .tabItem {
                     Label("Events", systemImage: "calendar")
                 }
             
-            InfoView()
+            BetView()
+                .tabItem {
+                    Label("Bet", systemImage: "dollarsign.circle")
+                }
+            
+            FavoriteView()
                 .tabItem {
                     Label("Infos", systemImage: "info.circle")
                 }

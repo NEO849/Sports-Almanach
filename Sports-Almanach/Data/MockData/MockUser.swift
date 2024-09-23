@@ -14,8 +14,9 @@ struct MockUsers {
         User(id: UUID(),
              name: "Lui Cypher",
              email: "luicypher@example.com",
+             password: "As123456!",
              startMoney: 10000.0,
-             birthday: Calendar.current.date(byAdding: .year, value: -30, to: Date())! //  berechnet das Datum um 30 Jahre zurück und wird erzwingt!
+             birthday: Calendar.current.date(byAdding: .year, value: -30, to: Date())! // Berechnet das Datum um 30 Jahre zurück. Ducrch ! gewährleistet das der wert da ist
              
             )
     ]

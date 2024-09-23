@@ -13,6 +13,8 @@ class UserViewModel: ObservableObject {
     private var userRepository: UserRepositoryProtocol
     @Published var users: [User] = []
     @Published var errorMessage: String?
+    @Published var isLoggedIn: Bool = false
+    @Published var isRegistered: Bool = false
     
     /// Initialisierung mit Dependency Injection
     init(repository: UserRepositoryProtocol = MockUserRepository()) {
@@ -30,6 +32,7 @@ class UserViewModel: ObservableObject {
         // Ob der Benutzer mit der E-Mail existiert
         if let user = users.first(where: { $0.email == email }) {
             print("Benutzer angemeldet: \(user.name)")
+            isLoggedIn = true // Status auf true, wegen Navigation in der RegisterView
         } else {
             errorMessage = UserError.emailAlreadyExists.errorDescription
         }
@@ -43,11 +46,12 @@ class UserViewModel: ObservableObject {
         }
         
         // Erstellt einen neuen Benutzer
-        let newUser = User(id: UUID(), name: username, email: email, startMoney: amount, birthday: birthdate)
-        
+        let newUser = User(id: UUID(), name: username, email: email, password: password, startMoney: amount, birthday: birthdate)
+
         // Ob der Benutzer gültig ist
         if validateUser(user: newUser) {
             users.append(newUser)  // Fügt den Benutzer der Liste hinzu
+            isRegistered = true    // Status auf true, wegen Navigation in der RegisterView
         } else {
             errorMessage = UserError.tooYoung.errorDescription
         }

@@ -15,10 +15,13 @@ struct RegisterView: View {
     @State private var password: String = ""
     @State private var passwordRepeat: String = ""
     @State private var startMoney: String = ""
-    @State private var birthdate: Date = Date()  // Date statt String
+    @State private var birthdate: Date = Date()
+    @State private var isPasswordVisible: Bool = false
+    @State private var isRepeatPasswordVisible: Bool = false
     
     var body: some View {
-        NavigationView {
+        
+        NavigationStack {
             ZStack {
                 Image("hintergrundlogin")
                     .resizable()
@@ -34,14 +37,17 @@ struct RegisterView: View {
                         .foregroundColor(.black)
                         .padding(.bottom, 40)
                     
+                    // Benutzername
                     TextField("Benutzername", text: $username)
                         .padding()
                         .background(Color.gray.opacity(0.3))
                         .cornerRadius(10)
                         .foregroundColor(.black)
                         .autocapitalization(.none)
-                        .padding(.horizontal, 40)
+                        .frame(width: 300, height: 50)
+                        .padding(.bottom, 20)
                     
+                    // E-Mail
                     TextField("Email", text: $email)
                         .padding()
                         .background(Color.gray.opacity(0.3))
@@ -49,55 +55,107 @@ struct RegisterView: View {
                         .foregroundColor(.black)
                         .keyboardType(.emailAddress)
                         .autocapitalization(.none)
-                        .padding(.horizontal, 40)
+                        .frame(width: 300, height: 50)
+                        .padding(.bottom, 20)
                     
-                    SecureField("Passwort", text: $password)
-                        .padding()
-                        .background(Color.gray.opacity(0.3))
-                        .cornerRadius(10)
-                        .foregroundColor(.black)
-                        .padding(.horizontal, 40)
+                    // Passwort
+                    ZStack {
+                        if isPasswordVisible {
+                            TextField("Passwort", text: $password)
+                                .padding()
+                                .background(Color.gray.opacity(0.3))
+                                .cornerRadius(10)
+                                .foregroundColor(.black)
+                                .frame(width: 300, height: 50)
+                        } else {
+                            SecureField("Passwort", text: $password)
+                                .padding()
+                                .background(Color.gray.opacity(0.3))
+                                .cornerRadius(10)
+                                .foregroundColor(.black)
+                                .frame(width: 300, height: 50)
+                        }
+                        
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                isPasswordVisible.toggle()
+                            }) {
+                                Image(systemName: isPasswordVisible ? "eye" : "eye.slash")
+                                    .foregroundColor(isPasswordVisible ? .green : .gray)
+                            }
+                            .padding(.trailing, 10)
+                        }
+                    }
+                    .padding(.bottom, 20)
                     
-                    SecureField("Passwort wiederholen", text: $passwordRepeat)
-                        .padding()
-                        .background(Color.gray.opacity(0.3))
-                        .cornerRadius(10)
-                        .foregroundColor(.black)
-                        .padding(.horizontal, 40)
+                    // Passwort Wiederholung
+                    ZStack {
+                        if isRepeatPasswordVisible {
+                            TextField("Passwort wiederholen", text: $passwordRepeat)
+                                .padding()
+                                .background(Color.gray.opacity(0.3))
+                                .cornerRadius(10)
+                                .foregroundColor(.black)
+                                .frame(width: 300, height: 50)
+                        } else {
+                            SecureField("Passwort wiederholen", text: $passwordRepeat)
+                                .padding()
+                                .background(Color.gray.opacity(0.3))
+                                .cornerRadius(10)
+                                .foregroundColor(.black)
+                                .frame(width: 300, height: 50)
+                        }
+                        
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                isRepeatPasswordVisible.toggle()
+                            }) {
+                                Image(systemName: isRepeatPasswordVisible ? "eye" : "eye.slash")
+                                    .foregroundColor(isRepeatPasswordVisible ? .green : .gray)
+                            }
+                            .padding(.trailing, 10)
+                        }
+                    }
+                    .padding(.bottom, 20)
                     
+                    // Startgeld
                     TextField("Startgeld", text: $startMoney)
                         .padding()
                         .background(Color.gray.opacity(0.3))
                         .cornerRadius(10)
                         .foregroundColor(.black)
                         .keyboardType(.decimalPad)
-                        .padding(.horizontal, 40)
+                        .frame(width: 300, height: 50)
+                        .padding(.bottom, 20)
                     
-                    // Berechnung des maximalen Datums (heute)
-                    let today = Date()
-                    
-                    // Mit Einschränkung auf Daten in der Vergangenheit
-                    DatePicker("Geburtsdatum", selection: $birthdate, in: ...today, displayedComponents: .date)
-                        .datePickerStyle(WheelDatePickerStyle())
+                    // Geburtsdatum
+                    DatePicker("Geburtsdatum", selection: $birthdate, displayedComponents: .date)
                         .labelsHidden()
                         .padding(.horizontal, 40)
                         .padding(.bottom, 20)
                     
-                    // Registrieren
+                    // Registrieren Button
                     Button(action: {
                         if let startMoneyDouble = Double(startMoney) {
                             userViewModel.signUp(username: username, email: email, password: password, passwordRepeat: passwordRepeat, amount: startMoneyDouble, birthdate: birthdate)
                         }
-                    }, label: {
+                    }) {
                         Text("REGISTRIEREN")
                             .font(.headline)
                             .foregroundColor(.black)
-                            .frame(maxWidth: .infinity)
-                            .padding()
+                            .frame(width: 300, height: 50)
                             .background(Color.gray.opacity(0.8))
                             .cornerRadius(10)
-                            .padding(.horizontal, 40)
-                    })
+                    }
+                    
+                    // Fehlernachricht
+                    if let errorMessage = userViewModel.errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
+                            .padding(.top, 20)
+                    }
                     
                     Spacer()
                 }
@@ -110,3 +168,4 @@ struct RegisterView: View {
     RegisterView()
         .environmentObject(UserViewModel())
 }
+

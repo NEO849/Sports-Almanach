@@ -1,5 +1,5 @@
 //
-//  InfoView.swift
+//  FavoriteView.swift
 //  Sports-Almanach
 //
 //  Created by Michael Fleps on 20.09.24.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct InfoView: View {
+struct FavoriteView: View {
     
     var body: some View {
         
@@ -20,16 +20,16 @@ struct InfoView: View {
                     .edgesIgnoringSafeArea(.all)
 
                 VStack {
-                    Text("Hier finden Sie Informationen.")
+                    Text("Hier werden ihre Favoriten Events gespeichert.")
                         .font(.largeTitle)
                         .padding()
                 }
             }
-            .navigationTitle("Infos")
+            .navigationTitle("Favorits")
         }
     }
 }
 
 #Preview {
-    InfoView()
+    FavoriteView()
 }

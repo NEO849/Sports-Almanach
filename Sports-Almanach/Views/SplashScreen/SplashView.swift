@@ -53,6 +53,7 @@ struct SplashView: View {
                         }
                     }
                     .onAppear {
+                        // Startet die Animation, sobald die Ansicht erscheint
                         withAnimation(.easeInOut(duration: 1).delay(0.5).repeatForever(autoreverses: true)) {
                             isMoving.toggle()
                         }
@@ -61,8 +62,9 @@ struct SplashView: View {
                     Spacer()
                 }
             }
-            .navigationDestination(isPresented: $viewModel.isActive) {
-                ContentView()
+            .navigationDestination(isPresented: $viewModel.showLoginView) {
+                LoginView()
+                    .environmentObject(UserViewModel())
             }
         }
     }

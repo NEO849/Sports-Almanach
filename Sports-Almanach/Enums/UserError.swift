@@ -16,6 +16,7 @@ enum UserError: Error, LocalizedError {
     case passwordMismatch
     case invalidPassword
     case maxAmountExceeded
+    case emailOrPasswordInvalid
 
     // Durch Switch-Case, Fehlermeldung in Deutsch, ohne den rawValue und einfacher Erweiterbarkeit
     var errorDescriptionGerman: String? {
@@ -34,6 +35,8 @@ enum UserError: Error, LocalizedError {
             return "Passwort muss mindestens 8 Zeichen, 1 Zahl, 1 Großbuchstaben und 1 Sonderzeichen enthalten."
         case .maxAmountExceeded:
             return "Maximaler Startbetrag beträgt 1000 €."
+        case .emailOrPasswordInvalid:
+            return "E-Mail oder Passwort ungültig."
         }
     }
 }

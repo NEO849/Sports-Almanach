@@ -11,7 +11,7 @@
 		F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7042C9CF430003D70E3 /* HomeView.swift */; };
 		F00CB7072C9CF484003D70E3 /* BetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7062C9CF47F003D70E3 /* BetView.swift */; };
 		F00CB7092C9CF4B4003D70E3 /* EventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7082C9CF4AF003D70E3 /* EventsView.swift */; };
-		F00CB70B2C9CF51E003D70E3 /* InfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70A2C9CF51A003D70E3 /* InfoView.swift */; };
+		F00CB70B2C9CF51E003D70E3 /* FavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70A2C9CF51A003D70E3 /* FavoriteView.swift */; };
 		F00CB70E2C9CF74E003D70E3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70D2C9CF747003D70E3 /* LoginView.swift */; };
 		F00CB7102C9CF7BD003D70E3 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */; };
 		F00CB7132C9E4228003D70E3 /* SplashViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7122C9E421D003D70E3 /* SplashViewModel.swift */; };
@@ -39,7 +39,7 @@
 		F00CB7042C9CF430003D70E3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		F00CB7062C9CF47F003D70E3 /* BetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetView.swift; sourceTree = "<group>"; };
 		F00CB7082C9CF4AF003D70E3 /* EventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsView.swift; sourceTree = "<group>"; };
-		F00CB70A2C9CF51A003D70E3 /* InfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoView.swift; sourceTree = "<group>"; };
+		F00CB70A2C9CF51A003D70E3 /* FavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteView.swift; sourceTree = "<group>"; };
 		F00CB70D2C9CF747003D70E3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		F00CB7122C9E421D003D70E3 /* SplashViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewModel.swift; sourceTree = "<group>"; };
@@ -77,18 +77,18 @@
 		F00CB70C2C9CF732003D70E3 /* Register */ = {
 			isa = PBXGroup;
 			children = (
-				F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */,
 				F00CB70D2C9CF747003D70E3 /* LoginView.swift */,
+				F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */,
 			);
 			path = Register;
 			sourceTree = "<group>";
 		};
-		F00CB7142C9E47DF003D70E3 /* Splashscreen */ = {
+		F00CB7142C9E47DF003D70E3 /* SplashScreen */ = {
 			isa = PBXGroup;
 			children = (
 				F00CB7152C9E47FC003D70E3 /* SplashView.swift */,
 			);
-			path = Splashscreen;
+			path = SplashScreen;
 			sourceTree = "<group>";
 		};
 		F046286C2C88A757008FB346 = {
@@ -135,7 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				F046287A2C88A757008FB346 /* ContentView.swift */,
-				F00CB7142C9E47DF003D70E3 /* Splashscreen */,
+				F00CB7142C9E47DF003D70E3 /* SplashScreen */,
 				F00CB70C2C9CF732003D70E3 /* Register */,
 				F0A016852CA0893700C749E3 /* List */,
 				F0A016872CA089C400C749E3 /* Rows */,
@@ -212,7 +212,7 @@
 				F00CB7042C9CF430003D70E3 /* HomeView.swift */,
 				F00CB7062C9CF47F003D70E3 /* BetView.swift */,
 				F00CB7082C9CF4AF003D70E3 /* EventsView.swift */,
-				F00CB70A2C9CF51A003D70E3 /* InfoView.swift */,
+				F00CB70A2C9CF51A003D70E3 /* FavoriteView.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -312,7 +312,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F00CB70B2C9CF51E003D70E3 /* InfoView.swift in Sources */,
+				F00CB70B2C9CF51E003D70E3 /* FavoriteView.swift in Sources */,
 				F00CB7132C9E4228003D70E3 /* SplashViewModel.swift in Sources */,
 				F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */,
 				F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */,
