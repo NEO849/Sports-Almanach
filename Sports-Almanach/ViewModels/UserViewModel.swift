@@ -10,14 +10,14 @@ import Foundation
 class UserViewModel: ObservableObject {
     
     // Stellt die Benutzerdaten bereit (wird über Dependency Injection gesetzt)
-    private var userRepository: UserRepositoryProtocol
+    private var userRepository: UserRepository
     @Published var users: [User] = []
     @Published var errorMessage: String?
     @Published var isLoggedIn: Bool = false
     @Published var isRegistered: Bool = false
     
     /// Initialisierung mit Dependency Injection
-    init(repository: UserRepositoryProtocol = MockUserRepository()) {
+    init(repository: UserRepository = MockUserRepository()) {
         self.userRepository = repository
         loadUsers()
     }
@@ -56,6 +56,12 @@ class UserViewModel: ObservableObject {
             errorMessage = UserError.tooYoung.errorDescription
         }
     }
+    
+    /// Abmelden des Benutzers
+      func signOut() {
+          isLoggedIn = false  
+          print("Benutzer abgemeldet")
+      }
     
     /// Überprüft Mindestalter
     func validateUser(user: User) -> Bool {

@@ -10,10 +10,10 @@ import Foundation
 class EventViewModel: ObservableObject {
     
     @Published var events: [Event] = []
-    private var eventRepository: EventRepositoryProtocol
+    private var eventRepository: EventRepository
 
     /// Dependency Injection
-    init(repository: EventRepositoryProtocol = MockEventRepository()) {
+    init(repository: EventRepository = MockEventRepository()) {
         self.eventRepository = repository
         loadEvents()
     }

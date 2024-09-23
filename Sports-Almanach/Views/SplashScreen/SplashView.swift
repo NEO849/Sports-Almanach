@@ -61,14 +61,14 @@ struct SplashView: View {
 
                     Spacer()
                 }
-            }
-            .navigationDestination(isPresented: $viewModel.showLoginView) {
-                LoginView()
-                    .environmentObject(UserViewModel())
-            }
-        }
-    }
-}
+                 }
+                 .navigationDestination(isPresented: $viewModel.showLoginView) {
+                     LoginView()
+                         .environmentObject(UserViewModel()) // Hier die richtige VM setzen
+                 }
+             }
+         }
+     }
 
 #Preview {
     SplashView()

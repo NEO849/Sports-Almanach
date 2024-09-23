@@ -8,6 +8,6 @@
 import Foundation
 
 /// Leichtere Hanghabung von MockDaten und API-Call
-protocol EventRepositoryProtocol {
+protocol EventRepository {
     func fetchEvents() -> [Event]
 }

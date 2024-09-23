@@ -14,25 +14,22 @@ struct HomeView: View {
     
     var body: some View {
         
-        NavigationStack {
+        ZStack {
+            Image("splashsporthintergrund")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
             
-            ZStack {
-                Image("splashsporthintergrund")
-                    .resizable()
-                    .scaledToFill()
-                    .edgesIgnoringSafeArea(.all)
+            VStack {
+                Text("Willkommen im Home-Bereich!")
+                    .font(.largeTitle)
                 
-                VStack {
-                    Text("Willkommen im Home-Bereich!")
-                        .font(.largeTitle)
-                    
-                }
             }
-            .navigationTitle("Home")
-            .navigationBarBackButtonHidden(true)
         }
+        .navigationBarBackButtonHidden(true)
     }
 }
+
 
 #Preview {
     HomeView()

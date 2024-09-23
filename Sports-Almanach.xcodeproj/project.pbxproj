@@ -29,9 +29,9 @@
 		F095C9062C8FB0A0002C94FD /* MockUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C9052C8FB0A0002C94FD /* MockUserRepository.swift */; };
 		F095C9092C8FB0DE002C94FD /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C9082C8FB0DE002C94FD /* EventViewModel.swift */; };
 		F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */; };
-		F0A0168A2CA08DD300C749E3 /* EventRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A016892CA08D1A00C749E3 /* EventRepositoryProtocol.swift */; };
+		F0A0168A2CA08DD300C749E3 /* EventRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A016892CA08D1A00C749E3 /* EventRepository.swift */; };
 		F0A0168C2CA09B4400C749E3 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A0168B2CA09B3900C749E3 /* UserError.swift */; };
-		F0A0168E2CA0B11F00C749E3 /* UserRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A0168D2CA0B11B00C749E3 /* UserRepositoryProtocol.swift */; };
+		F0A0168E2CA0B11F00C749E3 /* UserRepositoryl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A0168D2CA0B11B00C749E3 /* UserRepositoryl.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,9 +58,9 @@
 		F095C9052C8FB0A0002C94FD /* MockUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserRepository.swift; sourceTree = "<group>"; };
 		F095C9082C8FB0DE002C94FD /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
 		F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
-		F0A016892CA08D1A00C749E3 /* EventRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRepositoryProtocol.swift; sourceTree = "<group>"; };
+		F0A016892CA08D1A00C749E3 /* EventRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRepository.swift; sourceTree = "<group>"; };
 		F0A0168B2CA09B3900C749E3 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
-		F0A0168D2CA0B11B00C749E3 /* UserRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryProtocol.swift; sourceTree = "<group>"; };
+		F0A0168D2CA0B11B00C749E3 /* UserRepositoryl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryl.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,8 +227,8 @@
 		F0A016882CA08CFB00C749E3 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				F0A0168D2CA0B11B00C749E3 /* UserRepositoryProtocol.swift */,
-				F0A016892CA08D1A00C749E3 /* EventRepositoryProtocol.swift */,
+				F0A0168D2CA0B11B00C749E3 /* UserRepositoryl.swift */,
+				F0A016892CA08D1A00C749E3 /* EventRepository.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -316,7 +316,7 @@
 				F00CB7132C9E4228003D70E3 /* SplashViewModel.swift in Sources */,
 				F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */,
 				F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */,
-				F0A0168A2CA08DD300C749E3 /* EventRepositoryProtocol.swift in Sources */,
+				F0A0168A2CA08DD300C749E3 /* EventRepository.swift in Sources */,
 				F0A0168C2CA09B4400C749E3 /* UserError.swift in Sources */,
 				F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */,
 				F046287B2C88A757008FB346 /* ContentView.swift in Sources */,
@@ -331,7 +331,7 @@
 				F095C8FD2C8FAEE2002C94FD /* User.swift in Sources */,
 				F00CB7092C9CF4B4003D70E3 /* EventsView.swift in Sources */,
 				F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */,
-				F0A0168E2CA0B11F00C749E3 /* UserRepositoryProtocol.swift in Sources */,
+				F0A0168E2CA0B11F00C749E3 /* UserRepositoryl.swift in Sources */,
 				F095C9012C8FAF24002C94FD /* MockUser.swift in Sources */,
 				F00CB7162C9E480D003D70E3 /* SplashView.swift in Sources */,
 				F095C8F92C8FAE97002C94FD /* EventStatus.swift in Sources */,

@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MockEventRepository: EventRepositoryProtocol {
+class MockEventRepository: EventRepository {
     
     /// Gibt eine Liste von Mock-Events zurück
     func fetchEvents() -> [Event] {

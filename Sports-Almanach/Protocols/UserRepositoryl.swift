@@ -8,6 +8,6 @@
 import Foundation
 
 /// Leichtere Hanghabung von MockDaten Firebase
-protocol UserRepositoryProtocol {
+protocol UserRepository {
     func fetchUsers() -> [User]
 }
