@@ -14,21 +14,34 @@ struct HomeView: View {
     
     var body: some View {
         
-        ZStack {
-            Image("splashsporthintergrund")
-                .resizable()
-                .scaledToFill()
-                .edgesIgnoringSafeArea(.all)
+        NavigationStack {
             
-            VStack {
-                Text("Willkommen im Home-Bereich!")
-                    .font(.largeTitle)
-                
-            }
-        }
-        .navigationBarBackButtonHidden(true)
-    }
-}
+              ZStack {
+                  Image("splashsporthintergrund")
+                      .resizable()
+                      .scaledToFill()
+                      .edgesIgnoringSafeArea(.all)
+
+                  VStack {
+                      Text("Willkommen im Home-Bereich!")
+                          .font(.largeTitle)
+                  }
+              }
+              .navigationBarBackButtonHidden(true)
+              .toolbar {
+                  ToolbarItem(placement: .navigationBarTrailing) {
+                      Button(action: {
+                          userViewModel.signOut()
+                      }) {
+                          Image(systemName: "rectangle.portrait.and.arrow.right")
+                              .foregroundColor(.red)
+                      }
+                  }
+              }
+          }
+      }
+  }
+
 
 
 #Preview {
