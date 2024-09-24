@@ -10,7 +10,8 @@ import SwiftUI
 
 enum EventStatus: String, Codable, Identifiable, CaseIterable {
     
-    case scheduled 
+    case normal
+    case scheduled
     case postponed
     case locked
     case cancelled
@@ -21,6 +22,7 @@ enum EventStatus: String, Codable, Identifiable, CaseIterable {
     // Switch-Case
     var currentStatusGerman: String {
         switch self {
+        case .normal: return "Findet Statt"
         case .scheduled: return "Geplant"
         case .postponed: return "Verschoben"
         case .locked: return "Gesperrt"
@@ -31,6 +33,8 @@ enum EventStatus: String, Codable, Identifiable, CaseIterable {
     /// Gibt die Farbe für den Status zurück
     var color: Color {
         switch self {
+        case .normal:
+            return .white
         case .scheduled:
             return .green
         case .postponed:
@@ -38,7 +42,7 @@ enum EventStatus: String, Codable, Identifiable, CaseIterable {
         case .locked:
             return .red
         case .cancelled:
-            return .black
+            return .red
         }
     }
 }

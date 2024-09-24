@@ -26,7 +26,7 @@ struct MockEvents {
             stadion: "Anfield",
             thumbURL: "https://www.thesportsdb.com/images/media/event/thumb/mv7oni1565190477.jpg",
             videoURL: "https://www.youtube.com/watch?v=5WWOpHQ1yJo",
-            status: .locked,
+            status: .normal,
             homeWinOdds: 1.4,
             drawOdds: 4.0,
             awayWinOdds: 6.5
@@ -46,7 +46,7 @@ struct MockEvents {
             stadion: "Selhurst Park",
             thumbURL: "https://www.thesportsdb.com/images/media/event/thumb/xyz123.jpg",
             videoURL: "https://www.youtube.com/watch?v=abcd1234",
-            status: .locked,
+            status: .scheduled,
             homeWinOdds: 3.0,
             drawOdds: 3.5,
             awayWinOdds: 2.5
@@ -66,7 +66,7 @@ struct MockEvents {
             stadion: "Etihad Stadium",
             thumbURL: "https://www.thesportsdb.com/images/media/event/thumb/abc456.jpg",
             videoURL: "https://www.youtube.com/watch?v=efgh5678",
-            status: .locked,
+            status: .postponed,
             homeWinOdds: 2.0,
             drawOdds: 3.0,
             awayWinOdds: 4.0
@@ -86,7 +86,7 @@ struct MockEvents {
             stadion: "Stamford Bridge",
             thumbURL: "https://www.thesportsdb.com/images/media/event/thumb/def789.jpg",
             videoURL: "https://www.youtube.com/watch?v=ijkl9012",
-            status: .locked,  
+            status: .cancelled,
             homeWinOdds: 2.8,
             drawOdds: 3.2,
             awayWinOdds: 3.5

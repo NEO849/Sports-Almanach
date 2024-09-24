@@ -15,19 +15,21 @@ struct OddsCalculator {
         // Gesamte Tore berechnen
         let totalGoals = homeScore + awayScore
         
-        // Berechnung für Heimsieg
+        // Heimsieg
         let homeWinOdds = totalGoals > 0 ?
-            max(1.2, Double(awayScore + 1) / Double(homeScore + 1)) :  // Maximiert die Quote auf 1.2, um eine Basisquote sicherzustellen
-            2.0  // Wenn keine Tore gefallen sind, Rückgabe einer Standardquote von 2.0
+        max(1.2, Double(awayScore + 1) / Double(homeScore + 1)) :
+        2.0
         
-        // Berechnung für Auswärtssieg
+        // Auswärtssieg
         let awayWinOdds = totalGoals > 0 ?
-            max(1.2, Double(homeScore + 1) / Double(awayScore + 1)) : 2.5
+        max(1.2, Double(homeScore + 1) / Double(awayScore + 1)) :
+        2.5
         
-        // Wenn der Unterschied zwischen den Toren 1 oder weniger beträgt, ist die Quote für ein Unentschieden geringer
+        // UnentschiedenAuswärtssieg
         let drawOdds = abs(homeScore - awayScore) <= 1 ?
-            3.0 :  // Höhere Quote bei geringem
-            5.0    // Niedrigere Quote bei größerem Punktunterschied
+        3.0 :  // Geringer Torunterschied -> niedrigere Quote für Unentschieden
+        5.0    // Größerer Torunterschied -> höhere Quote für Unentschieden
+        
         
         // Ein Tupel mit den Wettquoten.
         return (homeWinOdds: homeWinOdds, drawOdds: drawOdds, awayWinOdds: awayWinOdds)
