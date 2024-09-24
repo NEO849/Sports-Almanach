@@ -32,6 +32,7 @@
 		F0A0168A2CA08DD300C749E3 /* EventRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A016892CA08D1A00C749E3 /* EventRepository.swift */; };
 		F0A0168C2CA09B4400C749E3 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A0168B2CA09B3900C749E3 /* UserError.swift */; };
 		F0A0168E2CA0B11F00C749E3 /* UserRepositoryl.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A0168D2CA0B11B00C749E3 /* UserRepositoryl.swift */; };
+		F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -61,6 +62,7 @@
 		F0A016892CA08D1A00C749E3 /* EventRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRepository.swift; sourceTree = "<group>"; };
 		F0A0168B2CA09B3900C749E3 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
 		F0A0168D2CA0B11B00C749E3 /* UserRepositoryl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryl.swift; sourceTree = "<group>"; };
+		F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsCalculator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +113,7 @@
 			isa = PBXGroup;
 			children = (
 				F04628782C88A757008FB346 /* Sports_AlmanachApp.swift */,
+				F095C90C2C8FD5B5002C94FD /* Utils */,
 				F0A016882CA08CFB00C749E3 /* Protocols */,
 				F095C8F32C89F71A002C94FD /* Enums */,
 				F095C8F42C89F725002C94FD /* Data */,
@@ -139,7 +142,6 @@
 				F00CB70C2C9CF732003D70E3 /* Register */,
 				F0A016852CA0893700C749E3 /* List */,
 				F0A016872CA089C400C749E3 /* Rows */,
-				F095C90C2C8FD5B5002C94FD /* Components */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -175,8 +177,8 @@
 		F095C8F72C8FAE74002C94FD /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				F095C8FA2C8FAEBC002C94FD /* Event.swift */,
 				F095C8FC2C8FAEE2002C94FD /* User.swift */,
+				F095C8FA2C8FAEBC002C94FD /* Event.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -199,11 +201,12 @@
 			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		F095C90C2C8FD5B5002C94FD /* Components */ = {
+		F095C90C2C8FD5B5002C94FD /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */,
 			);
-			path = Components;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		F0A016852CA0893700C749E3 /* List */ = {
@@ -236,8 +239,8 @@
 		F0A0168F2CA0B2A500C749E3 /* MockRepositories */ = {
 			isa = PBXGroup;
 			children = (
-				F095C9032C8FB084002C94FD /* MockEventRepository.swift */,
 				F095C9052C8FB0A0002C94FD /* MockUserRepository.swift */,
+				F095C9032C8FB084002C94FD /* MockEventRepository.swift */,
 			);
 			path = MockRepositories;
 			sourceTree = "<group>";
@@ -331,6 +334,7 @@
 				F095C8FD2C8FAEE2002C94FD /* User.swift in Sources */,
 				F00CB7092C9CF4B4003D70E3 /* EventsView.swift in Sources */,
 				F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */,
+				F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */,
 				F0A0168E2CA0B11F00C749E3 /* UserRepositoryl.swift in Sources */,
 				F095C9012C8FAF24002C94FD /* MockUser.swift in Sources */,
 				F00CB7162C9E480D003D70E3 /* SplashView.swift in Sources */,

@@ -7,22 +7,51 @@
 
 import Foundation
 
+/// Modell für ein Sportevent, basierend auf der API-Antwort
 struct Event: Identifiable, Codable {
     let id: String
     let name: String
+    let sport: String
+    let leagueName: String
+    let season: String
     let homeTeam: String
     let awayTeam: String
-    let date: Date
+    let homeScore: Int
+    let awayScore: Int
+    let date: String
     let time: String
-    let venue: String               // Ort, an dem das Event stattfindet
-    let official: String            // Schiedsrichter Name
+    let stadion: String
+    let thumbURL: String
+    let videoURL: String
+    
+    // In der Enum definiert
     let status: EventStatus
-    let homeTeamOdds: Double
+    
+    // Neue Felder für Wettquoten
+    let homeWinOdds: Double
     let drawOdds: Double
-    let awayTeamOdds: Double
-    let description: String         // Beschreibung des Events
-    let bannerURL: String           // Pfad zum Banner
-    let squareURL: String           // Pfad zum quadratischen Bild 
+    let awayWinOdds: Double
+    
+    /// Enum zur Zuordnung der JSON-Schlüssel zu den Modell-Attributen
+    enum CodingKeys: String, CodingKey {
+        case id = "idEvent"
+        case name = "strEvent"
+        case sport = "strSport"
+        case leagueName = "strLeague"
+        case season = "strSeason"
+        case homeTeam = "strHomeTeam"
+        case awayTeam = "strAwayTeam"
+        case homeScore = "intHomeScore"
+        case awayScore = "intAwayScore"
+        case date = "dateEvent"
+        case time = "strTime"
+        case stadion = "strVenue"
+        case thumbURL = "strThumb"
+        case videoURL = "strVideo"
+        case status
+        case homeWinOdds
+        case drawOdds
+        case awayWinOdds
+    }
 }
-
 
