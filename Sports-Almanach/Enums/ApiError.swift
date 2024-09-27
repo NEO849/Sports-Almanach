@@ -13,7 +13,6 @@ enum ApiError: Error, LocalizedError {
     case requestFailed
     case decodingFailed
 
-    // Durch Switch-Case, Fehlermeldung in Deutsch
     var errorDescriptionGerman: String? {
         switch self {
         case .invalidURL:
