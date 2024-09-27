@@ -14,7 +14,7 @@ struct EventRow: View {
     var body: some View {
         
         HStack {
-            // Thumbnail
+            // Thumbnail mit Ladebalken
             AsyncImage(url: URL(string: event.thumbURL)) { image in
                 image
                     .resizable()
@@ -22,7 +22,9 @@ struct EventRow: View {
                     .frame(width: 60, height: 60)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             } placeholder: {
-                ProgressView()
+                ProgressView() // Ladebalken während des Ladens
+                    .frame(width: 60, height: 60)
+                    .progressViewStyle(CircularProgressViewStyle(tint: .gray))
             }
             
             // Event Name, Datum/Uhrzeit
@@ -33,7 +35,7 @@ struct EventRow: View {
                 
                 HStack(spacing: 5) {
                     Text(event.date)
-                        .font(.caption) // Kleinere Schriftart
+                        .font(.caption) 
                         .foregroundColor(.gray)
                     
                     Text(event.time)
@@ -53,9 +55,6 @@ struct EventRow: View {
                     .background(event.status.color)
                     .cornerRadius(8)
                     .foregroundColor(.white)
-                
-                Image(systemName: "chevron.right")
-                    .foregroundColor(.gray)
             }
             .frame(width: 100)
         }

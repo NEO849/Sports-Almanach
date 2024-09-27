@@ -86,7 +86,7 @@ struct MockEvents {
             stadion: "Stamford Bridge",
             thumbURL: "https://www.thesportsdb.com/images/media/event/thumb/def789.jpg",
             videoURL: "https://www.youtube.com/watch?v=ijkl9012",
-            status: .cancelled,
+            status: .locked,  
             homeWinOdds: 2.8,
             drawOdds: 3.2,
             awayWinOdds: 3.5

@@ -13,129 +13,137 @@ struct EventDetailView: View {
     let event: Event
     
     var body: some View {
-        
-        ScrollView {
+        ZStack {
             
-            VStack(alignment: .leading, spacing: 20) {
-                
-                // Thumb-URL
-                AsyncImage(url: URL(string: event.thumbURL)) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(maxWidth: 300, maxHeight: 200)
-                        .cornerRadius(10)
-                        .shadow(radius: 5)
-                } placeholder: {
-                    ProgressView()
-                }
-                .frame(maxWidth: .infinity, alignment: .center)
-                
-                // Titel des Events
-                Text(event.name)
-                    .font(.largeTitle)
-                    .bold()
-                    .multilineTextAlignment(.center)
-                
-                // Datum und Uhrzeit
-                Text("Datum: \(event.date) um \(event.time)")
-                    .font(.headline)
-                
-                // Stadion
-                Text("Stadion: \(event.stadion)")
-                    .font(.subheadline)
-                    .foregroundColor(.gray)
-                
-                // Teams und Ergebnisse
-                HStack {
-                    // Heimmannschaft
-                    VStack {
-                        Text("Heimmannschaft")
-                            .font(.title2)
-                            .bold()
-                            .foregroundColor(.white)
-                        
-                        Text("\(event.homeTeam)")
-                            .font(.title3)
-                            .foregroundColor(.white)
-                        
-                        Text("Ergebnis: \(event.homeScore)")
-                            .font(.body)
-                            .foregroundColor(.white)
-                    }
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(RoundedRectangle(cornerRadius: 15)
-                                    .shadow(radius: 5))
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
                     
-                    Spacer(minLength: 20)
-                    
-                    // Auswärtsmannschaft
-                    VStack {
-                        Text("Auswärtsmannschaft")
-                            .font(.title2)
-                            .bold()
-                            .foregroundColor(.white)
-                        
-                        Text("\(event.awayTeam)")
-                            .font(.title3)
-                            .foregroundColor(.white)
-                        
-                        Text("Ergebnis: \(event.awayScore)")
-                            .font(.body)
-                            .foregroundColor(.white)
+                    // Thumbnail mit Ladebalken
+                    AsyncImage(url: URL(string: event.thumbURL)) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: 300, maxHeight: 200)
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
+                    } placeholder: {
+                        Image("errorimage")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(maxWidth: 300, maxHeight: 200)
+                            .cornerRadius(10)
+                            .shadow(radius: 5)
                     }
-                    .padding()
-                    .frame(maxWidth: .infinity)
-                    .background(RoundedRectangle(cornerRadius: 15)
-                                    .shadow(radius: 5))
-                }
-                .padding()
-                .overlay(
-                    RoundedRectangle(cornerRadius: 15)
-                        .stroke(Color.gray, lineWidth: 2)
-                )
-                
-                // Farbiger Text (deutsch) für den Status
-                Text(event.status.currentStatusGerman)
-                    .font(.headline)
-                    .padding()
-                    .background(event.status.color)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
-                
-                // Wettquoten-Anzeige
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("Wettquoten")
-                        .font(.title2)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    
+                    // Titel des Events
+                    Text(event.name)
+                        .font(.largeTitle)
                         .bold()
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.blue)
                     
-                    HStack {
-                        Text("Heimsieg:")
-                        Spacer()
-                        Text("\(String(format: "%.2f", event.homeWinOdds))")
-                    }
+                    // Datum und Uhrzeit
+                    Text("Datum: \(event.date) um \(event.time)")
+                        .font(.headline)
+                        .foregroundColor(.gray)
                     
-                    HStack {
-                        Text("Unentschieden:")
-                        Spacer()
-                        Text("\(String(format: "%.2f", event.drawOdds))")
-                    }
+                    // Stadion
+                    Text("Stadion: \(event.stadion)")
+                        .font(.subheadline)
+                        .foregroundColor(.gray)
                     
+                    // Teams und Ergebnisse
                     HStack {
-                        Text("Auswärtssieg:")
-                        Spacer()
-                        Text("\(String(format: "%.2f", event.awayWinOdds))")
+                        // Heimmannschaft
+                        VStack {
+                            Text("Heimmannschaft")
+                                .font(.title2)
+                                .bold()
+                                .foregroundColor(.white)
+                            
+                            Text("\(event.homeTeam)")
+                                .font(.title3)
+                                .foregroundColor(.white)
+                            
+                            Text("Ergebnis: \(event.homeScore)")
+                                .font(.body)
+                                .foregroundColor(.white)
+                        }
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(RoundedRectangle(cornerRadius: 15)
+                            .shadow(radius: 5))
+                        
+                        Spacer(minLength: 20)
+                        
+                        // Auswärtsmannschaft
+                        VStack {
+                            Text("Auswärtsmannschaft")
+                                .font(.title2)
+                                .bold()
+                                .foregroundColor(.white)
+                            
+                            Text("\(event.awayTeam)")
+                                .font(.title3)
+                                .foregroundColor(.white)
+                            
+                            Text("Ergebnis: \(event.awayScore)")
+                                .font(.body)
+                                .foregroundColor(.white)
+                        }
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(RoundedRectangle(cornerRadius: 15)
+                            .shadow(radius: 5))
                     }
+                    .padding()
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 15)
+                            .stroke(Color.gray, lineWidth: 2)
+                    )
+                    
+                    // Farbiger Text (deutsch) für den Status
+                    Text(event.status.currentStatusGerman)
+                        .font(.headline)
+                        .padding()
+                        .background(event.status.color)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                    
+                    // Wettquoten-Anzeige
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Wettquoten")
+                            .font(.title2)
+                            .bold()
+                        
+                        HStack {
+                            Text("Heimsieg:")
+                            Spacer()
+                            Text("\(String(format: "%.2f", event.homeWinOdds))")
+                        }
+                        
+                        HStack {
+                            Text("Unentschieden:")
+                            Spacer()
+                            Text("\(String(format: "%.2f", event.drawOdds))")
+                        }
+                        
+                        HStack {
+                            Text("Auswärtssieg:")
+                            Spacer()
+                            Text("\(String(format: "%.2f", event.awayWinOdds))")
+                        }
+                    }
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
+                    
+                    Spacer()
                 }
                 .padding()
-                .background(Color.gray.opacity(0.1))
-                .cornerRadius(10)
-                
-                Spacer()
+                .navigationTitle("Event Details")
             }
-            .padding()
-            .navigationTitle("Event Details")
         }
     }
 }

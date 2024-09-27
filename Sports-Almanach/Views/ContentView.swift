@@ -33,7 +33,7 @@ struct ContentView: View {
             
             FavoriteView()
                 .tabItem {
-                    Label("Infos", systemImage: "info.circle")
+                    Label("Favorits", systemImage: "heart.rectangle")
                 }
         }
     }
