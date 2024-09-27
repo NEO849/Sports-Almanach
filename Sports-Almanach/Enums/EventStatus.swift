@@ -34,9 +34,9 @@ enum EventStatus: String, Codable, Identifiable, CaseIterable {
     var color: Color {
         switch self {
         case .normal:
-            return .white
-        case .scheduled:
             return .green
+        case .scheduled:
+            return .black
         case .postponed:
             return .yellow
         case .locked:

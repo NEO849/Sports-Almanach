@@ -23,6 +23,7 @@
 		F05BC2BE2CA6A67F00562C51 /* Sport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2BD2CA6A67600562C51 /* Sport.swift */; };
 		F05BC2C02CA6A79B00562C51 /* League.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2BF2CA6A79700562C51 /* League.swift */; };
 		F05BC2C22CA6A85B00562C51 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2C12CA6A85400562C51 /* Season.swift */; };
+		F05BC2C52CA6AF9C00562C51 /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2C42CA6AF9500562C51 /* EventDetailView.swift */; };
 		F095C8F92C8FAE97002C94FD /* EventStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C8F82C8FAE97002C94FD /* EventStatus.swift */; };
 		F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C8FA2C8FAEBC002C94FD /* Event.swift */; };
 		F095C8FD2C8FAEE2002C94FD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C8FC2C8FAEE2002C94FD /* User.swift */; };
@@ -56,6 +57,7 @@
 		F05BC2BD2CA6A67600562C51 /* Sport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sport.swift; sourceTree = "<group>"; };
 		F05BC2BF2CA6A79700562C51 /* League.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = League.swift; sourceTree = "<group>"; };
 		F05BC2C12CA6A85400562C51 /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
+		F05BC2C42CA6AF9500562C51 /* EventDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailView.swift; sourceTree = "<group>"; };
 		F095C8F82C8FAE97002C94FD /* EventStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStatus.swift; sourceTree = "<group>"; };
 		F095C8FA2C8FAEBC002C94FD /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		F095C8FC2C8FAEE2002C94FD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 		F05BC2C32CA6AF2700562C51 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				F05BC2C42CA6AF9500562C51 /* EventDetailView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -227,12 +230,12 @@
 		F0A016852CA0893700C749E3 /* List */ = {
 			isa = PBXGroup;
 			children = (
-				F05BC2C32CA6AF2700562C51 /* Components */,
 				F00CB7042C9CF430003D70E3 /* HomeView.swift */,
 				F00CB7062C9CF47F003D70E3 /* BetView.swift */,
 				F00CB7082C9CF4AF003D70E3 /* EventsView.swift */,
 				F00CB70A2C9CF51A003D70E3 /* FavoriteView.swift */,
 				F0A016872CA089C400C749E3 /* Rows */,
+				F05BC2C32CA6AF2700562C51 /* Components */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -352,6 +355,7 @@
 				F095C8FD2C8FAEE2002C94FD /* User.swift in Sources */,
 				F05BC2BE2CA6A67F00562C51 /* Sport.swift in Sources */,
 				F05BC2C22CA6A85B00562C51 /* Season.swift in Sources */,
+				F05BC2C52CA6AF9C00562C51 /* EventDetailView.swift in Sources */,
 				F00CB7092C9CF4B4003D70E3 /* EventsView.swift in Sources */,
 				F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */,
 				F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */,
