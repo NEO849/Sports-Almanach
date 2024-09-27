@@ -24,6 +24,7 @@
 		F05BC2C02CA6A79B00562C51 /* League.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2BF2CA6A79700562C51 /* League.swift */; };
 		F05BC2C22CA6A85B00562C51 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2C12CA6A85400562C51 /* Season.swift */; };
 		F05BC2C52CA6AF9C00562C51 /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2C42CA6AF9500562C51 /* EventDetailView.swift */; };
+		F05BC2C72CA6B3C200562C51 /* EventRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2C62CA6B3BB00562C51 /* EventRow.swift */; };
 		F095C8F92C8FAE97002C94FD /* EventStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C8F82C8FAE97002C94FD /* EventStatus.swift */; };
 		F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C8FA2C8FAEBC002C94FD /* Event.swift */; };
 		F095C8FD2C8FAEE2002C94FD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C8FC2C8FAEE2002C94FD /* User.swift */; };
@@ -58,6 +59,7 @@
 		F05BC2BF2CA6A79700562C51 /* League.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = League.swift; sourceTree = "<group>"; };
 		F05BC2C12CA6A85400562C51 /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
 		F05BC2C42CA6AF9500562C51 /* EventDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailView.swift; sourceTree = "<group>"; };
+		F05BC2C62CA6B3BB00562C51 /* EventRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRow.swift; sourceTree = "<group>"; };
 		F095C8F82C8FAE97002C94FD /* EventStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStatus.swift; sourceTree = "<group>"; };
 		F095C8FA2C8FAEBC002C94FD /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		F095C8FC2C8FAEE2002C94FD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 		F0A016872CA089C400C749E3 /* Rows */ = {
 			isa = PBXGroup;
 			children = (
+				F05BC2C62CA6B3BB00562C51 /* EventRow.swift */,
 			);
 			path = Rows;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				F0A0168A2CA08DD300C749E3 /* EventRepository.swift in Sources */,
 				F0A0168C2CA09B4400C749E3 /* UserError.swift in Sources */,
 				F05BC2C02CA6A79B00562C51 /* League.swift in Sources */,
+				F05BC2C72CA6B3C200562C51 /* EventRow.swift in Sources */,
 				F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */,
 				F046287B2C88A757008FB346 /* ContentView.swift in Sources */,
 				F095C9062C8FB0A0002C94FD /* MockUserRepository.swift in Sources */,
