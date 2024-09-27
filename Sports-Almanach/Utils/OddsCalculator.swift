@@ -25,7 +25,7 @@ struct OddsCalculator {
         max(1.2, Double(homeScore + 1) / Double(awayScore + 1)) :
         2.5
         
-        // UnentschiedenAuswärtssieg
+        // Unentschieden
         let drawOdds = abs(homeScore - awayScore) <= 1 ?
         3.0 :  // Geringer Torunterschied -> niedrigere Quote für Unentschieden
         5.0    // Größerer Torunterschied -> höhere Quote für Unentschieden
