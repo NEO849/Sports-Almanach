@@ -94,15 +94,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		F00CB70C2C9CF732003D70E3 /* Register */ = {
-			isa = PBXGroup;
-			children = (
-				F00CB70D2C9CF747003D70E3 /* LoginView.swift */,
-				F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */,
-			);
-			path = Register;
-			sourceTree = "<group>";
-		};
 		F046286C2C88A757008FB346 = {
 			isa = PBXGroup;
 			children = (
@@ -157,6 +148,8 @@
 			isa = PBXGroup;
 			children = (
 				F00CB7152C9E47FC003D70E3 /* SplashView.swift */,
+				F00CB70D2C9CF747003D70E3 /* LoginView.swift */,
+				F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -166,7 +159,6 @@
 			children = (
 				F046287A2C88A757008FB346 /* ContentView.swift */,
 				F05BC2CE2CA7E0C500562C51 /* Onboarding */,
-				F00CB70C2C9CF732003D70E3 /* Register */,
 				F0A016852CA0893700C749E3 /* List */,
 			);
 			path = Views;

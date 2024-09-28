@@ -21,41 +21,51 @@ struct SplashView: View {
             ZStack {
                 // Überprüft ob die Video-URL existiert
                 if let videoURL = Bundle.main.url(forResource: "splashintro", withExtension: "mp4") {
-                    // VideoPlayer mit AVPlayer initialisieren und Starten
+                    // VP mit AVPlayer initial. und Starten
                     VideoPlayer(player: player ?? AVPlayer(url: videoURL))
                         .onAppear {
                             player = AVPlayer(url: videoURL)
                             player?.play()
                             
                             // Navigation auslösen
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.5) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
                                 showLoginView = true
                             }
                         }
                         .edgesIgnoringSafeArea(.all)
                 } else {
                     ProgressView()
-                        .scaleEffect(5.0, anchor: .center)
+                        .scaleEffect(3.5, anchor: .center)
                         .foregroundColor(.orange)
                 }
                 
                 VStack {
                     Spacer()
-                    
-                    // Text am unteren Rand
-                    Text("@ 2024 Michael F. J. AI-Data-F3 Team\nVersion 1.0.1")
-                        .font(.footnote)
-                        .foregroundColor(.orange)
-                        .padding(.horizontal, 20)
-                        .padding(.vertical, 10)
+                    HStack {
+                        VStack(alignment: .center) {
+                            Text("@ 2024 Michael F. J. / AI-Data-F3 Team")
+                                .font(.footnote)
+                                .foregroundColor(.orange)
+                                .padding(.horizontal, 10)
+                                .padding(.top, 10)
+                                .padding(.bottom, 5)
+                            
+                            Text("Version 1.0.1")
+                                .font(.footnote)
+                                .foregroundColor(.orange)
+                                .padding(.bottom, 10)
+                        }
                         .background(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.orange, lineWidth: 1)
                         )
-                        .padding(.bottom, 20)
+                        .padding(.horizontal, 20)
+                        .padding(.bottom, 12)
+                    }
                 }
             }
             .navigationDestination(isPresented: $showLoginView) {
+                // Wenn showLoginView true
                 LoginView()
                     .environmentObject(UserViewModel())
             }
@@ -66,7 +76,7 @@ struct SplashView: View {
 #Preview {
     SplashView()
         .environmentObject(SplashViewModel())
-    // Für Vorschau zur nächsten View
+        // Vorschau zur LoginView
         .environmentObject(UserViewModel())
         .environmentObject(EventViewModel())
 }
