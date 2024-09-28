@@ -13,6 +13,7 @@ struct Event: Identifiable, Codable {
     let name: String
     let sport: String
     let leagueName: String
+    let leagueImage: String
     let season: String
     let homeTeam: String
     let awayTeam: String
@@ -21,16 +22,11 @@ struct Event: Identifiable, Codable {
     let date: String
     let time: String
     let stadion: String
-    let thumbURL: String
+    let image: String
     let videoURL: String
     
     // In der Enum definiert
     let status: EventStatus
-    
-    // Neue Felder für Wettquoten
-    let homeWinOdds: Double
-    let drawOdds: Double
-    let awayWinOdds: Double
     
     /// Enum zur Zuordnung der JSON-Schlüssel zu den Modell-Attributen
     enum CodingKeys: String, CodingKey {
@@ -38,6 +34,7 @@ struct Event: Identifiable, Codable {
         case name = "strEvent"
         case sport = "strSport"
         case leagueName = "strLeague"
+        case leagueImage = "strLeagueBadge"
         case season = "strSeason"
         case homeTeam = "strHomeTeam"
         case awayTeam = "strAwayTeam"
@@ -46,12 +43,9 @@ struct Event: Identifiable, Codable {
         case date = "dateEvent"
         case time = "strTime"
         case stadion = "strVenue"
-        case thumbURL = "strThumb"
+        case image = "strThumb"
         case videoURL = "strVideo"
         case status
-        case homeWinOdds
-        case drawOdds
-        case awayWinOdds
     }
 }
 

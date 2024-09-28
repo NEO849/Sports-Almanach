@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BetOddsRow: View {
+struct OddsRow: View {
     
     let event: Event
     
@@ -42,17 +42,25 @@ struct BetOddsRow: View {
         .padding()
         .background(Color.gray.opacity(0.1))
         .cornerRadius(10)
+        .frame(maxWidth: .infinity, alignment: .center) // Vertical Mittig
         
         Spacer()
-        
     }
 }
 
-struct OddsRow_Previews: PreviewProvider {
-    static var previews: some View {
-        let mockEvent = MockEvents.events.first!
-        return BetOddsRow(event: mockEvent)
-            .padding()
-            .environmentObject(EventViewModel(repository: MockEventRepository()))
-    }
+#Preview {
+    let mockEvent = MockEvents.events.first!
+    return OddsRow(event: mockEvent)
+        .padding()
+        .environmentObject(EventViewModel(repository: MockEventRepository()))
+    
 }
+
+//struct OddsRow_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let mockEvent = MockEvents.events.first!
+//        return OddsRow(event: mockEvent)
+//            .padding()
+//            .environmentObject(EventViewModel(repository: MockEventRepository()))
+//    }
+//}

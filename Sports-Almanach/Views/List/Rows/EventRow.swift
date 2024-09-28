@@ -14,20 +14,20 @@ struct EventRow: View {
     var body: some View {
         
         HStack {
-            // Thumbnail mit Ladebalken
-            AsyncImage(url: URL(string: event.thumbURL)) { image in
+            // Event-Image (Thumbnail) mit Ladebalken
+            AsyncImage(url: URL(string: event.image)) { image in
                 image
                     .resizable()
                     .scaledToFill()
                     .frame(width: 60, height: 60)
                     .clipShape(RoundedRectangle(cornerRadius: 10))
             } placeholder: {
-                ProgressView() // Ladebalken während des Ladens
+                ProgressView()
                     .frame(width: 60, height: 60)
                     .progressViewStyle(CircularProgressViewStyle(tint: .gray))
             }
             
-            // Event Name, Datum/Uhrzeit
+            // Name, Datum/Uhrzeit
             VStack(alignment: .leading) {
                 Text(event.name)
                     .font(.headline)

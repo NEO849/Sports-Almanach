@@ -25,6 +25,9 @@
 		F05BC2C22CA6A85B00562C51 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2C12CA6A85400562C51 /* Season.swift */; };
 		F05BC2C52CA6AF9C00562C51 /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2C42CA6AF9500562C51 /* EventDetailView.swift */; };
 		F05BC2C72CA6B3C200562C51 /* EventRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2C62CA6B3BB00562C51 /* EventRow.swift */; };
+		F05BC2C92CA732ED00562C51 /* BetOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2C82CA732EA00562C51 /* BetOutcome.swift */; };
+		F05BC2CB2CA7339F00562C51 /* BetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2CA2CA7339500562C51 /* BetViewModel.swift */; };
+		F05BC2CD2CA7B1AB00562C51 /* OddsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */; };
 		F095C8F92C8FAE97002C94FD /* EventStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C8F82C8FAE97002C94FD /* EventStatus.swift */; };
 		F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C8FA2C8FAEBC002C94FD /* Event.swift */; };
 		F095C8FD2C8FAEE2002C94FD /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C8FC2C8FAEE2002C94FD /* User.swift */; };
@@ -60,6 +63,9 @@
 		F05BC2C12CA6A85400562C51 /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
 		F05BC2C42CA6AF9500562C51 /* EventDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailView.swift; sourceTree = "<group>"; };
 		F05BC2C62CA6B3BB00562C51 /* EventRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRow.swift; sourceTree = "<group>"; };
+		F05BC2C82CA732EA00562C51 /* BetOutcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetOutcome.swift; sourceTree = "<group>"; };
+		F05BC2CA2CA7339500562C51 /* BetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetViewModel.swift; sourceTree = "<group>"; };
+		F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsRow.swift; sourceTree = "<group>"; };
 		F095C8F82C8FAE97002C94FD /* EventStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStatus.swift; sourceTree = "<group>"; };
 		F095C8FA2C8FAEBC002C94FD /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		F095C8FC2C8FAEE2002C94FD /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -93,14 +99,6 @@
 				F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */,
 			);
 			path = Register;
-			sourceTree = "<group>";
-		};
-		F00CB7142C9E47DF003D70E3 /* SplashScreen */ = {
-			isa = PBXGroup;
-			children = (
-				F00CB7152C9E47FC003D70E3 /* SplashView.swift */,
-			);
-			path = SplashScreen;
 			sourceTree = "<group>";
 		};
 		F046286C2C88A757008FB346 = {
@@ -147,6 +145,7 @@
 		F05BC2C32CA6AF2700562C51 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				F00CB7152C9E47FC003D70E3 /* SplashView.swift */,
 				F05BC2C42CA6AF9500562C51 /* EventDetailView.swift */,
 			);
 			path = Components;
@@ -156,7 +155,6 @@
 			isa = PBXGroup;
 			children = (
 				F046287A2C88A757008FB346 /* ContentView.swift */,
-				F00CB7142C9E47DF003D70E3 /* SplashScreen */,
 				F00CB70C2C9CF732003D70E3 /* Register */,
 				F0A016852CA0893700C749E3 /* List */,
 			);
@@ -169,6 +167,7 @@
 				F0A0168B2CA09B3900C749E3 /* UserError.swift */,
 				F00CB7022C9CEEF9003D70E3 /* ApiError.swift */,
 				F095C8F82C8FAE97002C94FD /* EventStatus.swift */,
+				F05BC2C82CA732EA00562C51 /* BetOutcome.swift */,
 				F05BC2BD2CA6A67600562C51 /* Sport.swift */,
 				F05BC2BF2CA6A79700562C51 /* League.swift */,
 				F05BC2C12CA6A85400562C51 /* Season.swift */,
@@ -214,9 +213,10 @@
 		F095C9072C8FB0C2002C94FD /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				F00CB7122C9E421D003D70E3 /* SplashViewModel.swift */,
 				F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */,
 				F095C9082C8FB0DE002C94FD /* EventViewModel.swift */,
-				F00CB7122C9E421D003D70E3 /* SplashViewModel.swift */,
+				F05BC2CA2CA7339500562C51 /* BetViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -246,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				F05BC2C62CA6B3BB00562C51 /* EventRow.swift */,
+				F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */,
 			);
 			path = Rows;
 			sourceTree = "<group>";
@@ -348,6 +349,7 @@
 				F05BC2C72CA6B3C200562C51 /* EventRow.swift in Sources */,
 				F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */,
 				F046287B2C88A757008FB346 /* ContentView.swift in Sources */,
+				F05BC2CD2CA7B1AB00562C51 /* OddsRow.swift in Sources */,
 				F095C9062C8FB0A0002C94FD /* MockUserRepository.swift in Sources */,
 				F00CB70E2C9CF74E003D70E3 /* LoginView.swift in Sources */,
 				F095C9092C8FB0DE002C94FD /* EventViewModel.swift in Sources */,
@@ -357,6 +359,7 @@
 				F095C9042C8FB084002C94FD /* MockEventRepository.swift in Sources */,
 				F04628792C88A757008FB346 /* Sports_AlmanachApp.swift in Sources */,
 				F095C8FD2C8FAEE2002C94FD /* User.swift in Sources */,
+				F05BC2C92CA732ED00562C51 /* BetOutcome.swift in Sources */,
 				F05BC2BE2CA6A67F00562C51 /* Sport.swift in Sources */,
 				F05BC2C22CA6A85B00562C51 /* Season.swift in Sources */,
 				F05BC2C52CA6AF9C00562C51 /* EventDetailView.swift in Sources */,
@@ -365,6 +368,7 @@
 				F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */,
 				F0A0168E2CA0B11F00C749E3 /* UserRepositoryl.swift in Sources */,
 				F095C9012C8FAF24002C94FD /* MockUser.swift in Sources */,
+				F05BC2CB2CA7339F00562C51 /* BetViewModel.swift in Sources */,
 				F00CB7162C9E480D003D70E3 /* SplashView.swift in Sources */,
 				F095C8F92C8FAE97002C94FD /* EventStatus.swift in Sources */,
 			);
