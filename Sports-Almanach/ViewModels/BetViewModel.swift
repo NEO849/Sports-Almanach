@@ -12,9 +12,9 @@ class BetViewModel: ObservableObject {
     @Published var user: User
     @Published var selectedEvent: Event?          // Ausgewähltes Event für die Wette
     @Published var betAmount: Double = 0.0        // Wetteinsatz
-    @Published var betResultMessage: String? // Nachricht nach der Wette
-    @Published var newBalance: Double = 0.0 // Neuer Kontostand nach der Wette
-    @Published var betOutcomeResult: BetOutcome? // Ergebnis der Wette 
+    @Published var betResultMessage: String?      // Nachricht nach der Wette
+    @Published var newBalance: Double = 0.0       // Neuer Kontostand nach der Wette
+    @Published var betOutcomeResult: BetOutcome?  // Status-ergebnis der Wette
     @Published var showBetResult: Bool = false
 
     init(user: User) {
