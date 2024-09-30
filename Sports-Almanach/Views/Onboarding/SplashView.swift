@@ -10,7 +10,6 @@ import AVKit
 
 struct SplashView: View {
     
-    @StateObject private var viewModel = SplashViewModel()
     @State private var showLoginView = false
     @State private var player: AVPlayer? // Für AVPlayer
     
@@ -75,8 +74,6 @@ struct SplashView: View {
 
 #Preview {
     SplashView()
-        .environmentObject(SplashViewModel())
-        // Vorschau zur LoginView
         .environmentObject(UserViewModel())
         .environmentObject(EventViewModel())
 }
