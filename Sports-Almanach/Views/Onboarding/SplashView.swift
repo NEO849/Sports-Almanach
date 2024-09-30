@@ -27,14 +27,14 @@ struct SplashView: View {
                             player?.play()
                             
                             // Navigation auslösen
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.3) {
                                 showLoginView = true
                             }
                         }
                         .edgesIgnoringSafeArea(.all)
                 } else {
                     ProgressView()
-                        .scaleEffect(3.5, anchor: .center)
+                        .scaleEffect(3.3, anchor: .center)
                         .foregroundColor(.orange)
                 }
                 
