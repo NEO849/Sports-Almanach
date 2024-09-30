@@ -19,7 +19,7 @@ struct LoginView: View {
          NavigationStack {
              
              ZStack {
-                 Image("loginregisterimage")
+                 Image("hintergrund")
                      .resizable()
                      .scaledToFill()
                      .edgesIgnoringSafeArea(.all)

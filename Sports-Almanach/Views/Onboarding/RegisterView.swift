@@ -24,7 +24,7 @@ struct RegisterView: View {
      var body: some View {
 
          ZStack {
-             Image("loginregisterimage")
+             Image("hintergrund")
                  .resizable()
                  .scaledToFill()
                  .edgesIgnoringSafeArea(.all)
