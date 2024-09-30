@@ -26,7 +26,7 @@ struct Event: Identifiable, Codable {
     let videoURL: String
     
     // In der Enum definiert
-    let status: EventStatus
+    var status: EventStatus = .started // Am anfang immer Grün
     
     /// Enum zur Zuordnung der JSON-Schlüssel zu den Modell-Attributen
     enum CodingKeys: String, CodingKey {

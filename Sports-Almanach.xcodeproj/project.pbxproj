@@ -181,8 +181,8 @@
 		F095C8F42C89F725002C94FD /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				F095C8F62C8FAE58002C94FD /* MockData */,
 				F095C8F72C8FAE74002C94FD /* Models */,
+				F095C8F62C8FAE58002C94FD /* MockData */,
 			);
 			path = Data;
 			sourceTree = "<group>";

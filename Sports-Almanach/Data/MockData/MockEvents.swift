@@ -45,7 +45,7 @@ struct MockEvents {
             stadion: "Selhurst Park",
             image: "https://www.thesportsdb.com/images/media/event/thumb/cgbjmr1565361856.jpg",
             videoURL: "https://www.youtube.com/watch?v=VuEb0SzUNaI",
-            status: .started
+            status: .inProgress
         ),
         Event(
             id: "602131",
@@ -62,8 +62,7 @@ struct MockEvents {
             time: "17:00:00",
             stadion: "Etihad Stadium",
             image: "https://www.thesportsdb.com/images/media/event/thumb/5rncnc1566644537.jpg",
-            videoURL: "https://www.youtube.com/watch?v=efgh5678",
-            status: .inProgress
+            videoURL: "https://www.youtube.com/watch?v=efgh5678"
         ),
         Event(
             id: "602132",
@@ -80,8 +79,7 @@ struct MockEvents {
             time: "19:00:00",
             stadion: "Anfield",
             image: "https://www.thesportsdb.com/images/media/event/thumb/ibh8sg1565615267.jpg",
-            videoURL: "https://www.youtube.com/watch?v=WzGN6uWqwQ4",
-            status: .postponed
+            videoURL: "https://www.youtube.com/watch?v=WzGN6uWqwQ4"
         ),
         Event(
             id: "602133",
@@ -98,8 +96,7 @@ struct MockEvents {
             time: "16:00:00",
             stadion: "Selhurst Park",
             image: "https://www.thesportsdb.com/images/media/event/thumb/4i0t7z1565391099.jpg",
-            videoURL: "https://www.youtube.com/watch?v=DvEz6wC4r5w",
-            status: .locked
+            videoURL: "https://www.youtube.com/watch?v=DvEz6wC4r5w"
         ),
         Event(
             id: "602134",
@@ -116,8 +113,7 @@ struct MockEvents {
             time: "17:00:00",
             stadion: "Etihad Stadium",
             image: "https://www.thesportsdb.com/images/media/event/thumb/uq2d001566644674.jpg",
-            videoURL: "https://www.youtube.com/watch?v=EQe4D70MG3o",
-            status: .cancelled
+            videoURL: "https://www.youtube.com/watch?v=EQe4D70MG3o"
         ),
         Event(
             id: "602135",
@@ -134,8 +130,7 @@ struct MockEvents {
             time: "17:00:00",
             stadion: "Etihad Stadium",
             image: "https://www.thesportsdb.com/images/media/event/thumb/eoxk8v1565427742.jpg",
-            videoURL: "https://www.youtube.com/watch?v=wthyUDmO1XU",
-            status: .started
+            videoURL: "https://www.youtube.com/watch?v=wthyUDmO1XU"
         )
     ]
 }
