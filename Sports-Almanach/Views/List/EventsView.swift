@@ -48,7 +48,7 @@ struct EventsView: View {
                     .background(Color.white)
                     .padding()
                     
-                    // Saisons
+                    // Saison
                     Picker("Saison", selection: $selectedSeason) {
                         ForEach(Season.allCases) { season in
                             Text(season.year).tag(season)
@@ -61,19 +61,26 @@ struct EventsView: View {
                     
                     List(eventViewModel.events) { event in
                         NavigationLink(destination: EventDetailView(event: event)) {
-                            EventRow(event: event) // Für jedes Event anzeigen
-                                .buttonStyle(PlainButtonStyle())
+                            HStack {
+                                EventRow(event: event) // Iterriert durch
+                                
+                                Spacer() // Zwischen Row & Pfeil
+                                
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.white)
+                            }
+                            .padding(.vertical, 10)
                         }
                         .listRowBackground(Color.clear)
                     }
                     .listStyle(PlainListStyle())
-                    .background(Color.clear)
-                    .navigationTitle("Events")
+                    .navigationTitle(" ")
                 }
             }
         }
     }
 }
+
 
 #Preview {
     let mockEventViewModel = EventViewModel(repository: MockEventRepository())

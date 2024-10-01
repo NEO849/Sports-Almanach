@@ -14,39 +14,40 @@ struct HomeView: View {
     
     var body: some View {
         
-        ZStack {
-             Image("hintergrund")
-                 .resizable()
-                 .scaledToFill()
-                 .edgesIgnoringSafeArea(.all)
-
-             VStack {
-                 HStack {
-                     Spacer()
-                     Button(action: {
-                         userViewModel.signOut()
-                     }) {
-                         Image(systemName: "rectangle.portrait.and.arrow.right")
-                             .foregroundColor(.white)
-                             .padding()
-                     }
-                 }
-                 .padding()
-
-                 Spacer()
-
-                Text("HomeView")
-                    .font(.largeTitle)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.clear)
-                    .contentShape(Rectangle())
+        NavigationStack {
+            ZStack {
+                Image("hintergrund")
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
+                
+                VStack {
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            userViewModel.signOut()
+                        }) {
+                            Image(systemName: "rectangle.portrait.and.arrow.right")
+                                .foregroundColor(.white)
+                                .padding()
+                        }
+                    }
+                    .padding()
+                    
+                    Spacer()
+                    
+                    Text("HomeView")
+                        .font(.largeTitle)
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(Color.clear)
+                        .contentShape(Rectangle())
+                }
             }
+            .navigationBarBackButtonHidden(true)
         }
-        .navigationBarBackButtonHidden(true)
     }
 }
-
 
 #Preview {
     HomeView()
