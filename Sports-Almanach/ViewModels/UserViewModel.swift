@@ -50,10 +50,10 @@ class UserViewModel: ObservableObject {
 
         // Ob der Benutzer gültig ist
         if validateUser(user: newUser) {
-            users.append(newUser)  // Fügt den Benutzer der Liste hinzu
-            isRegistered = true    // Status auf true, wegen Navigation in der RegisterView
+            users.append(newUser)  // Benutzer zur Liste
+            isRegistered = true    // Wegen Navi zur ConViewView
         } else {
-            errorMessage = UserError.tooYoung.errorDescription
+            errorMessage = UserError.tooYoung.errorDescriptionGerman
         }
     }
     
