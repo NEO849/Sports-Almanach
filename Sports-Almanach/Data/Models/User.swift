@@ -14,9 +14,4 @@ struct User: Identifiable, Codable {
     let password: String
     let startMoney: Double
     let birthday: Date
-    
-    // Benutzer gelten als gleich, wenn ihre ID übereinstimmen
-    static func == (lhs: User, rhs: User) -> Bool {
-        return lhs.email == rhs.email
-    }
 }

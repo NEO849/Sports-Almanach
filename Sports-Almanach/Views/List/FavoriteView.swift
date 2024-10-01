@@ -14,21 +14,24 @@ struct FavoriteView: View {
         NavigationStack {
             
             ZStack {
-                Image("splashsporthintergrund")
+                Image("hintergrund")
                     .resizable()
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
-
-                VStack {
-                    Text("Hier werden ihre Favoriten Events gespeichert.")
-                        .font(.largeTitle)
-                        .padding()
-                }
+                
+                Text("Favorit Spiele")
+                    .font(.largeTitle)
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .background(Color.clear)
+                    .contentShape(Rectangle())
             }
-            .navigationTitle("Favorits")
+            
         }
     }
 }
+
+
 
 #Preview {
     FavoriteView()

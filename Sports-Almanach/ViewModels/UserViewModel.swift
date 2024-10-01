@@ -41,7 +41,9 @@ class UserViewModel: ObservableObject {
     /// Rregistrierung
     func signUp(username: String, email: String, password: String, passwordRepeat: String, amount: Double, birthdate: Date) {
         // Überprüft Eingaben (E-Mail und Passwort)
+        print("Starten vom SignUp process...")
         guard isValidateEmailAndPassword(email: email, password: password, passwordRepeat: passwordRepeat) else {
+            print("Email oder Password validations Fehler.")
             return
         }
         
@@ -54,6 +56,7 @@ class UserViewModel: ObservableObject {
             isRegistered = true    // Wegen Navi zur ConViewView
         } else {
             errorMessage = UserError.tooYoung.errorDescriptionGerman
+            print("User validations Fehler: \(errorMessage ?? "")")
         }
     }
     

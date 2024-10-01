@@ -36,11 +36,14 @@ struct ContentView: View {
                     Label("Favorits", systemImage: "heart.rectangle")
                 }
         }
+        
     }
 }
+
 
 #Preview {
     ContentView()
         .environmentObject(UserViewModel())
         .environmentObject(EventViewModel())
 }
+

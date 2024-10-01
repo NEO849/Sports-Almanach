@@ -13,13 +13,20 @@ struct BetView: View {
     @EnvironmentObject var eventViewModel: EventViewModel
     
     var body: some View {
+        
+        ZStack {
+            Image("hintergrund")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
             
-            VStack {
-                Text("Wettoptionen werden hier angezeigt.")
-                    .font(.largeTitle)
-                    .padding()
-                /// TO DO
-            }
+            Text("Wettoptionen")
+                .font(.largeTitle)
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.clear)
+                .contentShape(Rectangle())
+        }
     }
 }
 

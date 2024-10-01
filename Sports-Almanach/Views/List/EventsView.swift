@@ -19,10 +19,11 @@ struct EventsView: View {
     var body: some View {
         
         NavigationStack {
-            
             ZStack {
-            
-                Color.clear
+                Image("hintergrund")
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
                 
                 VStack {
                     // Sportarten
@@ -33,8 +34,9 @@ struct EventsView: View {
                     }
                     .pickerStyle(WheelPickerStyle())
                     .frame(height: 44)
+                    .background(Color.white)
                     .padding()
-
+                    
                     // Ligen
                     Picker("Liga", selection: $selectedLeague) {
                         ForEach(League.allCases) { league in
@@ -43,8 +45,9 @@ struct EventsView: View {
                     }
                     .pickerStyle(WheelPickerStyle())
                     .frame(height: 44)
+                    .background(Color.white)
                     .padding()
-
+                    
                     // Saisons
                     Picker("Saison", selection: $selectedSeason) {
                         ForEach(Season.allCases) { season in
@@ -53,14 +56,15 @@ struct EventsView: View {
                     }
                     .pickerStyle(WheelPickerStyle())
                     .frame(height: 44)
+                    .background(Color.white)
                     .padding()
-
+                    
                     List(eventViewModel.events) { event in
                         NavigationLink(destination: EventDetailView(event: event)) {
                             EventRow(event: event) // Für jedes Event anzeigen
                                 .buttonStyle(PlainButtonStyle())
                         }
-                        .listRowBackground(Color.clear) 
+                        .listRowBackground(Color.clear)
                     }
                     .listStyle(PlainListStyle())
                     .background(Color.clear)
