@@ -13,6 +13,7 @@ struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
+    @State private var showAlert: Bool = false
     
     var body: some View {
         
@@ -99,7 +100,10 @@ struct LoginView: View {
                     // Login
                     Button(action: {
                         userViewModel.signIn(email: email, password: password)
-                    }) {
+                                        if userViewModel.errorMessage != nil {
+                                            showAlert = true // Bei Fehler Alert
+                                        }
+                                    }) {
                         Text("LOGIN")
                             .font(.headline)
                             .foregroundColor(.white)
@@ -109,7 +113,7 @@ struct LoginView: View {
                     }
                     .padding(.bottom, 64)
                     
-                    // Registrierung
+                    // Zur Registrierung
                     HStack {
                         Text("Noch keinen Account?")
                             .foregroundColor(.white)
@@ -151,11 +155,18 @@ struct LoginView: View {
             .navigationDestination(isPresented: $userViewModel.isLoggedIn) {
                 ContentView()
                     .environmentObject(userViewModel)
-                    .navigationBarBackButtonHidden(true)
+                    .navigationBarBackButtonHidden(true) // ConView kein Back Btn
             }
-        }
-    }
-}
+            .alert(isPresented: $showAlert) {
+                   Alert(
+                       title: Text("Fehler"),
+                       message: Text(userViewModel.errorMessage ?? "Unbekannter Fehler"),
+                       dismissButton: .default(Text("OK"))
+                   )
+               }
+           }
+       }
+   }
 
 
 #Preview {

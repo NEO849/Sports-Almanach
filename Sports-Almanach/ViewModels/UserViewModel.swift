@@ -29,12 +29,12 @@ class UserViewModel: ObservableObject {
     
     /// Anmeldung anhand von E-Mail und Passwort
     func signIn(email: String, password: String) {
-        // Ob der Benutzer mit der E-Mail existiert
-        if let user = users.first(where: { $0.email == email }) {
+        if let user = users.first(where: { $0.email == email && $0.password == password }) {
             print("Benutzer angemeldet: \(user.name)")
-            isLoggedIn = true // Status auf true, wegen Navigation in der RegisterView
+            isLoggedIn = true  // Wegen Navi zur ContentView
+            errorMessage = nil // Zurücksetzen
         } else {
-            errorMessage = UserError.emailAlreadyExists.errorDescription
+            errorMessage = UserError.emailOrPasswordInvalid.errorDescriptionGerman
         }
     }
     
