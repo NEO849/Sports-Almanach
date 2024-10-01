@@ -34,7 +34,7 @@
 		F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C8FE2C8FAF01002C94FD /* MockEvents.swift */; };
 		F095C9012C8FAF24002C94FD /* MockUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C9002C8FAF24002C94FD /* MockUser.swift */; };
 		F095C9042C8FB084002C94FD /* MockEventRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C9032C8FB084002C94FD /* MockEventRepository.swift */; };
-		F095C9062C8FB0A0002C94FD /* MockUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C9052C8FB0A0002C94FD /* MockUserRepository.swift */; };
+		F095C9062C8FB0A0002C94FD /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C9052C8FB0A0002C94FD /* UserRepository.swift */; };
 		F095C9092C8FB0DE002C94FD /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C9082C8FB0DE002C94FD /* EventViewModel.swift */; };
 		F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */; };
 		F0A0168A2CA08DD300C749E3 /* EventRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A016892CA08D1A00C749E3 /* EventRepository.swift */; };
@@ -72,7 +72,7 @@
 		F095C8FE2C8FAF01002C94FD /* MockEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEvents.swift; sourceTree = "<group>"; };
 		F095C9002C8FAF24002C94FD /* MockUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUser.swift; sourceTree = "<group>"; };
 		F095C9032C8FB084002C94FD /* MockEventRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEventRepository.swift; sourceTree = "<group>"; };
-		F095C9052C8FB0A0002C94FD /* MockUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockUserRepository.swift; sourceTree = "<group>"; };
+		F095C9052C8FB0A0002C94FD /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		F095C9082C8FB0DE002C94FD /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
 		F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		F0A016892CA08D1A00C749E3 /* EventRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRepository.swift; sourceTree = "<group>"; };
@@ -263,7 +263,7 @@
 		F0A0168F2CA0B2A500C749E3 /* MockRepositories */ = {
 			isa = PBXGroup;
 			children = (
-				F095C9052C8FB0A0002C94FD /* MockUserRepository.swift */,
+				F095C9052C8FB0A0002C94FD /* UserRepository.swift */,
 				F095C9032C8FB084002C94FD /* MockEventRepository.swift */,
 			);
 			path = MockRepositories;
@@ -350,7 +350,7 @@
 				F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */,
 				F046287B2C88A757008FB346 /* ContentView.swift in Sources */,
 				F05BC2CD2CA7B1AB00562C51 /* OddsRow.swift in Sources */,
-				F095C9062C8FB0A0002C94FD /* MockUserRepository.swift in Sources */,
+				F095C9062C8FB0A0002C94FD /* UserRepository.swift in Sources */,
 				F00CB70E2C9CF74E003D70E3 /* LoginView.swift in Sources */,
 				F095C9092C8FB0DE002C94FD /* EventViewModel.swift in Sources */,
 				F00CB7072C9CF484003D70E3 /* BetView.swift in Sources */,

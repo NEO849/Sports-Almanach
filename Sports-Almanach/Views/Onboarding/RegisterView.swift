@@ -18,7 +18,7 @@ struct RegisterView: View {
      @State private var isRepeatPasswordVisible: Bool = false
      @State private var startMoney: String = ""
      @State private var birthdate: Date = Date()  // Date statt String
-     @Environment(\.presentationMode) var presentationMode
+     @Environment(\.presentationMode) var backToLogin
      @State private var showErrorAlert: Bool = false
 
      var body: some View {
@@ -37,116 +37,157 @@ struct RegisterView: View {
                      .foregroundColor(.white)
                      .padding(.bottom, 40)
 
-                 TextField("Benutzername", text: $username)
-                     .padding()
-                     .background(Color.gray.opacity(0.2))
-                     .foregroundColor(.white.opacity(0.8))
-                     .cornerRadius(10)
-                     .frame(width: 300, height: 50)
-                     .overlay(
-                         RoundedRectangle(cornerRadius: 10)
-                             .stroke(Color.orange, lineWidth: 2)
-                     )
+                 ZStack(alignment: .leading) {
+                     if username.isEmpty {
+                         Text("Benutzername eingeben")
+                             .foregroundColor(.white.opacity(0.8))
+                             .padding(.leading, 12)
+                     }
+                     TextField("", text: $username)
+                         .padding()
+                         .background(Color.gray.opacity(0.2))
+                         .foregroundColor(.white.opacity(0.8))
+                         .cornerRadius(10)
+                         .frame(width: 300, height: 50)
+                         .overlay(
+                             RoundedRectangle(cornerRadius: 10)
+                                 .stroke(Color.orange, lineWidth: 2)
+                         )
+                 }
                      .padding()
 
-                 TextField("Email", text: $email)
-                     .padding()
-                     .background(Color.gray.opacity(0.2))
-                     .foregroundColor(.white.opacity(0.8))
-                     .cornerRadius(10)
-                     .frame(width: 300, height: 50)
-                     .overlay(
-                         RoundedRectangle(cornerRadius: 10)
-                             .stroke(Color.orange, lineWidth: 2)
-                     )
-                     .padding()
+                 ZStack(alignment: .leading) {
+                     if email.isEmpty {
+                         Text("Email ...")
+                             .foregroundColor(.white.opacity(0.8))
+                             .padding(.leading, 12)
+                     }
+                     TextField("", text: $email)
+                         .padding()
+                         .background(Color.gray.opacity(0.2))
+                         .foregroundColor(.white.opacity(0.8))
+                         .cornerRadius(10)
+                         .frame(width: 300, height: 50)
+                         .overlay(
+                             RoundedRectangle(cornerRadius: 10)
+                                 .stroke(Color.orange, lineWidth: 2)
+                         )
+                 }
+                     .padding(.bottom, 20)
 
                  // Passwort
-                 ZStack {
-                     if isPasswordVisible {
-                         TextField("Passwort", text: $password)
-                             .padding()
-                             .background(Color.gray.opacity(0.3))
-                             .cornerRadius(10)
-                             .foregroundColor(.black)
-                             .frame(width: 300, height: 50)
-                     } else {
-                         SecureField("Passwort", text: $password)
-                             .padding()
-                             .background(Color.gray.opacity(0.2))
-                             .foregroundColor(.white.opacity(0.8))
-                             .cornerRadius(10)
-                             .frame(width: 300, height: 50)
-                             .overlay(
-                                 RoundedRectangle(cornerRadius: 10)
-                                     .stroke(Color.orange, lineWidth: 2)
-                             )
-                             .padding()
-                     }
-
-                     HStack {
-                         Spacer()
-                         Button(action: {
-                             isPasswordVisible.toggle()
-                         }) {
-                             Label("", systemImage: isPasswordVisible ? "eye" : "eye.slash")
-                                 .foregroundColor(isPasswordVisible ? .green : .red)
+                 HStack {
+                     ZStack(alignment: .leading) {
+                         if password.isEmpty {
+                             Text("Passwort ...")
+                                 .foregroundColor(.white.opacity(0.8))
+                                 .padding(.leading, 12)
                          }
-                         .padding(.trailing, 86)
-                     }
-                 }
-                 .padding(.bottom, 28)
-
-                 // Passwort Wiederholung
-                 ZStack {
-                     if isRepeatPasswordVisible {
-                         TextField("Passwort wiederholen", text: $passwordRepeat)
-                             .background(Color.gray.opacity(0.3))
-                             .cornerRadius(10)
-                             .foregroundColor(.black)
-                             .frame(width: 300, height: 50)
-                     } else {
-                         SecureField("Passwort wiederholen", text: $passwordRepeat)
-                             .background(Color.gray.opacity(0.2))
-                             .foregroundColor(.white.opacity(0.8))
-                             .cornerRadius(10)
-                             .frame(width: 300, height: 50)
-                             .overlay(
-                                 RoundedRectangle(cornerRadius: 10)
-                                     .stroke(Color.orange, lineWidth: 2)
-                             )
-                     }
-
-                     HStack {
-                         Spacer()
-                         Button(action: {
-                             isRepeatPasswordVisible.toggle()
-                         }) {
-                             Label("", systemImage: isRepeatPasswordVisible ? "eye" : "eye.slash")
-                                 .foregroundColor(isRepeatPasswordVisible ? .green : .red)
+                         if isPasswordVisible {
+                             TextField("", text: $password)
+                                 .padding()
+                                 .background(Color.gray.opacity(0.2))
+                                 .foregroundColor(.orange)
+                                 .cornerRadius(10)
+                                 .frame(width: 300, height: 50)
+                                 .overlay(
+                                     RoundedRectangle(cornerRadius: 10)
+                                         .stroke(Color.orange, lineWidth: 2)
+                                 )
+                         } else {
+                             SecureField("", text: $password)
+                                 .padding()
+                                 .background(Color.gray.opacity(0.2))
+                                 .foregroundColor(.orange)
+                                 .cornerRadius(10)
+                                 .frame(width: 300, height: 50)
+                                 .overlay(
+                                     RoundedRectangle(cornerRadius: 10)
+                                         .stroke(Color.orange, lineWidth: 2)
+                                 )
                          }
-                         .padding(.trailing, 86)
+                    
+                     Button(action: {
+                         isPasswordVisible.toggle()
+                     }) {
+                         Image(systemName: isPasswordVisible ? "eye" : "eye.slash")
+                             .foregroundColor(isPasswordVisible ? .green : .red)
                      }
+                     .padding(.leading, 248)
                  }
-                 .padding(.bottom, 28)
+                 }
+                 .padding(.bottom, 20)
 
-                 // Startgeld
-                 TextField("Startgeld", text: $startMoney)
-                     .background(Color.gray.opacity(0.2))
-                     .foregroundColor(.white.opacity(0.8))
-                     .cornerRadius(10)
-                     .frame(width: 300, height: 50)
-                     .overlay(
-                         RoundedRectangle(cornerRadius: 10)
-                             .stroke(Color.orange, lineWidth: 2)
-                     )
+                 // Wiederholung
+                 HStack {
+                     ZStack(alignment: .leading) {
+                         if password.isEmpty {
+                             Text("Wiederholen ...")
+                                 .foregroundColor(.white.opacity(0.8))
+                                 .padding(.leading, 12)
+                         }
+                         if isPasswordVisible {
+                             TextField("", text: $password)
+                                 .padding()
+                                 .background(Color.gray.opacity(0.2))
+                                 .foregroundColor(.orange)
+                                 .cornerRadius(10)
+                                 .frame(width: 300, height: 50)
+                                 .overlay(
+                                     RoundedRectangle(cornerRadius: 10)
+                                         .stroke(Color.orange, lineWidth: 2)
+                                 )
+                         } else {
+                             SecureField("", text: $password)
+                                 .padding()
+                                 .background(Color.gray.opacity(0.2))
+                                 .foregroundColor(.orange)
+                                 .cornerRadius(10)
+                                 .frame(width: 300, height: 50)
+                                 .overlay(
+                                     RoundedRectangle(cornerRadius: 10)
+                                         .stroke(Color.orange, lineWidth: 2)
+                                 )
+                         }
+                    
+                     
+                     // In Klartext anzeigen
+                     Button(action: {
+                         isPasswordVisible.toggle()
+                     }) {
+                         Image(systemName: isPasswordVisible ? "eye" : "eye.slash")
+                             .foregroundColor(isPasswordVisible ? .green : .red)
+                     }
+                     .padding(.leading, 248)
+                 }
+                 }
+                 .padding(.bottom, 20)
+
+                 // Spielgeld
+                 ZStack(alignment: .leading) {
+                     if startMoney.isEmpty {
+                         Text("Spielgeld Betrag ...")
+                             .foregroundColor(.white.opacity(0.8))
+                             .padding(.leading, 12)
+                     }
+                     TextField("", text: $startMoney)
+                         .padding()
+                         .background(Color.gray.opacity(0.2))
+                         .foregroundColor(.white.opacity(0.8))
+                         .cornerRadius(10)
+                         .frame(width: 300, height: 50)
+                         .overlay(
+                             RoundedRectangle(cornerRadius: 10)
+                                 .stroke(Color.orange, lineWidth: 2)
+                         )
+                 }
 
                  // Geburtsdatum
-                 DatePicker("Geburtsdatum", selection: $birthdate, displayedComponents: .date)
-                     .labelsHidden()
-                     .padding(.bottom, 28)
+                 CustomDatePicker(selection: $birthdate)
+                 
+            
 
-                 // Registrieren Button
+                 // Registrieren
                  Button(action: {
                      if let startMoneyDouble = Double(startMoney) {
                          userViewModel.signUp(username: username, email: email, password: password, passwordRepeat: passwordRepeat, amount: startMoneyDouble, birthdate: birthdate)
@@ -163,8 +204,9 @@ struct RegisterView: View {
                          .cornerRadius(10)
                  }
 
+                 // Zur LoginView
                  Button(action: {
-                     presentationMode.wrappedValue.dismiss() // Zurück zur LoginView
+                     backToLogin.wrappedValue.dismiss()
                  }) {
                      Text("Zurück zur Anmeldung")
                          .foregroundColor(.blue)
@@ -180,8 +222,20 @@ struct RegisterView: View {
      }
  }
 
-#Preview {
-    RegisterView()
-        .environmentObject(UserViewModel())
-}
+struct CustomDatePicker: View {
+    @Binding var selection: Date
+    
+    var body: some View {
+         DatePicker("Geburtsdatum", selection: $selection, displayedComponents: .date)
+             .labelsHidden()
+             .colorInvert()
+             .background(Color.black)
+             .padding()
+     }
+ }
+    
+    #Preview {
+        RegisterView()
+            .environmentObject(UserViewModel())
+    }
 

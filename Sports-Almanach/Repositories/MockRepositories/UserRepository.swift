@@ -7,7 +7,7 @@
 
 import Foundation
 
-class UserRepository: UserRepository {
+class MockUserRepository: UserRepository {
     
     /// Gibt eine Liste von Mock-Benutzern zurück
     func fetchUsers() -> [User] {

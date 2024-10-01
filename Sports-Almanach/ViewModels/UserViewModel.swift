@@ -79,17 +79,17 @@ class UserViewModel: ObservableObject {
     /// Ob die E-Mail und das Passwort den Anforderungen entsprechen
     func isValidateEmailAndPassword(email: String, password: String, passwordRepeat: String) -> Bool {
         if !isValidEmail(email) {
-            errorMessage = UserError.emailInvalid.errorDescription
+            errorMessage = UserError.emailAlreadyExists.errorDescriptionGerman
             return false
         }
         
         if !isPasswordValid(password) {
-            errorMessage = UserError.invalidPassword.errorDescription
+            errorMessage = UserError.invalidPassword.errorDescriptionGerman
             return false
         }
         
         if password != passwordRepeat {
-            errorMessage = UserError.passwordMismatch.errorDescription
+            errorMessage = UserError.passwordMismatch.errorDescriptionGerman
             return false
         }
         
