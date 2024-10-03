@@ -17,6 +17,7 @@ enum UserError: Error, LocalizedError {
     case maxAmountExcepted
     case invalidAmount
     case tooYoung
+    case noSpace
 
     // Durch Switch-Case, Fehlermeldung in Deutsch, ohne den rawValue und einfacher Erweiterbarkeit
     var errorDescriptionGerman: String? {
@@ -36,7 +37,9 @@ enum UserError: Error, LocalizedError {
         case .invalidAmount:
             return "Gültigen Betrag eingeben (z.B.: 1000)."
         case .tooYoung:
-            return "Mindestalter 18 Jahre !"
+            return "Mindestalter 18 Jahre!"
+        case .noSpace:
+            return "Keine Leerzeichen Im Namen"
         }
     }
 }
