@@ -28,7 +28,7 @@ class UserViewModel: ObservableObject {
     }
     
     /// Anmeldung anhand von E-Mail und Passwort
-    func signIn(email: String, password: String) {
+    func logIn(email: String, password: String) {
         if let user = users.first(where: { $0.email == email && $0.password == password }) {
             print("Benutzer angemeldet: \(user.name)")
             isLoggedIn = true  // Wegen Navi zur ContentView
@@ -39,7 +39,7 @@ class UserViewModel: ObservableObject {
     }
     
     /// Rregistrierung
-    func signUp(username: String, email: String, password: String, passwordRepeat: String, amount: Double, birthdate: Date) {
+    func signUp(username: String, email: String, password: String, passwordRepeat: String, amount: Double, birthday: Date) {
         // Überprüft Eingaben (E-Mail und Passwort)
         print("Starten vom SignUp process...")
         guard isValidateEmailAndPassword(email: email, password: password, passwordRepeat: passwordRepeat) else {
@@ -48,7 +48,7 @@ class UserViewModel: ObservableObject {
         }
         
         // Erstellt einen neuen Benutzer
-        let newUser = User(id: UUID(), name: username, email: email, password: password, startMoney: amount, birthday: birthdate)
+        let newUser = User(id: UUID(), name: username, email: email, password: password, startMoney: amount, birthday: birthday)
 
         // Ob der Benutzer gültig ist
         if validateUser(user: newUser) {
@@ -60,7 +60,7 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    /// Abmelden des Benutzers
+    /// Abmelden
       func signOut() {
           isLoggedIn = false  
           print("Benutzer abgemeldet")
