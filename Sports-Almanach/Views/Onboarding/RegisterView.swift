@@ -18,8 +18,10 @@ struct RegisterView: View {
     @State private var isRepeatPasswordVisible: Bool = false
     @State private var showErrorAlert: Bool = false
     @State private var startMoney: String = ""
-    @State private var birthdate: Date = Date()  // Date statt String
+    
+    @State private var birthday: Date = Date()  // Date statt String
     @Environment(\.presentationMode) var backToLogin
+    @State private var navigateToContentView: Bool = false
     
     
     var body: some View {
@@ -183,17 +185,21 @@ struct RegisterView: View {
                 }
                 
                 // Geburtsdatum
-                DatePicker("", selection: $birthdate, displayedComponents: .date)
-                    .labelsHidden()
-                    .colorInvert()
-                    .background(Color.black)
-                    .padding()
-                
+                HStack {
+                    Text("Geburtsdatum?")
+                        .foregroundColor(.white.opacity(0.8))
+                        .padding(.leading, 12)
+                    DatePicker("", selection: $birthday, displayedComponents: .date)
+                        .labelsHidden()
+                        .colorInvert()
+                        .background(.primary)
+                        .padding()
+                }
                 
                 // Registrieren
                 Button(action: {
                     if let startMoneyDouble = Double(startMoney) {
-                        userViewModel.signUp(username: username, email: email, password: password, passwordRepeat: passwordRepeat, amount: startMoneyDouble, birthdate: birthdate)
+                        userViewModel.signUp(username: username, email: email, password: password, passwordRepeat: passwordRepeat, amount: startMoneyDouble, birthday: birthday)
                         if let errorMessage = userViewModel.errorMessage {
                             print("Fehlermeldung: \(errorMessage)")
                             showErrorAlert = true
