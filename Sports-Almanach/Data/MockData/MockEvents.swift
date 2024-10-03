@@ -23,11 +23,11 @@ struct MockEvents {
             homeScore: 4,
             awayScore: 1,
             date: "2019-08-09",
-            time: "19:00:00",
+            time: "19:00",
             stadion: "Anfield",
             image: "https://www.thesportsdb.com/images/media/event/thumb/mv7oni1565190477.jpg",
             videoURL: "https://www.youtube.com/watch?v=5WWOpHQ1yJo",
-            status: .matchFinished
+            status: .notStarted
         ),
         Event(
             id: "602130",
@@ -41,11 +41,11 @@ struct MockEvents {
             homeScore: 2,
             awayScore: 2,
             date: "2019-08-10",
-            time: "16:00:00",
+            time: "16:00",
             stadion: "Selhurst Park",
             image: "https://www.thesportsdb.com/images/media/event/thumb/cgbjmr1565361856.jpg",
             videoURL: "https://www.youtube.com/watch?v=VuEb0SzUNaI",
-            status: .inProgress
+            status: .matchFinished
         ),
         Event(
             id: "602131",
@@ -62,7 +62,9 @@ struct MockEvents {
             time: "17:00:00",
             stadion: "Etihad Stadium",
             image: "https://www.thesportsdb.com/images/media/event/thumb/5rncnc1566644537.jpg",
-            videoURL: "https://www.youtube.com/watch?v=efgh5678"
+            videoURL: "https://www.youtube.com/watch?v=efgh5678",
+            status: .inProgress
+
         ),
         Event(
             id: "602132",
@@ -79,7 +81,9 @@ struct MockEvents {
             time: "19:00:00",
             stadion: "Anfield",
             image: "https://www.thesportsdb.com/images/media/event/thumb/ibh8sg1565615267.jpg",
-            videoURL: "https://www.youtube.com/watch?v=WzGN6uWqwQ4"
+            videoURL: "https://www.youtube.com/watch?v=WzGN6uWqwQ4",
+            status: .notStarted
+
         ),
         Event(
             id: "602133",
@@ -96,7 +100,9 @@ struct MockEvents {
             time: "16:00:00",
             stadion: "Selhurst Park",
             image: "https://www.thesportsdb.com/images/media/event/thumb/4i0t7z1565391099.jpg",
-            videoURL: "https://www.youtube.com/watch?v=DvEz6wC4r5w"
+            videoURL: "https://www.youtube.com/watch?v=DvEz6wC4r5w",
+            status: .matchFinished
+
         ),
         Event(
             id: "602134",
@@ -113,7 +119,9 @@ struct MockEvents {
             time: "17:00:00",
             stadion: "Etihad Stadium",
             image: "https://www.thesportsdb.com/images/media/event/thumb/uq2d001566644674.jpg",
-            videoURL: "https://www.youtube.com/watch?v=EQe4D70MG3o"
+            videoURL: "https://www.youtube.com/watch?v=EQe4D70MG3o",
+            status: .inProgress
+
         ),
         Event(
             id: "602135",
@@ -130,7 +138,9 @@ struct MockEvents {
             time: "17:00:00",
             stadion: "Etihad Stadium",
             image: "https://www.thesportsdb.com/images/media/event/thumb/eoxk8v1565427742.jpg",
-            videoURL: "https://www.youtube.com/watch?v=wthyUDmO1XU"
+            videoURL: "https://www.youtube.com/watch?v=wthyUDmO1XU",
+            status: .notStarted
+
         )
     ]
 }
