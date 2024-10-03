@@ -14,7 +14,8 @@ enum UserError: Error, LocalizedError {
     case userAlreadyExists
     case passwordMismatch
     case invalidPassword
-    case maxAmountExceeded
+    case maxAmountExcepted
+    case invalidAmount
     case tooYoung
 
     // Durch Switch-Case, Fehlermeldung in Deutsch, ohne den rawValue und einfacher Erweiterbarkeit
@@ -30,8 +31,10 @@ enum UserError: Error, LocalizedError {
             return "Passwörter stimmen nicht überein."
         case .invalidPassword:
             return "Min.8 Zeichen, 1 Zahl, 1 Klein-und Großb. und 1 Sondz."
-        case .maxAmountExceeded:
+        case .maxAmountExcepted:
             return "Max. Betrag 1000 €."
+        case .invalidAmount:
+            return "Gültigen Betrag eingeben (z.B.: 1000)."
         case .tooYoung:
             return "Mindestalter 18 Jahre !"
         }
