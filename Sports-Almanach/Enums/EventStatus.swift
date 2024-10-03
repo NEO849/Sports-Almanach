@@ -10,11 +10,8 @@ import SwiftUI
 
 enum EventStatus: String, Codable, Identifiable, CaseIterable {
     case matchFinished = "Match Finished"
-    case started = "Started"
+    case notStarted = "Not Started"
     case inProgress = "In Progress"
-    case postponed = "Postponed"
-    case locked = "Locked"
-    case cancelled = "Cancelled"
  
     
     var id: String { rawValue }
@@ -23,16 +20,10 @@ enum EventStatus: String, Codable, Identifiable, CaseIterable {
         switch self {
         case .matchFinished:
             return "Beendet"
-        case .started:
-            return "Startet bald"
+        case .notStarted:
+            return "Geplant"
         case .inProgress:
             return "Spiel läuft"
-        case .postponed:
-            return "Verschoben"
-        case .locked:
-            return "Gesperrt"
-        case .cancelled:
-            return "Abgesagt"
         }
     }
 
@@ -40,16 +31,10 @@ enum EventStatus: String, Codable, Identifiable, CaseIterable {
         switch self {
         case .matchFinished:
             return .orange
-        case .started:
+        case .notStarted:
             return .green
         case .inProgress:
             return .yellow
-        case .postponed:
-            return .red
-        case .locked:
-            return .red
-        case .cancelled:
-            return .red
         }
     }
 }
