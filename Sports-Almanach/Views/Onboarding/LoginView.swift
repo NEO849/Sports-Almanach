@@ -86,7 +86,7 @@ struct LoginView: View {
                             }
                             
                             
-                            // Passwort Sichtbar machen
+                            // Passwort Sichtbar
                             Button(action: {
                                 isPasswordVisible.toggle()
                             }) {
@@ -101,10 +101,10 @@ struct LoginView: View {
                     // Login
                     Button(action: {
                         userViewModel.logIn(email: email, password: password)
-                                        if userViewModel.errorMessage != nil {
-                                            showAlert = true // Bei Fehler Alert
-                                        }
-                                    }) {
+                        if userViewModel.errorMessage != nil {
+                            showAlert = true // Bei Fehler Alert
+                        }
+                    }) {
                         Text("LOGIN")
                             .font(.headline)
                             .foregroundColor(.white)
