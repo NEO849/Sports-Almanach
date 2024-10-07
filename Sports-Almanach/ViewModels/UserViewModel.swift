@@ -7,6 +7,7 @@
 
 import Foundation
 
+@MainActor
 class UserViewModel: ObservableObject {
     
     // Stellt die Benutzerdaten bereit (wird über Dependency Injection gesetzt)
@@ -30,6 +31,10 @@ class UserViewModel: ObservableObject {
     
     /// Anmeldung anhand von E-Mail und Passwort
     func logIn(email: String, password: String) {
+        
+        /// Platzhalter für Firebase-Login
+        
+        // Lokale Validierung für Testzwecke
         if let user = users.first(where: { $0.email == email && $0.password == password }) {
             print("Benutzer angemeldet: \(user.name)")
             isLoggedIn = true  // Wegen Navi zur ContentView
@@ -39,78 +44,81 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    /// Rregistrierung
-    func signUp(username: String, email: String, password: String, passwordRepeat: String, amount: Double, birthday: Date) {
-        // Überprüft Eingaben (E-Mail und Passwort)
-        print("Starten vom SignUp process...")
-        guard isValidateEmailAndPassword(email: email, password: password, passwordRepeat: passwordRepeat) else {
-            print("Email oder Password validations Fehler.")
+    /// Registrierung
+    func signUp(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) {
+        print("Starten vom SignUp Prozess...")
+        
+        // Validierung der Eingaben
+        if let error = validateInputs(username: username, email: email, password: password, passwordRepeat: passwordRepeat, birthday: birthday) {
+            errorMessage = error.errorDescriptionGerman
             return
         }
         
-        // Erstellt einen neuen Benutzer
-        let newUser = User(id: UUID(), name: username, email: email, password: password, startMoney: amount, birthday: birthday)
-
-        // Ob der Benutzer gültig ist
-        if validateUser(user: newUser) {
-            users.append(newUser)  // Benutzer zur Liste
-            isRegistered = true    // Wegen Navi zur ConViewView
-        } else {
-            errorMessage = UserError.tooYoung.errorDescriptionGerman
-            print("User validations Fehler: \(errorMessage ?? "")")
-        }
-    }
-    
-    /// Abmelden
-      func signOut() {
-          isLoggedIn = false  
-          print("Benutzer abgemeldet")
-      }
-    
-    /// Überprüft Mindestalter
-    func validateUser(user: User) -> Bool {
-        let age = calculateAge(birthday: user.birthday)
-        return age >= 18
-    }
-    
-    /// Berechnet das Alter basierend auf dem Geburtsdatum
-    func calculateAge(birthday: Date) -> Int {
-        let calendar = Calendar.current
-        let ageComponents = calendar.dateComponents([.year], from: birthday, to: Date())
-        return ageComponents.year!
-    }
-    
-    /// Ob die E-Mail und das Passwort den Anforderungen entsprechen
-    func isValidateEmailAndPassword(email: String, password: String, passwordRepeat: String) -> Bool {
-        if !isValidEmail(email) {
-            errorMessage = UserError.emailAlreadyExists.errorDescriptionGerman
-            return false
-        }
+        /// Platzhalter für Firebase-Registrierung
         
-        if !isPasswordValid(password) {
-            errorMessage = UserError.invalidPassword.errorDescriptionGerman
-            return false
-        }
-        
-        if password != passwordRepeat {
-            errorMessage = UserError.passwordMismatch.errorDescriptionGerman
-            return false
-        }
-        
-        return true
+        // Fehlerfrei -> Zur ContentView navi.
+        isRegistered = true
     }
     
-    /// Ob die E-Mail gültig ist
-    private func isValidEmail(_ email: String) -> Bool {
-        let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
-        let emailPred = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
-        return emailPred.evaluate(with: email)
-    }
-    
-    /// Ob das Passwort den Anforderungen entspricht
-    private func isPasswordValid(_ password: String) -> Bool {
-        let passwordRegEx = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
-        let passwordPred = NSPredicate(format: "SELF MATCHES %@", passwordRegEx)
-        return passwordPred.evaluate(with: password)
-    }
 }
+
+// Validierungslogik für die Anmeldung und Registrierung
+private func validateInputs(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) -> UserError? {
+    
+    if username.isEmpty || username.contains(" ") {
+        return UserError.noSpace
+    }
+    
+   
+    if !isValidEmail(email) {
+        return UserError.emailAlreadyExists
+    }
+    
+    if !isPasswordValid(password) {
+        return UserError.invalidPassword
+    }
+    
+    if password != passwordRepeat {
+        return UserError.passwordMismatch
+    }
+    
+    if !isOldEnough(birthday: birthday) {
+        return UserError.tooYoung
+    }
+    
+    return nil // Keine Fehler
+}
+
+///Abmelden
+func signOut() {
+    // TO DO
+}
+
+// Überprüft Mindestalter
+private func isOldEnough(birthday: Date) -> Bool {
+    let age = calculateAge(birthday: birthday)
+    return age >= 18
+}
+
+// Berechnet das Alter basierend auf dem Geburtsdatum
+private func calculateAge(birthday: Date) -> Int {
+    let calendar = Calendar.current
+    let ageComponents = calendar.dateComponents([.year], from: birthday, to: Date())
+    return ageComponents.year!
+}
+
+
+// Ob E-Mail gültig ist
+private func isValidEmail(_ email: String) -> Bool {
+    let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+    let emailPred = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
+    return emailPred.evaluate(with: email)
+}
+
+// Ob Passwort den Anforderungen entspricht
+private func isPasswordValid(_ password: String) -> Bool {
+    let passwordRegEx = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
+    let passwordPred = NSPredicate(format: "SELF MATCHES %@", passwordRegEx)
+    return passwordPred.evaluate(with: password)
+}
+
