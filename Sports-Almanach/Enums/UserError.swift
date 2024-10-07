@@ -35,7 +35,7 @@ enum UserError: Error, LocalizedError {
         case .invalidExcepted:
             return "Min 0Max. Betrag 1000 €."
         case .invalidAmount:
-            return "Gültigen Betrag eingeben (zwischen 0 - 1000)."
+            return "Betrag muss mindestens 1 betragen."
         case .tooYoung:
             return "Mindestalter 18 Jahre!"
         case .noSpace:
