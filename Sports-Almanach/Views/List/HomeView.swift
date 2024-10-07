@@ -25,7 +25,7 @@ struct HomeView: View {
                     HStack {
                         Spacer()
                         Button(action: {
-                            userViewModel.signOut()
+                           /// TO DO signOut
                         }) {
                             Image(systemName: "rectangle.portrait.and.arrow.right")
                                 .foregroundColor(.white)
