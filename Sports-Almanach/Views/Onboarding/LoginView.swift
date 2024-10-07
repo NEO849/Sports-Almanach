@@ -159,15 +159,15 @@ struct LoginView: View {
                     .navigationBarBackButtonHidden(true) // ConView kein Back Btn
             }
             .alert(isPresented: $showAlert) {
-                   Alert(
-                       title: Text("Fehler"),
-                       message: Text(userViewModel.errorMessage ?? "Unbekannter Fehler"),
-                       dismissButton: .default(Text("OK"))
-                   )
-               }
-           }
-       }
-   }
+                Alert(
+                    title: Text("Fehler"),
+                    message: Text(userViewModel.errorMessage ?? "Unbekannter Fehler"),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
+        }
+    }
+}
 
 
 #Preview {
