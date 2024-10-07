@@ -48,7 +48,7 @@ class UserViewModel: ObservableObject {
     func signUp(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) {
         print("Starten vom SignUp Prozess...")
         
-        // Validierung der Eingaben
+        // Validierung der Eingaben zum Testen
         if let error = validateInputs(username: username, email: email, password: password, passwordRepeat: passwordRepeat, birthday: birthday) {
             errorMessage = error.errorDescriptionGerman
             return
