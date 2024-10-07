@@ -14,7 +14,7 @@ enum UserError: Error, LocalizedError {
     case userAlreadyExists
     case passwordMismatch
     case invalidPassword
-    case maxAmountExcepted
+    case invalidExcepted
     case invalidAmount
     case tooYoung
     case noSpace
@@ -32,10 +32,10 @@ enum UserError: Error, LocalizedError {
             return "Passwörter stimmen nicht überein."
         case .invalidPassword:
             return "Min.8 Zeichen, 1 Zahl, 1 Klein-und Großb. und 1 Sondz."
-        case .maxAmountExcepted:
+        case .invalidExcepted:
             return "Min 0Max. Betrag 1000 €."
         case .invalidAmount:
-            return "Gültigen Betrag eingeben (z.B.: 1000)."
+            return "Gültigen Betrag eingeben (zwischen 0 - 1000)."
         case .tooYoung:
             return "Mindestalter 18 Jahre!"
         case .noSpace:
