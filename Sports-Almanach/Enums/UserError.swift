@@ -33,7 +33,7 @@ enum UserError: Error, LocalizedError {
         case .invalidPassword:
             return "Min.8 Zeichen, 1 Zahl, 1 Klein-und Großb. und 1 Sondz."
         case .maxAmountExcepted:
-            return "Max. Betrag 1000 €."
+            return "Min 0Max. Betrag 1000 €."
         case .invalidAmount:
             return "Gültigen Betrag eingeben (z.B.: 1000)."
         case .tooYoung:

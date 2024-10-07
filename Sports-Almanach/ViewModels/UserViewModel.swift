@@ -13,6 +13,7 @@ class UserViewModel: ObservableObject {
     private var userRepository: UserRepository
     @Published var users: [User] = []
     @Published var errorMessage: String?
+    @Published var errorMessages: [UserError] = []
     @Published var isLoggedIn: Bool = false
     @Published var isRegistered: Bool = false
     

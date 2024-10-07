@@ -17,11 +17,10 @@ struct RegisterView: View {
     @State private var isPasswordVisible: Bool = false
     @State private var isRepeatPasswordVisible: Bool = false
     @State private var showErrorAlert: Bool = false
-    @State private var startMoney: String = ""
-    
-    @State private var birthday: Date = Date()  // Date statt String
     @Environment(\.presentationMode) var backToLogin
     @State private var navigateToContentView: Bool = false
+    @State private var startMoney: String = ""
+    @State private var birthday: Date = Date()  // Date statt String
     
     
     var body: some View {
@@ -168,7 +167,7 @@ struct RegisterView: View {
                 // Spielgeld
                 ZStack(alignment: .leading) {
                     if startMoney.isEmpty {
-                        Text("Spielgeld Betrag ...")
+                        Text("Spielgeld Betrag?")
                             .foregroundColor(.white.opacity(0.8))
                             .padding(.leading, 12)
                     }
@@ -198,14 +197,34 @@ struct RegisterView: View {
                 
                 // Registrieren
                 Button(action: {
-                    if let startMoneyDouble = Double(startMoney) {
-                        userViewModel.signUp(username: username, email: email, password: password, passwordRepeat: passwordRepeat, amount: startMoneyDouble, birthday: birthday)
-                        if let errorMessage = userViewModel.errorMessage {
-                            print("Fehlermeldung: \(errorMessage)")
-                            showErrorAlert = true
-                        }
-                    } else {
-                        print("Ungültiger Spielgeldbetrag.")
+                    // Validierung der Eingaben
+                    guard !username.isEmpty, !email.isEmpty, !password.isEmpty, !passwordRepeat.isEmpty else {
+                        userViewModel.errorMessage = "Bitte fülle alle Felder aus."
+                        showErrorAlert = true
+                        return
+                    }
+                    
+                    // Hier wird das Startgeld in Double konvertiert
+                    guard let startMoneyDouble = Double(startMoney) else {
+                        userViewModel.errorMessage = UserError.invalidAmount.errorDescriptionGerman
+                        showErrorAlert = true
+                        return
+                    }
+                    
+                    // Platz für Firebase-Integration
+                    /// FIREBASE
+                    // Überprüfen der Eingaben mit der UserError Enum
+                    do {
+                        try validateInputs(username: username, email: email, password: password, passwordRepeat: passwordRepeat, startMoney: startMoneyDouble, birthday: birthday)
+                        
+                        // Hier wird die Firebase-Registrierung implementiert
+                        // ...
+                        
+                    } catch let error as UserError {
+                        userViewModel.errorMessage = error.errorDescriptionGerman
+                        showErrorAlert = true
+                    } catch {
+                        userViewModel.errorMessage = "Ein unbekannter Fehler ist aufgetreten."
                         showErrorAlert = true
                     }
                 }) {
