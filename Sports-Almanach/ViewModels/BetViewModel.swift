@@ -6,22 +6,20 @@
 //
 
 import Foundation
+import SwiftUICore
 
 class BetViewModel: ObservableObject {
     
+    @EnvironmentObject var userViewModel: UserViewModel
     @Published var user: User
-    @Published var selectedEvent: Event?          // Ausgewähltes Event für die Wette
+    @Published var selectedEvent: Event?
     @Published var betAmount: Double = 0.0        // Wetteinsatz
-    @Published var betResultMessage: String?      // Nachricht nach der Wette
-    @Published var newBalance: Double = 0.0       // Neuer Kontostand nach der Wette
     @Published var betOutcomeResult: BetOutcome?  // Status-ergebnis der Wette
-    @Published var showBetResult: Bool = false
-
+    
     init(user: User) {
         self.user = user
-        self.newBalance = user.startMoney // Initialer Kontostand
     }
-
+    
     /// Berechnet die Quoten für das ausgewählte Event und führt die Wette aus
     func placeBet(on event: Event, outcome: BetOutcome, betAmount: Double) {
         // Speichert das Event, auf das gewettet wurde
@@ -42,25 +40,14 @@ class BetViewModel: ObservableObject {
             winAmount = betAmount * odds.awayWinOdds
         }
         
-        // Bestimme das Ergebnis der Wette
-        if winAmount > 0 {
-            // Wette gewonnen
-            betOutcomeResult = .homeWin
-        } else if odds.drawOdds > 1.0 {
-            // Unentschieden
-            betOutcomeResult = .draw
-        } else {
-            // Wette verloren
-            betOutcomeResult = .awayWin
-        }
+        // Aktualisiert den Kontostand nach der Wette
+        let newBalance = userViewModel.balance + winAmount
+        userViewModel.balance = newBalance
         
-        // Aktualisiert den Kontostand
-        newBalance = user.startMoney + winAmount
-        
-        // Ergebnisnachricht
-        betResultMessage = "Dein Gewinn: \(String(format: "%.2f", winAmount))"
-        
-        // Wette beendet, zeigt das Ergebnis-Sheet an
-        showBetResult = true
     }
+    
+    /// Kontostand zurückzusetzen
+    func resetBalance() {
+        userViewModel.balance = user.startMoney
+        print("Kontostand wurde zurückgesetzt auf: \(user.startMoney)")    }
 }
