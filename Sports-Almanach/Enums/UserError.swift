@@ -10,6 +10,7 @@ import Foundation
 /// Definiert die möglichen Fehler, die bei der Benutzeranmeldung/-registrierung auftreten können
 enum UserError: Error, LocalizedError {
     case emailAlreadyExists
+    case invalidEmail
     case emailOrPasswordInvalid
     case userAlreadyExists
     case passwordMismatch
@@ -21,6 +22,8 @@ enum UserError: Error, LocalizedError {
     var errorDescriptionGerman: String? {
         switch self {
         case .emailAlreadyExists:
+            return "E-Mail-Adresse Existiert bereits."
+        case .invalidEmail:
             return "E-Mail-Adresse ist ungültig."
         case .emailOrPasswordInvalid:
             return "E-Mail oder Passwort ungültig."
