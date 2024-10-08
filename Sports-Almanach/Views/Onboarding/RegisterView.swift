@@ -191,7 +191,6 @@ struct RegisterView: View {
                     HStack {
                         Text("Geburtsdatum:")
                             .foregroundColor(.white.opacity(0.8))
-                            .padding(.leading, 12)
                         Spacer()
 
                         DatePicker("", selection: $birthday, displayedComponents: .date)
