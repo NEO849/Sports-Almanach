@@ -9,18 +9,28 @@ import SwiftUI
 
 struct RegisterView: View {
     
+    // Source of truth
     @EnvironmentObject var userViewModel: UserViewModel
+    
+    // Benutzereingaben
     @State private var username: String = ""
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var passwordRepeat: String = ""
+    
+    // Status Passwortsichtbarkeit
     @State private var isPasswordVisible: Bool = false
     @State private var isRepeatPasswordVisible: Bool = false
+    
+    // Fehlerbehandlungen
     @State private var showErrorAlert: Bool = false
-    @Environment(\.presentationMode) var backToLogin
+    
+    // Navigation
     @State private var navigateToContentView: Bool = false
-    @State private var birthday: Date = Date()  // Date statt String
-    @State private var selectedNumber: Int = 18
+    @Environment(\.presentationMode) var presentationMode
+    
+    // Geburtstag
+    @State private var birthday: Date = Date()
     
     var body: some View {
         
@@ -77,7 +87,6 @@ struct RegisterView: View {
                     }
                     .padding(.bottom, 20)
                     
-                    // Passwort
                     HStack {
                         ZStack(alignment: .leading) {
                             if password.isEmpty {
@@ -120,7 +129,6 @@ struct RegisterView: View {
                     }
                     .padding(.bottom, 20)
                     
-                    // Wiederholung
                     HStack {
                         ZStack(alignment: .leading) {
                             if passwordRepeat.isEmpty {
@@ -152,7 +160,6 @@ struct RegisterView: View {
                                     )
                             }
                             
-                            // Passwort Sichtbar
                             Button(action: {
                                 isRepeatPasswordVisible.toggle()
                             }) {
@@ -164,59 +171,54 @@ struct RegisterView: View {
                     }
                     .padding(.bottom, 20)
                     
-                    // Startgeld
-                    ZStack(alignment: .leading) {
+                    HStack {
                         Text("Startgeld:")
                             .foregroundColor(.white.opacity(0.8))
                             .padding(.leading, 12)
-                        TextField("1000.00 €", text: .constant("1000.00 €"))
-                            .padding()
-                            .background(Color.gray.opacity(0.2))
+                        Spacer()
+                        Text(String(format: "%.2f €    ", userViewModel.startMoney))
                             .foregroundColor(.white.opacity(0.8))
-                            .cornerRadius(10)
-                            .frame(width: 300, height: 50)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.orange, lineWidth: 2)
-                            )
-                            .disabled(true) // Deaktiviert Textfeld
-                    }
-                    .padding()
-                    
-                    // Geburtsdatum
-                    Menu {
-                        ForEach(18..<100) { number in
-                            Button(action: {
-                                selectedNumber = number
-                            }) {
-                                Text("\(number)")
-                            }
-                        }
-                    } label: {
-                        Text("Geburtsdatum: \(selectedNumber)")
-                            .foregroundColor(.white.opacity(0.8))
-                            .padding()
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(10)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.orange, lineWidth: 2)
-                            )
                     }
                     .frame(width: 300, height: 50)
-                    .padding()
+                    .background(Color.gray.opacity(0.2))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.orange, lineWidth: 2)
+                    )
+                    .padding(.bottom, 20)
                     
-                    // Registrieren Button
+                    // Geburtstag mit DatePicker
+                    HStack {
+                        Text("Geburtsdatum:")
+                            .foregroundColor(.white.opacity(0.8))
+                            .padding(.leading, 12)
+                        Spacer()
+
+                        DatePicker("", selection: $birthday, displayedComponents: .date)
+                            //.labelsHidden()  
+                            .datePickerStyle(CompactDatePickerStyle())
+                            .frame(width: 150)
+                    }
+                    .padding()
+                    .frame(width: 300, height: 50)
+                    .background(Color.gray.opacity(0.2))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.orange, lineWidth: 2)
+                    )
+                    .padding(.bottom, 20)
+                    
+                    // Registrieren
                     Button(action: {
                         userViewModel.signUp(
                             username: username,
                             email: email,
                             password: password,
                             passwordRepeat: passwordRepeat,
-                            birthday: Calendar.current.date(byAdding: .year, value: -selectedNumber, to: Date()) ?? Date()
+                            birthday: birthday // Übergabe des gewählten Datums
                         )
                         
-                        // Falls die Registrierung erfolgreich ist, navigiere weiter
+                        // Falls erfolgreich , navigi. -> ContentView
                         if userViewModel.isRegistered {
                             navigateToContentView = true
                         } else {
@@ -232,9 +234,8 @@ struct RegisterView: View {
                     }
                     .padding(.top, 32)
                     
-                    // Zurück zur LoginView
                     Button(action: {
-                        navigateToContentView = false
+                        presentationMode.wrappedValue.dismiss() // Schließt aktuelle View -> LoginView
                     }) {
                         Text("Zurück zur Anmeldung")
                             .foregroundColor(.blue)
@@ -250,10 +251,11 @@ struct RegisterView: View {
                     dismissButton: .default(Text("OK"))
                 )
             }
+            .navigationBarBackButtonHidden(true) // Entfernt Back-Button aktuellen View
             .navigationDestination(isPresented: $navigateToContentView) {
                 ContentView()
                     .environmentObject(userViewModel)
-                    .navigationBarBackButtonHidden(true)
+                    .navigationBarBackButtonHidden(true) // Entfernt Back-Button ContentView
             }
         }
     }
