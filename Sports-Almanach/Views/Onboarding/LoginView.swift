@@ -9,7 +9,6 @@ import SwiftUI
 
 struct LoginView: View {
     
-    @EnvironmentObject var userViewModel: UserViewModel
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
@@ -100,10 +99,7 @@ struct LoginView: View {
                     
                     // Login
                     Button(action: {
-                        userViewModel.logIn(email: email, password: password)
-                        if userViewModel.errorMessage != nil {
-                            showAlert = true // Bei Fehler Alert
-                        }
+                        attemptSignIn()
                     }) {
                         Text("LOGIN")
                             .font(.headline)
@@ -153,21 +149,28 @@ struct LoginView: View {
                 }
             }
             .navigationBarBackButtonHidden(true)
-            .navigationDestination(isPresented: $userViewModel.isLoggedIn) {
-                ContentView()
-                    .environmentObject(userViewModel)
-                    .navigationBarBackButtonHidden(true) // ConView kein Back Btn
-            }
             .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text("Fehler"),
-                    message: Text(userViewModel.errorMessage ?? "Unbekannter Fehler"),
+                    message: Text("TODO Fehler"),
                     dismissButton: .default(Text("OK"))
                 )
             }
         }
     }
+    
+    private func attemptSignIn() {
+        Task {
+            do {
+                try await FirebaseAuthManager.shared.signIn(email: email, password: password)
+            } catch {
+                print("Login Failed \(error.localizedDescription)")
+            }
+        }
+    }
 }
+
+
 
 
 #Preview {
