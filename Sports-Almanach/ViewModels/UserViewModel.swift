@@ -17,6 +17,7 @@ class UserViewModel: ObservableObject {
     @Published var errorMessages: [UserError] = []
     @Published var isLoggedIn: Bool = false
     @Published var isRegistered: Bool = false
+    @Published var startMoney: Double = 1000.00
     
     /// Initialisierung mit Dependency Injection
     init(repository: UserRepository = MockUserRepository()) {
