@@ -25,7 +25,7 @@ struct HomeView: View {
                     HStack {
                         Spacer()
                         Button(action: {
-                           /// TO DO signOut
+                            FirebaseAuthManager.shared.signOut()
                         }) {
                             Image(systemName: "rectangle.portrait.and.arrow.right")
                                 .foregroundColor(.white)
