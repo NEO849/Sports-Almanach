@@ -9,9 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @EnvironmentObject var userViewModel: UserViewModel
-    @EnvironmentObject var eventViewModel: EventViewModel
-    
     var body: some View {
         
         TabView {
@@ -43,7 +40,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .environmentObject(UserViewModel())
-        .environmentObject(EventViewModel())
 }
 
