@@ -6,6 +6,7 @@
 //  .
 
 import SwiftUI
+import Firebase
 
 @main
 struct Sports_AlmanachApp: App {
