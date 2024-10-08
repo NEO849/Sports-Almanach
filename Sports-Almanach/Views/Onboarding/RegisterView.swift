@@ -9,9 +9,6 @@ import SwiftUI
 
 struct RegisterView: View {
     
-    // Source of truth
-    @EnvironmentObject var userViewModel: UserViewModel
-    
     // Benutzereingaben
     @State private var username: String = ""
     @State private var email: String = ""
@@ -176,7 +173,7 @@ struct RegisterView: View {
                             .foregroundColor(.white.opacity(0.8))
                             .padding(.leading, 12)
                         Spacer()
-                        Text(String(format: "%.2f €     ", userViewModel.startMoney))
+                        Text(String(format: "1000.00 €     "))
                             .foregroundColor(.white.opacity(0.8))
                     }
                     .frame(width: 300, height: 50)
