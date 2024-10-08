@@ -176,7 +176,7 @@ struct RegisterView: View {
                             .foregroundColor(.white.opacity(0.8))
                             .padding(.leading, 12)
                         Spacer()
-                        Text(String(format: "%.2f €    ", userViewModel.startMoney))
+                        Text(String(format: "%.2f €     ", userViewModel.startMoney))
                             .foregroundColor(.white.opacity(0.8))
                     }
                     .frame(width: 300, height: 50)
@@ -195,7 +195,6 @@ struct RegisterView: View {
                         Spacer()
 
                         DatePicker("", selection: $birthday, displayedComponents: .date)
-                            //.labelsHidden()  
                             .datePickerStyle(CompactDatePickerStyle())
                             .frame(width: 150)
                     }
