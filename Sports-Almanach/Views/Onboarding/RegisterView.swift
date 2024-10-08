@@ -230,14 +230,13 @@ struct RegisterView: View {
             .alert(isPresented: $showErrorAlert) {
                 Alert(
                     title: Text("Fehler"),
-                    message: Text(userViewModel.errorMessage ?? "Unbekannter Fehler"),
+                    message: Text( "TODO Fehlerbehandlung"),
                     dismissButton: .default(Text("OK"))
                 )
             }
             .navigationBarBackButtonHidden(true) // Entfernt Back-Button aktuellen View
             .navigationDestination(isPresented: $navigateToContentView) {
                 ContentView()
-                    .environmentObject(userViewModel)
                     .navigationBarBackButtonHidden(true) // Entfernt Back-Button ContentView
             }
         }
