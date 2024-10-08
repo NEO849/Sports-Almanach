@@ -10,7 +10,7 @@ import SwiftUI
 
 struct EventsView: View {
     
-    @EnvironmentObject var eventViewModel: EventViewModel
+    @StateObject var eventViewModel = EventViewModel()
     
     @State private var selectedSport: Sport = .football
     @State private var selectedLeague: League = .premierLeague
@@ -83,7 +83,5 @@ struct EventsView: View {
 
 
 #Preview {
-    let mockEventViewModel = EventViewModel(repository: MockEventRepository())
-    return EventsView()
-        .environmentObject(mockEventViewModel)
+    EventsView()
 }
