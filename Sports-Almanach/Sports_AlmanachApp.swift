@@ -9,15 +9,20 @@ import SwiftUI
 
 @main
 struct Sports_AlmanachApp: App {
-    /// Instanzen der VM
-    @StateObject private var userViewModel = UserViewModel()
-    @StateObject private var eventViewModel = EventViewModel()
+    
+    init() {
+        FirebaseConfiguration.shared.setLoggerLevel(.min)
+        FirebaseApp.configure()
+    }
     
     var body: some Scene {
         WindowGroup {
-            SplashView()
-                .environmentObject(userViewModel)
-                .environmentObject(eventViewModel)
+            if FirebaseAuthManager.shared.isUserSignedIn {
+                ContentView()
+            } else {
+                SplashView()
+            }
+            
         }
     }
 }
