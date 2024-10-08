@@ -7,11 +7,9 @@
 
 import Foundation
 
-struct User: Identifiable, Codable {
+struct Profile: Identifiable, Codable {
     let id: UUID
     let name: String
-    let email: String
-    let password: String
     let startMoney: Double
     let birthday: Date
 }
