@@ -11,14 +11,9 @@ import SwiftUICore
 class BetViewModel: ObservableObject {
     
     @EnvironmentObject var userViewModel: UserViewModel
-    @Published var user: User
     @Published var selectedEvent: Event?
     @Published var betAmount: Double = 0.0        // Wetteinsatz
     @Published var betOutcomeResult: BetOutcome?  // Status-ergebnis der Wette
-    
-    init(user: User) {
-        self.user = user
-    }
     
     /// Berechnet die Quoten für das ausgewählte Event und führt die Wette aus
     func placeBet(on event: Event, outcome: BetOutcome, betAmount: Double) {
@@ -46,8 +41,8 @@ class BetViewModel: ObservableObject {
         
     }
     
-    /// Kontostand zurückzusetzen
-    func resetBalance() {
-        userViewModel.balance = user.startMoney
-        print("Kontostand wurde zurückgesetzt auf: \(user.startMoney)")    }
+//    /// Kontostand zurückzusetzen
+//    func resetBalance() {
+//        userViewModel.balance = user.startMoney
+//        print("Kontostand wurde zurückgesetzt auf: \(user.startMoney)")    }
 }
