@@ -192,7 +192,7 @@ struct RegisterView: View {
                         Text("Geburtsdatum:")
                             .foregroundColor(.white.opacity(0.8))
                         Spacer()
-
+                        
                         DatePicker("", selection: $birthday, displayedComponents: .date)
                             .datePickerStyle(CompactDatePickerStyle())
                             .frame(width: 150)
@@ -208,20 +208,8 @@ struct RegisterView: View {
                     
                     // Registrieren
                     Button(action: {
-                        userViewModel.signUp(
-                            username: username,
-                            email: email,
-                            password: password,
-                            passwordRepeat: passwordRepeat,
-                            birthday: birthday // Übergabe des gewählten Datums
-                        )
+                        attemptSignUp()
                         
-                        // Falls erfolgreich , navigi. -> ContentView
-                        if userViewModel.isRegistered {
-                            navigateToContentView = true
-                        } else {
-                            showErrorAlert = true
-                        }
                     }) {
                         Text("REGISTRIEREN")
                             .font(.headline)
@@ -254,6 +242,16 @@ struct RegisterView: View {
                 ContentView()
                     .environmentObject(userViewModel)
                     .navigationBarBackButtonHidden(true) // Entfernt Back-Button ContentView
+            }
+        }
+    }
+    
+    private func attemptSignUp() {
+        Task {
+            do {
+                try await FirebaseAuthManager.shared.signUp(email: email, password: password)
+            } catch {
+                print("SignUp Failed \(error.localizedDescription)")
             }
         }
     }
