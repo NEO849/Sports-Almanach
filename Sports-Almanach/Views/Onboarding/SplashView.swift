@@ -66,7 +66,6 @@ struct SplashView: View {
             .navigationDestination(isPresented: $showLoginView) {
                 // Wenn showLoginView true
                 LoginView()
-                    .environmentObject(UserViewModel())
             }
         }
     }
@@ -74,6 +73,4 @@ struct SplashView: View {
 
 #Preview {
     SplashView()
-        .environmentObject(UserViewModel())
-        .environmentObject(EventViewModel())
 }
