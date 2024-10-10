@@ -258,4 +258,3 @@ struct RegisterView: View {
     RegisterView()
         .environmentObject(UserViewModel())
 }
-

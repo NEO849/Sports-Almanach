@@ -10,7 +10,8 @@ import Foundation
 /// Berechnet Quoten für Heimsieg, Unentschieden und Auswärtssieg basierend auf den Spielständen.
 struct OddsCalculator {
     
-    static func calculateOdds(homeScore: Int, awayScore: Int) -> (homeWinOdds: Double, drawOdds: Double, awayWinOdds: Double) {
+    static func calculateOdds(homeScore: Int, awayScore: Int) ->
+    (homeWinOdds: Double, drawOdds: Double, awayWinOdds: Double) {
         
         // Gesamte Tore berechnen
         let totalGoals = homeScore + awayScore

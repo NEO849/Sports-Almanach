@@ -52,12 +52,3 @@ struct OddsRow: View {
     let mockEvent = MockEvents.events.first!
     return OddsRow(event: mockEvent)
 }
-
-//struct OddsRow_Previews: PreviewProvider {
-//    static var previews: some View {
-//        let mockEvent = MockEvents.events.first!
-//        return OddsRow(event: mockEvent)
-//            .padding()
-//            .environmentObject(EventViewModel(repository: MockEventRepository()))
-//    }
-//

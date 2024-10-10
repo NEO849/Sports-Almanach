@@ -3,7 +3,7 @@
 //  Sports-Almanach
 //
 //  Created by Michael Fleps on 10.09.24.
-//.
+//
 
 import Foundation
 
@@ -48,4 +48,3 @@ struct Event: Identifiable, Codable {
         case status = "strStatus"
     }
 }
-

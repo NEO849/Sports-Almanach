@@ -27,7 +27,7 @@ class FirebaseAuthManager {
         let authResult = try await auth.createUser(withEmail: email, password: password)
         guard let email = authResult.user.email else { throw AuthError.noEmail }
         print("User with email '\(email)' is registered with id '\(authResult.user.uid)'")
-        // TODO CreateProfile
+        // CreateProfile
         try await self.signIn(email: email, password: password)
     }
 

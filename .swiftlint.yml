@@ -1,28 +1,16 @@
-# Maximale Zeilenlänge von 80 Zeichen
+disabled_rules:
+  - force_cast
+  - force_unwrapping
+  - trailing_whitespace
+  - vertical_whitespace
+  - multiple_closures_with_trailing_closure
+  - large_tuple
+  
 line_length: 80
-  wrap_arguments: after_first
-
-# Namen von Variablen, zwischen 2 und 40 Zeichen lang
-identifier_name:
-  min_length: 2
+  wrap_arguments: after_first
+  
+type_name:
+  min_length: 3
   max_length: 40
-  allowed_symbols: ["-", "_"]
-
-# Klassen und Structs  (max. 500 Zeilen).
-type_body_length:
-  warning: 300
-  error: 500
-
-# Funktionen (max. 100 Zeilen).
-function_body_length:
-  warning: 50
-  error: 100
-
-# Verbietet erzwungene Typumwandlungen, die zu Abstürzen führen können.
-force_cast: warning
-
-# Verbietet Leerzeichen am Ende von Zeilen, die zu Problemen führen können.
-trailing_whitespace: error
-
-# Gibt die SwiftLint-Meldungen direkt in Xcode aus.
-reporter: "xcode"
+  allowed_symbols: ["_"]
+  

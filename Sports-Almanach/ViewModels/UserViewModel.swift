@@ -18,7 +18,8 @@ class UserViewModel: ObservableObject {
     @Published var balance: Double = 0.00 // Dynamisch aktua.
     
     // Validierungslogik für die Anmeldung und Registrierung
-    private func validateInputs(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) -> UserError? {
+    private func validateInputs(username: String, email: String,
+                                password: String, passwordRepeat: String, birthday: Date) -> UserError? {
         
         if username.isEmpty || username.contains(" ") {
             return UserError.noSpace

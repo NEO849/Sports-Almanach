@@ -14,7 +14,7 @@ struct EventsView: View {
     
     @State private var selectedSport: Sport = .football
     @State private var selectedLeague: League = .premierLeague
-    @State private var selectedSeason: Season = .season2019_2020
+    @State private var selectedSeason: Season = .season20192020
     
     var body: some View {
         
