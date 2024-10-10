@@ -44,6 +44,9 @@
 		F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */; };
 		F0A0168C2CA09B4400C749E3 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A0168B2CA09B3900C749E3 /* UserError.swift */; };
 		F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */; };
+		F0BB2F882CB748CA0034DB67 /* SwiftLintFramework in Frameworks */ = {isa = PBXBuildFile; productRef = F0BB2F872CB748CA0034DB67 /* SwiftLintFramework */; };
+		F0BB2F8A2CB748CA0034DB67 /* swiftlint in Frameworks */ = {isa = PBXBuildFile; productRef = F0BB2F892CB748CA0034DB67 /* swiftlint */; };
+		F0BB2F8F2CB74BB00034DB67 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +82,7 @@
 		F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		F0A0168B2CA09B3900C749E3 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
 		F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsCalculator.swift; sourceTree = "<group>"; };
+		F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,9 +91,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				F081DC972CB54D9200116E7B /* FirebaseAuth in Frameworks */,
+				F0BB2F882CB748CA0034DB67 /* SwiftLintFramework in Frameworks */,
 				F081DC9D2CB54D9200116E7B /* FirebaseCrashlytics in Frameworks */,
 				F081DC9B2CB54D9200116E7B /* FirebaseCore in Frameworks */,
 				F081DCA12CB54D9200116E7B /* FirebaseFirestoreCombine-Community in Frameworks */,
+				F0BB2F8A2CB748CA0034DB67 /* swiftlint in Frameworks */,
 				F081DC9F2CB54D9200116E7B /* FirebaseFirestore in Frameworks */,
 				F081DC992CB54D9200116E7B /* FirebaseAuthCombine-Community in Frameworks */,
 			);
@@ -101,6 +107,7 @@
 		F046286C2C88A757008FB346 = {
 			isa = PBXGroup;
 			children = (
+				F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */,
 				F04628772C88A757008FB346 /* Sports-Almanach */,
 				F04628762C88A757008FB346 /* Products */,
 				F05BC2D12CA7EA7D00562C51 /* splashintro.mp4 */,
@@ -266,10 +273,13 @@
 				F04628712C88A757008FB346 /* Sources */,
 				F04628722C88A757008FB346 /* Frameworks */,
 				F04628732C88A757008FB346 /* Resources */,
+				F0BB2F8D2CB74A460034DB67 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				F02A91B92CB7501E0082EA00 /* PBXTargetDependency */,
+				F02A91B72CB7500B0082EA00 /* PBXTargetDependency */,
 			);
 			name = "Sports-Almanach";
 			productName = "Sports-Almanach";
@@ -302,6 +312,7 @@
 			mainGroup = F046286C2C88A757008FB346;
 			packageReferences = (
 				F081DC952CB54D9200116E7B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				F0BB2F862CB748CA0034DB67 /* XCRemoteSwiftPackageReference "SwiftLint" */,
 			);
 			productRefGroup = F04628762C88A757008FB346 /* Products */;
 			projectDirPath = "";
@@ -317,6 +328,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F0BB2F8F2CB74BB00034DB67 /* .swiftlint.yml in Resources */,
 				F04628802C88A759008FB346 /* Preview Assets.xcassets in Resources */,
 				F081DC912CB549F500116E7B /* GoogleService-Info.plist in Resources */,
 				F05BC2D22CA7EA7D00562C51 /* splashintro.mp4 in Resources */,
@@ -325,6 +337,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F0BB2F8D2CB74A460034DB67 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]\nthen\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\nif command -v swiftlint >/dev/null 2>&1\nthen\n    swiftlint --fix\nelse\n    echo \"warning: `swiftlint` command not found - See https://github.com/realm/SwiftLint#installation for installation instructions.\"\nfi\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		F04628712C88A757008FB346 /* Sources */ = {
@@ -362,6 +394,17 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		F02A91B72CB7500B0082EA00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = F02A91B62CB7500B0082EA00 /* SwiftLintBuildToolPlugin */;
+		};
+		F02A91B92CB7501E0082EA00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = F02A91B82CB7501E0082EA00 /* SwiftLintFramework */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		F04628812C88A759008FB346 /* Debug */ = {
@@ -492,6 +535,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Sports-Almanach/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -520,6 +564,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Sports-Almanach/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -571,9 +616,27 @@
 				minimumVersion = 11.3.0;
 			};
 		};
+		F0BB2F862CB748CA0034DB67 /* XCRemoteSwiftPackageReference "SwiftLint" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/SwiftLint";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.57.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		F02A91B62CB7500B0082EA00 /* SwiftLintBuildToolPlugin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F0BB2F862CB748CA0034DB67 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = "plugin:SwiftLintBuildToolPlugin";
+		};
+		F02A91B82CB7501E0082EA00 /* SwiftLintFramework */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F0BB2F862CB748CA0034DB67 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = SwiftLintFramework;
+		};
 		F081DC962CB54D9200116E7B /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F081DC952CB54D9200116E7B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -603,6 +666,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F081DC952CB54D9200116E7B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseFirestoreCombine-Community";
+		};
+		F0BB2F872CB748CA0034DB67 /* SwiftLintFramework */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F0BB2F862CB748CA0034DB67 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = SwiftLintFramework;
+		};
+		F0BB2F892CB748CA0034DB67 /* swiftlint */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F0BB2F862CB748CA0034DB67 /* XCRemoteSwiftPackageReference "SwiftLint" */;
+			productName = swiftlint;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

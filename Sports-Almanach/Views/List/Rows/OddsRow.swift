@@ -60,4 +60,4 @@ struct OddsRow: View {
 //            .padding()
 //            .environmentObject(EventViewModel(repository: MockEventRepository()))
 //    }
-//}
+//
