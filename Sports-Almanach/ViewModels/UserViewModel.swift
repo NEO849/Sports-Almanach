@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import FirebaseAuth
+import FirebaseFirestore
 
 @MainActor
 class UserViewModel: ObservableObject {
@@ -19,29 +21,30 @@ class UserViewModel: ObservableObject {
     
     // Validierungslogik für die Anmeldung und Registrierung
     private func validateInputs(username: String, email: String,
-                                password: String, passwordRepeat: String, birthday: Date) -> UserError? {
+                                password: String, passwordRepeat: String, birthday: Date) -> [UserError] {
+        var errors: [UserError] = []
         
         if username.isEmpty || username.contains(" ") {
-            return UserError.noSpace
+            errors.append(UserError.noSpace)
         }
         
         if !isValidEmail(email) {
-            return UserError.invalidEmail
+            errors.append(UserError.invalidEmail)
         }
         
         if !isPasswordValid(password) {
-            return UserError.invalidPassword
+            errors.append(UserError.invalidPassword)
         }
         
         if password != passwordRepeat {
-            return UserError.passwordMismatch
+            errors.append(UserError.passwordMismatch)
         }
         
         if !isOldEnough(birthday: birthday) {
-            return UserError.tooYoung
+            errors.append(UserError.tooYoung)
         }
         
-        return nil // Keine Fehler
+        return errors // Liste der Fehler zurückgeben
     }
     
     // Überprüft Mindestalter
@@ -69,5 +72,47 @@ class UserViewModel: ObservableObject {
         let passwordRegEx = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
         let passwordPred = NSPredicate(format: "SELF MATCHES %@", passwordRegEx)
         return passwordPred.evaluate(with: password)
+    }
+    
+    func register(username: String, email: String, password: String,
+                  passwordRepeat: String, birthday: Date) async {
+        
+        errorMessages = validateInputs(username: username, email: email,
+                                       password: password, passwordRepeat: passwordRepeat, birthday: birthday)
+        guard errorMessages.isEmpty else { return }
+        
+        do {
+            try await FirebaseAuthManager.shared.signUp(email: email, password: password)
+            
+            let db = Firestore.firestore()
+            let newProfile = Profile(id: UUID(), name: username, startMoney: 1000, birthday: birthday)
+            
+            do {
+                try db.collection("Profile").document(newProfile.id.uuidString).setData(from: newProfile)
+                isRegistered = true
+            } catch {
+                print("Fehler beim Speichern des Profils: \(error)")
+                errorMessage = error.localizedDescription
+            }
+            
+        } catch {
+            print("Fehler bei der Registrierung: \(error)")
+            errorMessage = error.localizedDescription
+        }
+    }
+    
+    func login(email: String, password: String) async {
+        do {
+            try await FirebaseAuthManager.shared.signIn(email: email, password: password)
+            isLoggedIn = true
+        } catch {
+            print("Fehler bei der Anmeldung: \(error)")
+            errorMessage = error.localizedDescription
+        }
+    }
+    
+    func logout() {
+        FirebaseAuthManager.shared.signOut()
+        isLoggedIn = false
     }
 }
