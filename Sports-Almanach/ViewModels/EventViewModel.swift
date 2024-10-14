@@ -11,5 +11,7 @@ class EventViewModel: ObservableObject {
     
     @Published var events: [Event] = []
 
-
+    init() {
+          self.events = MockEvents.events 
+      }
 }
