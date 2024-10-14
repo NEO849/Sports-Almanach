@@ -63,11 +63,6 @@ struct EventsView: View {
                         NavigationLink(destination: EventDetailView(event: event)) {
                             HStack {
                                 EventRow(event: event) // Iterriert durch
-                                
-                                Spacer() // Zwischen Row & Pfeil
-                                
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.white)
                             }
                             .padding(.vertical, 10)
                         }
