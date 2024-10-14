@@ -10,7 +10,7 @@ line_length: 80
   wrap_arguments: after_first
   
 type_name:
-  min_length: 2
+  min_length: 3
   max_length: 40
   allowed_symbols: ["_"]
   

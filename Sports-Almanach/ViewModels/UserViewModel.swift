@@ -84,11 +84,11 @@ class UserViewModel: ObservableObject {
         do {
             try await FirebaseAuthManager.shared.signUp(email: email, password: password)
             
-            let db = Firestore.firestore()
+            let docb = Firestore.firestore()
             let newProfile = Profile(id: UUID(), name: username, startMoney: 1000, birthday: birthday)
             
             do {
-                try db.collection("Profile").document(newProfile.id.uuidString).setData(from: newProfile)
+                try docb.collection("Profile").document(newProfile.id.uuidString).setData(from: newProfile)
                 isRegistered = true
             } catch {
                 print("Fehler beim Speichern des Profils: \(error)")
