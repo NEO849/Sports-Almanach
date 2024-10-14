@@ -61,21 +61,4 @@ class FirebaseAuthManager {
     }
     
     private let auth = Auth.auth()
-
-}
-
-enum AuthError: LocalizedError {
-    case noEmail
-    case notAuthenticated
-    
-    var errorDescription: String { "Auth Error" }
-    
-    var localizedDescription: String {
-        switch self {
-        case .noEmail:
-            "No email was found on newly created user."
-        case .notAuthenticated:
-            "The user is not authenticated."
-        }
-    }
 }
