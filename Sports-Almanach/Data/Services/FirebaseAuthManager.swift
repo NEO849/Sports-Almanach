@@ -11,14 +11,14 @@ import FirebaseAuth
 @Observable
 class FirebaseAuthManager {
     
+    //  Singleton-Instanz
     static let shared = FirebaseAuthManager()
-    
-    var user: User?
-    
+    //  Aktuell angemeldeter Firebase-Benutzer
+    private var user: User?
+    //  Ob ein Benutzer angemeldet ist und darunter die ID zurück geben
     var isUserSignedIn: Bool {
         user != nil
     }
-    
     var userID: String? {
         user?.uid
     }
@@ -27,8 +27,6 @@ class FirebaseAuthManager {
         let authResult = try await auth.createUser(withEmail: email, password: password)
         guard let email = authResult.user.email else { throw AuthError.noEmail }
         print("User with email '\(email)' is registered with id '\(authResult.user.uid)'")
-        // CreateProfile
-        try await self.signIn(email: email, password: password)
     }
 
     func signIn(email: String, password: String) async throws {
