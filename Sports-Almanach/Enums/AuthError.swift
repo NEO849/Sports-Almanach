@@ -11,14 +11,12 @@ enum AuthError: LocalizedError {
     case noEmail
     case notAuthenticated
     
-    var errorDescription: String { "Auth Error" }
-    
-    var localizedDescription: String {
+    var errorDescriptionGerman: String? {
         switch self {
         case .noEmail:
-            "No email was found on newly created user."
+            return "Es wurde keine E-Mail-Adresse für den neu erstellten Benutzer gefunden."
         case .notAuthenticated:
-            "The user is not authenticated."
+            return "Der Benutzer ist nicht authentifiziert."
         }
     }
 }
