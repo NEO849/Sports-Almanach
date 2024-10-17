@@ -15,18 +15,11 @@ struct RegisterView: View {
     @State private var password: String = ""
     @State private var passwordRepeat: String = ""
     
-    // Status Passwortsichtbarkeit
+    @StateObject var userViewModel = UserViewModel()  // Für Registrierung
     @State private var isPasswordVisible: Bool = false
     @State private var isRepeatPasswordVisible: Bool = false
-    
-    // Fehlerbehandlungen
-    @State private var showErrorAlert: Bool = false
-    
-    // Navigation
     @State private var navigateToContentView: Bool = false
     @Environment(\.presentationMode) var presentationMode
-    
-    // Geburtstag
     @State private var birthday: Date = Date()
     
     var body: some View {
@@ -173,7 +166,7 @@ struct RegisterView: View {
                             .foregroundColor(.white.opacity(0.8))
                             .padding(.leading, 12)
                         Spacer()
-                        Text(String(format: "1000.00 €     "))
+                        Text(String(format: "%.2f €", userViewModel.startMoney))
                             .foregroundColor(.white.opacity(0.8))
                     }
                     .frame(width: 300, height: 50)
@@ -206,7 +199,6 @@ struct RegisterView: View {
                     // Registrieren
                     Button(action: {
                         attemptSignUp()
-                        
                     }) {
                         Text("REGISTRIEREN")
                             .font(.headline)
@@ -227,32 +219,34 @@ struct RegisterView: View {
                     .padding(.top, 32)
                 }
             }
-            .alert(isPresented: $showErrorAlert) {
-                Alert(
-                    title: Text("Fehler"),
-                    message: Text( "TODO Fehlerbehandlung"),
-                    dismissButton: .default(Text("OK"))
-                )
-            }
             .navigationBarBackButtonHidden(true) // Entfernt Back-Button aktuellen View
             .navigationDestination(isPresented: $navigateToContentView) {
                 ContentView()
                     .navigationBarBackButtonHidden(true) // Entfernt Back-Button ContentView
             }
+            .alert("Fehler", isPresented: $showErrorAlert) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                ForEach(userViewModel.errorMessages, id: \.self) { error in
+                    Text(error.errorDescriptionGerman ?? "Unbekannter Fehler")
+                }
+            }
         }
     }
     
-    private func attemptSignUp() {
+    // Registrierung starten
+    func attemptSignUp() {
         Task {
-            do {
-                try await FirebaseAuthManager.shared.signUp(email: email, password: password)
-            } catch {
-                print("SignUp Failed \(error.localizedDescription)")
+            await userViewModel.register(username: username, email: email, password: password, passwordRepeat: passwordRepeat, birthday: birthday)
+            
+            if userViewModel.errorMessages.isEmpty {
+                navigateToContentView = true
+            } else {
+                showErrorAlert = true
             }
         }
     }
 }
-
 
 #Preview {
     RegisterView()
