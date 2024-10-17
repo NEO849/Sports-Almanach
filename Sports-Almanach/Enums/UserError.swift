@@ -17,6 +17,7 @@ enum UserError: Error, LocalizedError {
     case invalidPassword
     case tooYoung
     case noSpace
+    case unknownError
 
     // Durch Switch-Case, Fehlermeldung in Deutsch, ohne den rawValue und einfacher Erweiterbarkeit
     var errorDescriptionGerman: String? {
@@ -37,6 +38,8 @@ enum UserError: Error, LocalizedError {
             return "Mindestalter 18 Jahre!"
         case .noSpace:
             return "Keine Leerzeichen Im Namen"
+        case .unknownError:
+            return "Unbekannter Fehler."
         }
     }
 }
