@@ -21,6 +21,7 @@
 		F046287D2C88A758008FB346 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F046287C2C88A758008FB346 /* Assets.xcassets */; };
 		F04628802C88A759008FB346 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F046287F2C88A759008FB346 /* Preview Assets.xcassets */; };
 		F04A087A2CBD361300E493FF /* EventResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04A08792CBD360900E493FF /* EventResponse.swift */; };
+		F04A087D2CBD508000E493FF /* EventRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04A087C2CBD507A00E493FF /* EventRepository.swift */; };
 		F05BC2BE2CA6A67F00562C51 /* Sport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2BD2CA6A67600562C51 /* Sport.swift */; };
 		F05BC2C02CA6A79B00562C51 /* League.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2BF2CA6A79700562C51 /* League.swift */; };
 		F05BC2C22CA6A85B00562C51 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2C12CA6A85400562C51 /* Season.swift */; };
@@ -71,6 +72,8 @@
 		F0A0168C2CA09B4400C749E3 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A0168B2CA09B3900C749E3 /* UserError.swift */; };
 		F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */; };
 		F0BB2F8F2CB74BB00034DB67 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */; };
+		F0DFB6CD2CC005E400819342 /* BirthdayChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DFB6CC2CC005DF00819342 /* BirthdayChecker.swift */; };
+		F0DFB6CF2CC0720000819342 /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DFB6CE2CC071F600819342 /* DateConverter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,6 +92,7 @@
 		F046287C2C88A758008FB346 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F046287F2C88A759008FB346 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F04A08792CBD360900E493FF /* EventResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventResponse.swift; sourceTree = "<group>"; };
+		F04A087C2CBD507A00E493FF /* EventRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRepository.swift; sourceTree = "<group>"; };
 		F05BC2BD2CA6A67600562C51 /* Sport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sport.swift; sourceTree = "<group>"; };
 		F05BC2BF2CA6A79700562C51 /* League.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = League.swift; sourceTree = "<group>"; };
 		F05BC2C12CA6A85400562C51 /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
@@ -109,6 +113,8 @@
 		F0A0168B2CA09B3900C749E3 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
 		F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsCalculator.swift; sourceTree = "<group>"; };
 		F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		F0DFB6CC2CC005DF00819342 /* BirthdayChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayChecker.swift; sourceTree = "<group>"; };
+		F0DFB6CE2CC071F600819342 /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -194,6 +200,14 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		F04A087B2CBD506200E493FF /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				F04A087C2CBD507A00E493FF /* EventRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
 		F05BC2C32CA6AF2700562C51 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -248,6 +262,7 @@
 		F095C8F42C89F725002C94FD /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				F04A087B2CBD506200E493FF /* Repositories */,
 				F081DC922CB54C9400116E7B /* Services */,
 				F095C8F72C8FAE74002C94FD /* Models */,
 				F095C8F62C8FAE58002C94FD /* MockData */,
@@ -286,6 +301,8 @@
 		F095C90C2C8FD5B5002C94FD /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				F0DFB6CE2CC071F600819342 /* DateConverter.swift */,
+				F0DFB6CC2CC005DF00819342 /* BirthdayChecker.swift */,
 				F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */,
 			);
 			path = Utils;
@@ -415,6 +432,8 @@
 				F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */,
 				F081DC942CB54CDD00116E7B /* FirebaseAuthManager.swift in Sources */,
 				F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */,
+				F0DFB6CF2CC0720000819342 /* DateConverter.swift in Sources */,
+				F04A087D2CBD508000E493FF /* EventRepository.swift in Sources */,
 				F04A087A2CBD361300E493FF /* EventResponse.swift in Sources */,
 				F0A0168C2CA09B4400C749E3 /* UserError.swift in Sources */,
 				F05BC2C02CA6A79B00562C51 /* League.swift in Sources */,
@@ -437,6 +456,7 @@
 				F00CB7092C9CF4B4003D70E3 /* EventsView.swift in Sources */,
 				F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */,
 				F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */,
+				F0DFB6CD2CC005E400819342 /* BirthdayChecker.swift in Sources */,
 				F05BC2CB2CA7339F00562C51 /* BetViewModel.swift in Sources */,
 				F00CB7162C9E480D003D70E3 /* SplashView.swift in Sources */,
 				F095C8F92C8FAE97002C94FD /* EventStatus.swift in Sources */,
