@@ -9,10 +9,10 @@ import SwiftUI
 
 struct LoginView: View {
     
+    @EnvironmentObject var userViewModel: UserViewModel
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
-    @State private var showAlert: Bool = false
     
     var body: some View {
         
@@ -52,7 +52,7 @@ struct LoginView: View {
                     }
                     .padding(.bottom, 42)
                     
-                    // Mit Augen-Symbol
+                    // Passwort mit Sichtbarkeit Toggle
                     HStack {
                         ZStack(alignment: .leading) {
                             if password.isEmpty {
@@ -84,8 +84,7 @@ struct LoginView: View {
                                     )
                             }
                             
-                            
-                            // Passwort Sichtbar
+                            // Passwort Sichtbar Button
                             Button(action: {
                                 isPasswordVisible.toggle()
                             }) {
@@ -149,22 +148,41 @@ struct LoginView: View {
                 }
             }
             .navigationBarBackButtonHidden(true)
-            .alert(isPresented: $showAlert) {
+            .alert(isPresented: $userViewModel.showError) {
                 Alert(
                     title: Text("Fehler"),
-                    message: Text("TODO Fehler"),
-                    dismissButton: .default(Text("OK"))
+                    message: Text(userViewModel.errorMessage ?? "Unbekannter Fehler"),
+                    dismissButton: .default(Text("OK")) {
+                        // Reset der Eingabefelder
+                        email = ""
+                        password = ""
+                    }
                 )
             }
         }
     }
     
+    // Funktion zum Anmelden des Benutzers
     private func attemptSignIn() {
+        // Überprüfen der Eingaben vor der Anmeldung
+        if email.isEmpty || password.isEmpty {
+            userViewModel.errorMessage = UserError.emailOrPasswordInvalid.errorDescriptionGerman
+            userViewModel.showError = true
+            return
+        }
+        
         Task {
             do {
+                // Versuch, den Benutzer anzumelden
                 try await FirebaseAuthManager.shared.signIn(email: email, password: password)
+            } catch let error as UserError {
+                // Spezifische Fehler
+                userViewModel.errorMessage = error.errorDescriptionGerman
+                userViewModel.showError = true
             } catch {
-                print("Login Failed \(error.localizedDescription)")
+                // Unbekannter Fehler
+                userViewModel.errorMessage = UserError.unknownError.errorDescriptionGerman
+                userViewModel.showError = true
             }
         }
     }
