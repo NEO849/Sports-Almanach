@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct EventsView: View {
     
     @EnvironmentObject var eventViewModel: EventViewModel
@@ -47,6 +46,61 @@ struct EventsView: View {
                                       .stroke(Color.orange, lineWidth: 2)
                               )
 
+                              Menu {
+                                  ForEach(Season.allCases) { season in
+                                      Button(season.year) {
+                                          selectedSeason = season
+                                          Task {
+                                              await eventViewModel.fetchEvents(for: selectedSeason)
+                                          }
+                                      }
+                                  }
+                              } label: {
+                                  Text("Saison: \(selectedSeason.year)")
+                              }
+                              .padding()
+                              .overlay(
+                                  RoundedRectangle(cornerRadius: 8)
+                                      .stroke(Color.orange, lineWidth: 2)
+                              )
+                          }
+                          .padding()
+                          
+                          List {
+                              ForEach(eventViewModel.events) { event in
+                                  NavigationLink(destination: EventDetailView(event: event)) {
+                                      HStack {
+                                          EventRow(event: event)
+                                      }
+                                      .padding(.vertical, 10)
+                                  }
+                                  .listRowBackground(Color.clear)
+                              }
+                          }
+                          .overlay {
+                              if eventViewModel.isLoading {
+                                  ProgressView()
+                              } else if let errorMessage = eventViewModel.errorMessage {
+                                  Text(errorMessage)
+                                      .foregroundColor(.red)
+                                      .padding()
+                                      .onAppear {
+                                          DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                                              eventViewModel.errorMessage = nil
+                                          }
+                                      }
+                              }
+                          }
+                          .listStyle(PlainListStyle())
+                          .navigationTitle("")
+                      }
+                  }
+              }
+              .task {
+                  await eventViewModel.fetchEvents(for: selectedSeason)
+              }
+          }
+      }
 
 #Preview {
     EventsView()
