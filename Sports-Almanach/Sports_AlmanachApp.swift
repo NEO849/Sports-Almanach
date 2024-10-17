@@ -20,8 +20,11 @@ struct Sports_AlmanachApp: App {
         WindowGroup {
             if FirebaseAuthManager.shared.isUserSignedIn {
                 ContentView()
+                    .environmentObject(userViewModel)
+                    .environmentObject(eventViewModel)
             } else {
                 SplashView()
+                    .environmentObject(userViewModel)  
             }
             
         }
