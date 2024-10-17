@@ -21,6 +21,7 @@ struct RegisterView: View {
     @State private var navigateToContentView: Bool = false
     @Environment(\.presentationMode) var presentationMode
     @State private var birthday: Date = Date()
+    @State private var showErrorAlert: Bool = false
     
     var body: some View {
         
