@@ -11,6 +11,9 @@ import Firebase
 @main
 struct Sports_AlmanachApp: App {
     
+    @StateObject var userViewModel = UserViewModel()
+    @StateObject var eventViewModel = EventViewModel()
+    
     init() {
         FirebaseConfiguration.shared.setLoggerLevel(.min)
         FirebaseApp.configure()

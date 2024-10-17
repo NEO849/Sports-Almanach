@@ -10,9 +10,8 @@ import SwiftUI
 
 struct EventsView: View {
     
-    @StateObject var eventViewModel = EventViewModel()
+    @EnvironmentObject var eventViewModel: EventViewModel
     
-    @State private var selectedSport: Sport = .football
     @State private var selectedLeague: League = .premierLeague
     @State private var selectedSeason: Season = .season20192020
     
@@ -26,55 +25,27 @@ struct EventsView: View {
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack {
-                    // Sportarten
-                    Picker("Sportart", selection: $selectedSport) {
-                        ForEach(Sport.allCases) { sport in
-                            Text(sport.titleGerman).tag(sport)
-                        }
-                    }
-                    .pickerStyle(WheelPickerStyle())
-                    .frame(height: 44)
-                    .background(Color.white)
-                    .padding()
-                    
-                    // Ligen
-                    Picker("Liga", selection: $selectedLeague) {
-                        ForEach(League.allCases) { league in
-                            Text(league.rawValue).tag(league)
-                        }
-                    }
-                    .pickerStyle(WheelPickerStyle())
-                    .frame(height: 44)
-                    .background(Color.white)
-                    .padding()
-                    
-                    // Saison
-                    Picker("Saison", selection: $selectedSeason) {
-                        ForEach(Season.allCases) { season in
-                            Text(season.year).tag(season)
-                        }
-                    }
-                    .pickerStyle(WheelPickerStyle())
-                    .frame(height: 44)
-                    .background(Color.white)
-                    .padding()
-                    
-                    List(eventViewModel.events) { event in
-                        NavigationLink(destination: EventDetailView(event: event)) {
-                            HStack {
-                                EventRow(event: event) // Iterriert durch
-                            }
-                            .padding(.vertical, 10)
-                        }
-                        .listRowBackground(Color.clear)
-                    }
-                    .listStyle(PlainListStyle())
-                    .navigationTitle(" ")
-                }
-            }
-        }
-    }
-}
+                          Text("Entdecke die Welt des Fussballs")
+                              .foregroundColor(.white)
+                              .font(.title)
+                              .padding()
+                          
+                          HStack {
+                              Menu {
+                                  ForEach(League.allCases) { league in
+                                      Button(league.rawValue) {
+                                          selectedLeague = league
+                                          //  Eventuell API-Aufruf für die Liga
+                                      }
+                                  }
+                              } label: {
+                                  Text("Liga: \(selectedLeague.rawValue)")
+                              }
+                              .padding()
+                              .overlay(
+                                  RoundedRectangle(cornerRadius: 8)
+                                      .stroke(Color.orange, lineWidth: 2)
+                              )
 
 
 #Preview {

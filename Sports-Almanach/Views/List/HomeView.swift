@@ -11,7 +11,8 @@ struct HomeView: View {
     
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var eventViewModel: EventViewModel
-    
+    @State private var navigateToLogin: Bool = false
+
     var body: some View {
         
         NavigationStack {
@@ -25,7 +26,7 @@ struct HomeView: View {
                     HStack {
                         Spacer()
                         Button(action: {
-                            FirebaseAuthManager.shared.signOut()
+                            userViewModel.logout()  // Logout func
                         }) {
                             Image(systemName: "rectangle.portrait.and.arrow.right")
                                 .foregroundColor(.white)
@@ -45,9 +46,17 @@ struct HomeView: View {
                 }
             }
             .navigationBarBackButtonHidden(true)
+            .onChange(of: userViewModel.isLoggedIn) { isLoggedIn in
+                           if !isLoggedIn {
+                               navigateToLogin = true  // Bei Abmeldung zur Login
+                           }
+                       }
+                .navigationDestination(isPresented: $navigateToLogin) {
+                    LoginView()  // Login-Ansicht anzeigen, wenn der Benutzer abgemeldet ist
+                }
+            }
         }
     }
-}
 
 #Preview {
     HomeView()
