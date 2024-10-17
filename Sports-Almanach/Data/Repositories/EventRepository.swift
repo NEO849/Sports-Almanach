@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-/// Kümmert sich um die Kommunikation mit der API und die Datenverarbeitung.
+/// Kümmert sich um die Kommunikation mit der API und die Datenverarbeitung
 class EventRepository {
     
     func fetchEvents(for season: Season) async throws -> [Event] {
