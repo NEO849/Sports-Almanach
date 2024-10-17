@@ -8,20 +8,26 @@
 import Foundation
 import FirebaseAuth
 import FirebaseFirestore
+import SwiftUI
 
 @MainActor
 class UserViewModel: ObservableObject {
     
-    @Published var errorMessage: String?
-    @Published var errorMessages: [UserError] = []
+    @Published var showError: Bool = false
+    @Published var errorMessage: String?  // Login-Fehler
+    @Published var errorMessages: [UserError] = []  // Registrierungs-Fehler
     @Published var isLoggedIn: Bool = false
     @Published var isRegistered: Bool = false
     @Published var startMoney: Double = 1000.00
-    @Published var balance: Double = 0.00 // Dynamisch aktua.
+    @Published var balance: Double = 0.00
+    @Published var userBirthday: Timestamp?
     
-    // Validierungslogik für die Anmeldung und Registrierung
-    private func validateInputs(username: String, email: String,
-                                password: String, passwordRepeat: String, birthday: Date) -> [UserError] {
+    init() {
+        BirthdayChecker.scheduleBirthdayCheck(for: self)
+    }
+
+    // Validiert die Eingabefelder
+    private func validateInputs(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) -> [UserError] {
         var errors: [UserError] = []
         
         if username.isEmpty || username.contains(" ") {
@@ -44,51 +50,49 @@ class UserViewModel: ObservableObject {
             errors.append(UserError.tooYoung)
         }
         
-        return errors // Liste der Fehler zurückgeben
+        return errors
     }
     
-    // Überprüft Mindestalter
     private func isOldEnough(birthday: Date) -> Bool {
         let age = calculateAge(birthday: birthday)
         return age >= 18
     }
     
-    // Berechnet das Alter basierend auf dem Geburtsdatum
     private func calculateAge(birthday: Date) -> Int {
         let calendar = Calendar.current
         let ageComponents = calendar.dateComponents([.year], from: birthday, to: Date())
-        return ageComponents.year ?? 0 // Option, zwecks abstürzen
+        return ageComponents.year ?? 0
     }
     
-    // Ob E-Mail gültig ist
     private func isValidEmail(_ email: String) -> Bool {
         let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
         let emailPred = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
     
-    // Ob Passwort den Anforderungen entspricht
     private func isPasswordValid(_ password: String) -> Bool {
         let passwordRegEx = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
         let passwordPred = NSPredicate(format: "SELF MATCHES %@", passwordRegEx)
         return passwordPred.evaluate(with: password)
     }
-    
-    func register(username: String, email: String, password: String,
-                  passwordRepeat: String, birthday: Date) async {
         
-        errorMessages = validateInputs(username: username, email: email,
-                                       password: password, passwordRepeat: passwordRepeat, birthday: birthday)
-        guard errorMessages.isEmpty else { return }
+    // Registrierung
+    func register(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) async {
+        
+        errorMessages = validateInputs(username: username, email: email, password: password, passwordRepeat: passwordRepeat, birthday: birthday)
+        
+        guard errorMessages.isEmpty else {
+            return // Fehler zurückgeben
+        }
         
         do {
             try await FirebaseAuthManager.shared.signUp(email: email, password: password)
             
-            let docb = Firestore.firestore()
-            let newProfile = Profile(id: UUID(), name: username, startMoney: 1000, birthday: birthday)
+            let datab = Firestore.firestore()
+            let newProfile = Profile(id: UUID(), name: username, startMoney: startMoney, birthday: birthday)
             
             do {
-                try docb.collection("Profile").document(newProfile.id.uuidString).setData(from: newProfile)
+                try datab.collection("Profile").document(newProfile.id.uuidString).setData(from: newProfile)
                 isRegistered = true
             } catch {
                 print("Fehler beim Speichern des Profils: \(error)")
@@ -97,22 +101,28 @@ class UserViewModel: ObservableObject {
             
         } catch {
             print("Fehler bei der Registrierung: \(error)")
-            errorMessage = error.localizedDescription
+            errorMessages.append(.emailOrPasswordInvalid)  // Fehler zur Liste hinzufügen
         }
     }
     
+    // Anmeldung
     func login(email: String, password: String) async {
         do {
             try await FirebaseAuthManager.shared.signIn(email: email, password: password)
             isLoggedIn = true
         } catch {
             print("Fehler bei der Anmeldung: \(error)")
-            errorMessage = error.localizedDescription
+            errorMessage = UserError.emailOrPasswordInvalid.errorDescription 
         }
     }
     
     func logout() {
         FirebaseAuthManager.shared.signOut()
         isLoggedIn = false
+    }
+    
+    func checkUserBirthday() {
+        guard let userId = FirebaseAuthManager.shared.userID, let userBirthday = userBirthday else { return }
+        BirthdayChecker.checkBirthday(userId: userId, birthday: userBirthday)
     }
 }
