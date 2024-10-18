@@ -10,6 +10,7 @@ import SwiftUI
 struct EventRow: View {
     
     let event: Event
+    @EnvironmentObject var eventViewModel: EventViewModel
     
     var body: some View {
         
@@ -23,7 +24,7 @@ struct EventRow: View {
             } placeholder: {
                 ProgressView()
                     .frame(height: 32)
-                    .progressViewStyle(CircularProgressViewStyle(tint: .gray))
+                    .progressViewStyle(CircularProgressViewStyle(tint: .orange))
             }
             
             Spacer().frame(height: 8)
@@ -36,16 +37,18 @@ struct EventRow: View {
                         .foregroundColor(.white)
                     
                     HStack(spacing: 8) {
-                        Text("\(event.date) um \(event.time)")
-                                      .font(.subheadline)
-                                      .foregroundColor(.orange)
+                        Text("\(eventViewModel.formattedDate(for: event)) um \(eventViewModel.formattedTime(for: event))")
+                            .font(.subheadline)
+                            .foregroundColor(.orange)
                     }
                 }
                 Spacer() // Status nach rechts
-                Text(event.status.currentStatusGerman)
+                
+                let status = EventStatus(rawValue: event.statusString) ?? .unknown // Fallback in Enum
+                Text(status.currentStatusGerman)
                     .font(.subheadline)
                     .padding(6)
-                    .background(event.status.color)
+                    .background(status.color)
                     .cornerRadius(8)
                     .foregroundColor(.white)
             }
