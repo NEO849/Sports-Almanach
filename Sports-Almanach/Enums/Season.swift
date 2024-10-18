@@ -7,9 +7,6 @@
 
 /// Jahreszahlenbereiche (Saison)
 enum Season: String, Identifiable, CaseIterable {
-    case season20172018 = "2017-2018"
-    case season20182019 = "2018-2019"
-    case season20192020 = "2019-2020"
     case season20202021 = "2020-2021"
     case season20212022 = "2021-2022"
     case season20222023 = "2022-2023"
@@ -24,6 +21,6 @@ enum Season: String, Identifiable, CaseIterable {
     
     // Eigenschaft für die aktuelle Saison
     static var current: Season {
-        return .season20192020
+        return .season20202021
     }
 }

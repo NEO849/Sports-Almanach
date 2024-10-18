@@ -35,7 +35,7 @@ enum EventStatus: String, Codable, Identifiable, CaseIterable {
     var color: Color {
         switch self {
         case .matchFinished:
-            return .black
+            return .gray
         case .notStarted:
             return .green
         case .inProgress:
@@ -43,7 +43,7 @@ enum EventStatus: String, Codable, Identifiable, CaseIterable {
         case .soonFinished:
             return .orange
         case .unknown:
-            return .gray
+            return .black
         }
     }
 }
