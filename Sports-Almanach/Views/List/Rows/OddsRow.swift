@@ -19,7 +19,8 @@ struct OddsRow: View {
                 .font(.title2)
                 .bold()
             
-            let odds = OddsCalculator.calculateOdds(homeScore: event.homeScore, awayScore: event.awayScore)
+            // Nil-Koaleszenz-Operator
+            let odds = OddsCalculator.calculateOdds(homeScore: event.homeScore ?? 0, awayScore: event.awayScore ?? 0)
             
             HStack {
                 Text("Heimsieg:")
