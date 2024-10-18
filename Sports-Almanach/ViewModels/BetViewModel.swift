@@ -11,18 +11,18 @@ import SwiftUICore
 class BetViewModel: ObservableObject {
     
     @EnvironmentObject var userViewModel: UserViewModel
-    @Published var selectedEvent: Event?
+    @Published var selectedBetEvent: Event?
     @Published var betAmount: Double = 0.0        // Wetteinsatz
-    @Published var betOutcomeResult: BetOutcome?  // Status-ergebnis der Wette
+    @Published var betOutcomeResult: BetOutcome?  // Ergebnis der Wette
     
-    /// Berechnet die Quoten für das ausgewählte Event und führt die Wette aus
+    /// Führt die Wette aus
     func placeBet(on event: Event, outcome: BetOutcome, betAmount: Double) {
         // Speichert das Event, auf das gewettet wurde
-        selectedEvent = event
+        selectedBetEvent = event
         self.betAmount = betAmount
         
         // Berechnet die Quoten
-        let odds = OddsCalculator.calculateOdds(homeScore: event.homeScore, awayScore: event.awayScore)
+        let odds = OddsCalculator.calculateOdds(homeScore: event.homeScore ?? 0, awayScore: event.awayScore ?? 0)
         
         // Ergebnis basierend auf der Auswahl und den Quoten
         var winAmount: Double = 0.0
