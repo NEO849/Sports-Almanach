@@ -22,6 +22,7 @@ struct EventDetailView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack(alignment: .leading, spacing: 20) {
+                
                 // Thumbnail mit Ladebalken
                 AsyncImage(url: URL(string: event.image)) { image in
                     image
@@ -71,7 +72,8 @@ struct EventDetailView: View {
                             .font(.title3)
                             .foregroundColor(.blue)
                         
-                        Text("Ergebnis: \(event.homeScore)")
+                        // Ergebnis umwandeln
+                        Text("Ergebnis: \(event.homeScore != nil ? String(event.homeScore!) : "N/A")")
                             .font(.body)
                             .foregroundColor(.orange)
                     }
@@ -90,7 +92,7 @@ struct EventDetailView: View {
                             .font(.title3)
                             .foregroundColor(.blue)
                         
-                        Text("Ergebnis: \(event.awayScore)")
+                                Text("Ergebnis: \(event.awayScore != nil ? String(event.awayScore!) : "N/A")")
                             .font(.body)
                             .foregroundColor(.orange)
                     }
@@ -103,28 +105,32 @@ struct EventDetailView: View {
                 )
                 .frame(maxWidth: .infinity, alignment: .center)
                 
-                // Farbiger Text (deutsch) für den Status
-                Text(event.status.currentStatusGerman)
+                let status = EventStatus(rawValue: event.statusString) ?? .unknown // Konvertierung
+                Text(status.currentStatusGerman)
                     .font(.headline)
                     .padding()
-                    .background(event.status.color)
+                    .background(status.color)
                     .foregroundColor(.white)
                     .cornerRadius(8)
                     .padding(.horizontal, 34)
-
                 
-                // Video-Anzeige
-                VideoPlayer(player: AVPlayer(url: URL(string: event.videoURL)!))
-                    .frame(maxWidth: 340)
-                    .frame(height: 200)
-                    .cornerRadius(10)
-                    .shadow(radius: 5)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.orange, lineWidth: 1)
-                    )
+                // Überprüfung auf gültige URL
+                if let videoURLString = event.videoURL?.replacingOccurrences(of: "https:\\/\\/", with: "https://"),
+                   let videoURL = URL(string: videoURLString) {
+                    VideoPlayer(player: AVPlayer(url: videoURL))
+                        .frame(maxWidth: 340)
+                        .frame(height: 200)
+                        .cornerRadius(10)
+                        .shadow(radius: 5)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.orange, lineWidth: 1)
+                        )
+                        .frame(maxWidth: .infinity, alignment: .center)
+                } else {
+                    Text("Video nicht verfügbar")
+                }
                 
-                    .frame(maxWidth: .infinity, alignment: .center)
             }
             .padding()
             .navigationTitle("")
@@ -134,6 +140,6 @@ struct EventDetailView: View {
 
 
 #Preview {
-    let eventViewModel = EventViewModel()
-    return EventDetailView(event: eventViewModel.events.first!)
+    let mockEvent = MockEvents.events.first!
+    return EventDetailView(event: mockEvent)
 }
