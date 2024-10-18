@@ -12,6 +12,8 @@ import AVKit
 struct EventDetailView: View {
     
     let event: Event
+    @State private var player: AVPlayer?
+    @State private var isPlaying: Bool = false
     
     var body: some View {
         
@@ -41,11 +43,12 @@ struct EventDetailView: View {
                 
                 // Titel des Events
                 Text(event.name)
-                    .font(.title)
+                    .font(.title3)
                     .bold()
                     .multilineTextAlignment(.center)
                     .foregroundColor(.blue)
-                    .frame(maxWidth: .infinity, alignment: .center)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.leading, 32)
                 
                 // Datum und Uhrzeit
                 Text("Datum: \(event.date) um \(event.time)")
@@ -71,6 +74,8 @@ struct EventDetailView: View {
                         Text("\(event.homeTeam)")
                             .font(.title3)
                             .foregroundColor(.blue)
+                            .lineLimit(1)
+                            .truncationMode(.tail)
                         
                         // Ergebnis umwandeln
                         Text("Ergebnis: \(event.homeScore != nil ? String(event.homeScore!) : "0")")
@@ -90,9 +95,10 @@ struct EventDetailView: View {
                         
                         Text("\(event.awayTeam)")
                             .font(.title3)
-                            .foregroundColor(.blue)
+                            .foregroundColor(.blue)      .lineLimit(1)
+                            .truncationMode(.tail)
                         
-                                Text("Ergebnis: \(event.awayScore != nil ? String(event.awayScore!) : "0")")
+                        Text("Ergebnis: \(event.awayScore != nil ? String(event.awayScore!) : "0")")
                             .font(.body)
                             .foregroundColor(.orange)
                     }
@@ -105,14 +111,7 @@ struct EventDetailView: View {
                 )
                 .frame(maxWidth: .infinity, alignment: .center)
                 
-                let status = EventStatus(rawValue: event.statusString) ?? .unknown // Konvertierung
-                Text(status.currentStatusGerman)
-                    .font(.headline)
                     .padding()
-                    .background(status.color)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
-                    .padding(.horizontal, 34)
                 
                 // Überprüfung auf gültige URL
                 if let videoURLString = event.videoURL?.replacingOccurrences(of: "https:\\/\\/", with: "https://"),
