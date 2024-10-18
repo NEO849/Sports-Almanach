@@ -20,17 +20,23 @@ class EventViewModel: ObservableObject {
         }
     }
     
-    // Funktion zum Abrufen der Events
+    // Abrufen der Events
     func fetchEvents(for season: Season) async {
-        isLoading = true
+        await MainActor.run {
+            self.isLoading = true
+        }
+        
         do {
             let fetchedEvents = try await eventRepository.fetchEvents(for: season)
-            DispatchQueue.main.async {
-                self.events = fetchedEvents // Events in die Liste speichern
+            // Aktualisiert die Events auf dem Haupt-Thread
+            await MainActor.run {
+                self.events = fetchedEvents
                 self.isLoading = false
+                print("Geladene Events im ViewModel: \(fetchedEvents)")
             }
         } catch {
-            DispatchQueue.main.async {
+            // Fehlerbehandlung auf dem Haupt-Thread
+            await MainActor.run {
                 self.errorMessage = "Fehler beim Abrufen der Events: \(error.localizedDescription)"
                 self.isLoading = false
             }

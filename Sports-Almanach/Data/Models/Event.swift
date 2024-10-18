@@ -17,8 +17,8 @@ struct Event: Identifiable, Codable {
     let season: String
     let homeTeam: String
     let awayTeam: String
-    let homeScore: Int?
-    let awayScore: Int?
+    let homeScore: String?
+    let awayScore: String?
     let date: String
     let time: String
     let stadion: String
