@@ -13,7 +13,7 @@ enum EventStatus: String, Codable, Identifiable, CaseIterable {
     case notStarted = "Not Started"
     case inProgress = "In Progress"
     case soonFinished = "Finished Soon"
-    
+    case unknown = "Unknown"  // Fallback
     
     var id: String { rawValue }
     
@@ -27,9 +27,11 @@ enum EventStatus: String, Codable, Identifiable, CaseIterable {
             return "Spiel läuft"
         case .soonFinished:
             return "Endet bald"
+        case .unknown: 
+            return "Unbekannt"
         }
     }
-
+    
     var color: Color {
         switch self {
         case .matchFinished:
@@ -40,6 +42,8 @@ enum EventStatus: String, Codable, Identifiable, CaseIterable {
             return .yellow
         case .soonFinished:
             return .orange
+        case .unknown:
+            return .gray
         }
     }
 }
