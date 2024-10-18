@@ -73,7 +73,7 @@ struct EventDetailView: View {
                             .foregroundColor(.blue)
                         
                         // Ergebnis umwandeln
-                        Text("Ergebnis: \(event.homeScore != nil ? String(event.homeScore!) : "N/A")")
+                        Text("Ergebnis: \(event.homeScore != nil ? String(event.homeScore!) : "0")")
                             .font(.body)
                             .foregroundColor(.orange)
                     }
@@ -92,7 +92,7 @@ struct EventDetailView: View {
                             .font(.title3)
                             .foregroundColor(.blue)
                         
-                                Text("Ergebnis: \(event.awayScore != nil ? String(event.awayScore!) : "N/A")")
+                                Text("Ergebnis: \(event.awayScore != nil ? String(event.awayScore!) : "0")")
                             .font(.body)
                             .foregroundColor(.orange)
                     }
