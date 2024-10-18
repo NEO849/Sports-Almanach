@@ -24,7 +24,7 @@ enum EventStatus: String, Codable, Identifiable, CaseIterable {
         case .notStarted:
             return "Geplant"
         case .inProgress:
-            return "Spiel läuft"
+            return "Live"
         case .soonFinished:
             return "Endet bald"
         case .unknown: 
