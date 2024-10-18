@@ -27,7 +27,9 @@ struct MockEvents {
             stadion: "Anfield",
             image: "https://www.thesportsdb.com/images/media/event/thumb/mv7oni1565190477.jpg",
             videoURL: "https://www.youtube.com/watch?v=5WWOpHQ1yJo",
-            status: .notStarted
+            homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/vwpvry1467462651.png",
+            awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/xtsxrt1421432888.png",
+            statusString: "Not Started"
         ),
         Event(
             id: "602130",
@@ -45,7 +47,9 @@ struct MockEvents {
             stadion: "Selhurst Park",
             image: "https://www.thesportsdb.com/images/media/event/thumb/cgbjmr1565361856.jpg",
             videoURL: "https://www.youtube.com/watch?v=VuEb0SzUNaI",
-            status: .matchFinished
+            homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/crystal_palace_badge.png",
+            awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/arsenal_badge.png",
+            statusString: "Match Finished"
         ),
         Event(
             id: "602131",
@@ -63,8 +67,10 @@ struct MockEvents {
             stadion: "Etihad Stadium",
             image: "https://www.thesportsdb.com/images/media/event/thumb/5rncnc1566644537.jpg",
             videoURL: "https://www.youtube.com/watch?v=efgh5678",
-            status: .inProgress
-
+            homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/man_city_badge.png",
+            awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/tottenham_badge.png",
+            statusString: "Match Finished"
+            
         ),
         Event(
             id: "602132",
@@ -82,8 +88,10 @@ struct MockEvents {
             stadion: "Anfield",
             image: "https://www.thesportsdb.com/images/media/event/thumb/ibh8sg1565615267.jpg",
             videoURL: "https://www.youtube.com/watch?v=WzGN6uWqwQ4",
-            status: .notStarted
-
+            homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/west_ham_badge.png",
+            awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/norwich_badge.png",
+            statusString: "In Progress"
+            
         ),
         Event(
             id: "602133",
@@ -101,8 +109,10 @@ struct MockEvents {
             stadion: "Selhurst Park",
             image: "https://www.thesportsdb.com/images/media/event/thumb/4i0t7z1565391099.jpg",
             videoURL: "https://www.youtube.com/watch?v=DvEz6wC4r5w",
-            status: .matchFinished
-
+            homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/tottenham_badge.png",
+            awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/arsenal_badge.png",
+            statusString: "Not Started"
+            
         ),
         Event(
             id: "602134",
@@ -120,8 +130,10 @@ struct MockEvents {
             stadion: "Etihad Stadium",
             image: "https://www.thesportsdb.com/images/media/event/thumb/uq2d001566644674.jpg",
             videoURL: "https://www.youtube.com/watch?v=EQe4D70MG3o",
-            status: .inProgress
-
+            homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/man_city_badge.png",
+            awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/arsenal_badge.png",
+            statusString: "In Progress"
+            
         ),
         Event(
             id: "602135",
@@ -139,8 +151,10 @@ struct MockEvents {
             stadion: "Etihad Stadium",
             image: "https://www.thesportsdb.com/images/media/event/thumb/eoxk8v1565427742.jpg",
             videoURL: "https://www.youtube.com/watch?v=wthyUDmO1XU",
-            status: .notStarted
-
+            homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/man_city_badge.png",
+            awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/arsenal_badge.png",
+            statusString: "Not Started"
+            
         )
     ]
 }
