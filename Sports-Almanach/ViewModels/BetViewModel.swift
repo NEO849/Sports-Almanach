@@ -21,8 +21,12 @@ class BetViewModel: ObservableObject {
         selectedBetEvent = event
         self.betAmount = betAmount
         
+        // Konvertierung der Scores von String zu Int
+        let homeScoreInt = Int(event.homeScore ?? "") ?? 0  // Falls die Umwandlung fehlschlägt
+        let awayScoreInt = Int(event.awayScore ?? "") ?? 0
+        
         // Berechnet die Quoten
-        let odds = OddsCalculator.calculateOdds(homeScore: event.homeScore ?? 0, awayScore: event.awayScore ?? 0)
+        let odds = OddsCalculator.calculateOdds(homeScore: homeScoreInt, awayScore: awayScoreInt)
         
         // Ergebnis basierend auf der Auswahl und den Quoten
         var winAmount: Double = 0.0
