@@ -17,6 +17,7 @@ struct EventsView: View {
     var body: some View {
         
         NavigationStack {
+            
             ZStack {
                 Image("hintergrund")
                     .resizable()
@@ -24,23 +25,24 @@ struct EventsView: View {
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack {
-                    Text("Entdecke die Welt des Fussballs")
+                    Text("Welche Saison?")
                         .foregroundColor(.white)
-                        .font(.title)
-                        .padding()
+                        .font(.title)         .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.leading, 60)
                     
-                    HStack {
+                    HStack(spacing: 12) {
                         Menu {
                             ForEach(League.allCases) { league in
                                 Button(league.rawValue) {
                                     selectedLeague = league
-                                    //  Eventuell API-Aufruf für die Liga
+                                    
                                 }
                             }
                         } label: {
-                            Text("Liga: \(selectedLeague.rawValue)")
+                            Text(" \(selectedLeague.shortedLeagueName)")
                         }
                         .padding()
+                        .frame(minWidth: 140)
                         .overlay(
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(Color.orange, lineWidth: 2)
@@ -56,9 +58,10 @@ struct EventsView: View {
                                 }
                             }
                         } label: {
-                            Text("Saison: \(selectedSeason.year)")
+                            Text(" \(selectedSeason.year)")
                         }
                         .padding()
+                        .frame(minWidth: 140)
                         .overlay(
                             RoundedRectangle(cornerRadius: 8)
                                 .stroke(Color.orange, lineWidth: 2)

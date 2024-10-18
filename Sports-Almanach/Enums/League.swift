@@ -8,7 +8,13 @@
 /// Verschiedene Ligen
 enum League: String, Identifiable, CaseIterable {
     case premierLeague = "English Premier League"
-//  case bundesliga = "Albanian Superliga"
     
     var id: String { rawValue }
+    
+    var shortedLeagueName: String {
+        switch self {
+        case .premierLeague:
+            return "Engl. Premier L."
+        }
+    }
 }
