@@ -14,6 +14,7 @@ enum Season: String, Identifiable, CaseIterable {
     case season20212022 = "2021-2022"
     case season20222023 = "2022-2023"
     case season20232024 = "2023-2024"
+    case season20242025 = "2024-2025"
     
     var id: String { rawValue }
     
@@ -23,6 +24,6 @@ enum Season: String, Identifiable, CaseIterable {
     
     // Eigenschaft für die aktuelle Saison
     static var current: Season {
-        return .season20232024
+        return .season20192020
     }
 }
