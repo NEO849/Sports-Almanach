@@ -22,7 +22,6 @@
 		F04628802C88A759008FB346 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F046287F2C88A759008FB346 /* Preview Assets.xcassets */; };
 		F04A087A2CBD361300E493FF /* EventResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04A08792CBD360900E493FF /* EventResponse.swift */; };
 		F04A087D2CBD508000E493FF /* EventRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04A087C2CBD507A00E493FF /* EventRepository.swift */; };
-		F05BC2BE2CA6A67F00562C51 /* Sport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2BD2CA6A67600562C51 /* Sport.swift */; };
 		F05BC2C02CA6A79B00562C51 /* League.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2BF2CA6A79700562C51 /* League.swift */; };
 		F05BC2C22CA6A85B00562C51 /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2C12CA6A85400562C51 /* Season.swift */; };
 		F05BC2C52CA6AF9C00562C51 /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2C42CA6AF9500562C51 /* EventDetailView.swift */; };
@@ -73,7 +72,6 @@
 		F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */; };
 		F0BB2F8F2CB74BB00034DB67 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */; };
 		F0DFB6CD2CC005E400819342 /* BirthdayChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DFB6CC2CC005DF00819342 /* BirthdayChecker.swift */; };
-		F0DFB6CF2CC0720000819342 /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DFB6CE2CC071F600819342 /* DateConverter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,7 +91,6 @@
 		F046287F2C88A759008FB346 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F04A08792CBD360900E493FF /* EventResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventResponse.swift; sourceTree = "<group>"; };
 		F04A087C2CBD507A00E493FF /* EventRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRepository.swift; sourceTree = "<group>"; };
-		F05BC2BD2CA6A67600562C51 /* Sport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sport.swift; sourceTree = "<group>"; };
 		F05BC2BF2CA6A79700562C51 /* League.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = League.swift; sourceTree = "<group>"; };
 		F05BC2C12CA6A85400562C51 /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
 		F05BC2C42CA6AF9500562C51 /* EventDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailView.swift; sourceTree = "<group>"; };
@@ -114,7 +111,6 @@
 		F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsCalculator.swift; sourceTree = "<group>"; };
 		F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		F0DFB6CC2CC005DF00819342 /* BirthdayChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayChecker.swift; sourceTree = "<group>"; };
-		F0DFB6CE2CC071F600819342 /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -252,7 +248,6 @@
 				F00CB7022C9CEEF9003D70E3 /* ApiError.swift */,
 				F095C8F82C8FAE97002C94FD /* EventStatus.swift */,
 				F05BC2C82CA732EA00562C51 /* BetOutcome.swift */,
-				F05BC2BD2CA6A67600562C51 /* Sport.swift */,
 				F05BC2BF2CA6A79700562C51 /* League.swift */,
 				F05BC2C12CA6A85400562C51 /* Season.swift */,
 			);
@@ -301,7 +296,6 @@
 		F095C90C2C8FD5B5002C94FD /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				F0DFB6CE2CC071F600819342 /* DateConverter.swift */,
 				F0DFB6CC2CC005DF00819342 /* BirthdayChecker.swift */,
 				F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */,
 			);

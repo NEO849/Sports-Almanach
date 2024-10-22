@@ -11,6 +11,7 @@ import AVKit
 /// Detaillierte Ansicht eines Events mit farbigem Status-Text
 struct EventDetailView: View {
     
+    @EnvironmentObject var eventViewModel: EventViewModel
     let event: Event
     @State private var player: AVPlayer?
     @State private var isPlaying: Bool = false
@@ -51,7 +52,7 @@ struct EventDetailView: View {
                     .padding(.leading, 32)
                 
                 // Datum und Uhrzeit
-                Text("Datum: \(event.date) um \(event.time)")
+                Text("Am: \(eventViewModel.formattedDate(for: event)) um \(eventViewModel.formattedTime(for: event)) Uhr")
                     .font(.headline)
                     .foregroundColor(.white)
                     .padding(.horizontal, 34)
@@ -111,7 +112,7 @@ struct EventDetailView: View {
                 )
                 .frame(maxWidth: .infinity, alignment: .center)
                 
-                    .padding()
+                .padding()
                 
                 // Überprüfung auf gültige URL
                 if let videoURLString = event.videoURL?.replacingOccurrences(of: "https:\\/\\/", with: "https://"),
@@ -140,5 +141,7 @@ struct EventDetailView: View {
 
 #Preview {
     let mockEvent = MockEvents.events.first!
+    let eventViewModel = EventViewModel()
     return EventDetailView(event: mockEvent)
+        .environmentObject(eventViewModel)
 }

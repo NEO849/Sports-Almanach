@@ -64,6 +64,8 @@ struct EventRow: View {
 
 #Preview {
     let mockEvent = MockEvents.events.first!
+    let eventViewModel = EventViewModel()
     return EventRow(event: mockEvent)
+        .environmentObject(eventViewModel)
         .padding()
 }
