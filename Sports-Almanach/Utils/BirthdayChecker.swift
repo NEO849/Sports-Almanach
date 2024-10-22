@@ -14,7 +14,7 @@ struct BirthdayChecker {
     /// Ob der Benutzer heute Geburtstag hat
     static func checkBirthday(userId: String, birthday: Timestamp) {
         let today = Date()
-        let birthdayDate = DateConverter.convertTimestampToDate(timestamp: birthday) // Timestamp in Date umwandeln
+        let birthdayDate = birthday.dateValue()
         
         if Calendar.current.isDate(today, inSameDayAs: birthdayDate) {
             // Geburtstag! Bonus gutschreiben
