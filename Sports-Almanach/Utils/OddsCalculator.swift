@@ -10,28 +10,31 @@ import Foundation
 /// Berechnet Quoten für Heimsieg, Unentschieden und Auswärtssieg basierend auf den Spielständen.
 struct OddsCalculator {
     
-    static func calculateOdds(homeScore: Int, awayScore: Int) ->
-    (homeWinOdds: Double, drawOdds: Double, awayWinOdds: Double) {
+    static func calculateOdds(for event: Event) -> (homeWinOdds: Double, drawOdds: Double, awayWinOdds: Double) {
         
-        // Gesamte Tore berechnen
+        // Konvertierung der Scores von String zu Int
+        let homeScoreInt = Int(event.homeScore ?? "") ?? 0
+        let awayScoreInt = Int(event.awayScore ?? "") ?? 0
+        
+        return (
+            homeWinOdds: calculateHomeWinOdds(homeScore: homeScoreInt, awayScore: awayScoreInt),
+            drawOdds: calculateDrawOdds(homeScore: homeScoreInt, awayScore: awayScoreInt),
+            awayWinOdds: calculateAwayWinOdds(homeScore: homeScoreInt, awayScore: awayScoreInt))
+    }
+    
+    // Heimsieg Quote
+    private static func calculateHomeWinOdds(homeScore: Int, awayScore: Int) -> Double {
         let totalGoals = homeScore + awayScore
-        
-        // Heimsieg
-        let homeWinOdds = totalGoals > 0 ? // Ob mindestens ein Tor gefallen ist
-        max(1.2, Double(awayScore + 1) / Double(homeScore + 1)) : // Max das die Quote min 1.2
-        2.0 // Standardquote für Heimsieg, wenn keine Tore
-        
-        // Auswärtssieg
-        let awayWinOdds = totalGoals > 0 ? // Ob mindestens ein Tor gefallen ist
-        max(1.2, Double(homeScore + 1) / Double(awayScore + 1)) :
-        2.5 // Standardquote für Auswärtssieg, wenn keine Tore
-        
-        // Unentschieden
-        let drawOdds = abs(homeScore - awayScore) <= 1 ? // Überprüfen des Torunterschieds
-        3.0 :  // Geringer Torunterschied (maximal 1 Tor) -> niedrigere Quote für Unentschieden
-        5.0    // Größerer Torunterschied -> höhere Quote für Unentschieden
-        
-        // Ein Tupel zurückgeben
-        return (homeWinOdds: homeWinOdds, drawOdds: drawOdds, awayWinOdds: awayWinOdds)
+        // Wenn größer als 0 dann wird der "Ausdruck" ausgewertet, sonst keine Tore und 2.0 zurückgegeben
+        return totalGoals > 0 ? max(1.2, Double(awayScore + 1) / Double(homeScore + 1)) : 2.0
+    }
+    
+    private static func calculateDrawOdds(homeScore: Int, awayScore: Int) -> Double {
+        return abs(homeScore - awayScore) <= 1 ? 3.0 : 5.0
+    }
+    
+    private static func calculateAwayWinOdds(homeScore: Int, awayScore: Int) -> Double {
+        let totalGoals = homeScore + awayScore
+        return totalGoals > 0 ? max(1.2, Double(homeScore + 1) / Double(awayScore + 1)) : 2.5
     }
 }
