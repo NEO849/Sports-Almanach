@@ -32,7 +32,7 @@ class EventViewModel: ObservableObject {
         
         do {
             let fetchedEvents = try await eventRepository.fetchEvents(for: season)
-            // Aktualisiert die Events auf dem Haupt-Thread
+            // Aktualisiert die Events auf dem Haupt-Thread.
             await MainActor.run {
                 self.events = fetchedEvents
                 self.isLoading = false
