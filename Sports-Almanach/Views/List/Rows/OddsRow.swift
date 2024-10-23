@@ -19,11 +19,7 @@ struct OddsRow: View {
                 .font(.title2)
                 .bold()
             
-            // Konvertierung der Scores von String zu Int
-            let homeScoreInt = Int(event.homeScore ?? "") ?? 0
-            let awayScoreInt = Int(event.awayScore ?? "") ?? 0
-            
-            let odds = OddsCalculator.calculateOdds(homeScore: homeScoreInt, awayScore: awayScoreInt)
+            let odds = OddsCalculator.calculateOdds(for: event)
             
             HStack {
                 Text("Heimsieg:")
