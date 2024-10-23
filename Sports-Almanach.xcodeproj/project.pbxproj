@@ -318,6 +318,7 @@
 		F0A016872CA089C400C749E3 /* Rows */ = {
 			isa = PBXGroup;
 			children = (
+				F04EE0FD2CC892700095BD28 /* BetRow.swift */,
 				F05BC2C62CA6B3BB00562C51 /* EventRow.swift */,
 				F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */,
 			);
@@ -433,6 +434,7 @@
 				F026938A2CBD298D009596CD /* AuthError.swift in Sources */,
 				F05BC2C72CA6B3C200562C51 /* EventRow.swift in Sources */,
 				F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */,
+				F04EE0FE2CC8927E0095BD28 /* BetRow.swift in Sources */,
 				F046287B2C88A757008FB346 /* ContentView.swift in Sources */,
 				F05BC2CD2CA7B1AB00562C51 /* OddsRow.swift in Sources */,
 				F00CB70E2C9CF74E003D70E3 /* LoginView.swift in Sources */,
@@ -447,6 +449,7 @@
 				F05BC2C52CA6AF9C00562C51 /* EventDetailView.swift in Sources */,
 				F00CB7092C9CF4B4003D70E3 /* EventsView.swift in Sources */,
 				F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */,
+				F04EE1002CC895600095BD28 /* BetSlipView.swift in Sources */,
 				F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */,
 				F0DFB6CD2CC005E400819342 /* BirthdayChecker.swift in Sources */,
 				F05BC2CB2CA7339F00562C51 /* BetViewModel.swift in Sources */,

@@ -21,6 +21,7 @@ class UserViewModel: ObservableObject {
     @Published var startMoney: Double = 1000.00
     @Published var balance: Double = 0.00
     @Published var userBirthday: Timestamp?
+    @Published var userProfile: Profile?
     
     init() {
         BirthdayChecker.scheduleBirthdayCheck(for: self)
