@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUICore
+import FirebaseFirestore
 
 class BetViewModel: ObservableObject {
     
@@ -17,16 +18,15 @@ class BetViewModel: ObservableObject {
     
     /// Führt die Wette aus
     func placeBet(on event: Event, outcome: BetOutcome, betAmount: Double) {
-        // Speichert das Event, auf das gewettet wurde
-        selectedBetEvent = event
-        self.betAmount = betAmount
         
-        // Konvertierung der Scores von String zu Int
-        let homeScoreInt = Int(event.homeScore ?? "") ?? 0  // Falls die Umwandlung fehlschlägt
-        let awayScoreInt = Int(event.awayScore ?? "") ?? 0
+        // Wetteinsatz größer als Kontostand -> Fehler
+              guard betAmount <= userViewModel.balance else {
+                  print("Fehler: Nicht genügend Guthaben.")
+                  return
+              }
         
         // Berechnet die Quoten
-        let odds = OddsCalculator.calculateOdds(homeScore: homeScoreInt, awayScore: awayScoreInt)
+        let odds = OddsCalculator.calculateOdds(for: event)
         
         // Ergebnis basierend auf der Auswahl und den Quoten
         var winAmount: Double = 0.0
@@ -39,14 +39,41 @@ class BetViewModel: ObservableObject {
             winAmount = betAmount * odds.awayWinOdds
         }
         
-        // Aktualisiert den Kontostand nach der Wette
-        let newBalance = userViewModel.balance + winAmount
+        // Aktualisiert den Kontostand
+        let newBalance = userViewModel.balance - betAmount + winAmount
         userViewModel.balance = newBalance
-        
+
+        // Wette in Firestore speichern
+        guard let userId = FirebaseAuthManager.shared.userID else {
+            print("Fehler: Benutzer-ID nicht gefunden.")
+            return
+        }
+
+        let dataB = Firestore.firestore()
+        let betData: [String: Any] = [
+            "userId": userId,
+            "eventId": event.id,
+            "betAmount": betAmount,
+            "outcome": outcome.rawValue, // Speichern des Enums als String
+            "winAmount": winAmount,
+            "timestamp": Timestamp() // Aktueller Zeitstempel
+        ]
+
+        dataB.collection("Bets").addDocument(data: betData) { error in
+            if let error = error {
+                print("Fehler beim Speichern der Wette: \(error)")
+            } else {
+                print("Wette erfolgreich gespeichert.")
+            }
+        }
+
+        // Event und Ergebnis der Wette speichern
+        selectedBetEvent = event
+        betOutcomeResult = outcome
     }
     
-//    /// Kontostand zurückzusetzen
-//    func resetBalance() {
-//        userViewModel.balance = user.startMoney
-//        print("Kontostand wurde zurückgesetzt auf: \(user.startMoney)")    }
+    /// Kontostand zurückzusetzen
+    func resetBalance() {
+        userViewModel.balance = userViewModel.startMoney
+        print("Kontostand wurde zurückgesetzt auf: \(userViewModel.startMoney)")    }
 }
