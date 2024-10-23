@@ -69,13 +69,4 @@ class EventViewModel: ObservableObject {
          }
          return event.time
      }
-     
-     // Konvertiert das Score-String zu einem optionalen Int
-     func homeScoreInt(for event: Event) -> Int? {
-         return Int(event.homeScore ?? "")
-     }
-     
-     func awayScoreInt(for event: Event) -> Int? {
-         return Int(event.awayScore ?? "")
-     }
  }
