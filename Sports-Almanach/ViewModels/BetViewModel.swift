@@ -20,10 +20,10 @@ class BetViewModel: ObservableObject {
     func placeBet(on event: Event, outcome: BetOutcome, betAmount: Double) {
         
         // Wetteinsatz größer als Kontostand -> Fehler
-              guard betAmount <= userViewModel.balance else {
-                  print("Fehler: Nicht genügend Guthaben.")
-                  return
-              }
+        guard betAmount <= userViewModel.balance else {
+            print("Fehler: Nicht genügend Guthaben.")
+            return
+        }
         
         // Berechnet die Quoten
         let odds = OddsCalculator.calculateOdds(for: event)
@@ -42,13 +42,16 @@ class BetViewModel: ObservableObject {
         // Aktualisiert den Kontostand
         let newBalance = userViewModel.balance - betAmount + winAmount
         userViewModel.balance = newBalance
-
+        
+        // In Firestore aktualisieren (über UserViewModel)
+           userViewModel.updateBalance(newBalance: newBalance)
+        
         // Wette in Firestore speichern
         guard let userId = FirebaseAuthManager.shared.userID else {
             print("Fehler: Benutzer-ID nicht gefunden.")
             return
         }
-
+        
         let dataB = Firestore.firestore()
         let betData: [String: Any] = [
             "userId": userId,
@@ -58,7 +61,8 @@ class BetViewModel: ObservableObject {
             "winAmount": winAmount,
             "timestamp": Timestamp() // Aktueller Zeitstempel
         ]
-
+        
+        // Speichern in der "Bets"-Collection
         dataB.collection("Bets").addDocument(data: betData) { error in
             if let error = error {
                 print("Fehler beim Speichern der Wette: \(error)")
@@ -66,7 +70,17 @@ class BetViewModel: ObservableObject {
                 print("Wette erfolgreich gespeichert.")
             }
         }
-
+        
+        // Neuen Kontostand in Firestore aktualisieren
+        let profileData: [String: Any] = ["balance": newBalance]
+        dataB.collection("Profile").document(userId).updateData(profileData) { error in
+            if let error = error {
+                print("Fehler beim Aktualisieren des Kontostands: \(error)")
+            } else {
+                print("Kontostand erfolgreich aktualisiert.")
+            }
+        }
+        
         // Event und Ergebnis der Wette speichern
         selectedBetEvent = event
         betOutcomeResult = outcome
