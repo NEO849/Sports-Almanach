@@ -25,7 +25,99 @@ class UserViewModel: ObservableObject {
     init() {
         BirthdayChecker.scheduleBirthdayCheck(for: self)
     }
+        
+    // Registrierung
+    func register(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) async {
+        
+        errorMessages = validateInputs(username: username, email: email, password: password, passwordRepeat: passwordRepeat, birthday: birthday)
+        
+        guard errorMessages.isEmpty else {
+            return // Fehler zurückgeben
+        }
+        
+        do {
+            try await FirebaseAuthManager.shared.signUp(email: email, password: password)
+            
+            let datab = Firestore.firestore()
+            let newProfile = Profile(id: UUID(), name: username, startMoney: startMoney, birthday: birthday)
+            
+            do {
+                try datab.collection("Profile").document(newProfile.id.uuidString).setData(from: newProfile)
+                isRegistered = true
+            } catch {
+                print("Fehler beim Speichern des Profils: \(error)")
+                errorMessage = error.localizedDescription
+            }
+            
+        } catch {
+            print("Fehler bei der Registrierung: \(error)")
+            errorMessages.append(.emailOrPasswordInvalid)  // Fehler zur Liste hinzufügen
+        }
+    }
+    
+    // Anmeldung
+    func login(email: String, password: String) async {
+        do {
+            try await FirebaseAuthManager.shared.signIn(email: email, password: password)
+            isLoggedIn = true
+        } catch {
+            print("Fehler bei der Anmeldung: \(error)")
+            errorMessage = UserError.emailOrPasswordInvalid.errorDescription 
+        }
+    }
+    
+    func logout() {
+        FirebaseAuthManager.shared.signOut()
+        isLoggedIn = false
+    }
+    
+    func checkUserBirthday() {
+        guard let userId = FirebaseAuthManager.shared.userID, let userBirthday = userBirthday else { return }
+        BirthdayChecker.checkBirthday(userId: userId, birthday: userBirthday)
+    }
+    
+    // Benutzerprofil aus FBase Laden
+     private func loadUserProfile() async {
+         guard let userId = FirebaseAuthManager.shared.userID else { return } // Ob der Benutzer eingeloggt ist
+             let datab = Firestore.firestore()
+             
+             do {
+                 // Benutzerprofil laden
+                 let document = try await datab.collection("Profile").document(userId).getDocument()
+                 
+                 // Ob das Dokument existiert
+                 if document.exists {
+                     // Setzt Benutzerprofil und aktualisiert den Kontostand
+                     self.userProfile = try document.data(as: Profile.self)
+                     // Zwangsentpacken
+                     self.balance = self.userProfile!.startMoney
+             } else {
+                 print("Profil nicht gefunden")
+             }
+         } catch {
+             print("Fehler beim Laden des Profils: \(error)")
+             errorMessage = error.localizedDescription
+         }
+     }
+    
+    func updateBalance(newBalance: Double) {
+        guard let userId = FirebaseAuthManager.shared.userID else {
+            print("Fehler: Benutzer-ID nicht gefunden.")
+            return
+        }
 
+        let dataB = Firestore.firestore()
+        let profileData: [String: Any] = ["startMoney": newBalance]
+        dataB.collection("Profile").document(userId).updateData(profileData) { error in
+            if let error = error {
+                print("Fehler beim Aktualisieren des Kontostands: \(error)")
+            } else {
+                print("Kontostand erfolgreich aktualisiert.")
+                self.balance = newBalance // Aktualisiert balance in UserViewModel
+            }
+        }
+    }
+    
     // Validiert die Eingabefelder
     private func validateInputs(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) -> [UserError] {
         var errors: [UserError] = []
