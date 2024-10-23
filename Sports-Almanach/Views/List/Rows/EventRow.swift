@@ -31,7 +31,7 @@ struct EventRow: View {
             
             HStack {
                 VStack(alignment: .leading) {
-                    Text(event.name)
+                    Text(eventNameShort(event.name, limit: 34))
                         .font(.headline)
                         .lineLimit(1)
                         .foregroundColor(.white)
@@ -59,6 +59,15 @@ struct EventRow: View {
                 .stroke(Color.orange, lineWidth: 2)
         )
         .padding(.vertical, 8)
+    }
+    
+    // Kürzen des Eventnamens
+    private func eventNameShort(_ name: String, limit: Int) -> String {
+        if name.count > limit {
+            let index = name.index(name.startIndex, offsetBy: limit)
+            return String(name[..<index]) + "..."
+        }
+        return name
     }
 }
 

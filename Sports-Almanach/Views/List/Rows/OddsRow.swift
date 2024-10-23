@@ -9,6 +9,9 @@ import SwiftUI
 
 struct OddsRow: View {
     
+    @State private var isHomeWinSelected: Bool = false
+    @State private var isDrawSelected: Bool = false
+    @State private var isAwayWinSelected: Bool = false
     let event: Event
     
     var body: some View {
