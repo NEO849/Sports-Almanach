@@ -11,7 +11,6 @@ struct BetView: View {
     
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var eventViewModel: EventViewModel
-    @State private var showBetSlip = false
     
     var body: some View {
         

@@ -35,7 +35,6 @@ struct EventsView: View {
                             ForEach(League.allCases) { league in
                                 Button(league.rawValue) {
                                     selectedLeague = league
-                                    
                                 }
                             }
                         } label: {
@@ -71,36 +70,44 @@ struct EventsView: View {
                     
                     List {
                         ForEach(eventViewModel.events) { event in
-                            NavigationLink(destination: EventDetailView(event: event)) {
-                                HStack {
-                                    EventRow(event: event)
+                            VStack(alignment: .leading) {
+                                
+                                VStack(alignment: .leading) {
+                                    
+                                    NavigationLink(destination: EventDetailView(event: event)) {
+                                        EventRow(event: event)
+                                    }
+                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                                        Button {
+                                            eventViewModel.addToBet(event)
+                                        } label: {
+                                            Label("Zur Wette", systemImage: "plus.circle.fill")
+                                        }
+                                        .tint(.blue)
+                                    }
+                                    
+                                    HStack(alignment: .center) {
+                                        ButtonRow(action: {
+                                            eventViewModel.addToBet(event)
+                                        })
+                                        .buttonStyle(.borderless)
+                                        
+                                    }
+                                    .frame(maxWidth: .infinity)
                                 }
-                                .padding(.vertical, 10)
                             }
                             .listRowBackground(Color.clear)
                         }
-                    }
-                    .overlay {
-                        if eventViewModel.isLoading {
-                            ProgressView()
-                        } else if let errorMessage = eventViewModel.errorMessage {
-                            Text(errorMessage)
-                                .foregroundColor(.red)
-                                .padding()
-                                .onAppear {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-                                        eventViewModel.errorMessage = nil
-                                    }
-                                }
+                        .overlay {
                         }
+                        .listStyle(PlainListStyle())
+                        .navigationTitle("")
                     }
-                    .listStyle(PlainListStyle())
-                    .navigationTitle("")
                 }
             }
-        }
-        .task {
-            await eventViewModel.fetchEvents(for: selectedSeason)
+            .task {
+                await eventViewModel.fetchEvents(for: selectedSeason)
+            }
         }
     }
 }
@@ -109,3 +116,4 @@ struct EventsView: View {
     EventsView()
         .environmentObject(EventViewModel())
 }
+
