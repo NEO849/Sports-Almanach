@@ -12,6 +12,7 @@ class EventViewModel: ObservableObject {
     @Published var events: [Event] = []
     @Published var errorMessage: String?
     @Published var isLoading: Bool = false
+    @Published var selectedBetEvents: [Event] = [] // Ausgewählte Events zum Wetten
     private let eventRepository = EventRepository()
     
     init() {
@@ -69,4 +70,16 @@ class EventViewModel: ObservableObject {
          }
          return event.time
      }
+    
+    // Funktion zum Hinzufügen eines Events zur Wettliste
+    func addToBet(_ event: Event) {
+        selectedBetEvents.append(event)
+    }
+
+    // Funktion zum Entfernen eines Events aus der Wettliste
+    func removeFromBet(_ event: Event) {
+        if let index = selectedBetEvents.firstIndex(of: event) {
+            selectedBetEvents.remove(at: index)
+        }
+    }
  }

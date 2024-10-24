@@ -26,7 +26,7 @@ class UserViewModel: ObservableObject {
     init() {
         BirthdayChecker.scheduleBirthdayCheck(for: self)
     }
-        
+    
     // Registrierung
     func register(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) async {
         
@@ -63,7 +63,7 @@ class UserViewModel: ObservableObject {
             isLoggedIn = true
         } catch {
             print("Fehler bei der Anmeldung: \(error)")
-            errorMessage = UserError.emailOrPasswordInvalid.errorDescription 
+            errorMessage = UserError.emailOrPasswordInvalid.errorDescription
         }
     }
     
@@ -78,35 +78,35 @@ class UserViewModel: ObservableObject {
     }
     
     // Benutzerprofil aus FBase Laden
-     private func loadUserProfile() async {
-         guard let userId = FirebaseAuthManager.shared.userID else { return } // Ob der Benutzer eingeloggt ist
-             let datab = Firestore.firestore()
-             
-             do {
-                 // Benutzerprofil laden
-                 let document = try await datab.collection("Profile").document(userId).getDocument()
-                 
-                 // Ob das Dokument existiert
-                 if document.exists {
-                     // Setzt Benutzerprofil und aktualisiert den Kontostand
-                     self.userProfile = try document.data(as: Profile.self)
-                     // Zwangsentpacken
-                     self.balance = self.userProfile!.startMoney
-             } else {
-                 print("Profil nicht gefunden")
-             }
-         } catch {
-             print("Fehler beim Laden des Profils: \(error)")
-             errorMessage = error.localizedDescription
-         }
-     }
+    private func loadUserProfile() async {
+        guard let userId = FirebaseAuthManager.shared.userID else { return } // Ob der Benutzer eingeloggt ist
+        let datab = Firestore.firestore()
+        
+        do {
+            // Benutzerprofil laden
+            let document = try await datab.collection("Profile").document(userId).getDocument()
+            
+            // Ob das Dokument existiert
+            if document.exists {
+                // Setzt Benutzerprofil und aktualisiert den Kontostand
+                self.userProfile = try document.data(as: Profile.self)
+                // Zwangsentpacken
+                self.balance = self.userProfile!.startMoney
+            } else {
+                print("Profil nicht gefunden")
+            }
+        } catch {
+            print("Fehler beim Laden des Profils: \(error)")
+            errorMessage = error.localizedDescription
+        }
+    }
     
     func updateBalance(newBalance: Double) {
         guard let userId = FirebaseAuthManager.shared.userID else {
             print("Fehler: Benutzer-ID nicht gefunden.")
             return
         }
-
+        
         let dataB = Firestore.firestore()
         let profileData: [String: Any] = ["startMoney": newBalance]
         dataB.collection("Profile").document(userId).updateData(profileData) { error in
@@ -169,3 +169,9 @@ class UserViewModel: ObservableObject {
         return passwordPred.evaluate(with: password)
     }
 }
+
+//    // Benutzer gelten als gleich, wenn ihre E-Mail-Adressen übereinstimmen
+//    static func == (lhs: User, rhs: User) -> Bool {
+//        return lhs.email == rhs.email
+//    }
+
