@@ -116,4 +116,3 @@ struct EventsView: View {
     EventsView()
         .environmentObject(EventViewModel())
 }
-

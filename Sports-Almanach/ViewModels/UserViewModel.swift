@@ -169,9 +169,3 @@ class UserViewModel: ObservableObject {
         return passwordPred.evaluate(with: password)
     }
 }
-
-//    // Benutzer gelten als gleich, wenn ihre E-Mail-Adressen übereinstimmen
-//    static func == (lhs: User, rhs: User) -> Bool {
-//        return lhs.email == rhs.email
-//    }
-
