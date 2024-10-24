@@ -8,7 +8,7 @@
 import Foundation
 
 /// Modell für ein Sportevent, basierend auf der API-Antwort
-struct Event: Identifiable, Codable {
+struct Event: Identifiable, Codable, Equatable {
     let id: String
     let name: String
     let sport: String
@@ -48,5 +48,9 @@ struct Event: Identifiable, Codable {
         case homeTeamBadge = "strHomeTeamBadge"
         case awayTeamBadge = "strAwayTeamBadge"
         case statusString = "strStatus"
+    }
+    
+    static func == (lhs: Event, rhs: Event) -> Bool {
+        return lhs.id == rhs.id // Vergleich basierend auf der ID
     }
 }

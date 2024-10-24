@@ -432,6 +432,7 @@
 				F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */,
 				F081DC942CB54CDD00116E7B /* FirebaseAuthManager.swift in Sources */,
 				F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */,
+				F0677E6E2CCAC1B100498A0B /* ButtonRow.swift in Sources */,
 				F04A087D2CBD508000E493FF /* EventRepository.swift in Sources */,
 				F04A087A2CBD361300E493FF /* EventResponse.swift in Sources */,
 				F0A0168C2CA09B4400C749E3 /* UserError.swift in Sources */,
