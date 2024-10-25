@@ -24,6 +24,11 @@ struct BetRow: View {
             }
             OddsRow(event: event)
         }
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 10)
+                .stroke(Color.orange, lineWidth: 2)
+        )
     }
 }
 
