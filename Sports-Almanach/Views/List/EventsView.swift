@@ -71,43 +71,48 @@ struct EventsView: View {
                     List {
                         ForEach(eventViewModel.events) { event in
                             VStack(alignment: .leading) {
-                                
-                                VStack(alignment: .leading) {
-                                    
-                                    NavigationLink(destination: EventDetailView(event: event)) {
-                                        EventRow(event: event)
-                                    }
-                                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                                        Button {
-                                            eventViewModel.addToBet(event)
-                                        } label: {
-                                            Label("Zur Wette", systemImage: "plus.circle.fill")
-                                        }
-                                        .tint(.blue)
-                                    }
-                                    
-                                    HStack(alignment: .center) {
-                                        ButtonRow(action: {
-                                            eventViewModel.addToBet(event)
-                                        })
-                                        .buttonStyle(.borderless)
-                                        
-                                    }
-                                    .frame(maxWidth: .infinity)
+                                NavigationLink(destination: EventDetailView(event: event)) {
+                                    EventRow(event: event)
                                 }
+                                .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                                    Button {
+                                        eventViewModel.removeFromBet(event)
+                                    } label: {
+                                        Label("Löschen", systemImage: "trash")
+                                    }
+                                    .tint(.red)
+                                    
+                                    Button {
+                                        eventViewModel.addToBet(event)
+                                    } label: {
+                                        Label("Zur Wette", systemImage: "plus.circle.fill")
+                                    }
+                                    .tint(.blue)
+                                }
+                                
+                                HStack {
+                                    ButtonRow(action: {
+                                        if eventViewModel.selectedBetEvents.contains(event) {
+                                            eventViewModel.removeFromBet(event) // Entfernen, wenn es bereits hinzugefügt wurde
+                                        } else {
+                                            eventViewModel.addToBet(event) // Ansonsten...
+                                        }
+                                    }, eventViewModel: eventViewModel, event: event)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.trailing, 16)
+                                }
+                                .onReceive(eventViewModel.$selectedBetEvents) { _ in }
                             }
                             .listRowBackground(Color.clear)
                         }
-                        .overlay {
-                        }
-                        .listStyle(PlainListStyle())
-                        .navigationTitle("")
                     }
+                    .listStyle(PlainListStyle())
+                    .navigationTitle("")
                 }
             }
-            .task {
-                await eventViewModel.fetchEvents(for: selectedSeason)
-            }
+        }
+        .task {
+            await eventViewModel.fetchEvents(for: selectedSeason)
         }
     }
 }
