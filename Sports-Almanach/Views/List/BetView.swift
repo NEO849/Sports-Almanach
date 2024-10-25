@@ -32,7 +32,7 @@ struct BetView: View {
                             BetRow(eventViewModel: eventViewModel, event: event)
                                 .swipeActions(edge: .trailing, allowsFullSwipe: false) { // Swipe-Aktionen 
                                     Button(role: .destructive) {
-                                        eventViewModel.removeFromBet(event) // Event  entfernen
+                                        eventViewModel.removeFromBet(event) // Entfernen
                                     } label: {
                                         Label("Löschen", systemImage: "trash")
                                     }
@@ -47,7 +47,10 @@ struct BetView: View {
 }
 
 #Preview {
-    BetView()
+    let eventViewModel = EventViewModel()
+    eventViewModel.selectedBetEvents = MockEvents.events
+    
+    return BetView()
         .environmentObject(UserViewModel())
-        .environmentObject(EventViewModel())
+        .environmentObject(eventViewModel)
 }

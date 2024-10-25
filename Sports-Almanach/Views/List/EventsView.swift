@@ -87,7 +87,7 @@ struct EventsView: View {
                                     } label: {
                                         Label("Zur Wette", systemImage: "plus.circle.fill")
                                     }
-                                    .tint(.blue)
+                                    .tint(.green)
                                 }
                                 
                                 HStack {

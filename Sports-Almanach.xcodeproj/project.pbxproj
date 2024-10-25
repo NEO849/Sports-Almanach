@@ -325,9 +325,9 @@
 		F0A016872CA089C400C749E3 /* Rows */ = {
 			isa = PBXGroup;
 			children = (
+				F05BC2C62CA6B3BB00562C51 /* EventRow.swift */,
 				F0677E6D2CCAC1A200498A0B /* ButtonRow.swift */,
 				F04EE0FD2CC892700095BD28 /* BetRow.swift */,
-				F05BC2C62CA6B3BB00562C51 /* EventRow.swift */,
 				F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */,
 			);
 			path = Rows;

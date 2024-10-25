@@ -34,7 +34,7 @@ enum BetOutcome: String, Identifiable {
         case .draw:
             return .yellow
         case .awayWin:
-            return .blue
+            return .red
         }
     }
 }

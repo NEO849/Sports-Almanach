@@ -9,9 +9,7 @@ import SwiftUI
 
 struct OddsRow: View {
     
-    @State private var isHomeWinSelected: Bool = false
-    @State private var isDrawSelected: Bool = false
-    @State private var isAwayWinSelected: Bool = false
+    @State private var selectedOdd: BetOutcome? // Speichern der ausgewählten Quote
     let event: Event
     
     var body: some View {
@@ -28,33 +26,33 @@ struct OddsRow: View {
                 Text("Heimsieg:")
                 Spacer()
                 Text("\(String(format: "%.2f", odds.homeWinOdds))")
-                Image(systemName: isHomeWinSelected ? "checkmark.square" : "square")
-                    .foregroundColor(.orange)
-                                   .onTapGesture {
-                                       isHomeWinSelected.toggle()
-                                   }
+                Image(systemName: selectedOdd == .homeWin ? "checkmark.square.fill" : "square")
+                               .foregroundColor(.orange)
+                               .onTapGesture {
+                                   selectOdd(.homeWin)  
+                               }
             }
             
             HStack {
                 Text("Unentschieden:")
                 Spacer()
                 Text("\(String(format: "%.2f", odds.drawOdds))")
-                Image(systemName: isDrawSelected ? "checkmark.square" : "square")
-                                   .foregroundColor(.orange)
-                                   .onTapGesture {
-                                       isDrawSelected.toggle()
-                                   }
+                Image(systemName: selectedOdd == .draw ? "checkmark.square.fill" : "square")
+                              .foregroundColor(.orange)
+                              .onTapGesture {
+                                  selectOdd(.draw)
+                              }
             }
             
             HStack {
                 Text("Auswärtssieg:")
                 Spacer()
                 Text("\(String(format: "%.2f", odds.awayWinOdds))")
-                Image(systemName: isAwayWinSelected ? "checkmark.square" : "square")
-                                   .foregroundColor(.orange)
-                                   .onTapGesture {
-                                       isAwayWinSelected.toggle()
-                                   }
+                Image(systemName: selectedOdd == .awayWin ? "checkmark.square.fill" : "square")
+                              .foregroundColor(.orange)
+                              .onTapGesture {
+                                  selectOdd(.awayWin)
+                              }
             }
         }
         .padding()
@@ -64,7 +62,16 @@ struct OddsRow: View {
         
         Spacer()
     }
-}
+
+    // Zur Auswahl einer Quote
+     private func selectOdd(_ oddType: BetOutcome) {
+         if selectedOdd == oddType {
+             selectedOdd = nil  // Wenn bereits ausgewählt
+         } else {
+             selectedOdd = oddType 
+         }
+     }
+ }
 
 #Preview {
     let mockEvent = MockEvents.events.first!

@@ -14,9 +14,9 @@ struct ButtonRow: View {
     
     var body: some View {
         Button(action: action) {
-            Text(eventViewModel.selectedBetEvents.contains(event) ? "---> Bereit zum Wetten <---" : "--->> Hinzufügen zur Wette <<---") // Text ändern
+            Text(eventViewModel.selectedBetEvents.contains(event) ? "--->> Wette Bereit <<---" : "--->> Hinzufügen zur Wette <<---") 
                 .font(.subheadline)
-                .foregroundColor(eventViewModel.selectedBetEvents.contains(event) ? .red : .blue) // Farbe ändern
+                .foregroundColor(eventViewModel.selectedBetEvents.contains(event) ? .green : .blue)
                 .padding(.vertical, 8)
                 .background(
                     RoundedRectangle(cornerRadius: 10)
