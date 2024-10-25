@@ -5,11 +5,12 @@
 //  Created by Michael Fleps on 24.10.24.
 //
 
-import Foundation
 import SwiftUI
 
 struct ButtonRow: View {
     var action: () -> Void
+    @ObservedObject var eventViewModel: EventViewModel
+    var event: Event
     
     var body: some View {
         Button(action: action) {
