@@ -71,6 +71,7 @@ struct RegisterView: View {
                             .foregroundColor(.white.opacity(0.8))
                             .cornerRadius(10)
                             .frame(width: 300, height: 50)
+                            .textInputAutocapitalization(.never)
                             .overlay(
                                 RoundedRectangle(cornerRadius: 10)
                                     .stroke(Color.orange, lineWidth: 2)
@@ -167,7 +168,7 @@ struct RegisterView: View {
                             .foregroundColor(.white.opacity(0.8))
                             .padding(.leading, 12)
                         Spacer()
-                        Text(String(format: "%.2f €", userViewModel.startMoney))
+                        Text(String(format: "%.2f €    ", userViewModel.startMoney))
                             .foregroundColor(.white.opacity(0.8))
                     }
                     .frame(width: 300, height: 50)
