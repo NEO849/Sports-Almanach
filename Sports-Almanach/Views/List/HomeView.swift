@@ -52,7 +52,7 @@ struct HomeView: View {
                            }
                        }
                 .navigationDestination(isPresented: $navigateToLogin) {
-                    LoginView()  // Login-Ansicht anzeigen, wenn der Benutzer abgemeldet ist
+                    LoginView()  // Wenn der Benutzer abgemeldet ist
                 }
             }
         }

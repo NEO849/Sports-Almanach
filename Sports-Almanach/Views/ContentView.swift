@@ -28,9 +28,9 @@ struct ContentView: View {
                     Label("Bet", systemImage: "dollarsign.circle")
                 }
             
-            FavoriteView()
+            StatisticsView()
                 .tabItem {
-                    Label("Favorits", systemImage: "heart.rectangle")
+                    Label("Statisitc", systemImage: "rectangle.and.pencil.and.ellipsis")
                 }
         }
         
