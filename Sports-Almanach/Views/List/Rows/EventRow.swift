@@ -46,22 +46,6 @@ struct EventRow: View {
                 
                 let status = EventStatus(rawValue: event.statusString) ?? .unknown // Fallback in Enum
                 
-                
-//                Button(action: {
-//                    /// Aktion 
-//                    print("Zur Wette Button gedrückt")
-//                }) {
-//                    Text("Zur Wette")
-//                        .font(.subheadline)
-//                        .padding(.horizontal, 8)
-//                        .padding(.vertical, 4)
-//                        .background(Color.white)
-//                        .foregroundColor(.black)
-//                        .cornerRadius(5)
-//                }
-//                .frame(height: 32)
-//                .padding(.trailing, 8)
-                
                 Text(status.currentStatusGerman)
                     .font(.subheadline)
                     .padding(6)

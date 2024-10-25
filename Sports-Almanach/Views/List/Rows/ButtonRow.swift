@@ -13,21 +13,24 @@ struct ButtonRow: View {
     
     var body: some View {
         Button(action: action) {
-            Text("--->> Hinzufügen zur Wette <<---")
+            Text(eventViewModel.selectedBetEvents.contains(event) ? "---> Bereit zum Wetten <---" : "--->> Hinzufügen zur Wette <<---") // Text ändern
                 .font(.subheadline)
-                .foregroundColor(.blue)
-           
+                .foregroundColor(eventViewModel.selectedBetEvents.contains(event) ? .red : .blue) // Farbe ändern
+                .padding(.vertical, 8)
                 .background(
-                    RoundedRectangle(cornerRadius: 5)
+                    RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.orange, lineWidth: 2)
                         .frame(width: 300)
                 )
         }
-        .frame(height: 42)
         .buttonStyle(.borderless)
     }
 }
 
 #Preview {
-    ButtonRow(action: {print("Button gedrückt!") })
+    ButtonRow(
+        action: { print("Button gedrückt!") },
+        eventViewModel: EventViewModel(),
+        event: MockEvents.events.first!
+    )
 }
