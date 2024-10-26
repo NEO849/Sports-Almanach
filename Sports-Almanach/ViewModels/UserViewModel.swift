@@ -24,6 +24,7 @@ class UserViewModel: ObservableObject {
     @Published var userProfile: Profile?
     
     init() {
+        self.balance = self.startMoney 
         BirthdayChecker.scheduleBirthdayCheck(for: self)
     }
     
@@ -44,6 +45,7 @@ class UserViewModel: ObservableObject {
             
             do {
                 try datab.collection("Profile").document(newProfile.id.uuidString).setData(from: newProfile)
+                print("Profil erstellt mit ID: \(newProfile.id.uuidString)") 
                 isRegistered = true
             } catch {
                 print("Fehler beim Speichern des Profils: \(error)")
@@ -61,6 +63,7 @@ class UserViewModel: ObservableObject {
         do {
             try await FirebaseAuthManager.shared.signIn(email: email, password: password)
             isLoggedIn = true
+            await loadUserProfile()
         } catch {
             print("Fehler bei der Anmeldung: \(error)")
             errorMessage = UserError.emailOrPasswordInvalid.errorDescription
@@ -78,7 +81,7 @@ class UserViewModel: ObservableObject {
     }
     
     // Benutzerprofil aus FBase Laden
-    private func loadUserProfile() async {
+    func loadUserProfile() async {
         guard let userId = FirebaseAuthManager.shared.userID else { return } // Ob der Benutzer eingeloggt ist
         let datab = Firestore.firestore()
         
