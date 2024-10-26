@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct BetSlipView: View {
-//    @EnvironmentObject var betViewModel: BetViewModel
-//    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var betViewModel: BetViewModel
+    @EnvironmentObject var userViewModel: UserViewModel
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
