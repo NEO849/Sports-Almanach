@@ -13,6 +13,7 @@ struct Sports_AlmanachApp: App {
     
     @StateObject var userViewModel = UserViewModel()
     @StateObject var eventViewModel = EventViewModel()
+    @StateObject var betViewModel = BetViewModel()
     
     init() {
         FirebaseConfiguration.shared.setLoggerLevel(.min)
@@ -25,6 +26,7 @@ struct Sports_AlmanachApp: App {
                 ContentView()
                     .environmentObject(userViewModel)
                     .environmentObject(eventViewModel)
+                    .environmentObject(betViewModel)
             } else {
                 SplashView()
                     .environmentObject(userViewModel)
