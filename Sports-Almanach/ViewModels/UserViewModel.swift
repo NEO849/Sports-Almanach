@@ -31,18 +31,21 @@ class UserViewModel: ObservableObject {
     // Registrierung
     func register(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) async {
         
+        // Eingaben validieren und Fehler speichern
         errorMessages = validateInputs(username: username, email: email, password: password, passwordRepeat: passwordRepeat, birthday: birthday)
         
         guard errorMessages.isEmpty else {
-            return // Fehler zurückgeben
+            return
         }
         
+        // Benutzer bei Firebase registrieren
         do {
             try await FirebaseAuthManager.shared.signUp(email: email, password: password)
-            
+            // Neues Profil erstellen
             let datab = Firestore.firestore()
-            let newProfile = Profile(id: UUID(), name: username, startMoney: startMoney, birthday: birthday)
+            let newProfile = Profile(id: UUID(), name: username, startMoney: startMoney, birthday: birthday, balance: startMoney)
             
+            // Profil in Firestore speichern
             do {
                 try datab.collection("Profile").document(newProfile.id.uuidString).setData(from: newProfile)
                 print("Profil erstellt mit ID: \(newProfile.id.uuidString)") 
@@ -85,16 +88,14 @@ class UserViewModel: ObservableObject {
         guard let userId = FirebaseAuthManager.shared.userID else { return } // Ob der Benutzer eingeloggt ist
         let datab = Firestore.firestore()
         
+        // Profil laden
         do {
-            // Benutzerprofil laden
             let document = try await datab.collection("Profile").document(userId).getDocument()
             
-            // Ob das Dokument existiert
+            // Falls das Dokument existiert, Profil und balance setzen
             if document.exists {
-                // Setzt Benutzerprofil und aktualisiert den Kontostand
                 self.userProfile = try document.data(as: Profile.self)
-                // Zwangsentpacken
-                self.balance = self.userProfile!.startMoney
+                self.balance = self.userProfile?.balance ?? 0.0
             } else {
                 print("Profil nicht gefunden")
             }
@@ -104,6 +105,7 @@ class UserViewModel: ObservableObject {
         }
     }
     
+    // Aktualisiert den Kontostand in Firestore und UI
     func updateBalance(newBalance: Double) {
         guard let userId = FirebaseAuthManager.shared.userID else {
             print("Fehler: Benutzer-ID nicht gefunden.")
@@ -111,13 +113,14 @@ class UserViewModel: ObservableObject {
         }
         
         let dataB = Firestore.firestore()
-        let profileData: [String: Any] = ["startMoney": newBalance]
+        let profileData: [String: Any] = ["balance": newBalance]  // Nur balance wird aktualisiert
         dataB.collection("Profile").document(userId).updateData(profileData) { error in
             if let error = error {
                 print("Fehler beim Aktualisieren des Kontostands: \(error)")
             } else {
                 print("Kontostand erfolgreich aktualisiert.")
-                self.balance = newBalance // Aktualisiert balance in UserViewModel
+                self.balance = newBalance // In der UI aktualisieren
+
             }
         }
     }
