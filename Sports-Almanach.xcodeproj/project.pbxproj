@@ -15,6 +15,8 @@
 		F00CB70E2C9CF74E003D70E3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70D2C9CF747003D70E3 /* LoginView.swift */; };
 		F00CB7102C9CF7BD003D70E3 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */; };
 		F00CB7162C9E480D003D70E3 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7152C9E47FC003D70E3 /* SplashView.swift */; };
+		F01DD55C2CCDCECF001176A2 /* Bet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01DD55B2CCDCECB001176A2 /* Bet.swift */; };
+		F01DD55E2CCDD485001176A2 /* BetSlipRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01DD55D2CCDD479001176A2 /* BetSlipRow.swift */; };
 		F026938A2CBD298D009596CD /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02693892CBD2987009596CD /* AuthError.swift */; };
 		F04628792C88A757008FB346 /* Sports_AlmanachApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04628782C88A757008FB346 /* Sports_AlmanachApp.swift */; };
 		F046287B2C88A757008FB346 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F046287A2C88A757008FB346 /* ContentView.swift */; };
@@ -86,6 +88,8 @@
 		F00CB70D2C9CF747003D70E3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		F00CB7152C9E47FC003D70E3 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		F01DD55B2CCDCECB001176A2 /* Bet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bet.swift; sourceTree = "<group>"; };
+		F01DD55D2CCDD479001176A2 /* BetSlipRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSlipRow.swift; sourceTree = "<group>"; };
 		F02693892CBD2987009596CD /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		F04628752C88A757008FB346 /* Sports-Almanach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sports-Almanach.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F04628782C88A757008FB346 /* Sports_AlmanachApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sports_AlmanachApp.swift; sourceTree = "<group>"; };
@@ -283,6 +287,7 @@
 		F095C8F72C8FAE74002C94FD /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				F01DD55B2CCDCECB001176A2 /* Bet.swift */,
 				F04A08792CBD360900E493FF /* EventResponse.swift */,
 				F095C8FC2C8FAEE2002C94FD /* Profile.swift */,
 				F095C8FA2C8FAEBC002C94FD /* Event.swift */,
@@ -325,6 +330,7 @@
 		F0A016872CA089C400C749E3 /* Rows */ = {
 			isa = PBXGroup;
 			children = (
+				F01DD55D2CCDD479001176A2 /* BetSlipRow.swift */,
 				F05BC2C62CA6B3BB00562C51 /* EventRow.swift */,
 				F0677E6D2CCAC1A200498A0B /* ButtonRow.swift */,
 				F04EE0FD2CC892700095BD28 /* BetRow.swift */,
@@ -433,6 +439,7 @@
 			files = (
 				F00CB70B2C9CF51E003D70E3 /* StatisticsView.swift in Sources */,
 				F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */,
+				F01DD55E2CCDD485001176A2 /* BetSlipRow.swift in Sources */,
 				F081DC942CB54CDD00116E7B /* FirebaseAuthManager.swift in Sources */,
 				F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */,
 				F0677E6E2CCAC1B100498A0B /* ButtonRow.swift in Sources */,
@@ -460,6 +467,7 @@
 				F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */,
 				F04EE1002CC895600095BD28 /* BetSlipView.swift in Sources */,
 				F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */,
+				F01DD55C2CCDCECF001176A2 /* Bet.swift in Sources */,
 				F0DFB6CD2CC005E400819342 /* BirthdayChecker.swift in Sources */,
 				F05BC2CB2CA7339F00562C51 /* BetViewModel.swift in Sources */,
 				F00CB7162C9E480D003D70E3 /* SplashView.swift in Sources */,

@@ -23,6 +23,17 @@ struct BetRow: View {
                     .foregroundColor(.orange)
             }
             OddsRow(event: event)
+            HStack {
+                Spacer()
+                Button(action: {
+                    // Aktion
+                }) {
+                    Text("Zum Wettschein Hinzufügen")
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.blue)
+                .padding(.trailing, 8)
+            }
         }
         .padding()
         .background(

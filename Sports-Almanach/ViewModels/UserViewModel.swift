@@ -111,9 +111,8 @@ class UserViewModel: ObservableObject {
             print("Fehler: Benutzer-ID nicht gefunden.")
             return
         }
-        
         let dataB = Firestore.firestore()
-        let profileData: [String: Any] = ["balance": newBalance]  // Nur balance wird aktualisiert
+        let profileData: [String: Any] = ["balance": newBalance]  // Balance aktualisieren
         dataB.collection("Profile").document(userId).updateData(profileData) { error in
             if let error = error {
                 print("Fehler beim Aktualisieren des Kontostands: \(error)")

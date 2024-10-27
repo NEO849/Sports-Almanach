@@ -9,16 +9,13 @@ import SwiftUI
 
 struct OddsRow: View {
     
-    @State private var selectedOdd: BetOutcome? // Speichern der ausgewählten Quote
+    @State private var selectedOdd: BetOutcome?
     let event: Event
     
     var body: some View {
         
         // Wettquoten-Anzeige
         VStack(alignment: .leading, spacing: 10) {
-            Text("Wettquoten")
-                .font(.title2)
-                .bold()
             
             let odds = OddsCalculator.calculateOdds(for: event)
             
@@ -27,10 +24,10 @@ struct OddsRow: View {
                 Spacer()
                 Text("\(String(format: "%.2f", odds.homeWinOdds))")
                 Image(systemName: selectedOdd == .homeWin ? "checkmark.square.fill" : "square")
-                               .foregroundColor(.orange)
-                               .onTapGesture {
-                                   selectOdd(.homeWin)  
-                               }
+                    .foregroundColor(.orange)
+                    .onTapGesture {
+                        selectOdd(.homeWin)
+                    }
             }
             
             HStack {
@@ -38,10 +35,10 @@ struct OddsRow: View {
                 Spacer()
                 Text("\(String(format: "%.2f", odds.drawOdds))")
                 Image(systemName: selectedOdd == .draw ? "checkmark.square.fill" : "square")
-                              .foregroundColor(.orange)
-                              .onTapGesture {
-                                  selectOdd(.draw)
-                              }
+                    .foregroundColor(.orange)
+                    .onTapGesture {
+                        selectOdd(.draw)
+                    }
             }
             
             HStack {
@@ -64,14 +61,14 @@ struct OddsRow: View {
     }
 
     // Zur Auswahl einer Quote
-     private func selectOdd(_ oddType: BetOutcome) {
-         if selectedOdd == oddType {
-             selectedOdd = nil  // Wenn bereits ausgewählt
-         } else {
-             selectedOdd = oddType 
-         }
-     }
- }
+    private func selectOdd(_ oddType: BetOutcome) {
+        if selectedOdd == oddType {
+            selectedOdd = nil  // Wenn bereits ausgewählt
+        } else {
+            selectedOdd = oddType
+        }
+    }
+}
 
 #Preview {
     let mockEvent = MockEvents.events.first!

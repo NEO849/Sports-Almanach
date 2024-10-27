@@ -13,4 +13,5 @@ struct Profile: Identifiable, Codable {
     let startMoney: Double
     let birthday: Date
     var balance: Double
+    var selectedEvents: [String] = [] 
 }

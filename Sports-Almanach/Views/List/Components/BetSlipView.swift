@@ -21,20 +21,18 @@ struct BetSlipView: View {
                     .bold()
                     .padding()
                 
-                if let event = betViewModel.selectedBetEvent {
-                   
-                    HStack {
-                        Text(event.name)
-                        Spacer()
-                        Text(betViewModel.betOutcomeResult?.titleGerman ?? "")
+                ScrollView {
+                    VStack(spacing: 4) {
+                        ForEach(Array(betViewModel.bets.enumerated()), id: \.1.id) { index, bet in
+                            BetSlipRow(index: index, bet: bet)
+                        }
                     }
-                    .padding()
                 }
+                .padding(.horizontal)
                 
                 Text("Kontostand: \(userViewModel.balance, specifier: "%.2f")")
                     .padding()
                 
-                // Slider für den Wetteinsatz
                 if userViewModel.balance > 0 {
                     Slider(value: $betViewModel.betAmount, in: 0...userViewModel.balance, step: 1)
                         .padding()
@@ -50,10 +48,10 @@ struct BetSlipView: View {
                        let outcome = betViewModel.betOutcomeResult {
                         betViewModel.placeBet(on: event, outcome: outcome, betAmount: betViewModel.betAmount)
                     }
-                    dismiss() // Sheet schließen
+                    dismiss()
                 }
                 .padding()
-                .disabled(betViewModel.betAmount == 0 || betViewModel.selectedBetEvent == nil) // Deaktiviert, wenn kein Einsatz oder Event ausgewählt
+                .disabled(betViewModel.betAmount == 0 || betViewModel.selectedBetEvent == nil)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

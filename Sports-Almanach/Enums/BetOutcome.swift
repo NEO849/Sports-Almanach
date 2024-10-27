@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 /// Enum für die möglichen Ergebnisse einer Wette
-enum BetOutcome: String, Identifiable {
+enum BetOutcome: String, Identifiable, Decodable {
     case homeWin
     case draw
     case awayWin

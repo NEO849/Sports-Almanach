@@ -71,6 +71,7 @@ struct BetView: View {
                     .presentationDetents([.large])
                     .environmentObject(userViewModel)
                     .environmentObject(eventViewModel)
+                    .environmentObject(betViewModel) 
             }
         }
     }

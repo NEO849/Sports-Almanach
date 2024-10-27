@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import SwiftUI
+import FirebaseFirestore
 
 class EventViewModel: ObservableObject {
     
@@ -30,7 +32,6 @@ class EventViewModel: ObservableObject {
         await MainActor.run {
             self.isLoading = true
         }
-        
         do {
             let fetchedEvents = try await eventRepository.fetchEvents(for: season)
             // Aktualisiert die Events auf dem Haupt-Thread.
