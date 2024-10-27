@@ -9,7 +9,7 @@ import SwiftUI
 
 struct OddsRow: View {
     
-    @State private var selectedOdd: BetOutcome?
+    @State private var selectedOdd: BetOutcome? 
     let event: Event
     
     var body: some View {
@@ -46,10 +46,10 @@ struct OddsRow: View {
                 Spacer()
                 Text("\(String(format: "%.2f", odds.awayWinOdds))")
                 Image(systemName: selectedOdd == .awayWin ? "checkmark.square.fill" : "square")
-                              .foregroundColor(.orange)
-                              .onTapGesture {
-                                  selectOdd(.awayWin)
-                              }
+                    .foregroundColor(.orange)
+                    .onTapGesture {
+                        selectOdd(.awayWin)
+                    }
             }
         }
         .padding()
@@ -61,7 +61,7 @@ struct OddsRow: View {
     }
 
     // Zur Auswahl einer Quote
-    private func selectOdd(_ oddType: BetOutcome) {
+    func selectOdd(_ oddType: BetOutcome) {
         if selectedOdd == oddType {
             selectedOdd = nil  // Wenn bereits ausgewählt
         } else {
