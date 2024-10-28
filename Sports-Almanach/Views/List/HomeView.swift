@@ -46,13 +46,13 @@ struct HomeView: View {
                 }
             }
             .navigationBarBackButtonHidden(true)
-            .onChange(of: userViewModel.isLoggedIn) { isLoggedIn in
+            .onReceive(userViewModel.$isLoggedIn) { isLoggedIn in
                            if !isLoggedIn {
-                               navigateToLogin = true  // Bei Abmeldung zur Login
+                               navigateToLogin = true  // Bei Abmeldung
                            }
                        }
                 .navigationDestination(isPresented: $navigateToLogin) {
-                    LoginView()  // Wenn der Benutzer abgemeldet ist
+                    LoginView()  // Zur Login
                 }
             }
         }
