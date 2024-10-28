@@ -40,4 +40,7 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(UserViewModel())
+        .environmentObject(EventViewModel())
+        .environmentObject(BetViewModel())
 }

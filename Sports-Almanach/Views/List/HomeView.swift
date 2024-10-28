@@ -12,7 +12,7 @@ struct HomeView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var eventViewModel: EventViewModel
     @State private var navigateToLogin: Bool = false
-
+    
     var body: some View {
         
         NavigationStack {
@@ -46,17 +46,15 @@ struct HomeView: View {
                 }
             }
             .navigationBarBackButtonHidden(true)
-            .onReceive(userViewModel.$isLoggedIn) { isLoggedIn in
-                           if !isLoggedIn {
-                               navigateToLogin = true  // Bei Abmeldung
-                           }
-                       }
-                .navigationDestination(isPresented: $navigateToLogin) {
-                    LoginView()  // Zur Login
+            .onChange(of: userViewModel.isLoggedIn) { isLoggedIn in if !isLoggedIn { navigateToLogin = true  // Bei Abmeldung zur Login
                 }
+            }
+            .navigationDestination(isPresented: $navigateToLogin) {
+                LoginView()  // Zur Login
             }
         }
     }
+}
 
 #Preview {
     HomeView()

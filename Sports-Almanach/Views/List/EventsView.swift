@@ -108,6 +108,7 @@ struct EventsView: View {
                     }
                     .listStyle(PlainListStyle())
                     .navigationTitle("")
+                    Spacer() 
                 }
             }
         }

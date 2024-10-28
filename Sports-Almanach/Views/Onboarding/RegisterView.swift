@@ -15,7 +15,7 @@ struct RegisterView: View {
     @State private var password: String = ""
     @State private var passwordRepeat: String = ""
     
-    @StateObject var userViewModel = UserViewModel()  // Für Registrierung
+    @EnvironmentObject var userViewModel: UserViewModel
     @State private var isPasswordVisible: Bool = false
     @State private var isRepeatPasswordVisible: Bool = false
     @State private var navigateToContentView: Bool = false
