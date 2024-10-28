@@ -12,20 +12,62 @@ struct BetSlipRow: View {
     let bet: Bet
     
     var body: some View {
-        HStack {
-            Text("\(index + 1).") // Fortlaufende Nummer
-                .font(.subheadline)
-            Text(bet.event.name)
-                .font(.headline)
-            Spacer()
-            Text(bet.outcome.titleGerman)
-                .font(.subheadline)
-            Spacer()
-            Text(String(format: "%.2f", bet.odds))
-                .font(.subheadline)
+        
+        VStack(alignment: .leading) {
+            
+            HStack {
+                Text("\(index + 1).") // Fortlaufend
+                    .font(.subheadline)
+                Text(bet.event.name)
+                    .font(.headline)
+                Spacer()
+                Text(String(format: "%.2f", bet.odds))
+                    .font(.subheadline)
+                    .padding(8)
+                    .background(.white)
+                    .foregroundColor(.black)
+                    .cornerRadius(8)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(.black, lineWidth: 2)
+                    )
+            }
+            
+            HStack {
+                Spacer().frame(width: 16)
+                Text(bet.outcome.titleGerman)
+                    .font(.subheadline)
+                    .padding(8)
+                    .background(.white)
+                    .foregroundColor(bet.outcome.color)
+                    .cornerRadius(8)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(bet.outcome.color, lineWidth: 2)
+                    )
+                Spacer().frame(width: 16)
+                Text("Spielausgang")
+                    .font(.footnote)
+                    .padding(8)
+                    .background(.white)
+                    .foregroundColor(.black)
+                    .cornerRadius(8)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(.gray, lineWidth: 2)
+                    )
+                Spacer()
+            }
         }
         .padding()
-        .background(Color.gray.opacity(0.2))
+        .background(.gray.opacity(0.2))
         .cornerRadius(8)
     }
+}
+
+
+#Preview {
+    let mockBet = Bet(id: UUID(), event: MockEvents.events.first!, outcome: .homeWin, odds: 2.5, amount: 10, timestamp: Date())
+    BetSlipRow(index: 0, bet: mockBet)
+        .previewLayout(.fixed(width: 375, height: 50))
 }

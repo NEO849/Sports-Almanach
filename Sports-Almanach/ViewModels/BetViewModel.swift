@@ -44,7 +44,7 @@ class BetViewModel: ObservableObject {
         userViewModel.balance = newBalance
         
         // In Firestore aktualisieren (über UserViewModel)
-           userViewModel.updateBalance(newBalance: newBalance)
+        userViewModel.updateBalance(newBalance: newBalance)
         
         // Wette in Firestore speichern
         guard let userId = FirebaseAuthManager.shared.userID else {
@@ -68,16 +68,6 @@ class BetViewModel: ObservableObject {
                 print("Fehler beim Speichern der Wette: \(error)")
             } else {
                 print("Wette erfolgreich gespeichert.")
-            }
-        }
-        
-        // Neuen Kontostand in Firestore aktualisieren
-        let profileData: [String: Any] = ["balance": newBalance]
-        dataB.collection("Profile").document(userId).updateData(profileData) { error in
-            if let error = error {
-                print("Fehler beim Aktualisieren des Kontostands: \(error)")
-            } else {
-                print("Kontostand erfolgreich aktualisiert.")
             }
         }
         
