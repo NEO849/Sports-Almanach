@@ -21,13 +21,13 @@ struct BetSlipView: View {
                     .bold()
                     .padding()
                 
-                ScrollView {
-                    VStack(spacing: 4) {
-                        ForEach(Array(betViewModel.bets.enumerated()), id: \.1.id) { index, bet in
-                            BetSlipRow(index: index, bet: bet)
-                        }
-                    }
-                }
+//                ScrollView {
+//                    VStack(spacing: 4) {
+//                        ForEach(Array(betViewModel.bets.enumerated()), id: \.1.id) { index, bet in
+//                            BetSlipRow(index: index, bet: bet)
+//                        }
+//                    }
+//                }
                 .padding(.horizontal)
                 
                 Text("Kontostand: \(userViewModel.balance, specifier: "%.2f")")
