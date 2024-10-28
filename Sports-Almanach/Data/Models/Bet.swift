@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Bet: Identifiable, Decodable {
+struct Bet: Identifiable, Decodable, Equatable {
     let id: UUID
     let event: Event
     let outcome: BetOutcome
@@ -15,4 +15,8 @@ struct Bet: Identifiable, Decodable {
     let amount: Double
     var winAmount: Double?
     let timestamp: Date
+    
+static func ==(lhs: Bet, rhs: Bet) -> Bool {
+         return lhs.id == rhs.id
+     }
 }
