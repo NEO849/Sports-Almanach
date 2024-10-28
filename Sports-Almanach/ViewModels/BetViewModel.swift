@@ -13,8 +13,22 @@ class BetViewModel: ObservableObject {
     
     @EnvironmentObject var userViewModel: UserViewModel
     @Published var selectedBetEvent: Event?
-    @Published var betAmount: Double = 0.0        // Wetteinsatz
-    @Published var betOutcomeResult: BetOutcome?  // Ergebnis der Wette
+    @Published var betAmount: Double = 0.0
+    @Published var betOutcomeResult: BetOutcome?
+    @Published var totalOdds: Double = 0.0
+    @Published var potentialWinAmount: Double = 0.0
+    @Published var bets: [Bet] = []
+    
+    /// Bestimmt den Spielausgang basierend auf den Toren
+    func theWinnerIs(homeGoals: Int, awayGoals: Int) -> BetOutcome {
+        if homeGoals > awayGoals {
+            return .homeWin
+        } else if homeGoals < awayGoals {
+            return .awayWin
+        } else {
+            return .draw
+        }
+    }
     
     /// Führt die Wette aus
     func placeBet(on event: Event, outcome: BetOutcome, betAmount: Double) {
@@ -79,5 +93,28 @@ class BetViewModel: ObservableObject {
     /// Kontostand zurückzusetzen
     func resetBalance() {
         userViewModel.balance = userViewModel.startMoney
-        print("Kontostand wurde zurückgesetzt auf: \(userViewModel.startMoney)")    }
+        print("Kontostand wurde zurückgesetzt auf: \(userViewModel.startMoney)")
+    }
+    
+    /// Möglicher Gewinn
+      func calculatePossibleWin() -> Double {
+          return betAmount * calculateTotalOdds()
+      }
+    
+    func calculateTotalOdds() -> Double {
+          guard let event = selectedBetEvent, let outcome = betOutcomeResult else {
+              return 0.0
+          }
+
+          let odds = OddsCalculator.calculateOdds(for: event)
+
+          switch outcome {
+          case .homeWin:
+              return odds.homeWinOdds
+          case .draw:
+              return odds.drawOdds
+          case .awayWin:
+              return odds.awayWinOdds
+          }
+      }
 }
