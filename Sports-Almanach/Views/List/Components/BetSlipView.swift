@@ -36,6 +36,9 @@ struct BetSlipView: View {
                     if userViewModel.balance > 0 {
                         Slider(value: $betViewModel.betAmount, in: 0...userViewModel.balance, step: 1)
                             .padding()
+                            .onChange(of: betViewModel.betAmount) { _ in
+                                                       betViewModel.potentialWinAmount = betViewModel.calculatePossibleWin()
+                                                   }
                     } else {
                         Text("Kein Guthaben verfügbar")
                             .foregroundColor(.red)
@@ -52,14 +55,14 @@ struct BetSlipView: View {
                     HStack {
                         Text("Gesamtquote:")
                         Spacer()
-                        Text("\(betViewModel.calculateTotalOdds(), specifier: "%.2f")")
+                        Text("\(betViewModel.totalOdds, specifier: "%.2f")")
                     }
                     .padding(.horizontal)
                     
                     HStack {
                         Text("Möglicher Gewinn:")
                         Spacer()
-                        Text("\(betViewModel.calculatePossibleWin(), specifier: "%.2f")")
+                        Text("\(betViewModel.potentialWinAmount, specifier: "%.2f")")
                     }
                     .padding(.horizontal)
                 }

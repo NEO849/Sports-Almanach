@@ -13,10 +13,14 @@ class BetViewModel: ObservableObject {
     
     @EnvironmentObject var userViewModel: UserViewModel
     @Published var selectedBetEvent: Event?
-    @Published var betAmount: Double = 0.0
+    @Published var betAmount: Double = 0.0 {
+        didSet {
+            potentialWinAmount = calculatePossibleWin()
+        }
+    }
     @Published var betOutcomeResult: BetOutcome?
     @Published var totalOdds: Double = 0.0
-    @Published var potentialWinAmount: Double = 0.0
+    @Published var potentialWinAmount: Double = 0.0 
     @Published var bets: [Bet] = []
     
     /// Bestimmt den Spielausgang basierend auf den Toren
@@ -30,6 +34,24 @@ class BetViewModel: ObservableObject {
         }
     }
     
+    /// Aktualisiert die Gesamtquote aller Wetten
+    func updateTotalOdds() {
+          totalOdds = bets.reduce(1) { result, bet in
+              result * bet.odds
+          }
+      }
+    
+    /// Möglicher Gewinn
+      func calculatePossibleWin() -> Double {
+            return betAmount * totalOdds
+        }
+    
+    /// Kontostand zurückzusetzen
+    func resetBalance() {
+        userViewModel.balance = userViewModel.startMoney
+        print("Kontostand wurde zurückgesetzt auf: \(userViewModel.startMoney)")
+    }
+    
     /// Führt die Wette aus
     func placeBet(on event: Event, outcome: BetOutcome, betAmount: Double) {
         
@@ -41,7 +63,6 @@ class BetViewModel: ObservableObject {
         
         // Berechnet die Quoten
         let odds = OddsCalculator.calculateOdds(for: event)
-        
         // Ergebnis basierend auf der Auswahl und den Quoten
         var winAmount: Double = 0.0
         switch outcome {
@@ -88,18 +109,8 @@ class BetViewModel: ObservableObject {
         // Event und Ergebnis der Wette speichern
         selectedBetEvent = event
         betOutcomeResult = outcome
+        updateTotalOdds()
     }
-    
-    /// Kontostand zurückzusetzen
-    func resetBalance() {
-        userViewModel.balance = userViewModel.startMoney
-        print("Kontostand wurde zurückgesetzt auf: \(userViewModel.startMoney)")
-    }
-    
-    /// Möglicher Gewinn
-      func calculatePossibleWin() -> Double {
-          return betAmount * calculateTotalOdds()
-      }
     
     func calculateTotalOdds() -> Double {
           guard let event = selectedBetEvent, let outcome = betOutcomeResult else {
