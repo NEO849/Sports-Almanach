@@ -128,8 +128,8 @@ class UserViewModel: ObservableObject {
     private func validateInputs(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) -> [UserError] {
         var errors: [UserError] = []
         
-        if username.isEmpty || username.contains(" ") {
-            errors.append(UserError.noSpace)
+        if username.isEmpty {
+            errors.append(UserError.usernameEmpty)
         }
         
         if !isValidEmail(email) {

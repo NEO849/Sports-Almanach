@@ -16,7 +16,7 @@ struct Bet: Identifiable, Decodable, Equatable {
     var winAmount: Double?
     let timestamp: Date
     
-static func ==(lhs: Bet, rhs: Bet) -> Bool {
+static func == (lhs: Bet, rhs: Bet) -> Bool {
          return lhs.id == rhs.id
      }
 }

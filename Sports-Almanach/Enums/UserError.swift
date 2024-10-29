@@ -18,6 +18,7 @@ enum UserError: Error, LocalizedError {
     case tooYoung
     case noSpace
     case unknownError
+    case usernameEmpty
 
     // Durch Switch-Case, Fehlermeldung in Deutsch, ohne den rawValue und einfacher Erweiterbarkeit
     var errorDescriptionGerman: String? {
@@ -40,6 +41,8 @@ enum UserError: Error, LocalizedError {
             return "Keine Leerzeichen Im Namen"
         case .unknownError:
             return "Unbekannter Fehler."
+        case .usernameEmpty:
+            return "Bitte Benutzernamen eingeben" 
         }
     }
 }

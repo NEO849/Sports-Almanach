@@ -171,44 +171,6 @@ struct RegisterView: View {
                         Text(String(format: "%.2f €    ", userViewModel.startMoney))
                             .foregroundColor(.white.opacity(0.8))
                     }
-                    .frame(width: 300, height: 50)
-                    .background(Color.gray.opacity(0.2))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.orange, lineWidth: 2)
-                    )
-                    .padding(.bottom, 20)
-                    
-                    // Geburtstag mit DatePicker
-                    HStack {
-                        Text("Geburtsdatum:")
-                            .foregroundColor(.white.opacity(0.8))
-                        Spacer()
-                        
-                        DatePicker("", selection: $birthday, displayedComponents: .date)
-                            .datePickerStyle(CompactDatePickerStyle())
-                            .frame(width: 150)
-                    }
-                    .padding()
-                    .frame(width: 300, height: 50)
-                    .background(Color.gray.opacity(0.2))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.orange, lineWidth: 2)
-                    )
-                    .padding(.bottom, 20)
-                    
-                    // Registrieren
-                    Button(action: {
-                        attemptSignUp()
-                    }) {
-                        Text("REGISTRIEREN")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(width: 300, height: 50)
-                            .background(Color.orange.opacity(0.9))
-                            .cornerRadius(10)
-                    }
                     .padding(.top, 32)
                     
                     Button(action: {
