@@ -30,6 +30,7 @@ struct Sports_AlmanachApp: App {
             } else {
                 SplashView()
                     .environmentObject(userViewModel)
+                    .environmentObject(eventViewModel)
             }
             
         }

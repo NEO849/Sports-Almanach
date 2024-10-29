@@ -224,6 +224,7 @@ struct RegisterView: View {
                             Text("Zurück zur Anmeldung")
                                 .foregroundColor(.blue)
                                 .underline()
+                                .padding(.leading, 64)
                         }
                         .padding(.top, 32)
                     }

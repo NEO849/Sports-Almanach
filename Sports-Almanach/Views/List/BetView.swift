@@ -55,7 +55,7 @@ struct BetView: View {
                     List {
                         ForEach(eventViewModel.selectedBetEvents) { event in
                             BetRow(eventViewModel: eventViewModel, event: event)
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) { // Swipe-Aktionen
+                                .environmentObject(betViewModel)      .swipeActions(edge: .trailing, allowsFullSwipe: true) { // Swipe-Aktionen
                                     Button(role: .destructive) {
                                         eventViewModel.removeFromBet(event) // Entfernen
                                     } label: {
