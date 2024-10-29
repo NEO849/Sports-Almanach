@@ -17,9 +17,8 @@ struct BetSlipView: View {
         NavigationView {
             VStack {
                 Text("Wettschein")
-                    .font(.title3)
+                    .font(.title2)
                     .bold()
-                    .padding(.top)
                 
                 ScrollView {
                     VStack(spacing: 8) {
@@ -44,13 +43,6 @@ struct BetSlipView: View {
                     }
                     
                     HStack {
-                        Text("Möglicher Gewinn:")
-                        Spacer()
-                        Text("\(betViewModel.calculatePossibleWin(), specifier: "%.2f")")
-                    }
-                    .padding(.horizontal)
-                    
-                    HStack {
                         Text("Wetteinsatz:")
                         Spacer()
                         Text("\(betViewModel.betAmount, specifier: "%.2f")")
@@ -61,6 +53,13 @@ struct BetSlipView: View {
                         Text("Gesamtquote:")
                         Spacer()
                         Text("\(betViewModel.calculateTotalOdds(), specifier: "%.2f")")
+                    }
+                    .padding(.horizontal)
+                    
+                    HStack {
+                        Text("Möglicher Gewinn:")
+                        Spacer()
+                        Text("\(betViewModel.calculatePossibleWin(), specifier: "%.2f")")
                     }
                     .padding(.horizontal)
                 }
@@ -77,7 +76,7 @@ struct BetSlipView: View {
                 .font(.title3)
                 .padding(.vertical, 2)
                 .padding(.horizontal, 2)
-                .foregroundColor(.black)
+                .foregroundColor(.white)
                 .cornerRadius(10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
@@ -100,7 +99,6 @@ struct BetSlipView: View {
     }
 }
 
-
 #Preview {
     let betViewModel = BetViewModel()
     let userViewModel = UserViewModel()
@@ -111,7 +109,7 @@ struct BetSlipView: View {
     let mockBet4 = Bet(id: UUID(), event: MockEvents.events[3], outcome: .homeWin, odds: 1.8, amount: 12, timestamp: Date())
     let mockBet5 = Bet(id: UUID(), event: MockEvents.events[4], outcome: .draw, odds: 2.7, amount: 25, timestamp: Date())
     
-    // Weise die Beispielwetten dem betViewModel zu
+    // Beispielwetten zuweisen
     betViewModel.bets = [mockBet1, mockBet2, mockBet3, mockBet4, mockBet5]
     
     return BetSlipView()
