@@ -219,6 +219,7 @@
 			children = (
 				F04EE0FF2CC895540095BD28 /* BetSlipView.swift */,
 				F05BC2C42CA6AF9500562C51 /* EventDetailView.swift */,
+				F0A80FC62CD194C700379EB8 /* WebView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";

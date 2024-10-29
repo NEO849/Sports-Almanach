@@ -6,15 +6,13 @@
 //  .
 
 import SwiftUI
-import AVKit
+import WebKit
 
 /// Detaillierte Ansicht eines Events mit farbigem Status-Text
 struct EventDetailView: View {
     
     @EnvironmentObject var eventViewModel: EventViewModel
     let event: Event
-    @State private var player: AVPlayer?
-    @State private var isPlaying: Bool = false
     
     var body: some View {
         
@@ -84,7 +82,6 @@ struct EventDetailView: View {
                             .foregroundColor(.orange)
                     }
                     .padding()
-                    
                     Spacer().frame(width: 48)
                     
                     // Auswärtsmannschaft
@@ -107,19 +104,16 @@ struct EventDetailView: View {
                 .padding()
                 .frame(maxWidth: 340)
                 .background(
-                    RoundedRectangle(cornerRadius: 15)
+                    RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.white, lineWidth: 1)
                 )
                 .frame(maxWidth: .infinity, alignment: .center)
                 
-                .padding()
-                
                 // Überprüfung auf gültige URL
-                if let videoURLString = event.videoURL?.replacingOccurrences(of: "https:\\/\\/", with: "https://"),
+                if let videoURLString = event.videoURL,
                    let videoURL = URL(string: videoURLString) {
-                    VideoPlayer(player: AVPlayer(url: videoURL))
-                        .frame(maxWidth: 340)
-                        .frame(height: 200)
+                    WebView(url: videoURL)
+                        .frame(width: 340, height: 232)
                         .cornerRadius(10)
                         .shadow(radius: 5)
                         .overlay(
@@ -129,15 +123,14 @@ struct EventDetailView: View {
                         .frame(maxWidth: .infinity, alignment: .center)
                 } else {
                     Text("Video nicht verfügbar")
+                        .foregroundColor(.red)
                 }
-                
+                Spacer()
             }
-            .padding()
-            .navigationTitle("")
+            .padding(.top, 8)
         }
     }
 }
-
 
 #Preview {
     let mockEvent = MockEvents.events.first!
