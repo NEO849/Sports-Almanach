@@ -10,6 +10,8 @@ import SwiftUI
 struct BetRow: View {
     
     @ObservedObject var eventViewModel: EventViewModel
+    @EnvironmentObject var betViewModel: BetViewModel
+    @State private var selectedOdd: BetOutcome?
     let event: Event
     
     var body: some View {
@@ -22,11 +24,19 @@ struct BetRow: View {
                     .font(.subheadline)
                     .foregroundColor(.orange)
             }
-            OddsRow(event: event)
+            
+            // Quoten berechnen
+            let odds = OddsCalculator.calculateOdds(for: event)
+            // Binding Übergeben
+            OddsRow(selectedOdd: $selectedOdd, event: event, odds: odds)
             HStack {
                 Spacer()
                 Button(action: {
-                    // Aktion
+                    // Wenn Quote ausgewählt ist -> Zum Wettschein
+                    if let outcome = selectedOdd {
+                        let bet = Bet(id: UUID(), event: event, outcome: outcome, odds: odds.homeWinOdds, amount: 0, timestamp: Date())
+                        betViewModel.bets.append(bet)
+                    }
                 }) {
                     Text("Zum Wettschein Hinzufügen")
                 }
