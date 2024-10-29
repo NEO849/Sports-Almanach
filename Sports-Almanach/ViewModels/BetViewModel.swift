@@ -20,7 +20,7 @@ class BetViewModel: ObservableObject {
     }
     @Published var betOutcomeResult: BetOutcome?
     @Published var totalOdds: Double = 0.0
-    @Published var potentialWinAmount: Double = 0.0 
+    @Published var potentialWinAmount: Double = 0.0
     @Published var bets: [Bet] = []
     
     /// Bestimmt den Spielausgang basierend auf den Toren
@@ -36,20 +36,26 @@ class BetViewModel: ObservableObject {
     
     /// Aktualisiert die Gesamtquote aller Wetten
     func updateTotalOdds() {
-          totalOdds = bets.reduce(1) { result, bet in
-              result * bet.odds
-          }
-      }
+        // `reduce` iteriert über alle Wetten im `bets`-Array
+        totalOdds = bets.reduce(1) { result, bet in
+            result * bet.odds
+        }
+    }
     
     /// Möglicher Gewinn
-      func calculatePossibleWin() -> Double {
-            return betAmount * totalOdds
-        }
+    func calculatePossibleWin() -> Double {
+        return betAmount * totalOdds
+    }
     
     /// Kontostand zurückzusetzen
     func resetBalance() {
         userViewModel.balance = userViewModel.startMoney
         print("Kontostand wurde zurückgesetzt auf: \(userViewModel.startMoney)")
+    }
+    
+    /// Überprüfe, ob bereits eine Wette für das gleiche Event existiert
+    func isBetAlreadyExists(for event: Event) -> Bool {
+        return bets.contains(where: { $0.event.id == event.id })
     }
     
     /// Führt die Wette aus
@@ -92,9 +98,9 @@ class BetViewModel: ObservableObject {
             "userId": userId,
             "eventId": event.id,
             "betAmount": betAmount,
-            "outcome": outcome.rawValue, // Speichern des Enums als String
+            "outcome": outcome.rawValue, // Enum als String
             "winAmount": winAmount,
-            "timestamp": Timestamp() // Aktueller Zeitstempel
+            "timestamp": Timestamp()
         ]
         
         // Speichern in der "Bets"-Collection
@@ -106,26 +112,9 @@ class BetViewModel: ObservableObject {
             }
         }
         
-        // Event und Ergebnis der Wette speichern
+        // Event und Ergebnis der Wette speichern und GesamtQu. aktual.
         selectedBetEvent = event
         betOutcomeResult = outcome
         updateTotalOdds()
     }
-    
-    func calculateTotalOdds() -> Double {
-          guard let event = selectedBetEvent, let outcome = betOutcomeResult else {
-              return 0.0
-          }
-
-          let odds = OddsCalculator.calculateOdds(for: event)
-
-          switch outcome {
-          case .homeWin:
-              return odds.homeWinOdds
-          case .draw:
-              return odds.drawOdds
-          case .awayWin:
-              return odds.awayWinOdds
-          }
-      }
 }
