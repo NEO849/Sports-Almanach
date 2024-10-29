@@ -56,7 +56,7 @@ struct EventRow: View {
         }
         .padding() // Innenabstand um gesamte Zelle
         .overlay(
-            RoundedRectangle(cornerRadius: 15)
+            RoundedRectangle(cornerRadius: 10)
                 .stroke(Color.orange, lineWidth: 2)
         )
         .padding(.vertical, 8)

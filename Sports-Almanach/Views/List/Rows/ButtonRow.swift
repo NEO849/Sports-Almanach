@@ -14,14 +14,15 @@ struct ButtonRow: View {
     
     var body: some View {
         Button(action: action) {
-            Text(eventViewModel.selectedBetEvents.contains(event) ? "--->> Wette Bereit <<---" : "--->> Hinzufügen zur Wette <<---") 
+            Text(eventViewModel.selectedBetEvents.contains(event) ? "--->>   Bereit zum Wetten   <<---" : "--->>  Hinzufügen zur Wette  <<---")
                 .font(.subheadline)
                 .foregroundColor(eventViewModel.selectedBetEvents.contains(event) ? .green : .blue)
                 .padding(.vertical, 8)
+                .frame(maxWidth: .infinity)
                 .background(
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(Color.orange, lineWidth: 2)
-                        .frame(width: 300)
+                       
                 )
         }
         .buttonStyle(.borderless)
