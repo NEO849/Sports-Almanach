@@ -37,9 +37,10 @@ struct BetSlipRow: View {
                 Spacer().frame(width: 16)
                 Text(bet.outcome.titleGerman)
                     .font(.subheadline)
+                    .frame(width: 100)
                     .padding(8)
-                    .background(.white)
-                    .foregroundColor(bet.outcome.color)
+                    .background(bet.outcome.color)
+                    .foregroundColor(.white)
                     .cornerRadius(8)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)

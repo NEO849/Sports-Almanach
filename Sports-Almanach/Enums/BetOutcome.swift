@@ -21,7 +21,7 @@ enum BetOutcome: String, Identifiable, Decodable {
         case .homeWin:
             return "Heimsieg"
         case .draw:
-            return "Unentschieden"
+            return "Remi"
         case .awayWin:
             return "Auswärtssieg"
         }

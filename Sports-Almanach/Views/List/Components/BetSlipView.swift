@@ -37,8 +37,8 @@ struct BetSlipView: View {
                         Slider(value: $betViewModel.betAmount, in: 0...userViewModel.balance, step: 1)
                             .padding()
                             .onChange(of: betViewModel.betAmount) { _ in
-                                                       betViewModel.potentialWinAmount = betViewModel.calculatePossibleWin()
-                                                   }
+                                betViewModel.potentialWinAmount = betViewModel.calculatePossibleWin()
+                            }
                     } else {
                         Text("Kein Guthaben verfügbar")
                             .foregroundColor(.red)
@@ -79,6 +79,7 @@ struct BetSlipView: View {
                 .font(.title3)
                 .padding(.vertical, 8)
                 .padding(.horizontal, 8)
+                .frame(width: 150)
                 .foregroundColor(.white)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
