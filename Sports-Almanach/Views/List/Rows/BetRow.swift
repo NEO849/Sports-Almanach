@@ -34,8 +34,22 @@ struct BetRow: View {
                 Button(action: {
                     // Wenn Quote ausgewählt ist -> Zum Wettschein
                     if let outcome = selectedOdd {
-                        let bet = Bet(id: UUID(), event: event, outcome: outcome, odds: odds.homeWinOdds, amount: 0, timestamp: Date())
+                        // Berechnet Quote basierend auf outcome
+                        let currentOdds: Double
+                        switch outcome {
+                        case .homeWin:
+                            currentOdds = odds.homeWinOdds
+                        case .draw:
+                            currentOdds = odds.drawOdds
+                        case .awayWin:
+                            currentOdds = odds.awayWinOdds
+                        }
+                        
+                        let bet = Bet(id: UUID(), event: event, outcome: outcome, odds: currentOdds, amount: 0, timestamp: Date())
                         betViewModel.bets.append(bet)
+                        // Gesamtquote und möglichen Gewinn aktualisieren
+                        betViewModel.updateTotalOdds()
+                        betViewModel.potentialWinAmount = betViewModel.calculatePossibleWin()
                     }
                 }) {
                     Text("Zum Wettschein Hinzufügen")
