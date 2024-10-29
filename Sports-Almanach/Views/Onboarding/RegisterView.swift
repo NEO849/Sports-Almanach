@@ -171,7 +171,13 @@ struct RegisterView: View {
                         Text(String(format: "%.2f €    ", userViewModel.startMoney))
                             .foregroundColor(.white.opacity(0.8))
                     }
-                    .padding(.top, 32)
+                    .frame(width: 300, height: 50)
+                    .background(Color.gray.opacity(0.2))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 10)
+                            .stroke(Color.orange, lineWidth: 2)
+                    )
+                    .padding(.bottom, 14)
                     
                     Button(action: {
                         presentationMode.wrappedValue.dismiss() // Schließt aktuelle View -> LoginView
