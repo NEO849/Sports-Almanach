@@ -41,7 +41,6 @@ struct BetView: View {
                         .padding(.vertical, 2)
                         .padding(.horizontal, 2)
                         .foregroundColor(.white)
-                        .cornerRadius(10)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.orange, lineWidth: 2)

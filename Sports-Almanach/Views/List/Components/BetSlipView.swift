@@ -74,16 +74,13 @@ struct BetSlipView: View {
                     dismiss()
                 }
                 .font(.title3)
-                .padding(.vertical, 2)
-                .padding(.horizontal, 2)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 8)
                 .foregroundColor(.white)
-                .cornerRadius(10)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
                         .stroke(.orange, lineWidth: 2)
                 )
-                .buttonStyle(.borderedProminent)
-                .tint(.blue)
                 .padding(.bottom, 48)
                 .disabled(betViewModel.betAmount == 0 || betViewModel.selectedBetEvent == nil)
             }

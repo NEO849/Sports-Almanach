@@ -40,8 +40,14 @@ struct BetRow: View {
                 }) {
                     Text("Zum Wettschein Hinzufügen")
                 }
+                .padding(.vertical, 2)
+                .padding(.horizontal, 2)
+                .foregroundColor(.white)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(Color.orange, lineWidth: 2)
+                )
                 .buttonStyle(.borderedProminent)
-                .tint(.blue)
                 .padding(.trailing, 8)
             }
         }
