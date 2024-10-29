@@ -9,15 +9,14 @@ import SwiftUI
 
 struct OddsRow: View {
     
-    @State private var selectedOdd: BetOutcome? 
+    @Binding var selectedOdd: BetOutcome? // Ausgewählte Quote
     let event: Event
+    let odds: (homeWinOdds: Double, drawOdds: Double, awayWinOdds: Double) // Empfangene Quoten
     
     var body: some View {
         
         // Wettquoten-Anzeige
         VStack(alignment: .leading, spacing: 10) {
-            
-            let odds = OddsCalculator.calculateOdds(for: event)
             
             HStack {
                 Text("Heimsieg:")
@@ -56,10 +55,8 @@ struct OddsRow: View {
         .background(Color.gray.opacity(0.1))
         .cornerRadius(10)
         .frame(maxWidth: .infinity, alignment: .center)
-        
-        Spacer()
     }
-
+    
     // Zur Auswahl einer Quote
     func selectOdd(_ oddType: BetOutcome) {
         if selectedOdd == oddType {
@@ -72,5 +69,6 @@ struct OddsRow: View {
 
 #Preview {
     let mockEvent = MockEvents.events.first!
-    return OddsRow(event: mockEvent)
+    let odds = OddsCalculator.calculateOdds(for: mockEvent)
+    return OddsRow(selectedOdd: .constant(.homeWin), event: mockEvent, odds: odds)
 }
