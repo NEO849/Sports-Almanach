@@ -12,6 +12,7 @@ struct BetRow: View {
     @ObservedObject var eventViewModel: EventViewModel
     @EnvironmentObject var betViewModel: BetViewModel
     @State private var selectedOdd: BetOutcome?
+    @State private var showAlert = false
     let event: Event
     
     var body: some View {
@@ -46,10 +47,17 @@ struct BetRow: View {
                         }
                         
                         let bet = Bet(id: UUID(), event: event, outcome: outcome, odds: currentOdds, amount: 0, timestamp: Date())
-                        betViewModel.bets.append(bet)
-                        // Gesamtquote und möglichen Gewinn aktualisieren
-                        betViewModel.updateTotalOdds()
-                        betViewModel.potentialWinAmount = betViewModel.calculatePossibleWin()
+                        
+                        // Ist Wette bereits im Wettschein vorhanden?
+                        if !betViewModel.isBetAlreadyExists(for: event) {
+                            betViewModel.bets.append(bet)
+                            
+                            // Gesamtquote und möglichen Gewinn aktualisieren
+                            betViewModel.updateTotalOdds()
+                            betViewModel.potentialWinAmount = betViewModel.calculatePossibleWin()
+                        } else {
+                            showAlert = true
+                        }
                     }
                 }) {
                     Text("Zum Wettschein Hinzufügen")
@@ -70,6 +78,9 @@ struct BetRow: View {
             RoundedRectangle(cornerRadius: 10)
                 .stroke(Color.orange, lineWidth: 2)
         )
+        .alert("Wette Existiert bereits!", isPresented: $showAlert) {
+            Button("OK", role: .cancel) { }
+        }
     }
 }
 
