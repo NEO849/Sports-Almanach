@@ -75,6 +75,7 @@
 		F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */; };
 		F0A0168C2CA09B4400C749E3 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A0168B2CA09B3900C749E3 /* UserError.swift */; };
 		F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */; };
+		F0A80FC72CD194CB00379EB8 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A80FC62CD194C700379EB8 /* WebView.swift */; };
 		F0BB2F8F2CB74BB00034DB67 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */; };
 		F0DFB6CD2CC005E400819342 /* BirthdayChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DFB6CC2CC005DF00819342 /* BirthdayChecker.swift */; };
 /* End PBXBuildFile section */
@@ -119,6 +120,7 @@
 		F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		F0A0168B2CA09B3900C749E3 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
 		F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsCalculator.swift; sourceTree = "<group>"; };
+		F0A80FC62CD194C700379EB8 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		F0DFB6CC2CC005DF00819342 /* BirthdayChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayChecker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
