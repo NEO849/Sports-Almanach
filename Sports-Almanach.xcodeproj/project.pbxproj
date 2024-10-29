@@ -470,6 +470,7 @@
 				F01DD55C2CCDCECF001176A2 /* Bet.swift in Sources */,
 				F0DFB6CD2CC005E400819342 /* BirthdayChecker.swift in Sources */,
 				F05BC2CB2CA7339F00562C51 /* BetViewModel.swift in Sources */,
+				F0A80FC72CD194CB00379EB8 /* WebView.swift in Sources */,
 				F00CB7162C9E480D003D70E3 /* SplashView.swift in Sources */,
 				F095C8F92C8FAE97002C94FD /* EventStatus.swift in Sources */,
 			);
