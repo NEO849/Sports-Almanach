@@ -38,15 +38,16 @@ struct BetView: View {
                             showBetSlip = true
                         }
                         .font(.title3)
-                        .padding(.vertical, 4)
-                        .padding(.horizontal, 4)
+                        .padding(.vertical, 2)
+                        .padding(.horizontal, 2)
                         .foregroundColor(.white)
-                        .background(Color.orange)
                         .cornerRadius(10)
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.orange, lineWidth: 2)
                         )
+                        .buttonStyle(.borderedProminent)
+                        .tint(.blue)
                         .padding(.trailing, 8)
                     }
                     .padding(.horizontal)
@@ -71,7 +72,7 @@ struct BetView: View {
                     .presentationDetents([.large])
                     .environmentObject(userViewModel)
                     .environmentObject(eventViewModel)
-                    .environmentObject(betViewModel) 
+                    .environmentObject(betViewModel)
             }
         }
     }
