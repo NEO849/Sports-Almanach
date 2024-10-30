@@ -5,6 +5,8 @@
 //  Created by Michael Fleps on 27.09.24.
 //
 
+import Foundation
+
 /// Jahreszahlenbereiche (Saison)
 enum Season: String, Identifiable, CaseIterable {
     case season20202021 = "2020-2021"
@@ -16,10 +18,9 @@ enum Season: String, Identifiable, CaseIterable {
     var id: String { rawValue }
     
     var year: String {
-        rawValue // Direkten Wert zurückgeben
+        rawValue
     }
     
-    // Eigenschaft für die aktuelle Saison
     static var current: Season {
         return .season20202021
     }

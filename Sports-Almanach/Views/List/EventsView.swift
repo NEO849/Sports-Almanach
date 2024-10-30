@@ -12,6 +12,7 @@ struct EventsView: View {
     @EnvironmentObject var eventViewModel: EventViewModel
     @State private var selectedLeague: League = .premierLeague
     @State private var selectedSeason: Season = .current
+    @State private var selectedSport: Sport = .defaultSport
     
     var body: some View {
         
@@ -22,12 +23,26 @@ struct EventsView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                Text("Welche Saison?")
-                    .foregroundColor(.white)
-                    .font(.title)         .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 60)
-                
-                HStack(spacing: 12) {
+                Spacer(minLength: 32)
+                HStack(spacing: 16) {  // Reduziertes Spacing für ein gleichmäßigeres Layout
+                    // Sport-Auswahl
+                    Menu {
+                        ForEach(Sport.allCases) { sport in
+                            Button(sport.rawValue) {
+                                selectedSport = sport
+                            }
+                        }
+                    } label: {
+                        Text(" \(selectedSport.rawValue)")
+                    }
+                    .padding()
+                    .frame(minWidth: 110)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.orange, lineWidth: 1)
+                    )
+                    
+                    // Liga-Auswahl
                     Menu {
                         ForEach(League.allCases) { league in
                             Button(league.rawValue) {
@@ -38,12 +53,13 @@ struct EventsView: View {
                         Text(" \(selectedLeague.shortedLeagueName)")
                     }
                     .padding()
-                    .frame(minWidth: 140)
+                    .frame(minWidth: 110)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.orange, lineWidth: 2)
+                            .stroke(Color.orange, lineWidth: 1)
                     )
                     
+                    // Saison-Auswahl
                     Menu {
                         ForEach(Season.allCases) { season in
                             Button(season.year) {
@@ -57,13 +73,14 @@ struct EventsView: View {
                         Text(" \(selectedSeason.year)")
                     }
                     .padding()
-                    .frame(minWidth: 140)
+                    .frame(minWidth: 110)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.orange, lineWidth: 2)
+                            .stroke(Color.orange, lineWidth: 1)
                     )
                 }
-                .padding()
+                .padding(.horizontal, 20)  // Außenabstand für die gesamte HStack
+                
                 
                 List {
                     ForEach(eventViewModel.events) { event in

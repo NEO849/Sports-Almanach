@@ -12,8 +12,15 @@ struct ContentView: View {
     @State private var selectedTab: CustomTabBar.Tab = .home
     
     var body: some View {
-        NavigationStack {
-            CustomTabBar(selectedTab: $selectedTab)
+        ZStack {
+            Image("hintergrund")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+            
+            NavigationStack {
+                CustomTabBar(selectedTab: $selectedTab)
+            }
         }
     }
 }
