@@ -3,7 +3,7 @@
 //  Sports-Almanach
 //
 //  Created by Michael Fleps on 20.09.24.
-//
+//.
 
 import SwiftUI
 
