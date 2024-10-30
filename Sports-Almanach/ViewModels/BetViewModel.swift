@@ -39,6 +39,7 @@ class BetViewModel: ObservableObject {
         if bets.isEmpty {
             // Keine Wette
             totalOdds = 0.0
+            betAmount = 0.0
         } else {
             // Multipliziert minimum mit 1
             totalOdds = bets.reduce(1) { result, bet in
