@@ -9,34 +9,14 @@ import SwiftUI
 
 struct ContentView: View {
     
+    @State private var selectedTab: CustomTabBar.Tab = .home
+    
     var body: some View {
-        
-        TabView {
-            
-            HomeView()
-                .tabItem {
-                    Label("Home", systemImage: "house")
-                }
-            
-            EventsView()
-                .tabItem {
-                    Label("Events", systemImage: "calendar")
-                }
-            
-            BetView()
-                .tabItem {
-                    Label("Bet", systemImage: "dollarsign.circle")
-                }
-            
-            StatisticsView()
-                .tabItem {
-                    Label("Statisitc", systemImage: "rectangle.and.pencil.and.ellipsis")
-                }
+        NavigationStack {
+            CustomTabBar(selectedTab: $selectedTab)
         }
-        
     }
 }
-
 
 #Preview {
     ContentView()

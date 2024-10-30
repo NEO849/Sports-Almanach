@@ -11,27 +11,22 @@ struct StatisticsView: View {
     
     var body: some View {
         
-        NavigationStack {
+        ZStack {
+            Image("hintergrund")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
             
-            ZStack {
-                Image("hintergrund")
-                    .resizable()
-                    .scaledToFill()
-                    .edgesIgnoringSafeArea(.all)
-                
-                Text("Favorit Spiele")
-                    .font(.largeTitle)
-                    .foregroundColor(.white)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .background(Color.clear)
-                    .contentShape(Rectangle())
-            }
-            
+            Text("Comin Soon, Rangliste und      Wettscheine anzeigen")
+                .font(.largeTitle)
+                .foregroundColor(.white)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.clear)
+                .contentShape(Rectangle())
         }
+        
     }
 }
-
-
 
 #Preview {
     StatisticsView()

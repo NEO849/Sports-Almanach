@@ -66,9 +66,8 @@ struct BetSlipRow: View {
     }
 }
 
-
 #Preview {
     let mockBet = Bet(id: UUID(), event: MockEvents.events.first!, outcome: .homeWin, odds: 2.5, amount: 10, timestamp: Date())
+
     BetSlipRow(index: 0, bet: mockBet)
-        .previewLayout(.sizeThatFits) 
 }

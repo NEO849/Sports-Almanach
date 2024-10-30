@@ -13,50 +13,63 @@ struct HomeView: View {
     @EnvironmentObject var eventViewModel: EventViewModel
     @State private var navigateToLogin: Bool = false
     
+    let banner = [
+        "Banner/bannersports",
+        "Banner/basketball",
+        "Banner/boxen",
+        "Banner/fussball",
+        "Banner/golf",
+        "Banner/laufen",
+        "Banner/radfahren",
+        "Banner/schwimmen",
+        "Banner/tennis"]
+    
     var body: some View {
         
-        NavigationStack {
-            ZStack {
-                Image("hintergrund")
-                    .resizable()
-                    .scaledToFill()
-                    .edgesIgnoringSafeArea(.all)
-                
-                VStack {
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            userViewModel.logout()  // Logout
-                        }) {
-                            Image(systemName: "rectangle.portrait.and.arrow.right")
-                                .foregroundColor(.blue)
-                                .padding()
-                        }
+        ZStack {
+            Image("hintergrund")
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack {
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        userViewModel.logout()  // Logout
+                    }) {
+                        Image(systemName: "rectangle.portrait.and.arrow.right")
+                            .foregroundColor(.blue)
+                            .padding()
                     }
-                    .padding()
-                    .padding(.trailing, 24)
-                    Spacer()
                 }
-                VStack {
-                    Image("appname")
-                        .resizable()
-                        .scaledToFit()
-                        .padding(.horizontal)
-                    Spacer()
-                }
+                .padding()
+                Spacer()
             }
-            .navigationBarBackButtonHidden(true)
-            .onChange(of: userViewModel.isLoggedIn) { isLoggedIn in
-                if !isLoggedIn {
-                    navigateToLogin = true  // Bei Abmeldung zur Login
-                }
+            VStack {
+                Image("appname")
+                    .resizable()
+                    .scaledToFit()
+                Spacer()
+                
+                // Images im banner anzeigen
+                // App Intro und Einführung
+                
+                Spacer()
             }
-            .navigationDestination(isPresented: $navigateToLogin) {
-                LoginView()  // Zur Login
+        }
+        .navigationBarBackButtonHidden(true)
+        .onChange(of: userViewModel.isLoggedIn) { isLoggedIn in
+            if !isLoggedIn {
+                navigateToLogin = true  // Bei Abmeldung zur Login
             }
+        }
+        .navigationDestination(isPresented: $navigateToLogin) {
+            LoginView()  // Zur Login
         }
     }
 }
+
 
 #Preview {
     HomeView()
