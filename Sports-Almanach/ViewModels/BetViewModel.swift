@@ -36,10 +36,17 @@ class BetViewModel: ObservableObject {
     
     /// Aktualisiert die Gesamtquote aller Wetten
     func updateTotalOdds() {
-        // `reduce` iteriert über alle Wetten im `bets`-Array
-        totalOdds = bets.reduce(1) { result, bet in
-            result * bet.odds
+        if bets.isEmpty {
+            // Keine Wette
+            totalOdds = 0.0
+        } else {
+            // Multipliziert minimum mit 1
+            totalOdds = bets.reduce(1) { result, bet in
+                result * bet.odds
+            }
         }
+        // Möglichen Gewinn neu, auf Basis der aktualisierten Gesamtquote
+           potentialWinAmount = calculatePossibleWin()
     }
     
     /// Möglicher Gewinn
