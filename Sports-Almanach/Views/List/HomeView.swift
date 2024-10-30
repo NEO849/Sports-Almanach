@@ -26,27 +26,29 @@ struct HomeView: View {
                     HStack {
                         Spacer()
                         Button(action: {
-                            userViewModel.logout()  // Logout func
+                            userViewModel.logout()  // Logout
                         }) {
                             Image(systemName: "rectangle.portrait.and.arrow.right")
-                                .foregroundColor(.white)
+                                .foregroundColor(.blue)
                                 .padding()
                         }
                     }
                     .padding()
-                    
+                    .padding(.trailing, 24)
                     Spacer()
-                    
-                    Text("HomeView")
-                        .font(.largeTitle)
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .background(Color.clear)
-                        .contentShape(Rectangle())
+                }
+                VStack {
+                    Image("appname")
+                        .resizable()
+                        .scaledToFit()
+                        .padding(.horizontal)
+                    Spacer()
                 }
             }
             .navigationBarBackButtonHidden(true)
-            .onChange(of: userViewModel.isLoggedIn) { isLoggedIn in if !isLoggedIn { navigateToLogin = true  // Bei Abmeldung zur Login
+            .onChange(of: userViewModel.isLoggedIn) { isLoggedIn in
+                if !isLoggedIn {
+                    navigateToLogin = true  // Bei Abmeldung zur Login
                 }
             }
             .navigationDestination(isPresented: $navigateToLogin) {
