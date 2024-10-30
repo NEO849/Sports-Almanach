@@ -31,7 +31,7 @@ struct CustomTabBar: View {
                     StatisticsView()
                 }
             }
-            .transition(transition(for: selectedTab)) // Animation basierend der Richtung
+            .transition(transition(for: selectedTab)) // Basierend der Richtung
             
             // Tab Leiste
             HStack {
@@ -40,7 +40,7 @@ struct CustomTabBar: View {
                 }
             }
             .padding()
-            .background(Color.clear.opacity(0.8))
+            .background(.white.opacity(0.9))
             .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
         }
         .onChange(of: selectedTab) { newValue in
