@@ -12,10 +12,7 @@ struct CustomTabBar: View {
     @State private var previousTab: Tab = .home
     
     enum Tab: String, CaseIterable {
-        case home
-        case events
-        case bet
-        case statistics
+        case home, events, bet, statistics
     }
     
     var body: some View {
@@ -40,8 +37,9 @@ struct CustomTabBar: View {
                 }
             }
             .padding()
-            .background(.white.opacity(0.9))
-            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .background(.clear.opacity(0.9))
+            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+   //         .padding(.bottom, 16)
         }
         .onChange(of: selectedTab) { newValue in
             previousTab = newValue // Aktuellen Tab als vorherigen setzen
@@ -49,19 +47,24 @@ struct CustomTabBar: View {
         .animation(.easeInOut, value: selectedTab) // Animation für den Tab-Wechsel
     }
     
-    // Funktion für die Übergangsanimation
+     // Funktion für die Übergangsanimation
     private func transition(for tab: Tab) -> AnyTransition {
-        if let previousIndex = Tab.allCases.firstIndex(of: previousTab),
-                 let currentIndex = Tab.allCases.firstIndex(of: tab) {
-                  if currentIndex > previousIndex {
-                      return .move(edge: .trailing) // Vorwärts (von rechts)
-                  } else {
-                      return .move(edge: .leading) // Rückwärts (von links)
-                  }
-              }
+//        if let previousIndex = Tab.allCases.firstIndex(of: previousTab),
+//                 let currentIndex = Tab.allCases.firstIndex(of: tab) {
+//                  if currentIndex > previousIndex {
+//                      return .move(edge: .trailing) // Vorwärts (von rechts)
+//                  } else {
+//                      return .move(edge: .leading) // Rückwärts (von links)
+//                  }
+//              }
+    
+    if var previousIndex = Tab.allCases.firstIndex(of: previousTab),
+          var currentIndex = Tab.allCases.firstIndex(of: tab) {
+           return currentIndex > previousIndex ? .move(edge: .trailing) : .move(edge: .leading)
+       }
               return .identity // Fallback
           }
-      }
+
 
 struct TabButton: View {
     
@@ -107,9 +110,9 @@ struct TabButton: View {
     }
 }
 
-/// Tab-Enumeration, um die Reihenfolge zu definieren
-extension CustomTabBar.Tab: Comparable {
-    static func < (lhs: CustomTabBar.Tab, rhs: CustomTabBar.Tab) -> Bool {
-        return lhs.rawValue < rhs.rawValue
-    }
+///// Tab-Enumeration, um die Reihenfolge zu definieren
+//extension CustomTabBar.Tab: Comparable {
+//    static func < (lhs: CustomTabBar.Tab, rhs: CustomTabBar.Tab) -> Bool {
+//        return lhs.rawValue < rhs.rawValue
+//    }
 }

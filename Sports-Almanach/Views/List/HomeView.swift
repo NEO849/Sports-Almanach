@@ -40,16 +40,19 @@ struct HomeView: View {
                     }) {
                         Image(systemName: "rectangle.portrait.and.arrow.right")
                             .foregroundColor(.blue)
-                            .padding()
+                        //                  .padding(.trailing, 32)
                     }
+                    .padding(.trailing, 32)
                 }
-                .padding()
+                .padding(.top, 48)
                 Spacer()
             }
             VStack {
                 Image("appname")
                     .resizable()
                     .scaledToFit()
+                    .padding(.horizontal, 32)
+                    .padding(.bottom, 160)
                 Spacer()
                 
                 // Images im banner anzeigen
@@ -69,7 +72,6 @@ struct HomeView: View {
         }
     }
 }
-
 
 #Preview {
     HomeView()
