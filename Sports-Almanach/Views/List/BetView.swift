@@ -23,7 +23,7 @@ struct BetView: View {
                 .edgesIgnoringSafeArea(.all)
             
             VStack {
-                HStack {
+                HStack(alignment: .center) {
                     Text("Kontostand: \(userViewModel.balance, specifier: "%.2f") €")
                         .font(.title3)
                         .foregroundColor(.white)
@@ -49,6 +49,7 @@ struct BetView: View {
                     .padding(.trailing, 8)
                 }
                 .padding(.horizontal)
+                .padding(.top, 60)
                 
                 List {
                     ForEach(eventViewModel.selectedBetEvents) { event in

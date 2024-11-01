@@ -63,8 +63,12 @@ struct EventsView: View {
                         } label: {
                             Text(" \(selectedLeague.shortedLeagueName)")
                         }
-                    } label: {
-                        Text(" \(selectedLeague.shortedLeagueName)")
+                        .padding()
+                        .frame(minWidth: 110)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.orange, lineWidth: 1)
+                        )
                     }
                     
                     // Saison-Auswahl
