@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomTabBar: View {
-    @Binding var selectedTab: Tab
+    @Binding var displayedTab: Tab
     @State var previousTab: Tab
     
     enum Tab: String, CaseIterable {
@@ -18,8 +18,16 @@ struct CustomTabBar: View {
     var body: some View {
         VStack {
             Group {
-                // Angezeigt View = ausgewählter Tab
-                switch selectedTab {
+                // /// if / else alternative
+                //                if selectedTab == .home {
+                //                    HomeView()
+                //                } else if selectedTab == .events {
+                //                    EventsView()
+                //                } else if selectedTab == .bet {
+                //                    BetView()
+                //                } else if selectedTab == .statistics {
+                //                    StatisticsView()
+                switch displayedTab {
                 case .home:
                     HomeView()
                 case .events:
@@ -31,95 +39,81 @@ struct CustomTabBar: View {
                 }
             }
             // Übergangsanimation basierend der Tab-Reihenfolge
-            .transition(tabOrder(for: selectedTab))
+            .transition(transitionAnimation(for: displayedTab))
             
-            // Tab Leiste
+            /// Tab-Leiste
             HStack {
                 ForEach(Tab.allCases, id: \.self) { currentTab in
-                    TabButton(
+                    TabBarButton(
                         tab: currentTab,
-                        selectedTab: $selectedTab,
+                        selectedTab: $displayedTab,
                         previousTab: $previousTab
                     )
                 }
             }
             .padding()
-            .background(.clear.opacity(0.9))
-            .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-   //         .padding(.bottom, 16)
+            .padding(.bottom)
         }
-        .onChange(of: selectedTab) { newValue in
-            previousTab = newValue // Aktuellen Tab als vorherigen setzen
-               }
-        .animation(.easeInOut, value: selectedTab) // Animation für den Tab-Wechsel
+        // Wichtig zum Berechnen der Animations Richtung
+        .onChange(of: displayedTab) { _, newDesplayedTab in
+            previousTab = newDesplayedTab
+        }
+        .animation(.interpolatingSpring(duration: 0.7), value: displayedTab)
     }
     
-     // Funktion für die Übergangsanimation
-    private func tabOrder(for tab: Tab) -> AnyTransition {
-//        if let previousIndex = Tab.allCases.firstIndex(of: previousTab),
-//                 let currentIndex = Tab.allCases.firstIndex(of: tab) {
-//                  if currentIndex > previousIndex {
-//                      return .move(edge: .trailing) // Vorwärts (von rechts)
-//                  } else {
-//                      return .move(edge: .leading) // Rückwärts (von links)
-//                  }
-//              }
+    // Basierend auf der Tab-Reihenfolge
+    private func transitionAnimation(for currentTab: Tab) -> AnyTransition {
+        // /// if / else alternative
+        //            let previousIndex = Tab.allCases.firstIndex(of: previousTab)!
+        //            let currentIndex = Tab.allCases.firstIndex(of: tab)!
+        //
+        //            if currentIndex > previousIndex {
+        //                return .move(edge: .trailing) // Vorwärts (von rechts)
+        //            } else {
+        //                return .move(edge: .leading) // Rückwärts (von links)
+        let previousTabIndex = Tab.allCases.firstIndex(of: previousTab)!
+        let currentTabIndex = Tab.allCases.firstIndex(of: currentTab)!
+        return currentTabIndex > previousTabIndex ? .move(edge: .trailing) : .move(edge: .leading)
+    }
     
-    if let previousIndex = Tab.allCases.firstIndex(of: previousTab),
-          let currentIndex = Tab.allCases.firstIndex(of: tab) {
-           return currentIndex > previousIndex ? .move(edge: .trailing) : .move(edge: .leading)
-       }
-              return .identity // Fallback
-          }
-
-
-struct TabButton: View {
-    
-    var tab: CustomTabBar.Tab
-    @Binding var selectedTab: CustomTabBar.Tab
-    @Binding var previousTab: CustomTabBar.Tab
-    
-    var body: some View {
-        Button(action: {
-            withAnimation(.easeInOut) {
-                selectedTab = tab
+    struct TabBarButton: View {
+        var tab: CustomTabBar.Tab
+        @Binding var selectedTab: CustomTabBar.Tab
+        @Binding var previousTab: CustomTabBar.Tab
+        
+        var body: some View {
+            Button(action: {
+                withAnimation(.easeInOut) {
+                    selectedTab = tab
+                }
+            }) {
+                VStack {
+                    Image(systemName: icon(for: tab))
+                        .font(.system(size: 18))
+                        .foregroundColor(selectedTab == tab ? .orange : .blue)
+                        .scaleEffect(selectedTab == tab ? 1.4 : 1.0)
+                    Text(tabTitle(for: tab))
+                        .font(.caption)
+                        .foregroundColor(selectedTab == tab ? .orange : .blue)
+                }
             }
-        }) {
-            VStack {
-                Image(systemName: icon(for: tab))
-                    .font(.system(size: 18))
-                    .foregroundColor(selectedTab == tab ? .orange : .blue)
-                    .scaleEffect(selectedTab == tab ? 1.4 : 1.0) // Klick Animation
-                Text(title(for: tab))
-                    .font(.caption)
-                    .foregroundColor(selectedTab == tab ? .orange : .blue)
+            .frame(maxWidth: .infinity)
+        }
+        private func icon(for tab: CustomTabBar.Tab) -> String {
+            switch tab {
+            case .home: return "house"
+            case .events: return "calendar"
+            case .bet: return "dollarsign.circle"
+            case .statistics: return "rectangle.and.pencil.and.ellipsis"
             }
         }
-        .frame(maxWidth: .infinity)
-    }
-    
-    private func icon(for tab: CustomTabBar.Tab) -> String {
-        switch tab {
-        case .home: return "house"
-        case .events: return "calendar"
-        case .bet: return "dollarsign.circle"
-        case .statistics: return "rectangle.and.pencil.and.ellipsis"
+        private func tabTitle(for tab: CustomTabBar.Tab) -> String {
+            switch tab {
+            case .home: return "Home"
+            case .events: return "Events"
+            case .bet: return "Bets"
+            case .statistics: return "Statistics"
+            }
         }
     }
-    
-    private func title(for tab: CustomTabBar.Tab) -> String {
-        switch tab {
-        case .home: return "Home"
-        case .events: return "Events"
-        case .bet: return "Bets"
-        case .statistics: return "Statistics"
-        }
-    }
-}
-
-///// Tab-Enumeration, um die Reihenfolge zu definieren
-// extension CustomTabBar.Tab: Comparable {
-//    static func < (lhs: CustomTabBar.Tab, rhs: CustomTabBar.Tab) -> Bool {
-//        return lhs.rawValue < rhs.rawValue
-//    }
 }

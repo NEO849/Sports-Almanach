@@ -224,8 +224,8 @@
 			isa = PBXGroup;
 			children = (
 				F05BC2C42CA6AF9500562C51 /* EventDetailView.swift */,
-				F04EE0FF2CC895540095BD28 /* BetSlipView.swift */,
 				F0A80FC62CD194C700379EB8 /* WebView.swift */,
+				F04EE0FF2CC895540095BD28 /* BetSlipView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -252,6 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				F046287A2C88A757008FB346 /* ContentView.swift */,
+				F04217982CD2702100BEA19B /* CustomTabBar.swift */,
 				F05BC2CE2CA7E0C500562C51 /* Onboarding */,
 				F0A016852CA0893700C749E3 /* List */,
 			);
@@ -338,7 +339,6 @@
 		F0A016872CA089C400C749E3 /* Rows */ = {
 			isa = PBXGroup;
 			children = (
-				F04217982CD2702100BEA19B /* CustomTabBar.swift */,
 				F05BC2C62CA6B3BB00562C51 /* EventRow.swift */,
 				F0677E6D2CCAC1A200498A0B /* EventButtonRow.swift */,
 				F04EE0FD2CC892700095BD28 /* BetRow.swift */,
