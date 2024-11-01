@@ -24,63 +24,75 @@ struct EventsView: View {
             
             VStack {
                 Spacer(minLength: 32)
-                HStack(spacing: 16) {  // Reduziertes Spacing für ein gleichmäßigeres Layout
-                    // Sport-Auswahl
-                    Menu {
-                        ForEach(Sport.allCases) { sport in
-                            Button(sport.rawValue) {
-                                selectedSport = sport
+                
+                HStack(spacing: 16) {
+                    
+                    // Sport-Auswahl mit Label
+                    VStack {
+                        Text("Sport")
+                            .font(.caption)
+                            .foregroundColor(.white)
+                        Menu {
+                            ForEach(Sport.allCases) { sport in
+                                Button(sport.rawValue) {
+                                    selectedSport = sport
+                                }
                             }
+                        } label: {
+                            Text(" \(selectedSport.rawValue)")
                         }
-                    } label: {
-                        Text(" \(selectedSport.rawValue)")
+                        .padding()
+                        .frame(minWidth: 110)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.orange, lineWidth: 1)
+                        )
                     }
-                    .padding()
-                    .frame(minWidth: 110)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.orange, lineWidth: 1)
-                    )
                     
                     // Liga-Auswahl
-                    Menu {
-                        ForEach(League.allCases) { league in
-                            Button(league.rawValue) {
-                                selectedLeague = league
+                    VStack {
+                        Text("Liga")
+                            .font(.caption)
+                            .foregroundColor(.white)
+                        Menu {
+                            ForEach(League.allCases) { league in
+                                Button(league.rawValue) {
+                                    selectedLeague = league
+                                }
                             }
+                        } label: {
+                            Text(" \(selectedLeague.shortedLeagueName)")
                         }
                     } label: {
                         Text(" \(selectedLeague.shortedLeagueName)")
                     }
-                    .padding()
-                    .frame(minWidth: 110)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.orange, lineWidth: 1)
-                    )
                     
                     // Saison-Auswahl
-                    Menu {
-                        ForEach(Season.allCases) { season in
-                            Button(season.year) {
-                                selectedSeason = season
-                                Task {
-                                    await eventViewModel.fetchEvents(for: selectedSeason)
+                    VStack {
+                        Text("Saison")
+                            .font(.caption)
+                            .foregroundColor(.white)
+                        Menu {
+                            ForEach(Season.allCases) { season in
+                                Button(season.year) {
+                                    selectedSeason = season
+                                    Task {
+                                        await eventViewModel.fetchEvents(for: selectedSeason)
+                                    }
                                 }
                             }
+                        } label: {
+                            Text(" \(selectedSeason.year)")
                         }
-                    } label: {
-                        Text(" \(selectedSeason.year)")
+                        .padding()
+                        .frame(minWidth: 110)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color.orange, lineWidth: 1)
+                        )
                     }
-                    .padding()
-                    .frame(minWidth: 110)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.orange, lineWidth: 1)
-                    )
                 }
-                .padding(.horizontal, 20)  // Außenabstand für die gesamte HStack
-                
+                .padding(.horizontal, 20)
                 
                 List {
                     ForEach(eventViewModel.events) { event in
