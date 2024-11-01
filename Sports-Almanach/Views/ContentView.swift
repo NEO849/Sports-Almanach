@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var selectedTab: CustomTabBar.Tab = .home
+    // Initial wird die HomeView angezeigt
+    @State private var displayedTab: CustomTabBar.Tab = .home
     
     var body: some View {
         ZStack {
@@ -19,7 +20,10 @@ struct ContentView: View {
                 .edgesIgnoringSafeArea(.all)
             
             NavigationStack {
-                CustomTabBar(selectedTab: $selectedTab)
+                CustomTabBar(
+                    displayedTab: $displayedTab,
+                    previousTab: displayedTab
+                )
             }
         }
     }
