@@ -58,7 +58,6 @@ struct CustomTabBar: View {
         .onChange(of: displayedTab) { _, newDesplayedTab in
             previousTab = newDesplayedTab
         }
-        .animation(.interpolatingSpring(duration: 0.7), value: displayedTab)
     }
     
     // Basierend auf der Tab-Reihenfolge
