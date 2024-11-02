@@ -26,7 +26,7 @@ class FirebaseAuthManager {
     func signUp(email: String, password: String) async throws {
         let authResult = try await auth.createUser(withEmail: email, password: password)
         guard let email = authResult.user.email else { throw AuthError.noEmail }
-        print("User with email '\(email)' is registered with id '\(authResult.user.uid)'")
+        print("Firebase: User with email '\(email)' is registered with id '\(authResult.user.uid)'")
     }
 
     func signIn(email: String, password: String) async throws {
