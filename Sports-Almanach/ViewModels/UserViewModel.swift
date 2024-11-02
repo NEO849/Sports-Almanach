@@ -78,11 +78,6 @@ class UserViewModel: ObservableObject {
         isLoggedIn = false
     }
     
-    func checkUserBirthday() {
-        guard let userId = FirebaseAuthManager.shared.userID, let userBirthday = userBirthday else { return }
-        BirthdayChecker.checkBirthday(userId: userId, birthday: userBirthday)
-    }
-    
     // Benutzerprofil aus FBase Laden
     func loadUserProfile() async {
         guard let userId = FirebaseAuthManager.shared.userID else { return } // Ob der Benutzer eingeloggt ist
@@ -105,8 +100,8 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    // Aktualisiert den Kontostand in Firestore und UI
-    func updateBalance(newBalance: Double) {
+    // Aktualisiert das ganze Profil
+    func updateProfile(newBalance: Double) {
         guard let userId = FirebaseAuthManager.shared.userID else {
             print("Fehler: Benutzer-ID nicht gefunden.")
             return
@@ -172,5 +167,10 @@ class UserViewModel: ObservableObject {
         let passwordRegEx = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
         let passwordPred = NSPredicate(format: "SELF MATCHES %@", passwordRegEx)
         return passwordPred.evaluate(with: password)
+    }
+    
+    func checkUserBirthday() {
+        guard let userId = FirebaseAuthManager.shared.userID, let userBirthday = userBirthday else { return }
+        BirthdayChecker.checkBirthday(userId: userId, birthday: userBirthday)
     }
 }

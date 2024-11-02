@@ -72,6 +72,7 @@ class EventViewModel: ObservableObject {
          return event.time
      }
     
+    /// Hier Firestore Instanzv hinzufügen und Uodaten
     // Hinzufügen eines Events zur Wettliste
     func addToBet(_ event: Event) {
         if !selectedBetEvents.contains(event) {  // Wenn Event noch nicht vorhanden ist

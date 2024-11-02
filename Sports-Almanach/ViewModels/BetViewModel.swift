@@ -93,7 +93,7 @@ class BetViewModel: ObservableObject {
         userViewModel.balance = newBalance
         
         // In Firestore aktualisieren (über UserViewModel)
-        userViewModel.updateBalance(newBalance: newBalance)
+        userViewModel.updateProfile(newBalance: newBalance)
         
         // Wette in Firestore speichern
         guard let userId = FirebaseAuthManager.shared.userID else {
