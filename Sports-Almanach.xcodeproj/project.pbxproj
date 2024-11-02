@@ -60,7 +60,7 @@
 		F06389652CB7F34600746C98 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = F06389642CB7F34600746C98 /* FirebaseStorage */; };
 		F06389672CB7F34600746C98 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = F06389662CB7F34600746C98 /* FirebaseStorageCombine-Community */; };
 		F06389692CB7F34600746C98 /* FirebaseVertexAI-Preview in Frameworks */ = {isa = PBXBuildFile; productRef = F06389682CB7F34600746C98 /* FirebaseVertexAI-Preview */; };
-		F0677E6E2CCAC1B100498A0B /* EventButtonRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0677E6D2CCAC1A200498A0B /* EventButtonRow.swift */; };
+		F0677E6E2CCAC1B100498A0B /* SelectedBetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0677E6D2CCAC1A200498A0B /* SelectedBetButton.swift */; };
 		F081DC912CB549F500116E7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F081DC902CB549F500116E7B /* GoogleService-Info.plist */; };
 		F081DC942CB54CDD00116E7B /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F081DC932CB54CC500116E7B /* FirebaseAuthManager.swift */; };
 		F081DC972CB54D9200116E7B /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F081DC962CB54D9200116E7B /* FirebaseAuth */; };
@@ -113,7 +113,7 @@
 		F05BC2CA2CA7339500562C51 /* BetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetViewModel.swift; sourceTree = "<group>"; };
 		F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsRow.swift; sourceTree = "<group>"; };
 		F05BC2D12CA7EA7D00562C51 /* splashintro.mp4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = splashintro.mp4; sourceTree = "<group>"; };
-		F0677E6D2CCAC1A200498A0B /* EventButtonRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventButtonRow.swift; sourceTree = "<group>"; };
+		F0677E6D2CCAC1A200498A0B /* SelectedBetButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedBetButton.swift; sourceTree = "<group>"; };
 		F081DC902CB549F500116E7B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F081DC932CB54CC500116E7B /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
 		F095C8F82C8FAE97002C94FD /* EventStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStatus.swift; sourceTree = "<group>"; };
@@ -248,6 +248,14 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		F089A72A2CD6E7A900A3C054 /* Buttons */ = {
+			isa = PBXGroup;
+			children = (
+				F0677E6D2CCAC1A200498A0B /* SelectedBetButton.swift */,
+			);
+			path = Buttons;
+			sourceTree = "<group>";
+		};
 		F095C8EC2C88AB1F002C94FD /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -332,6 +340,7 @@
 				F00CB70A2C9CF51A003D70E3 /* StatisticsView.swift */,
 				F05BC2C32CA6AF2700562C51 /* Components */,
 				F0A016872CA089C400C749E3 /* Rows */,
+				F089A72A2CD6E7A900A3C054 /* Buttons */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -340,7 +349,6 @@
 			isa = PBXGroup;
 			children = (
 				F05BC2C62CA6B3BB00562C51 /* EventRow.swift */,
-				F0677E6D2CCAC1A200498A0B /* EventButtonRow.swift */,
 				F04EE0FD2CC892700095BD28 /* BetRow.swift */,
 				F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */,
 				F01DD55D2CCDD479001176A2 /* BetSlipRow.swift */,
@@ -451,7 +459,7 @@
 				F01DD55E2CCDD485001176A2 /* BetSlipRow.swift in Sources */,
 				F081DC942CB54CDD00116E7B /* FirebaseAuthManager.swift in Sources */,
 				F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */,
-				F0677E6E2CCAC1B100498A0B /* EventButtonRow.swift in Sources */,
+				F0677E6E2CCAC1B100498A0B /* SelectedBetButton.swift in Sources */,
 				F008388C2CD2EEB10004D97B /* Sport.swift in Sources */,
 				F04A087D2CBD508000E493FF /* EventRepository.swift in Sources */,
 				F04A087A2CBD361300E493FF /* EventResponse.swift in Sources */,

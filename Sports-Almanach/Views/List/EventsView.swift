@@ -121,7 +121,7 @@ struct EventsView: View {
                             }
                             
                             HStack {
-                                EventButtonRow(action: {
+                                SelectedBetButton(action: {
                                     if eventViewModel.selectedBetEvents.contains(event) {
                                         eventViewModel.removeFromBet(event) // Entfernen, wenn es bereits vorhanden
                                     } else {
