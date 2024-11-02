@@ -24,11 +24,11 @@ class UserViewModel: ObservableObject {
     @Published var userProfile: Profile?
     
     init() {
-        self.balance = self.startMoney 
         BirthdayChecker.scheduleBirthdayCheck(for: self)
     }
     
-    // Registrierung
+    /// --------------  Authentifizierung  --------------
+   
     func register(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) async {
         
         // Eingaben validieren und Fehler speichern
@@ -38,7 +38,7 @@ class UserViewModel: ObservableObject {
             return
         }
         
-        // Benutzer bei Firebase registrieren
+        // Firebase registrieren
         do {
             try await FirebaseAuthManager.shared.signUp(email: email, password: password)
             // Neues Profil erstellen
@@ -78,7 +78,9 @@ class UserViewModel: ObservableObject {
         isLoggedIn = false
     }
     
-    // Benutzerprofil aus FBase Laden
+
+    /// --------------  Firestore, Profile Laden, Updaten  --------------
+
     func loadUserProfile() async {
         guard let userId = FirebaseAuthManager.shared.userID else { return } // Ob der Benutzer eingeloggt ist
         let datab = Firestore.firestore()
@@ -87,7 +89,7 @@ class UserViewModel: ObservableObject {
         do {
             let document = try await datab.collection("Profile").document(userId).getDocument()
             
-            // Falls das Dokument existiert, Profil und balance setzen
+            // ... Dokument existiert, Profil und balance setzen
             if document.exists {
                 self.userProfile = try document.data(as: Profile.self)
                 self.balance = self.userProfile?.balance ?? 0.0
@@ -100,26 +102,27 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    // Aktualisiert das ganze Profil
     func updateProfile(newBalance: Double) {
         guard let userId = FirebaseAuthManager.shared.userID else {
             print("Fehler: Benutzer-ID nicht gefunden.")
             return
         }
         let dataB = Firestore.firestore()
-        let profileData: [String: Any] = ["balance": newBalance]  // Balance aktualisieren
+        let profileData: [String: Any] = ["balance": newBalance]  // Balance
         dataB.collection("Profile").document(userId).updateData(profileData) { error in
             if let error = error {
                 print("Fehler beim Aktualisieren des Kontostands: \(error)")
             } else {
                 print("Kontostand erfolgreich aktualisiert.")
-                self.balance = newBalance // In der UI aktualisieren
+                self.balance = newBalance // UI aktualisieren
 
             }
         }
     }
     
-    // Validiert die Eingabefelder
+    
+/// --------------  Validierung  --------------
+    
     private func validateInputs(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) -> [UserError] {
         var errors: [UserError] = []
         
@@ -146,6 +149,9 @@ class UserViewModel: ObservableObject {
         return errors
     }
     
+    
+/// --------------  Utils  --------------
+        
     private func isOldEnough(birthday: Date) -> Bool {
         let age = calculateAge(birthday: birthday)
         return age >= 18
@@ -162,6 +168,11 @@ class UserViewModel: ObservableObject {
         let emailPred = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
+//    func isValidEmail2() -> Bool {
+//        // here, `try!` will always succeed because the pattern is valid
+//        let regex = try! NSRegularExpression(pattern: "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", options: .caseInsensitive)
+//        return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: count)) != nil
+//    }
     
     private func isPasswordValid(_ password: String) -> Bool {
         let passwordRegEx = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"

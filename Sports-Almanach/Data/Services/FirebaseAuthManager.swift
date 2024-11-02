@@ -32,7 +32,7 @@ class FirebaseAuthManager {
     func signIn(email: String, password: String) async throws {
         let authResult = try await auth.signIn(withEmail: email, password: password)
         guard let email = authResult.user.email else { throw AuthError.noEmail }
-        print("User with email '\(email)' signed in with id '\(authResult.user.uid)'")
+        print("Firebase: User with email '\(email)' signed in with id '\(authResult.user.uid)'")
         self.user = authResult.user
     }
     
@@ -40,9 +40,9 @@ class FirebaseAuthManager {
         do {
             try auth.signOut()
             user = nil
-            print("Sign out succeeded.")
+            print("Firebase: Sign out succeeded.")
         } catch {
-            print("Sign out failed.")
+            print("Firebase: Sign out failed.")
         }
     }
     
@@ -52,7 +52,7 @@ class FirebaseAuthManager {
     
     private func checkAuth() {
         guard let currentUser = auth.currentUser else {
-            print("Not logged in")
+            print("Firebase: Not logged in")
             return
         }
         self.user = currentUser
