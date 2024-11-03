@@ -28,7 +28,7 @@ class UserViewModel: ObservableObject {
     }
     
     /// --------------  Authentifizierung  --------------
-   
+    
     func register(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) async {
         
         // Eingaben validieren und Fehler speichern
@@ -48,7 +48,7 @@ class UserViewModel: ObservableObject {
             // Profil in Firestore speichern
             do {
                 try datab.collection("Profile").document(newProfile.id.uuidString).setData(from: newProfile)
-                print("Profil erstellt mit ID: \(newProfile.id.uuidString)") 
+                print("Profil erstellt mit ID: \(newProfile.id.uuidString)")
                 isRegistered = true
             } catch {
                 print("Fehler beim Speichern des Profils: \(error)")
@@ -78,9 +78,9 @@ class UserViewModel: ObservableObject {
         isLoggedIn = false
     }
     
-
+    
     /// --------------  Firestore, Profile Laden, Updaten  --------------
-
+    
     func loadUserProfile() async {
         guard let userId = FirebaseAuthManager.shared.userID else { return } // Ob der Benutzer eingeloggt ist
         let datab = Firestore.firestore()
@@ -115,13 +115,27 @@ class UserViewModel: ObservableObject {
             } else {
                 print("Kontostand erfolgreich aktualisiert.")
                 self.balance = newBalance // UI aktualisieren
-
+                
             }
         }
     }
     
+    func resetBalance() {
+        if balance <= 0 {
+            self.balance = startMoney
+            self.balance += startMoney
+            updateProfile(newBalance: self.balance)
+        }
+    }
     
-/// --------------  Validierung  --------------
+    func updateBalance(newBalanceAfterBet: Double) {
+        self.balance = newBalanceAfterBet
+        resetBalance()
+        updateProfile(newBalance: newBalanceAfterBet)
+    }
+    
+    
+    /// --------------  Validierung  --------------
     
     private func validateInputs(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) -> [UserError] {
         var errors: [UserError] = []
@@ -150,8 +164,8 @@ class UserViewModel: ObservableObject {
     }
     
     
-/// --------------  Utils  --------------
-        
+    /// --------------  Utils  --------------
+    
     private func isOldEnough(birthday: Date) -> Bool {
         let age = calculateAge(birthday: birthday)
         return age >= 18
@@ -168,11 +182,6 @@ class UserViewModel: ObservableObject {
         let emailPred = NSPredicate(format: "SELF MATCHES %@", emailRegEx)
         return emailPred.evaluate(with: email)
     }
-//    func isValidEmail2() -> Bool {
-//        // here, `try!` will always succeed because the pattern is valid
-//        let regex = try! NSRegularExpression(pattern: "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", options: .caseInsensitive)
-//        return regex.firstMatch(in: self, options: [], range: NSRange(location: 0, length: count)) != nil
-//    }
     
     private func isPasswordValid(_ password: String) -> Bool {
         let passwordRegEx = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[A-Z])(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$"
