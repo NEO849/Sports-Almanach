@@ -52,7 +52,7 @@ struct BetView: View {
                 .padding(.top, 60)
                 
                 List {
-                    ForEach(eventViewModel.selectedBetEvents) { event in
+                    ForEach(eventViewModel.selectedEvents) { event in
                         BetRow(eventViewModel: eventViewModel, event: event)
                             .environmentObject(betViewModel)      .swipeActions(edge: .trailing, allowsFullSwipe: true) { // Swipe-Aktionen Links
                                 Button(role: .destructive) {
@@ -81,7 +81,7 @@ struct BetView: View {
 
 #Preview {
     let eventViewModel = EventViewModel()
-    eventViewModel.selectedBetEvents = MockEvents.events
+    eventViewModel.selectedEvents = MockEvents.events
     return BetView()
         .environmentObject(UserViewModel())
         .environmentObject(eventViewModel)

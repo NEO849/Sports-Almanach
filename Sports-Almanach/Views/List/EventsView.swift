@@ -121,17 +121,17 @@ struct EventsView: View {
                             }
                             
                             HStack {
-                                SelectedBetButton(action: {
-                                    if eventViewModel.selectedBetEvents.contains(event) {
-                                        eventViewModel.removeFromBet(event) // Entfernen, wenn es bereits vorhanden
+                                SelectedEventsButton(action: {
+                                    if eventViewModel.selectedEvents.contains(event) {
+                                        eventViewModel.removeFromSelectedEvents(event) // Entfernen, wenn es bereits vorhanden
                                     } else {
-                                        eventViewModel.addToBet(event) // Ansonsten...
+                                        eventViewModel.addToSelectedtEvents(event) // Ansonsten...
                                     }
                                 }, eventViewModel: eventViewModel, event: event)
                                 .frame(maxWidth: .infinity)
                                 .padding(.trailing, 16)
                             }
-                            .onReceive(eventViewModel.$selectedBetEvents) { _ in }
+                            .onReceive(eventViewModel.$selectedEvents) { _ in }
                         }
                         .listRowBackground(Color.clear)
                     }

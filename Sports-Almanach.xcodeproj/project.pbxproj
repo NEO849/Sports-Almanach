@@ -251,7 +251,7 @@
 		F089A72A2CD6E7A900A3C054 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				F0677E6D2CCAC1A200498A0B /* SelectedBetButton.swift */,
+				F0677E6D2CCAC1A200498A0B /* SelectedEventsButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -459,7 +459,7 @@
 				F01DD55E2CCDD485001176A2 /* BetSlipRow.swift in Sources */,
 				F081DC942CB54CDD00116E7B /* FirebaseAuthManager.swift in Sources */,
 				F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */,
-				F0677E6E2CCAC1B100498A0B /* SelectedBetButton.swift in Sources */,
+				F0677E6E2CCAC1B100498A0B /* SelectedEventsButton.swift in Sources */,
 				F008388C2CD2EEB10004D97B /* Sport.swift in Sources */,
 				F04A087D2CBD508000E493FF /* EventRepository.swift in Sources */,
 				F04A087A2CBD361300E493FF /* EventResponse.swift in Sources */,
