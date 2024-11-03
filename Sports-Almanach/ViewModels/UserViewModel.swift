@@ -19,7 +19,7 @@ class UserViewModel: ObservableObject {
     @Published var isLoggedIn: Bool = false
     @Published var isRegistered: Bool = false
     @Published var startMoney: Double = 1000.00
-    @Published var balance: Double = 0.00
+    @Published var balance: Double = 1000.00
     @Published var userBirthday: Timestamp?
     @Published var userProfile: Profile?
     

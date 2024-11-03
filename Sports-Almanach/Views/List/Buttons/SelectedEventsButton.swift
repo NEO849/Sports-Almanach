@@ -7,16 +7,16 @@
 
 import SwiftUI
 
-struct SelectedBetButton: View {
+struct SelectedEventsButton: View {
     var action: () -> Void
     @ObservedObject var eventViewModel: EventViewModel
     var event: Event
     
     var body: some View {
         Button(action: action) {
-            Text(eventViewModel.selectedBetEvents.contains(event) ? "--->>   Bereit zum Wetten   <<---" : "--->>  Hinzufügen zur Wette  <<---")
+            Text(eventViewModel.selectedEvents.contains(event) ? "--->>   Bereit zum Wetten   <<---" : "--->>  Hinzufügen zur Wette  <<---")
                 .font(.subheadline)
-                .foregroundColor(eventViewModel.selectedBetEvents.contains(event) ? .green : .blue)
+                .foregroundColor(eventViewModel.selectedEvents.contains(event) ? .green : .blue)
                 .padding(.vertical, 8)
                 .frame(maxWidth: .infinity)
                 .background(
@@ -30,7 +30,7 @@ struct SelectedBetButton: View {
 }
 
 #Preview {
-    SelectedBetButton(
+    SelectedEventsButton(
         action: { print("Button gedrückt!") },
         eventViewModel: EventViewModel(),
         event: MockEvents.events.first!

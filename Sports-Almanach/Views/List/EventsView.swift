@@ -106,14 +106,14 @@ struct EventsView: View {
                             }
                             .swipeActions(edge: .leading, allowsFullSwipe: false) {
                                 Button {
-                                    eventViewModel.removeFromBet(event)
+                                    eventViewModel.removeFromSelectedEvents(event)
                                 } label: {
                                     Label("Löschen", systemImage: "trash")
                                 }
                                 .tint(.red)
                                 
                                 Button {
-                                    eventViewModel.addToBet(event)
+                                    eventViewModel.addToSelectedtEvents(event)
                                 } label: {
                                     Label("Zur Wette", systemImage: "plus.circle.fill")
                                 }

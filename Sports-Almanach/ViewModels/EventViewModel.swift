@@ -75,16 +75,16 @@ class EventViewModel: ObservableObject {
     
     /// Hier Firestore Instanzv hinzufügen und Uodaten
      // Hinzufügen eines Events zur Wettliste
-    func addToBet(_ event: Event) {
-        if !selectedBetEvents.contains(event) {  // Wenn Event noch nicht vorhanden ist
-            selectedBetEvents.append(event)
+    func addToSelectedtEvents(_ event: Event) {
+        if !selectedEvents.contains(event) {  // Wenn Event noch nicht vorhanden ist
+            selectedEvents.append(event)
         }
     }
 
     // Entfernen eines Events aus der Wettliste
-    func removeFromBet(_ event: Event) {
-        if let index = selectedBetEvents.firstIndex(of: event) {
-            selectedBetEvents.remove(at: index)
+    func removeFromSelectedEvents(_ event: Event) {
+        if let index = selectedEvents.firstIndex(of: event) {
+            selectedEvents.remove(at: index)
         }
     }
  }
