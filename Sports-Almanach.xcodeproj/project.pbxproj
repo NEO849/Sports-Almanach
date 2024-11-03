@@ -60,7 +60,7 @@
 		F06389652CB7F34600746C98 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = F06389642CB7F34600746C98 /* FirebaseStorage */; };
 		F06389672CB7F34600746C98 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = F06389662CB7F34600746C98 /* FirebaseStorageCombine-Community */; };
 		F06389692CB7F34600746C98 /* FirebaseVertexAI-Preview in Frameworks */ = {isa = PBXBuildFile; productRef = F06389682CB7F34600746C98 /* FirebaseVertexAI-Preview */; };
-		F0677E6E2CCAC1B100498A0B /* SelectedEventsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0677E6D2CCAC1A200498A0B /* SelectedEventsButton.swift */; };
+		F0677E6E2CCAC1B100498A0B /* SelectedBetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0677E6D2CCAC1A200498A0B /* SelectedBetButton.swift */; };
 		F081DC912CB549F500116E7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F081DC902CB549F500116E7B /* GoogleService-Info.plist */; };
 		F081DC942CB54CDD00116E7B /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F081DC932CB54CC500116E7B /* FirebaseAuthManager.swift */; };
 		F081DC972CB54D9200116E7B /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F081DC962CB54D9200116E7B /* FirebaseAuth */; };

@@ -98,6 +98,7 @@ struct EventsView: View {
                 }
                 .padding(.horizontal, 20)
                 
+/// Swipen und SelectedBetButton rifen beide die sleben func zum Hinzufügen und Entfernen von selectedEvents
                 List {
                     ForEach(eventViewModel.events) { event in
                         VStack(alignment: .leading) {
@@ -121,7 +122,7 @@ struct EventsView: View {
                             }
                             
                             HStack {
-                                SelectedEventsButton(action: {
+                                SelectedBetButton(action: {
                                     if eventViewModel.selectedEvents.contains(event) {
                                         eventViewModel.removeFromSelectedEvents(event) // Entfernen, wenn es bereits vorhanden
                                     } else {

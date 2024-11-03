@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SelectedEventsButton: View {
+struct SelectedBetButton: View {
     var action: () -> Void
     @ObservedObject var eventViewModel: EventViewModel
     var event: Event
@@ -30,7 +30,7 @@ struct SelectedEventsButton: View {
 }
 
 #Preview {
-    SelectedEventsButton(
+    SelectedBetButton(
         action: { print("Button gedrückt!") },
         eventViewModel: EventViewModel(),
         event: MockEvents.events.first!
