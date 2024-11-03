@@ -14,21 +14,22 @@ class EventViewModel: ObservableObject {
     @Published var events: [Event] = []
     @Published var errorMessage: String?
     @Published var isLoading: Bool = false
-    @Published var selectedBetEvents: [Event] = [] // Events zum Wetten
+    @Published var selectedEvents: [Event] = []
+    @Published var selectedBetEvents: [Event] = []
     private let eventRepository = EventRepository()
     
     init() {
-        loadEvents(for: .current)
+        loadingEvents(for: .current)
     }
     
-    func loadEvents(for season: Season) {
+    func loadingEvents(for season: Season) {
         Task {
-            await fetchEvents(for: season)
+            await loadEvents(for: season)
         }
     }
     
     // Abrufen der Events
-    func fetchEvents(for season: Season) async {
+    func loadEvents(for season: Season) async {
         await MainActor.run {
             self.isLoading = true
         }

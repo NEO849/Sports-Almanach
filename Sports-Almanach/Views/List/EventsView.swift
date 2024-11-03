@@ -81,7 +81,7 @@ struct EventsView: View {
                                 Button(season.year) {
                                     selectedSeason = season
                                     Task {
-                                        await eventViewModel.fetchEvents(for: selectedSeason)
+                                        await eventViewModel.loadEvents(for: selectedSeason)
                                     }
                                 }
                             }
@@ -142,7 +142,7 @@ struct EventsView: View {
             }
         }
         .task {
-            await eventViewModel.fetchEvents(for: selectedSeason)
+            await eventViewModel.loadEvents(for: selectedSeason)
         }
     }
     
