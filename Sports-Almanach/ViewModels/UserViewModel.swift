@@ -27,37 +27,41 @@ class UserViewModel: ObservableObject {
         BirthdayChecker.scheduleBirthdayCheck(for: self)
     }
     
-    /// --------------  Authentifizierung  --------------
+    /// Authentifizierung
     
     func register(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) async {
         
-        // Eingaben validieren und Fehler speichern
+        // Validieren und Fehler speichern
         errorMessages = validateInputs(username: username, email: email, password: password, passwordRepeat: passwordRepeat, birthday: birthday)
         
         guard errorMessages.isEmpty else {
             return
         }
-        
-        // Firebase registrieren
+        // Versuch zu Registrieren
         do {
             try await FirebaseAuthManager.shared.signUp(email: email, password: password)
             // Neues Profil erstellen
             let datab = Firestore.firestore()
             let newProfile = Profile(id: UUID(), name: username, startMoney: startMoney, birthday: birthday, balance: startMoney)
             
-            // Profil in Firestore speichern
-            do {
-                try datab.collection("Profile").document(newProfile.id.uuidString).setData(from: newProfile)
-                print("Profil erstellt mit ID: \(newProfile.id.uuidString)")
-                isRegistered = true
-            } catch {
-                print("Fehler beim Speichern des Profils: \(error)")
-                errorMessage = error.localizedDescription
+            // Sicherstellen, der gültigen userId
+            guard let userId = FirebaseAuthManager.shared.userID else {
+                print("Auth-Fehler: Keine gültige userId")
+                return
             }
             
+            // Profil in Firestore speichern
+            do {
+                try datab.collection("Profile").document(userId).setData(from: newProfile)
+                print("Firestore-Fehler, Profil erstellt mit ID: \(newProfile.id.uuidString)")
+                isRegistered = true
+            } catch {
+                print("Firestore-Fehler beim Speichern des Profils: \(error)")
+                errorMessage = error.localizedDescription
+            }
         } catch {
-            print("Fehler bei der Registrierung: \(error)")
-            errorMessages.append(.emailOrPasswordInvalid)  // Fehler zur Liste hinzufügen
+            print("FirestoreFehler bei der Registrierung: \(error)")
+            errorMessages.append(.emailOrPasswordInvalid)  // Fehler zur Liste
         }
     }
     
@@ -79,10 +83,10 @@ class UserViewModel: ObservableObject {
     }
     
     
-    /// --------------  Firestore, Profile Laden, Updaten  --------------
+    /// Firestore, Profile Laden, Aktualisieren, Löschen
     
     func loadUserProfile() async {
-        guard let userId = FirebaseAuthManager.shared.userID else { return } // Ob der Benutzer eingeloggt ist
+        guard let userId = FirebaseAuthManager.shared.userID else { return } // Wenn der Benutzer eingeloggt ist
         let datab = Firestore.firestore()
         
         // Profil laden
@@ -120,21 +124,6 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    func resetBalance() {
-        if balance <= 0 {
-            self.balance = startMoney
-            self.balance += startMoney
-            updateProfile(newBalance: self.balance)
-        }
-    }
-    
-    func updateBalance(newBalanceAfterBet: Double) {
-        self.balance = newBalanceAfterBet
-        resetBalance()
-        updateProfile(newBalance: newBalanceAfterBet)
-    }
-    
-    
     /// --------------  Validierung  --------------
     
     private func validateInputs(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) -> [UserError] {
@@ -162,7 +151,6 @@ class UserViewModel: ObservableObject {
         
         return errors
     }
-    
     
     /// --------------  Utils  --------------
     
@@ -192,5 +180,19 @@ class UserViewModel: ObservableObject {
     func checkUserBirthday() {
         guard let userId = FirebaseAuthManager.shared.userID, let userBirthday = userBirthday else { return }
         BirthdayChecker.checkBirthday(userId: userId, birthday: userBirthday)
+    }
+    
+    func resetBalance() {
+        if balance <= 0 {
+            self.balance = startMoney
+            self.balance += startMoney
+            updateProfile(newBalance: self.balance)
+        }
+    }
+    
+    func updateBalance(newBalanceAfterBet: Double) {
+        self.balance = newBalanceAfterBet
+        resetBalance()
+        updateProfile(newBalance: newBalanceAfterBet)
     }
 }
