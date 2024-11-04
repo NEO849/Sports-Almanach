@@ -11,6 +11,8 @@ struct ContentView: View {
     
     // Initial wird die HomeView angezeigt
     @State private var displayedTab: CustomTabBar.Tab = .home
+    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var eventViewModel: EventViewModel
     
     var body: some View {
         ZStack {
@@ -24,6 +26,8 @@ struct ContentView: View {
                     displayedTab: $displayedTab,
                     previousTab: displayedTab
                 )
+                .environmentObject(userViewModel)
+                .environmentObject(eventViewModel)
             }
         }
     }
@@ -33,5 +37,4 @@ struct ContentView: View {
     ContentView()
         .environmentObject(UserViewModel())
         .environmentObject(EventViewModel())
-        .environmentObject(BetViewModel())
 }

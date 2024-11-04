@@ -11,7 +11,7 @@ struct BetView: View {
     
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var eventViewModel: EventViewModel
-    @EnvironmentObject var betViewModel: BetViewModel
+    @StateObject var betViewModel = BetViewModel()
     @State private var showBetSlip = false
     
     var body: some View {
@@ -85,5 +85,4 @@ struct BetView: View {
     return BetView()
         .environmentObject(UserViewModel())
         .environmentObject(eventViewModel)
-        .environmentObject(BetViewModel())
 }

@@ -7,9 +7,12 @@
 
 import SwiftUI
 
+/// Benutzerdefinierte Tab-Leiste für die Navigation
 struct CustomTabBar: View {
     @Binding var displayedTab: Tab
     @State var previousTab: Tab
+    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var eventViewModel: EventViewModel
     
     enum Tab: String, CaseIterable {
         case home, events, bet, statistics
@@ -30,10 +33,15 @@ struct CustomTabBar: View {
                 switch displayedTab {
                 case .home:
                     HomeView()
+                        .environmentObject(userViewModel)
+                        .environmentObject(eventViewModel)
                 case .events:
                     EventsView()
+                        .environmentObject(eventViewModel)
                 case .bet:
                     BetView()
+                        .environmentObject(userViewModel)
+                        .environmentObject(eventViewModel)
                 case .statistics:
                     StatisticsView()
                 }
@@ -98,6 +106,7 @@ struct CustomTabBar: View {
             }
             .frame(maxWidth: .infinity)
         }
+        
         private func icon(for tab: CustomTabBar.Tab) -> String {
             switch tab {
             case .home: return "house"
@@ -106,6 +115,7 @@ struct CustomTabBar: View {
             case .statistics: return "rectangle.and.pencil.and.ellipsis"
             }
         }
+        
         private func tabTitle(for tab: CustomTabBar.Tab) -> String {
             switch tab {
             case .home: return "Home"
