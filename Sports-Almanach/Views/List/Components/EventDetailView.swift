@@ -20,7 +20,7 @@ struct EventDetailView: View {
             Image("hintergrund")
                 .resizable()
                 .scaledToFill()
-                .edgesIgnoringSafeArea(.all)
+                .edgesIgnoringSafeArea(.bottom)
             
             VStack(alignment: .leading, spacing: 20) {
                 
@@ -39,29 +39,30 @@ struct EventDetailView: View {
                         .shadow(radius: 5)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
+                .padding(.top, 24)
                 
-                // Titel des Events
-                Text(event.name)
-                    .font(.title3)
-                    .bold()
-                    .multilineTextAlignment(.center)
-                    .foregroundColor(.blue)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading, 32)
+                // Titel des Events, Datun/Uhrzeit, Stadion
+                VStack(alignment: .leading, spacing: 8) {
+                    Text(event.name)
+                        .font(.title3)
+                        .bold()
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.blue)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    // Datum und Uhrzeit
+                    Text("Am: \(eventViewModel.formattedDate(for: event)) um \(eventViewModel.formattedTime(for: event)) Uhr")
+                        .font(.headline)
+                        .foregroundColor(.white)
+                    
+                    // Stadion
+                    Text("Stadion: \(event.stadion)")
+                        .font(.subheadline)
+                        .foregroundColor(.white)
+                }
+                .padding(.leading, 56)
                 
-                // Datum und Uhrzeit
-                Text("Am: \(eventViewModel.formattedDate(for: event)) um \(eventViewModel.formattedTime(for: event)) Uhr")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 34)
                 
-                // Stadion
-                Text("Stadion: \(event.stadion)")
-                    .font(.subheadline)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 34)
-                
-                // Teams und Ergebnisse
                 HStack {
                     // Heimmannschaft
                     VStack {
@@ -82,7 +83,7 @@ struct EventDetailView: View {
                             .foregroundColor(.orange)
                     }
                     .padding()
-                    Spacer().frame(width: 48)
+                    Spacer()
                     
                     // Auswärtsmannschaft
                     VStack {
@@ -121,14 +122,28 @@ struct EventDetailView: View {
                                 .stroke(Color.orange, lineWidth: 1)
                         )
                         .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.bottom, 12)
                 } else {
-                    Text("Video nicht verfügbar")
-                        .foregroundColor(.red)
+                    Image("Terrorimage")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 340, height: 232)
+                        .cornerRadius(10)
+                        .shadow(radius: 5)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.red, lineWidth: 1)
+                        )
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding(.bottom, 12)
                 }
                 Spacer()
             }
             .padding(.top, 8)
         }
+      
+            .navigationTitle("")
+        .navigationBarBackButtonHidden(false)
     }
 }
 
