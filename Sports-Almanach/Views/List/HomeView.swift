@@ -13,16 +13,26 @@ struct HomeView: View {
     @EnvironmentObject var eventViewModel: EventViewModel
     @State private var navigateToLogin: Bool = false
     
-    let banner = [
-        "Banner/bannersports",
-        "Banner/basketball",
-        "Banner/boxen",
-        "Banner/fussball",
-        "Banner/golf",
-        "Banner/laufen",
-        "Banner/radfahren",
-        "Banner/schwimmen",
-        "Banner/tennis"]
+    struct BannerImage: Identifiable {
+        let id = UUID()
+        let imageName: String
+    }
+    
+    // Array der Banner-Bildern
+    let bannerImages = [
+        BannerImage(imageName: "bannersports"),
+        BannerImage(imageName: "bannersports2"),
+        BannerImage(imageName: "basketball"),
+        BannerImage(imageName: "boxen"),
+        BannerImage(imageName: "football"),
+        BannerImage(imageName: "fussball"),
+        BannerImage(imageName: "golf"),
+        BannerImage(imageName: "laufen"),
+        BannerImage(imageName: "radfahren"),
+        BannerImage(imageName: "schwimmen"),
+        BannerImage(imageName: "tennis"),
+        BannerImage(imageName: "volleyball")
+    ]
     
     var body: some View {
         
@@ -39,9 +49,7 @@ struct HomeView: View {
                         userViewModel.logout()  // Logout
                     }) {
                         Image(systemName: "rectangle.portrait.and.arrow.right")
-                            .foregroundColor(.blue)
-                        //                  .padding(.trailing, 32)
-                    }
+                        .foregroundColor(.blue)                    }
                     .padding(.trailing, 32)
                 }
                 .padding(.top, 48)
@@ -55,8 +63,8 @@ struct HomeView: View {
                     .padding(.bottom, 160)
                 Spacer()
                 
-                // Images im banner anzeigen
-                // App Intro und Einführung
+                BannerScrollView(bannerImages: bannerImages)
+                                 .frame(height: 100)
                 
                 Spacer()
             }
@@ -64,12 +72,45 @@ struct HomeView: View {
         .navigationBarBackButtonHidden(true)
         .onChange(of: userViewModel.isLoggedIn) { isLoggedIn in
             if !isLoggedIn {
-                navigateToLogin = true  // Bei Abmeldung zur Login
+                navigateToLogin = true  // Nicht Angemeldet -> LoginView
             }
         }
         .navigationDestination(isPresented: $navigateToLogin) {
-            LoginView()  // Zur Login
+            LoginView()
         }
+    }
+}
+
+// Separater für ScrollView
+struct BannerScrollView: View {
+    let bannerImages: [HomeView.BannerImage]
+    
+    var body: some View {
+        ScrollView(.horizontal) {
+            HStack {
+                ForEach(bannerImages) { image in
+                    StyledImageView(imageName: image.imageName)
+                }
+            }
+            .padding()
+        }
+    }
+}
+
+// Separater für BannerScrollView
+struct StyledImageView: View {
+    let imageName: String
+    
+    var body: some View {
+        Image(imageName)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 100, height: 80)
+            .padding(4)
+            .background(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.orange, lineWidth: 1)
+            )
     }
 }
 
