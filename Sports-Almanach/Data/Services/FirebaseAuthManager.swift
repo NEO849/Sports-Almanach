@@ -7,15 +7,14 @@
 
 import Foundation
 import FirebaseAuth
+import Observation
 
+/// Verwaltet die Firebase-Authentifizierung
 @Observable
 class FirebaseAuthManager {
     
-    //  Singleton-Instanz
-    static let shared = FirebaseAuthManager()
-    //  Aktuell angemeldeter Firebase-Benutzer
+    static let shared = FirebaseAuthManager()  //  Singleton
     private var user: User?
-    //  Ob ein Benutzer angemeldet ist und darunter die ID zurück geben
     var isUserSignedIn: Bool {
         user != nil
     }
@@ -23,10 +22,13 @@ class FirebaseAuthManager {
         user?.uid
     }
     
+    // Registrieren, An,-Abmelden
     func signUp(email: String, password: String) async throws {
         let authResult = try await auth.createUser(withEmail: email, password: password)
         guard let email = authResult.user.email else { throw AuthError.noEmail }
         print("Firebase: User with email '\(email)' is registered with id '\(authResult.user.uid)'")
+        self.user = authResult.user
+        try await signIn(email: email, password: password)
     }
 
     func signIn(email: String, password: String) async throws {
@@ -46,6 +48,7 @@ class FirebaseAuthManager {
         }
     }
     
+    // Erstellen einer Instanz nur von Innerhalb
     private init() {
         checkAuth()
     }
@@ -58,5 +61,6 @@ class FirebaseAuthManager {
         self.user = currentUser
     }
     
+    // FS- Authentifizierungsinstanz
     private let auth = Auth.auth()
 }
