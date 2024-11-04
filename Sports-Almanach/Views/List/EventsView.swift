@@ -26,7 +26,6 @@ struct EventsView: View {
                 Spacer(minLength: 32)
                 
                 HStack(spacing: 16) {
-                    
                     // Sport-Auswahl mit Label
                     VStack {
                         Text("Sport")
@@ -48,7 +47,6 @@ struct EventsView: View {
                                 .stroke(Color.orange, lineWidth: 1)
                         )
                     }
-                    
                     // Liga-Auswahl
                     VStack {
                         Text("Liga")
@@ -70,7 +68,6 @@ struct EventsView: View {
                                 .stroke(Color.orange, lineWidth: 1)
                         )
                     }
-                    
                     // Saison-Auswahl
                     VStack {
                         Text("Saison")
@@ -107,7 +104,9 @@ struct EventsView: View {
                             }
                             .swipeActions(edge: .leading, allowsFullSwipe: false) {
                                 Button {
-                                    eventViewModel.removeFromSelectedEvents(event)
+                                    Task {
+                                        await eventViewModel.deleteEventFromUserProfile(eventId: event.id)
+                                    }
                                 } label: {
                                     Label("Löschen", systemImage: "trash")
                                 }
@@ -123,11 +122,10 @@ struct EventsView: View {
                             
                             HStack {
                                 SelectedEventsButton(action: {
-                                    if eventViewModel.selectedEvents.contains(event) {
-                                        eventViewModel.removeFromSelectedEvents(event)
-                                    } else {
-                                        eventViewModel.addToSelectedtEvents(event)
+                                  
+                                    Task {   await eventViewModel.saveEventToUserProfile(event: event)
                                     }
+                                    
                                 }, eventViewModel: eventViewModel, event: event)
                                 .frame(maxWidth: .infinity)
                                 .padding(.trailing, 16)
