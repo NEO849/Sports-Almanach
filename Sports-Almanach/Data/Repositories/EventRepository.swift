@@ -33,11 +33,11 @@ class EventRepository {
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             
-            // Rohe Daten ausgeben
-            print("------- Rohe Daten: \(data)")
+            /// Fehlermanagement: Rohe Daten ausgeben
+            //  print("------- Rohe Daten: \(data)")
             
             if let dataString = String(data: data, encoding: .utf8) {
-                print("------- Daten empfangen: \(dataString)")
+            // print("------- Daten empfangen: \(dataString)")
             } else {
                 print("Fehler beim Konvertieren der Daten in einen String.")
             }
@@ -48,24 +48,24 @@ class EventRepository {
             
             let response = try decoder.decode(EventResponse.self, from: data)
             
-            // Werte der Properties ausgeben
-            for event in response.events {
-                print("------- Werte der Properties")
-                print("Event: \(event.name)")
-                print("  id: \(event.id)")
-                print("  sport: \(event.sport)")
-                print("  leagueName: \(event.leagueName)")
-                print("  leagueImage: \(event.leagueImage)")
-                print("  season: \(event.season)")
-                print("  homeTeam: \(event.homeTeam)")
-                print("  awayTeam: \(event.awayTeam)")
-                print("  homeScore: \(event.homeScore ?? "0")") // Wenn nil
-                print("  awayScore: \(event.awayScore ?? "0")")
-                print("  videoURL: \(event.videoURL ?? "Kein Video")")
-                print("  homeTeamBadge: \(event.homeTeamBadge ?? "Kein Heimteam Wappen")")
-                print("  awayTeamBadge: \(event.awayTeamBadge ?? "Kein Auswärtsteam Wappen")")
-                print("  statusString: \(event.statusString)")
-            }
+            /// Fehlermanagement:  Werte der Properties ausgeben
+            // for event in response.events {
+//                print("------- Werte der Properties")
+//                print("Event: \(event.name)")
+//                print("  id: \(event.id)")
+//                print("  sport: \(event.sport)")
+//                print("  leagueName: \(event.leagueName)")
+//                print("  leagueImage: \(event.leagueImage)")
+//                print("  season: \(event.season)")
+//                print("  homeTeam: \(event.homeTeam)")
+//                print("  awayTeam: \(event.awayTeam)")
+//                print("  homeScore: \(event.homeScore ?? "0")") // Wenn nil
+//                print("  awayScore: \(event.awayScore ?? "0")")
+//                print("  videoURL: \(event.videoURL ?? "Kein Video")")
+//                print("  homeTeamBadge: \(event.homeTeamBadge ?? "Kein Heimteam Wappen")")
+//                print("  awayTeamBadge: \(event.awayTeamBadge ?? "Kein Auswärtsteam Wappen")")
+//                print("  statusString: \(event.statusString)")
+//            }
             
             return response.events
         } catch let decodingError as DecodingError {
