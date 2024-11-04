@@ -99,10 +99,12 @@ struct EventsView: View {
                 List {
                     ForEach(eventViewModel.events) { event in
                         VStack(alignment: .leading) {
+                            /// NavigationLink
                             NavigationLink(destination: EventDetailView(event: event)) {
                                 EventRow(event: event)
                             }
                             .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                                // Mittels Swipe und Id Löschen
                                 Button {
                                     Task {
                                         await eventViewModel.deleteEventFromUserProfile(eventId: event.id)
@@ -119,13 +121,13 @@ struct EventsView: View {
                                 }
                                 .tint(.green)
                             }
-                            
+                            /// Zusätzl. Btn, Speicherung
                             HStack {
                                 SelectedEventsButton(action: {
-                                  
+                                    /// UserProfile im Hintergrund
                                     Task {   await eventViewModel.saveEventToUserProfile(event: event)
                                     }
-                                    
+                                    /// Datas an Btn übergeben
                                 }, eventViewModel: eventViewModel, event: event)
                                 .frame(maxWidth: .infinity)
                                 .padding(.trailing, 16)
@@ -139,7 +141,7 @@ struct EventsView: View {
                 .navigationTitle("")
                 Spacer()
             }
-        }
+        } // Läd Events
         .task {
             await eventViewModel.loadEvents(for: selectedSeason)
         }

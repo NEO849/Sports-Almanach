@@ -9,9 +9,12 @@ import SwiftUI
 
 struct BetView: View {
     
+    /// Globale Daten
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var eventViewModel: EventViewModel
+    /// Lokale Daten
     @StateObject var betViewModel = BetViewModel()
+    /// Status für Sheet
     @State private var showBetSlip = false
     
     var body: some View {
@@ -55,14 +58,13 @@ struct BetView: View {
                     ForEach(eventViewModel.selectedEvents) { event in
                         BetRow(eventViewModel: eventViewModel, event: event)
                             .environmentObject(betViewModel)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) { // Swipe-Links
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) { // Swipe-Links, Wette Löschen
                                 Button(role: .destructive) {
-                                    // Wette Löschen
                                     betViewModel.bets.removeAll(where: { $0.event.id == event.id })
                                     betViewModel.updateTotalOdds()
                                     Task {
                                         await eventViewModel.deleteEventFromUserProfile(eventId: event.id)
-                                    } // Event aus der Liste der ausgewählten Events
+                                    } // Die ausgewählten Events aus der Liste
                                 } label: {
                                     Label("Löschen", systemImage: "trash")
                                 }
