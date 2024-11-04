@@ -67,7 +67,7 @@ struct BetRow: View {
                 .foregroundColor(.white)
                 .overlay(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.orange, lineWidth: 2)
+                        .stroke(Color.orange, lineWidth: 1)
                 )
                 .buttonStyle(.borderedProminent)
                 .padding(.trailing, 8)

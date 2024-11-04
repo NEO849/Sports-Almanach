@@ -60,7 +60,7 @@
 		F06389652CB7F34600746C98 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = F06389642CB7F34600746C98 /* FirebaseStorage */; };
 		F06389672CB7F34600746C98 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = F06389662CB7F34600746C98 /* FirebaseStorageCombine-Community */; };
 		F06389692CB7F34600746C98 /* FirebaseVertexAI-Preview in Frameworks */ = {isa = PBXBuildFile; productRef = F06389682CB7F34600746C98 /* FirebaseVertexAI-Preview */; };
-		F0677E6E2CCAC1B100498A0B /* SelectedBetButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0677E6D2CCAC1A200498A0B /* SelectedBetButton.swift */; };
+		F06FE7F42CD83D7A00FB7CAC /* SelectedEventsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06FE7F32CD83D5E00FB7CAC /* SelectedEventsButton.swift */; };
 		F081DC912CB549F500116E7B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F081DC902CB549F500116E7B /* GoogleService-Info.plist */; };
 		F081DC942CB54CDD00116E7B /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F081DC932CB54CC500116E7B /* FirebaseAuthManager.swift */; };
 		F081DC972CB54D9200116E7B /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F081DC962CB54D9200116E7B /* FirebaseAuth */; };
@@ -113,7 +113,7 @@
 		F05BC2CA2CA7339500562C51 /* BetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetViewModel.swift; sourceTree = "<group>"; };
 		F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsRow.swift; sourceTree = "<group>"; };
 		F05BC2D12CA7EA7D00562C51 /* splashintro.mp4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = splashintro.mp4; sourceTree = "<group>"; };
-		F0677E6D2CCAC1A200498A0B /* SelectedEventsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedEventsButton.swift; sourceTree = "<group>"; };
+		F06FE7F32CD83D5E00FB7CAC /* SelectedEventsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedEventsButton.swift; sourceTree = "<group>"; };
 		F081DC902CB549F500116E7B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F081DC932CB54CC500116E7B /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
 		F095C8F82C8FAE97002C94FD /* EventStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStatus.swift; sourceTree = "<group>"; };
@@ -251,7 +251,7 @@
 		F089A72A2CD6E7A900A3C054 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
-				F0677E6D2CCAC1A200498A0B /* SelectedEventsButton.swift */,
+				F06FE7F32CD83D5E00FB7CAC /* SelectedEventsButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -459,7 +459,6 @@
 				F01DD55E2CCDD485001176A2 /* BetSlipRow.swift in Sources */,
 				F081DC942CB54CDD00116E7B /* FirebaseAuthManager.swift in Sources */,
 				F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */,
-				F0677E6E2CCAC1B100498A0B /* SelectedEventsButton.swift in Sources */,
 				F008388C2CD2EEB10004D97B /* Sport.swift in Sources */,
 				F04A087D2CBD508000E493FF /* EventRepository.swift in Sources */,
 				F04A087A2CBD361300E493FF /* EventResponse.swift in Sources */,
@@ -482,6 +481,7 @@
 				F05BC2C22CA6A85B00562C51 /* Season.swift in Sources */,
 				F04217992CD2702900BEA19B /* CustomTabBar.swift in Sources */,
 				F05BC2C52CA6AF9C00562C51 /* EventDetailView.swift in Sources */,
+				F06FE7F42CD83D7A00FB7CAC /* SelectedEventsButton.swift in Sources */,
 				F00CB7092C9CF4B4003D70E3 /* EventsView.swift in Sources */,
 				F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */,
 				F04EE1002CC895600095BD28 /* BetSlipView.swift in Sources */,
