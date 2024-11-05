@@ -17,9 +17,10 @@ struct StatisticsView: View {
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
             
-            Text("Comin Soon, Rangliste und      Wettscheine anzeigen")
+            Text("In Progress, Rangliste der besten Spieler und deine Wettscheine einsehen")
                 .font(.largeTitle)
-                .foregroundColor(.white)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.blue)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(Color.clear)
                 .contentShape(Rectangle())
