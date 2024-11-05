@@ -195,11 +195,11 @@
 			isa = PBXGroup;
 			children = (
 				F04628782C88A757008FB346 /* Sports_AlmanachApp.swift */,
-				F095C90C2C8FD5B5002C94FD /* Utils */,
+				F095C8EC2C88AB1F002C94FD /* Views */,
 				F095C8F32C89F71A002C94FD /* Enums */,
 				F095C8F42C89F725002C94FD /* Data */,
 				F095C9072C8FB0C2002C94FD /* ViewModels */,
-				F095C8EC2C88AB1F002C94FD /* Views */,
+				F095C90C2C8FD5B5002C94FD /* Utils */,
 				F046287C2C88A758008FB346 /* Assets.xcassets */,
 				F046287E2C88A759008FB346 /* Preview Content */,
 				F081DC902CB549F500116E7B /* GoogleService-Info.plist */,
