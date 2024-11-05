@@ -16,89 +16,90 @@ struct EventsView: View {
     
     var body: some View {
         
-        ZStack {
-            Image("hintergrund")
-                .resizable()
-                .scaledToFill()
-                .edgesIgnoringSafeArea(.all)
-            
-            VStack {
-                Spacer(minLength: 32)
+        NavigationStack {
+            ZStack {
+                Image("hintergrund")
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
                 
-                HStack(spacing: 16) {
-                    // Sport-Auswahl mit Label
-                    VStack {
-                        Text("Sport")
-                            .font(.caption)
-                            .foregroundColor(.white)
-                        Menu {
-                            ForEach(Sport.allCases) { sport in
-                                Button(sport.rawValue) {
-                                    selectedSport = sport
-                                }
-                            }
-                        } label: {
-                            Text(" \(selectedSport.rawValue)")
-                        }
-                        .padding()
-                        .frame(minWidth: 110)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.orange, lineWidth: 1)
-                        )
-                    }
-                    // Liga-Auswahl
-                    VStack {
-                        Text("Liga")
-                            .font(.caption)
-                            .foregroundColor(.white)
-                        Menu {
-                            ForEach(League.allCases) { league in
-                                Button(league.rawValue) {
-                                    selectedLeague = league
-                                }
-                            }
-                        } label: {
-                            Text(" \(selectedLeague.shortedLeagueName)")
-                        }
-                        .padding()
-                        .frame(minWidth: 110)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.orange, lineWidth: 1)
-                        )
-                    }
-                    // Saison-Auswahl
-                    VStack {
-                        Text("Saison")
-                            .font(.caption)
-                            .foregroundColor(.white)
-                        Menu {
-                            ForEach(Season.allCases) { season in
-                                Button(season.year) {
-                                    selectedSeason = season
-                                    Task {
-                                        await eventViewModel.loadEvents(for: selectedSeason)
+                VStack {
+                    Spacer(minLength: 32)
+                    
+                    HStack(spacing: 16) {
+                        // Sport-Auswahl mit Label
+                        VStack {
+                            Text("Sport")
+                                .font(.caption)
+                                .foregroundColor(.white)
+                            Menu {
+                                ForEach(Sport.allCases) { sport in
+                                    Button(sport.rawValue) {
+                                        selectedSport = sport
                                     }
                                 }
+                            } label: {
+                                Text(" \(selectedSport.rawValue)")
                             }
-                        } label: {
-                            Text(" \(selectedSeason.year)")
+                            .padding()
+                            .frame(minWidth: 110)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.orange, lineWidth: 1)
+                            )
                         }
-                        .padding()
-                        .frame(minWidth: 110)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 8)
-                                .stroke(Color.orange, lineWidth: 1)
-                        )
+                        // Liga-Auswahl
+                        VStack {
+                            Text("Liga")
+                                .font(.caption)
+                                .foregroundColor(.white)
+                            Menu {
+                                ForEach(League.allCases) { league in
+                                    Button(league.rawValue) {
+                                        selectedLeague = league
+                                    }
+                                }
+                            } label: {
+                                Text(" \(selectedLeague.shortedLeagueName)")
+                            }
+                            .padding()
+                            .frame(minWidth: 110)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.orange, lineWidth: 1)
+                            )
+                        }
+                        // Saison-Auswahl
+                        VStack {
+                            Text("Saison")
+                                .font(.caption)
+                                .foregroundColor(.white)
+                            Menu {
+                                ForEach(Season.allCases) { season in
+                                    Button(season.year) {
+                                        selectedSeason = season
+                                        Task {
+                                            await eventViewModel.loadEvents(for: selectedSeason)
+                                        }
+                                    }
+                                }
+                            } label: {
+                                Text(" \(selectedSeason.year)")
+                            }
+                            .padding()
+                            .frame(minWidth: 110)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .stroke(Color.orange, lineWidth: 1)
+                            )
+                        }
                     }
-                }
-                .padding(.horizontal, 20)
-                
-                /// Swipen und SelectedBetButton -> func zum Hinzufügen und Entfernen von selectedEvents + ction: () -> Void
-                List {
-                    ForEach(eventViewModel.events) { event in
-                        VStack(alignment: .leading) {
+                    .padding(.horizontal, 20)
+                    
+                    /// Swipen und SelectedBetButton -> func zum Hinzufügen und Entfernen von selectedEvents + ction: () -> Void
+                    List {
+                        ForEach(eventViewModel.events) { event in
+                            
                             /// NavigationLink
                             NavigationLink(destination: EventDetailView(event: event)) {
                                 EventRow(event: event)
@@ -137,7 +138,7 @@ struct EventsView: View {
                         .listRowBackground(Color.clear)
                     }
                 }
-                .listStyle(PlainListStyle())
+                .listStyle(.plain)
                 .navigationTitle("")
                 Spacer()
             }
