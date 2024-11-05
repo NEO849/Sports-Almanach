@@ -65,7 +65,7 @@ struct SplashView: View {
             }
             .navigationDestination(isPresented: $showLoginView) {
                 // Wenn showLoginView true
-               // LoginView()
+                LoginView()
             }
         }
     }
