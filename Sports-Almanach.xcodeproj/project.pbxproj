@@ -79,6 +79,7 @@
 		F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */; };
 		F0A80FC72CD194CB00379EB8 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A80FC62CD194C700379EB8 /* WebView.swift */; };
 		F0BB2F8F2CB74BB00034DB67 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */; };
+		F0CC787E2CD9B02A009160D5 /* homeview.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = F0CC787D2CD9B02A009160D5 /* homeview.mp4 */; };
 		F0DFB6CD2CC005E400819342 /* BirthdayChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DFB6CC2CC005DF00819342 /* BirthdayChecker.swift */; };
 /* End PBXBuildFile section */
 
@@ -126,6 +127,7 @@
 		F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsCalculator.swift; sourceTree = "<group>"; };
 		F0A80FC62CD194C700379EB8 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		F0CC787D2CD9B02A009160D5 /* homeview.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = homeview.mp4; sourceTree = "<group>"; };
 		F0DFB6CC2CC005DF00819342 /* BirthdayChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayChecker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -177,6 +179,7 @@
 				F04628772C88A757008FB346 /* Sports-Almanach */,
 				F04628762C88A757008FB346 /* Products */,
 				F05BC2D12CA7EA7D00562C51 /* splashintro.mp4 */,
+				F0CC787D2CD9B02A009160D5 /* homeview.mp4 */,
 			);
 			sourceTree = "<group>";
 		};
@@ -419,6 +422,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F0BB2F8F2CB74BB00034DB67 /* .swiftlint.yml in Resources */,
+				F0CC787E2CD9B02A009160D5 /* homeview.mp4 in Resources */,
 				F04628802C88A759008FB346 /* Preview Assets.xcassets in Resources */,
 				F081DC912CB549F500116E7B /* GoogleService-Info.plist in Resources */,
 				F05BC2D22CA7EA7D00562C51 /* splashintro.mp4 in Resources */,
