@@ -147,7 +147,6 @@ struct EventsView: View {
             await eventViewModel.loadEvents(for: selectedSeason)
         }
     }
-    
 }
 
 #Preview {

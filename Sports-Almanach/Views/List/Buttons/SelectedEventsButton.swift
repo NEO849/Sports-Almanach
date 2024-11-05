@@ -22,7 +22,7 @@ struct SelectedEventsButton: View {
                 .frame(maxWidth: .infinity)
                 .background(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.orange, lineWidth: 2)
+                        .stroke(Color.orange, lineWidth: 1)
                 )
         }
         .buttonStyle(.borderless)
