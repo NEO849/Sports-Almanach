@@ -20,7 +20,7 @@ struct EventDetailView: View {
             Image("hintergrund")
                 .resizable()
                 .scaledToFill()
-                .edgesIgnoringSafeArea(.bottom)
+                .edgesIgnoringSafeArea(.all)
             
             VStack(alignment: .leading, spacing: 20) {
                 
