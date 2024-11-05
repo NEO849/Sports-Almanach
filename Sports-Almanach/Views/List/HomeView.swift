@@ -111,7 +111,7 @@ struct SectionView: View {
             ScrollView {
                 switch sectionName {
                 case "Events":
-                    Text("Tauche ein in die Welt des Sports! Hier findest du eine riesige Auswahl an Events aus allen erdenklichen Sportarten. Egal ob Fußball, Basketball, Tennis oder Motorsport – hier ist für jeden etwas dabei! Wähle deine Lieblingssportart, die Liga und die Saison aus und entdecke spannende Spiele, auf die du wetten kannst. Erlebe den Nervenkitzel hautnah und fiebere mit deinen Favoriten mit!"
+                    Text("Tauche ein in die Welt des Sports! Hier findest du eine riesige Auswahl an Events aus den verschiedensten Sportarten. Egal ob Fußball, Basketball, Tennis oder American Football – hier ist für jeden etwas dabei! Wähle deine Lieblingssportart, die Liga und die Saison aus und entdecke viele spannende Spiele durch Klick auf ein Event. Damit du dein Sportwissen auf Spielerische Art Testen kannst auf die du wetten kannst. Erlebe den Nervenkitzel hautnah und fiebere mit deinen Teams mit!"
                     )
                     .font(.title3)
                     .multilineTextAlignment(.center)
@@ -126,7 +126,7 @@ struct SectionView: View {
                     .font(.title3)
                     .multilineTextAlignment(.center)
                 case "Statistiken":
-                    Text("Behalte den Überblick! In der Statistik-Ansicht siehst du, wie sich deine Wetten entwickeln. Verfolge deine Erfolge, analysiere deine Wettscheine und lerne aus deinen Fehlern. Hier findest du alle wichtigen Informationen, um deine Wettstrategie zu optimieren und deine Gewinnchancen zu maximieren. Werde zum Meister der Sportwetten!"
+                    Text("Behalte den Überblick! In der Statistik-Ansicht siehst du, wie sich deine Wetten entwickeln, sowie eine Rangliste der erfolgreichsten Spielern. Schau dir deine Erfolge, analysiere deine Wettscheine und lerne aus deinen Fehlern. Hier findest du alle wichtigen Informationen, um deine Wettstrategie zu optimieren und deine Gewinnchancen zu maximieren. Werde zum Meister der Sportwetten!"
                     )
                     .font(.title3)
                     .multilineTextAlignment(.center)
