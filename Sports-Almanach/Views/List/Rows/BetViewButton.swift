@@ -35,4 +35,3 @@ struct BetViewButton: View {
         event: MockEvents.events.first!
     )
 }
-
