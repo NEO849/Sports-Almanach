@@ -13,14 +13,15 @@ struct HomeView: View {
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var eventViewModel: EventViewModel
     @State private var navigateToLogin: Bool = false
+    @State private var textOffset: CGFloat = 0
     @State private var expandedSection: String?
     
-    struct BannerImage: Identifiable {
+    struct BannerImage: Identifiable, Hashable {
         let id = UUID()
         let imageName: String
     }
     
-    // Array der Banner-Bildern
+    // Array
     let bannerImages = [
         BannerImage(imageName: "bannersports"),
         BannerImage(imageName: "boxen"),
@@ -33,138 +34,174 @@ struct HomeView: View {
     ]
     
     var body: some View {
-        
         NavigationStack {
-            ZStack {
-                Image("hintergrund")
-                    .resizable()
-                    .scaledToFill()
-                    .edgesIgnoringSafeArea(.all)
-                
-                VStack {
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            userViewModel.logout()  // Logout
-                            showLoginView = true
-                        }) {
-                            Image(systemName: "rectangle.portrait.and.arrow.right")
-                                .foregroundColor(.blue)
-                            .padding(.top, 32)}
-                        .padding(.trailing, 32)
-                    }
-                    .padding(.top, 24)
-                    Spacer()
-                }
-                VStack {
-                    Image("appname")
-                        .resizable()
-                        .scaledToFit()
-                        .padding(.horizontal, 32)
-                        .padding(.top, 16)
-                        .padding(.bottom, 8)
-                    
-                    VStack {
-                        Rectangle()
-                            .frame(height: 1)
-                            .foregroundColor(.orange)
-                            .padding(.bottom, 24)
-                        
-                        // Sektionen
-                        SectionView(sectionName: "Events", expandedSection: $expandedSection)
-                        SectionView(sectionName: "Details", expandedSection: $expandedSection)
-                        SectionView(sectionName: "Wetten", expandedSection: $expandedSection)
-                        SectionView(sectionName: "Statistiken", expandedSection: $expandedSection)
-                            .padding(.bottom, 16)
-                        Rectangle()
-                            .frame(height: 1)
-                            .foregroundColor(.orange)
-                            .padding(.bottom, 24)
-                        Spacer()
-                        BannerScrollView(bannerImages: bannerImages)
-                            .padding(.bottom, 160)
-                    }
-                    .frame(maxHeight: 240)
-                    
-                }
-                .padding(.bottom, 100)
-            }
-            .navigationBarBackButtonHidden(true)
-            .onChange(of: userViewModel.isLoggedIn) { isLoggedIn in
-                if !isLoggedIn {
-                    navigateToLogin = true  // Nicht Angemeldet -> LoginView
-                }
-            }
-            .navigationDestination(isPresented: $navigateToLogin) {
-                LoginView()
-            }
-        }
-    }
-    
-    // Section zum ausklappen
-    struct SectionView: View {
-        let sectionName: String
-        @Binding var expandedSection: String?
-        
-        var body: some View {
-            DisclosureGroup(isExpanded: Binding(
-                get: { expandedSection == sectionName },
-                set: { expandedSection = $0 ? sectionName : nil }
-            )) {
-                ScrollView {
-                    switch sectionName {
-                    case "Events":
-                        Text("Tauche ein in die Welt des Sports! Hier findest du eine riesige Auswahl an Events aus den verschiedensten Sportarten. Egal ob Fußball, Basketball, Tennis oder American Football – hier ist für jeden etwas dabei! Wähle deine Lieblingssportart, die Liga und die Saison aus und entdecke viele spannende Spiele durch Klick auf ein Event. Damit du dein Sportwissen auf Spielerische Art Testen kannst auf die du wetten kannst. Erlebe den Nervenkitzel hautnah und fiebere mit deinen Teams mit!"
-                        )
-                        .font(.title3)
-                        .multilineTextAlignment(.center)
-                    case "Details":
-                        Text("Hier erfährst du alles, was du wissen musst! Klicke auf ein Event und erhalte detaillierte Informationen zu den Teams, Spielern, Statistiken und vielem mehr. So kannst du fundierte Entscheidungen treffen und deine Gewinnchancen erhöhen. Wissen ist Macht – nutze die Detailansicht, um zum Experten zu werden!"
-                        )
-                        .font(.title3)
-                        .multilineTextAlignment(.center)
-                    case "Wetten":
-                        Text("Zeig dein Können als Sport-Analyst! Vergleiche die Quoten, analysiere die Statistiken und platziere deine Wetten. Trau dich, auf den Außenseiter zu setzen, oder sichere dir einen kleinen Gewinn mit einer soliden Wette auf den Favoriten. Hier kannst du dein Sportwissen unter Beweis stellen und gleichzeitig tolle Gewinne abräumen!"
-                        )
-                        .font(.title3)
-                        .multilineTextAlignment(.center)
-                    case "Statistiken":
-                        Text("Behalte den Überblick! In der Statistik-Ansicht siehst du, wie sich deine Wetten entwickeln, sowie eine Rangliste der erfolgreichsten Spielern. Schau dir deine Erfolge, analysiere deine Wettscheine und lerne aus deinen Fehlern. Hier findest du alle wichtigen Informationen, um deine Wettstrategie zu optimieren und deine Gewinnchancen zu maximieren. Werde zum Meister der Sportwetten!"
-                        )
-                        .font(.title3)
-                        .multilineTextAlignment(.center)
-                    default:
-                        Text("Inhalt für \(sectionName)")
-                    }
-                }
-                .frame(height: 100)
-            } label: {
-                Text(sectionName)
-                    .font(.headline)
-                    .foregroundColor(.orange)
-                    .padding()
-            }
-            .background(.white.opacity(0.4))
-            .cornerRadius(8)
-            .padding(.horizontal, 32)
-            .padding(.vertical, 4)
-            .animation(.easeInOut, value: expandedSection)
-        }
-    }
-}
+              ZStack {
+                  Image("hintergrund")
+                      .resizable()
+                      .scaledToFill()
+                      .edgesIgnoringSafeArea(.all)
+                  
+                  VStack(spacing: 0) {
+                      HStack {
+                          Spacer()
+                          Button(action: {
+                              userViewModel.logout()
+                              showLoginView = true
+                          }) {
+                              Image(systemName: "rectangle.portrait.and.arrow.right")
+                                  .foregroundColor(.blue)
+                                  .padding(.top, 12)
+                          }
+                          .padding(.trailing, 32)
+                      }
+                      .padding()
+                      
+                      ZStack {
+                          Image("appname")
+                              .resizable()
+                              .scaledToFit()
+                              .scaleEffect(7.5)
+                              .padding(.horizontal, 32)
+                              .padding(.top, 72)
+                      }
+                                            
+                      ZStack {
+                          Text("Willkommen im Sports-Almanach! Du finest huier Evengs, Ergebnisse, Spiel, Spass und Spannung durch Spielgeld-Wetten. Battle dich mit deinen Freunden und schaut wer der Sportprofi unter euch ist...")
+                              .font(.title3)
+                              .lineLimit(2)
+                              .foregroundColor(.white)
+                              .offset(x: textOffset)
+                              .onAppear {
+                                  Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+                                      textOffset -= 2
+                                      if textOffset < -UIScreen.main.bounds.width {
+                                          textOffset = UIScreen.main.bounds.width
+                                      }
+                                  }
+                              }
+                      }
+                      .padding(.bottom, 24)
+                      
+                      Rectangle()
+                          .frame(height: 1)
+                          .foregroundColor(.orange)
+                          .padding(.bottom, 24)
+                      
+                      VStack(spacing: 20) {
+                          SectionView(sectionName: "Events", expandedSection: $expandedSection)
+                          SectionView(sectionName: "Details", expandedSection: $expandedSection)
+                          SectionView(sectionName: "Wetten", expandedSection: $expandedSection)
+                          SectionView(sectionName: "Statistiken", expandedSection: $expandedSection)
+                      }
+                      .padding(.horizontal, 32)
+                      .padding(.vertical, 4)
+                      
+                      Rectangle()
+                          .frame(height: 1)
+                          .foregroundColor(.orange)
+                          .padding(.bottom, 24)
+                      
+                      AutoScrollingBannerView(bannerImages: bannerImages)
+                          .padding(.bottom, 60)
+                  }
+                  .navigationBarBackButtonHidden(true)
+                  .onChange(of: userViewModel.isLoggedIn) { isLoggedIn in
+                      if !isLoggedIn {
+                          navigateToLogin = true
+                      }
+                  }
+                  .navigationDestination(isPresented: $navigateToLogin) {
+                      LoginView()
+                  }
+              }
+          }
+      }
+      
+      struct SectionView: View {
+          let sectionName: String
+          @Binding var expandedSection: String?
+          
+          var body: some View {
+              DisclosureGroup(isExpanded: Binding(
+                  get: { expandedSection == sectionName },
+                  set: { expandedSection = $0 ? sectionName : nil }
+              )) {
+                  ScrollView {
+                      switch sectionName {
+                      case "Events":
+                          Text("Tauche ein in die Welt des Sports! Hier findest du eine riesige Auswahl an Events aus den verschiedensten Sportarten...")
+                              .font(.title3)
+                              .multilineTextAlignment(.center)
+                      case "Details":
+                          Text("Hier erfährst du alles, was du wissen musst...")
+                              .font(.title3)
+                              .multilineTextAlignment(.center)
+                      case "Wetten":
+                          Text("Zeig dein Können als Sport-Analyst...")
+                              .font(.title3)
+                              .multilineTextAlignment(.center)
+                      case "Statistiken":
+                          Text("Behalte den Überblick...")
+                              .font(.title3)
+                              .multilineTextAlignment(.center)
+                      default:
+                          Text("Inhalt für \(sectionName)")
+                      }
+                  }
+                  .frame(height: 80)
+              } label: {
+                  Text(sectionName)
+                      .font(.headline)
+                      .foregroundColor(.orange)
+                      .padding()
+              }
+              .background(.white.opacity(0.4))
+              .cornerRadius(8)
+              .padding(.horizontal, 32)
+              .padding(.vertical, 4)
+              .animation(.easeInOut, value: expandedSection)
+          }
+      }
+  }
 
-// Horizontale ScrollView für Bilder
-struct BannerScrollView: View {
+struct AutoScrollingBannerView: View {
     let bannerImages: [HomeView.BannerImage]
+    @State private var offset: CGFloat = 0
+    @State private var timer: Timer?
+    
+    private var repeatedBannerImages: [HomeView.BannerImage] {
+        Array(repeating: bannerImages, count: 50).flatMap { $0 }
+    }
     
     var body: some View {
-        ScrollView(.horizontal) {
-            HStack {
-                ForEach(bannerImages) { image in
-                    StyledImageView(imageName: image.imageName)
+        GeometryReader { geometry in
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 20) {
+                    ForEach(repeatedBannerImages, id: \.self) { image in
+                        StyledImageView(imageName: image.imageName)
+                            .frame(width: 100, height: 80)
+                    }
+                }
+                .padding(.horizontal, 20)
+                .frame(width: geometry.size.width * CGFloat(repeatedBannerImages.count), alignment: .leading)
+                .offset(x: offset)
+                .onAppear {
+                    startTimer(geometry: geometry)
                 }
             }
-            
+        }
+    }
+    
+    private func startTimer(geometry: GeometryProxy) {
+        timer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { _ in
+            DispatchQueue.main.async {
+                offset -= 1
+                
+                // Zurücksetzen des Offsets am Ende der Bilder
+                if offset <= -geometry.size.width * CGFloat(repeatedBannerImages.count - bannerImages.count) {
+                    offset = 0
+                }
+            }
         }
     }
 }
@@ -184,7 +221,6 @@ struct StyledImageView: View {
             )
     }
 }
-
 #Preview {
     HomeView()
         .environmentObject(UserViewModel())
