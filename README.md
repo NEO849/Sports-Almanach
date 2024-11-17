@@ -44,7 +44,10 @@ Screenshots der App:
 - **Einfache Navigation**: Nutze Tabs für Home, Bet und Detail, um mühelos durch die App zu navigieren.
 - **Jahres- und Liga-Auswahl**: Wähle ein Jahr und eine Liga aus, um relevante Fußball-Events anzuzeigen.
 - **Event-Details**: Sieh dir detaillierte Informationen zu Events an, einschließlich Wettquoten, Team-Logos und Event-Status.
-- **Event-Status**: Jeder Event-Status wird durch einen farbigen Kreis angezeigt (geplant, verschoben, gesperrt, abgesagt).
+- **Event-Status**: Jeder Event-Status wird Farbigen angezeigt (geplant, verschoben, gesperrt, abgesagt).
+- **OddsCalculator**: Lediglich durch die gefallenen Tore im Spiel, werden Wettquoten berechnet, unter Berücksichtigung verschiedenener Faktoren, wie Heimspiel, oder Auswärtsspiel.
+- **Wetten**: Teste dein Wissen mit Spielgeld Wetten. In den Wettscheinen kannst du dann die Höhe  des Einsatzes samt Wette abgeben und dich bei einem Gewinn Feiern.
+- **Statistiken**: Sieh dir deine Wettscheine an , oder ob du bereits die Nummer 1 der Weltrrangliste bist und Messe dich mit deinen Freunden.
 
 ## ![Projektaufbau](https://img.shields.io/badge/Projektaufbau-%23FFA500?style=for-the-badge&logo=none)
 
@@ -62,11 +65,12 @@ Besonders vorteilhaft ist dies beim Testen der App mit **Mock-Daten** wie User, 
 
 - **Mock-Daten**:
   - In der frühen Entwicklungsphase nutze ich die Mock-Daten, die das tatsächliche Verhalten der App simulieren. Dies ist ideal, um UI-Elemente zu überprüfen oder Logik zu testen.
-  - Beispiel: Ein `MockEventRepository` kann eine Liste von Sportereignissen zurückgeben, die von der API kommen **könnten**, aber lokal definiert sind. 
+  - In der frühen Phase konnte einfach durch ändern einer var von `true`auf `false`zwischen Mock-und API Daten gewechselt werden. 
 
 ## ![Datenspeicherung](https://img.shields.io/badge/Datenspeicherung-%23FFA500?style=for-the-badge&logo=none)
 
 **Firebase** wird für die Authentifizierung der Benutzer und die Speicherung von Wettinformationen verwendet. 
+**Firestore** wird genutzt damit die ausgewählten Events beim Anmelden wieder erscheinen und speichert die Wettscheine. 
 
 ## ![API Calls](https://img.shields.io/badge/API%20Calls-%23FFA500?style=for-the-badge&logo=none)
 
@@ -106,7 +110,7 @@ Die App nutzt externe APIs, um Daten zu Sportereignissen abzurufen und anzuzeige
 
 ### ![3rd-Party Frameworks](https://img.shields.io/badge/3rd--Party%20Frameworks-%23FFA500?style=for-the-badge&logo=none)
 
-- **Firebase**: Für Authentifizierung, Datenbanken und Crashlytics.
+- **Firebas und Storee**: Für Authentifizierung, Datenbanken und Crashlytics.
 - **SwiftUI**: Für das UI-Design und die Darstellung der Benutzeroberfläche.
 
 ---
