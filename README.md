@@ -23,7 +23,7 @@
 
 ---
 
-## ![Design](https://img.shields.io/badge/Design-%2300b48a?style=for-the-badge&logo=none)
+## ![Design](https://img.shields.io/badge/Design-%FFA500?style=for-the-badge&logo=none)
 
 Screenshots der App:
 
