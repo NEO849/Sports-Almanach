@@ -37,7 +37,7 @@ Screenshots der App:
 
 ---
 
-## ![Features](https://img.shields.io/badge/Features-%2300b48a?style=for-the-badge&logo=none)
+## ![Features](https://img.shields.io/badge/Features-%23FFA500?style=for-the-badge&logo=none)
 
 - **Sportarten und Events**: Erhalte aktuelle Informationen zu verschiedenen Sportarten und Events.
 - **Wettmöglichkeiten**: Platziere Wetten mit Spielgeld und teste dein Wissen über Sport.
@@ -64,7 +64,7 @@ Besonders vorteilhaft ist dies beim Testen der App mit **Mock-Daten** wie User, 
   - In der frühen Entwicklungsphase nutze ich die Mock-Daten, die das tatsächliche Verhalten der App simulieren. Dies ist ideal, um UI-Elemente zu überprüfen oder Logik zu testen.
   - Beispiel: Ein `MockEventRepository` kann eine Liste von Sportereignissen zurückgeben, die von der API kommen **könnten**, aber lokal definiert sind. 
 
-## ![Datenspeicherung](https://img.shields.io/badge/Datenspeicherung-%2300b48a?style=for-the-badge&logo=none)
+## ![Datenspeicherung](https://img.shields.io/badge/Datenspeicherung-%2000b48a?style=for-the-badge&logo=none)
 
 **Firebase** wird für die Authentifizierung der Benutzer und die Speicherung von Wettinformationen verwendet. 
 
