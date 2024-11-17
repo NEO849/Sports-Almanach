@@ -30,7 +30,7 @@ Screenshots der App:
 <div>
   <img src="https://github.com/SI-Classroom-Batch-015/Sports-Almanach/blob/main/HomeView.png?raw=true" alt="Screenshot 3" width="15%" />
   <img src="https://github.com/SI-Classroom-Batch-015/Sports-Almanach/blob/main/EventView.png?raw=true" alt="Screenshot 2" width="15%" />
-  <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="15%" />
+  <img src="https://github.com/SI-Classroom-Batch-015/Sports-Almanach/blob/main/Event-DetailView.png?raw=true" alt="Screenshot 3" width="15%" />
   <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="15%" />
   <img src="https://github.com/NEO849/Sports-Almanach/blob/main/beispielscreenshot3.png?raw=true" alt="Screenshot 3" width="15%" />
 </div>
