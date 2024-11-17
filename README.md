@@ -140,6 +140,15 @@ open Sports-Almanach.xcodeproj
 ```
 ---
 
+## ![Was war mir Wichtig](https://img.shields.io/badge/Was war mir Wichtig-%23FFA500?style=for-the-badge&logo=none)
+
+- Durch wenig Daten viel Kontent erzeugen und dem Benutzer eine Spannende App die beim Benutzen Spaß macht
+- Eine Saubere und Aufgeräumte Struktur
+- Clean Code
+- Gutes Fehlermanagement durch Log-Daten und print-Statements
+- Leichte Wartbarkeit, sowie Erweiterbarkeit
+- Intuitive Navigation, sowie ein aufgeräumtes und ansprechendes Design, was den Zeitgeist treffen soll.
+
 ## ![Verwendung](https://img.shields.io/badge/Verwendung-%23FFA500?style=for-the-badge&logo=none)
 
 - Starte die App und registriere dich, melde dich an und anschliessend wirst du zur HomeView weitergeleitet.
