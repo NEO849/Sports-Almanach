@@ -140,7 +140,7 @@ open Sports-Almanach.xcodeproj
 ```
 ---
 
-## ![Was war mir Wichtig](https://img.shields.io/badge/Was war mir Wichtig-%23FFA500?style=for-the-badge&logo=none)
+## ![Was war mir Wichtig](https://img.shields.io/badge/Was%20war%20mir%20Wichtig-%23FFA500?style=for-the-badge&logo=none)
 
 - Durch wenig Daten viel Kontent erzeugen und dem Benutzer eine Spannende App die beim Benutzen Spaß macht
 - Eine Saubere und Aufgeräumte Struktur
