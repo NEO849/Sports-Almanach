@@ -67,11 +67,12 @@ struct HomeView: View {
                     ZStack {
                         AnimatedText()
                     }
-                    .padding(.bottom, 20)
+                    .padding(.bottom, 24)
                     
                     Rectangle()
                         .frame(height: 1)
                         .foregroundColor(.white)
+                        .padding(.bottom, 6)
                     
                     VStack(spacing: 10) {
                         SectionView(sectionName: "Events", expandedSection: $expandedSection)
@@ -83,12 +84,13 @@ struct HomeView: View {
                         SectionView(sectionName: "Statistiken", expandedSection: $expandedSection)
                             .frame(minHeight: 80)
                     }
-                    .padding(.vertical, 24)
+                    .padding(.horizontal, 32)
+                    .padding(.vertical, 32)
                     
                     Rectangle()
                         .frame(height: 1)
                         .foregroundColor(.white)
-                        .padding(.bottom, 12)
+                        .padding(.bottom, 24)
                     
                     AutoScrollingBannerView(bannerImages: bannerImages)
                         .padding(.bottom, 60)
@@ -110,7 +112,6 @@ struct HomeView: View {
         @State private var textOffset: CGFloat = UIScreen.main.bounds.width
         
         var body: some View {
-            
             VStack(spacing: 20) {
                 Rectangle()
                     .cornerRadius(10)
@@ -132,9 +133,9 @@ struct HomeView: View {
                             .cornerRadius(10)
                             .shadow(
                                 color: .white, radius: 10,
-                                x: 1, y: 10)
+                                x: 3, y: 10)
                             )
-                // Text horizontal von Recjhts nach Links
+                    // Von Recjhts nach Links
                     .offset(x: textOffset)
                     .onAppear {
                         withAnimation(.linear(duration: 5)) {
@@ -184,48 +185,82 @@ struct HomeView: View {
     struct SectionView: View {
         let sectionName: String
         @Binding var expandedSection: String?
-        
+
+        private var isExpanded: Bool {
+            expandedSection == sectionName
+        }
+
+        // Berechnet die Opazität für die nicht ausgewählte Sektion
+        private var sectionOpacity: Double {
+            expandedSection == nil || expandedSection == sectionName ? 1.0 : 0.3
+        }
+
         var body: some View {
-            DisclosureGroup(isExpanded: Binding(
-                get: { expandedSection == sectionName },
-                set: { expandedSection = $0 ? sectionName : nil }
-            )) {
-                ScrollView {
-                    switch sectionName {
-                    case "Events":
-                        Text("Tauche ein in die Welt des Sports! Hier findest du eine riesige Auswahl an Events aus den verschiedensten Sportarten...")
-                            .font(.title3)
-                            .multilineTextAlignment(.center)
-                    case "Details":
-                        Text("Hier erfährst du alles, was du wissen musst...")
-                            .font(.title3)
-                            .multilineTextAlignment(.center)
-                    case "Wetten":
-                        Text("Zeig dein Können als Sport-Analyst...")
-                            .font(.title3)
-                            .multilineTextAlignment(.center)
-                    case "Statistiken":
-                        Text("Behalte den Überblick...")
-                            .font(.title3)
-                            .multilineTextAlignment(.center)
-                    default:
-                        Text("Inhalt für \(sectionName)")
+            VStack {
+                DisclosureGroup(isExpanded: Binding(
+                    get: { isExpanded },
+                    set: { expandedSection = $0 ? sectionName : nil }
+                )) {
+                    ScrollView {
+                        switch sectionName {
+                        case "Events":
+                            Text("Tauche ein in die Welt des Sports! Hier findest du eine riesige Auswahl an Events von verschiedenen Sportarten.")
+                                .font(.title3)
+                                .foregroundColor(.white)
+                                .multilineTextAlignment(.center)
+                                .padding()
+                                .frame(height: 86)
+                        case "Details":
+                            Text("Hier erfährst du alles, was du wissen musst, Infos, jeglicher Art, das Spiel als Video vrfolgen und deine Lieblingsscenen anschauen.")
+                                .font(.title3)
+                                .foregroundColor(.white)
+                                .multilineTextAlignment(.center)
+                                .padding()
+                                .frame(height: 86)
+                        case "Wetten":
+                            Text("Zeig dein Können als Sport-Analyst und Teste dein Wissen und Wette auf Spannende Spiele.")
+                                .font(.title3)
+                                .foregroundColor(.white)
+                                .multilineTextAlignment(.center)
+                                .padding()
+                                .frame(height: 86)
+                        case "Statistiken":
+                            Text("Behalte den Überblick über deine Wettscheine und versuche die Nummer 1 der Welt-Rangliste werden.")
+                                .font(.title3)
+                                .foregroundColor(.white)
+                                .multilineTextAlignment(.center)
+                                .padding()
+                                .frame(height: 86)
+                        default:
+                            Text("Default")
+                        }
+                    }
+                } label: {
+                    HStack {
+                        Text(sectionName)
+                            .font(.headline)
+                            .foregroundColor(.orange)
+                            .padding()
+                        Spacer()
+                        Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                            .foregroundColor(.orange)
+                            .padding()
                     }
                 }
-                .frame(height: 48)
-                Spacer()
-            } label: {
-                Text(sectionName)
-                    .font(.headline)
-                    .foregroundColor(.orange)
-                    .padding()
+                .padding()
+                .background(
+                    RoundedRectangle(cornerRadius: 10)
+                        .fill(isExpanded ? Color.black.opacity(0.4) : Color.black.opacity(0.1))
+                        .shadow(
+                            color: isExpanded ? .black : .orange,
+                            radius: isExpanded ? 10 : 1
+                        )
+                )
+                .cornerRadius(10)
+                .padding(.horizontal, 16)
+                .opacity(sectionOpacity)  // Dynamische Opazität für nicht ausgewählte Sektionen
+                .animation(.easeInOut, value: expandedSection)
             }
-            .background(.white.opacity(0.4))
-            .cornerRadius(8)
-            .padding(.horizontal, 32)
-            .padding(.vertical, 4)
-            .animation(.easeInOut, value: expandedSection)
-            
         }
     }
 }
