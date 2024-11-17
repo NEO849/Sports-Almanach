@@ -12,7 +12,7 @@
 
 <br>
 
-## ![Warum Sports-Almanach?](https://img.shields.io/badge/Warum%20Sports--Almanach-%2300b48a?style=for-the-badge&logo=none)
+## ![Warum Sports-Almanach?](https://img.shields.io/badge/Warum%20Sports--Almanach-%23FFA500?style=for-the-badge&logo=none)
 
 **Die App** ist ideal für Sportfans, die jederzeit Informationen zu Sportarten und Events erhalten möchten. Mit der App kannst du:
 - Informationen zu verschiedenen Sportevents abrufen.
