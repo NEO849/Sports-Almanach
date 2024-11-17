@@ -46,12 +46,12 @@ Screenshots der App:
 - **Event-Details**: Sieh dir detaillierte Informationen zu Events an, einschließlich Wettquoten, Team-Logos und Event-Status.
 - **Event-Status**: Jeder Event-Status wird durch einen farbigen Kreis angezeigt (geplant, verschoben, gesperrt, abgesagt).
 
-## ![Projektaufbau](https://img.shields.io/badge/Projektaufbau-%2300b48a?style=for-the-badge&logo=none)
+## ![Projektaufbau](https://img.shields.io/badge/Projektaufbau-%23FFA500?style=for-the-badge&logo=none)
 
 Die App ist nach dem **MVVM-Muster** (Model-View-ViewModel) strukturiert. Dies sorgt für eine klare Trennung der Logik und Benutzeroberfläche und erleichtert Wartung und Erweiterungen. 
 Besonders vorteilhaft ist dies beim Testen der App mit **Mock-Daten** wie User, Events und Wettquoten. 
 
-## ![Projektstruktur](https://img.shields.io/badge/Projektstruktur-%2300b48a?style=for-the-badge&logo=none)
+## ![Projektstruktur](https://img.shields.io/badge/Projektstruktur-%23FFA500?style=for-the-badge&logo=none)
 
 - **Model**: Enthält die Datenstrukturen für Events, Benutzer und Wettinformationen. 
 - **View**: Stellt die Benutzeroberfläche dar und zeigt die Events an.
@@ -64,11 +64,11 @@ Besonders vorteilhaft ist dies beim Testen der App mit **Mock-Daten** wie User, 
   - In der frühen Entwicklungsphase nutze ich die Mock-Daten, die das tatsächliche Verhalten der App simulieren. Dies ist ideal, um UI-Elemente zu überprüfen oder Logik zu testen.
   - Beispiel: Ein `MockEventRepository` kann eine Liste von Sportereignissen zurückgeben, die von der API kommen **könnten**, aber lokal definiert sind. 
 
-## ![Datenspeicherung](https://img.shields.io/badge/Datenspeicherung-%2000b48a?style=for-the-badge&logo=none)
+## ![Datenspeicherung](https://img.shields.io/badge/Datenspeicherung-%23FFA500?style=for-the-badge&logo=none)
 
 **Firebase** wird für die Authentifizierung der Benutzer und die Speicherung von Wettinformationen verwendet. 
 
-## ![API Calls](https://img.shields.io/badge/API%20Calls-%2300b48a?style=for-the-badge&logo=none)
+## ![API Calls](https://img.shields.io/badge/API%20Calls-%23FFA500?style=for-the-badge&logo=none)
 
 Die App nutzt externe APIs, um Daten zu Sportereignissen abzurufen und anzuzeigen:
     
@@ -104,14 +104,14 @@ Die App nutzt externe APIs, um Daten zu Sportereignissen abzurufen und anzuzeige
 </table>
      
 
-### ![3rd-Party Frameworks](https://img.shields.io/badge/3rd--Party%20Frameworks-%2300b48a?style=for-the-badge&logo=none)
+### ![3rd-Party Frameworks](https://img.shields.io/badge/3rd--Party%20Frameworks-%23FFA500?style=for-the-badge&logo=none)
 
 - **Firebase**: Für Authentifizierung, Datenbanken und Crashlytics.
 - **SwiftUI**: Für das UI-Design und die Darstellung der Benutzeroberfläche.
 
 ---
 
-## ![Ausblick](https://img.shields.io/badge/Ausblick-%2300b48a?style=for-the-badge&logo=none)
+## ![Ausblick](https://img.shields.io/badge/Ausblick-%23FFA500?style=for-the-badge&logo=none)
 
 In Zukunft möchten ich folgende Features hinzufügen, um die App weiter zu verbessern:
 
@@ -121,7 +121,7 @@ In Zukunft möchten ich folgende Features hinzufügen, um die App weiter zu verb
 
 ---
 
-## ![Installation](https://img.shields.io/badge/Installation-%2300b48a?style=for-the-badge&logo=none)
+## ![Installation](https://img.shields.io/badge/Installation-%23FFA500?style=for-the-badge&logo=none)
 
 1. Klone das Repository:
 
@@ -136,7 +136,7 @@ open Sports-Almanach.xcodeproj
 ```
 ---
 
-## ![Verwendung](https://img.shields.io/badge/Verwendung-%2300b48a?style=for-the-badge&logo=none)
+## ![Verwendung](https://img.shields.io/badge/Verwendung-%23FFA500?style=for-the-badge&logo=none)
 
 - Starte die App und registriere dich, melde dich an und anschliessend wirst du zur HomeView weitergeleitet.
 - Navigiere über die Tabs zwischen Home, Bet und Detail.
@@ -144,13 +144,13 @@ open Sports-Almanach.xcodeproj
 
 ---
 
-## ![Lizenz](https://img.shields.io/badge/Lizenz-%2300b48a?style=for-the-badge&logo=none)
+## ![Lizenz](https://img.shields.io/badge/Lizenz-%23FFA500?style=for-the-badge&logo=none)
 
 - Dieses Projekt ist unter der [CC0 1.0 Universal (CC0 1.0)](https://github.com/NEO849/Sports-Almanach/tree/main#) lizenziert. Siehe die LICENSE Datei für weitere Details.     
 
 ---
 
-## ![Kontakt](https://img.shields.io/badge/Kontakt-%2300b48a?style=for-the-badge&logo=none)
+## ![Kontakt](https://img.shields.io/badge/Kontakt-%23FFA500?style=for-the-badge&logo=none)
 
 Für Fragen, Feedback oder Anmerkungen kannst du mich unter f.michi84.989@gmail.com erreichen.
 
