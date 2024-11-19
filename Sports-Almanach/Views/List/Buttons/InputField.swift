@@ -34,6 +34,7 @@ struct InputField: View {
                     
                 }
             }
+            .padding(.horizontal, 52)
             .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 10)
@@ -52,7 +53,7 @@ struct InputField: View {
             // Augen-Icon für Passwortsichtbarkeit
             if isSecure {
                 Button(action: {
-                    withAnimation(.easeInOut(duration: 0.2)) {
+                    withAnimation(.easeInOut(duration: 0.4)) {
                         isPasswordVisible.toggle()
                     }
                 }) {
