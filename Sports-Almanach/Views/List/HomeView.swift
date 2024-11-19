@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Foundation
 
 struct HomeView: View {
     
@@ -42,7 +41,7 @@ struct HomeView: View {
                 VStack(spacing: 0) {
                     LogoutButton(showLoginView: $showLoginView)
                     
-                    AppName(title: "Sports Almanach")
+                    Title(title: "Sports Almanach")
                         .padding(.bottom, 54)
                     
                     AnimatedText()

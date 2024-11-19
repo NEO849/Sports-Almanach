@@ -29,7 +29,7 @@
 		F04EE0FE2CC8927E0095BD28 /* BetRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04EE0FD2CC892700095BD28 /* BetRow.swift */; };
 		F04EE1002CC895600095BD28 /* BetSlipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04EE0FF2CC895540095BD28 /* BetSlipView.swift */; };
 		F052E2F92CEA319600769631 /* LogoutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F052E2F82CEA318000769631 /* LogoutButton.swift */; };
-		F052E2FB2CEA31FD00769631 /* AppName.swift in Sources */ = {isa = PBXBuildFile; fileRef = F052E2FA2CEA31E600769631 /* AppName.swift */; };
+		F052E2FB2CEA31FD00769631 /* Title.swift in Sources */ = {isa = PBXBuildFile; fileRef = F052E2FA2CEA31E600769631 /* Title.swift */; };
 		F052E2FD2CEA325100769631 /* DividerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F052E2FC2CEA324500769631 /* DividerView.swift */; };
 		F052E2FF2CEA32BB00769631 /* SectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F052E2FE2CEA32A500769631 /* SectionListView.swift */; };
 		F052E3012CEA336500769631 /* AnimatedText.swift in Sources */ = {isa = PBXBuildFile; fileRef = F052E3002CEA335300769631 /* AnimatedText.swift */; };
@@ -42,6 +42,9 @@
 		F05BC2CB2CA7339F00562C51 /* BetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2CA2CA7339500562C51 /* BetViewModel.swift */; };
 		F05BC2CD2CA7B1AB00562C51 /* OddsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */; };
 		F05BC2D22CA7EA7D00562C51 /* splashintro.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = F05BC2D12CA7EA7D00562C51 /* splashintro.mp4 */; };
+		F05CA82B2CEBFA3E0080F2B7 /* SocialLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA82A2CEBFA340080F2B7 /* SocialLoginButton.swift */; };
+		F05CA82D2CEBFA7E0080F2B7 /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA82C2CEBFA740080F2B7 /* LoginButton.swift */; };
+		F05CA82F2CEBFAD40080F2B7 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA82E2CEBFACA0080F2B7 /* InputField.swift */; };
 		F063893B2CB7F34600746C98 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = F063893A2CB7F34600746C98 /* FirebaseAnalytics */; };
 		F063893D2CB7F34600746C98 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = F063893C2CB7F34600746C98 /* FirebaseAnalyticsOnDeviceConversion */; };
 		F063893F2CB7F34600746C98 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = F063893E2CB7F34600746C98 /* FirebaseAnalyticsWithoutAdIdSupport */; };
@@ -113,7 +116,7 @@
 		F04EE0FD2CC892700095BD28 /* BetRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetRow.swift; sourceTree = "<group>"; };
 		F04EE0FF2CC895540095BD28 /* BetSlipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSlipView.swift; sourceTree = "<group>"; };
 		F052E2F82CEA318000769631 /* LogoutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutButton.swift; sourceTree = "<group>"; };
-		F052E2FA2CEA31E600769631 /* AppName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppName.swift; sourceTree = "<group>"; };
+		F052E2FA2CEA31E600769631 /* Title.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Title.swift; sourceTree = "<group>"; };
 		F052E2FC2CEA324500769631 /* DividerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DividerView.swift; sourceTree = "<group>"; };
 		F052E2FE2CEA32A500769631 /* SectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionListView.swift; sourceTree = "<group>"; };
 		F052E3002CEA335300769631 /* AnimatedText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedText.swift; sourceTree = "<group>"; };
@@ -126,6 +129,9 @@
 		F05BC2CA2CA7339500562C51 /* BetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetViewModel.swift; sourceTree = "<group>"; };
 		F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsRow.swift; sourceTree = "<group>"; };
 		F05BC2D12CA7EA7D00562C51 /* splashintro.mp4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = splashintro.mp4; sourceTree = "<group>"; };
+		F05CA82A2CEBFA340080F2B7 /* SocialLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginButton.swift; sourceTree = "<group>"; };
+		F05CA82C2CEBFA740080F2B7 /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
+		F05CA82E2CEBFACA0080F2B7 /* InputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		F06FE7F32CD83D5E00FB7CAC /* SelectedEventsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedEventsButton.swift; sourceTree = "<group>"; };
 		F081DC902CB549F500116E7B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F081DC932CB54CC500116E7B /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
@@ -241,7 +247,7 @@
 				F052E3002CEA335300769631 /* AnimatedText.swift */,
 				F052E3022CEA33AA00769631 /* AutoScrollingBannerView.swift */,
 				F052E2FE2CEA32A500769631 /* SectionListView.swift */,
-				F052E2FA2CEA31E600769631 /* AppName.swift */,
+				F052E2FA2CEA31E600769631 /* Title.swift */,
 			);
 			path = HomeView;
 			sourceTree = "<group>";
@@ -294,6 +300,9 @@
 		F089A72A2CD6E7A900A3C054 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
+				F05CA82E2CEBFACA0080F2B7 /* InputField.swift */,
+				F05CA82C2CEBFA740080F2B7 /* LoginButton.swift */,
+				F05CA82A2CEBFA340080F2B7 /* SocialLoginButton.swift */,
 				F052E2F82CEA318000769631 /* LogoutButton.swift */,
 				F06FE7F32CD83D5E00FB7CAC /* SelectedEventsButton.swift */,
 			);
@@ -502,7 +511,7 @@
 			files = (
 				F00CB70B2C9CF51E003D70E3 /* StatisticsView.swift in Sources */,
 				F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */,
-				F052E2FB2CEA31FD00769631 /* AppName.swift in Sources */,
+				F052E2FB2CEA31FD00769631 /* Title.swift in Sources */,
 				F01DD55E2CCDD485001176A2 /* BetSlipRow.swift in Sources */,
 				F081DC942CB54CDD00116E7B /* FirebaseAuthManager.swift in Sources */,
 				F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */,
@@ -513,6 +522,8 @@
 				F05BC2C02CA6A79B00562C51 /* League.swift in Sources */,
 				F026938A2CBD298D009596CD /* AuthError.swift in Sources */,
 				F05BC2C72CA6B3C200562C51 /* EventRow.swift in Sources */,
+				F05CA82F2CEBFAD40080F2B7 /* InputField.swift in Sources */,
+				F05CA82D2CEBFA7E0080F2B7 /* LoginButton.swift in Sources */,
 				F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */,
 				F052E3012CEA336500769631 /* AnimatedText.swift in Sources */,
 				F052E3032CEA33B400769631 /* AutoScrollingBannerView.swift in Sources */,
@@ -521,6 +532,7 @@
 				F05BC2CD2CA7B1AB00562C51 /* OddsRow.swift in Sources */,
 				F00CB70E2C9CF74E003D70E3 /* LoginView.swift in Sources */,
 				F095C9092C8FB0DE002C94FD /* EventViewModel.swift in Sources */,
+				F05CA82B2CEBFA3E0080F2B7 /* SocialLoginButton.swift in Sources */,
 				F00CB7072C9CF484003D70E3 /* BetView.swift in Sources */,
 				F00CB7102C9CF7BD003D70E3 /* RegisterView.swift in Sources */,
 				F00CB7032C9CEF11003D70E3 /* ApiError.swift in Sources */,

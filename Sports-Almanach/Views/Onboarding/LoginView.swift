@@ -13,6 +13,8 @@ struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
+    @State private var animationOffset: CGFloat = 300
+    @State private var isPressed: Bool = false
     
     var body: some View {
         
@@ -24,92 +26,44 @@ struct LoginView: View {
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
                 
-                VStack {
-                    Text("Anmelden")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .foregroundColor(.white)
-                        .padding(.bottom, 64)
-                    
-                    // E-Mail
-                    ZStack(alignment: .leading) {
-                        if email.isEmpty {
-                            Text("Email eingeben ...")
-                                .foregroundColor(.white.opacity(0.8))
-                                .padding(.leading, 12)
+                VStack(spacing: 48) {
+                    Title(title: "Anmelden")
+                        .padding(.bottom, 62)
+                        .offset(y: animationOffset)
+                        .onAppear {
+                            withAnimation(.easeInOut(duration: 0.8)) {
+                                animationOffset = 0
+                            }
                         }
-                        TextField("", text: $email)
-                            .padding()
-                            .background(Color.gray.opacity(0.2))
-                            .foregroundColor(.white.opacity(0.8))
-                            .cornerRadius(10)
-                            .frame(width: 300, height: 50)
-                            .textInputAutocapitalization(.never)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.orange, lineWidth: 2)
-                            )
-                    }
-                    .padding(.bottom, 42)
                     
-                    // Passwort mit Sichtbarkeit Toggle
-                    HStack {
-                        ZStack(alignment: .leading) {
-                            if password.isEmpty {
-                                Text("Passwort")
-                                    .foregroundColor(.white.opacity(0.8))
-                                    .padding(.leading, 12)
-                            }
-                            if isPasswordVisible {
-                                TextField("", text: $password)
-                                    .padding()
-                                    .background(Color.gray.opacity(0.2))
-                                    .foregroundColor(.orange)
-                                    .cornerRadius(10)
-                                    .frame(width: 300, height: 50)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(Color.orange, lineWidth: 2)
-                                    )
-                            } else {
-                                SecureField("", text: $password)
-                                    .padding()
-                                    .background(Color.gray.opacity(0.2))
-                                    .foregroundColor(.orange)
-                                    .cornerRadius(10)
-                                    .frame(width: 300, height: 50)
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(Color.orange, lineWidth: 2)
-                                    )
-                            }
-                            
-                            // Passwort Sichtbar Button
-                            Button(action: {
-                                isPasswordVisible.toggle()
-                            }) {
-                                Image(systemName: isPasswordVisible ? "eye" : "eye.slash")
-                                    .foregroundColor(isPasswordVisible ? .green : .red)
-                            }
-                            .padding(.leading, 248)
-                        }
-                    }
-                    .padding(.bottom, 64)
+                    // Eingabe: Email und Passwort
+                    InputField(
+                        placeholder: "Email eingeben ...",
+                        isSecure: false,
+                        icon: "envelope",
+                        text: $email,
+                        isPasswordVisible: $isPasswordVisible
+                    )
+                    
+                    InputField(
+                        placeholder: "Passwort",
+                        isSecure: true,
+                        icon: "lock",
+                        text: $password,
+                        isPasswordVisible: $isPasswordVisible
+                    )
                     
                     // Login
-                    Button(action: {
+                    LoginButton(title: "LOGIN") {
+                        withAnimation(.spring()) {
+                            isPressed.toggle()
+                        }
                         attemptSignIn()
-                    }) {
-                        Text("LOGIN")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(width: 300, height: 50)
-                            .background(Color.orange.opacity(0.9))
-                            .cornerRadius(10)
                     }
-                    .padding(.bottom, 64)
+                    .scaleEffect(isPressed ? 0.8 : 1.0)
+                    .animation(.spring(response: 0.8), value: isPressed)
                     
-                    // Zur Registrierung
+                    // Registrierungshinweis
                     HStack {
                         Text("Noch keinen Account?")
                             .foregroundColor(.white)
@@ -120,32 +74,21 @@ struct LoginView: View {
                                 .underline()
                         }
                     }
-                    .padding(.bottom, 120)
+                    .padding(.bottom, 90)
                     
-                    HStack(spacing: 36) {
-                        Button(action: {
-                            // Platzhalter Logik
-                        }) {
-                            Text("Google")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(width: 140, height: 50)
-                                .background(Color.orange.opacity(0.9))
-                                .cornerRadius(10)
-                        }
+                    // Social Buttons
+                    HStack(spacing: 24) {
+                        SocialLoginButton(title: "Google", icon: "g.circle.fill", platform: .google, action: {
+                            /// Google Logic
+                        })
                         
-                        Button(action: {
-                            // Platzhalter Logik
-                        }) {
-                            Text("Facebook")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(width: 140, height: 50)
-                                .background(Color.orange.opacity(0.9))
-                                .cornerRadius(10)
-                        }
+                        SocialLoginButton(title: "Facebook", icon: "f.circle.fill", platform: .facebook, action: {
+                            /// Facebook Logic
+                        })
                     }
+                    .padding(.bottom, 32)
                 }
+                .offset(y: animationOffset)
             }
             .navigationBarBackButtonHidden(true)
             .alert(isPresented: $userViewModel.showError) {
@@ -153,18 +96,18 @@ struct LoginView: View {
                     title: Text("Fehler"),
                     message: Text(userViewModel.errorMessage ?? "Unbekannter Fehler"),
                     dismissButton: .default(Text("OK")) {
-                        // Reset der Eingabefelder
+                        // Reset
                         email = ""
                         password = ""
+                        isPressed = false
                     }
                 )
             }
         }
     }
     
-    // Funktion zum Anmelden des Benutzers
+    // Anmelden des Benutzers, Überprüfen der Eingaben
     private func attemptSignIn() {
-        // Überprüfen der Eingaben vor der Anmeldung
         if email.isEmpty || password.isEmpty {
             userViewModel.errorMessage = UserError.emailOrPasswordInvalid.errorDescriptionGerman
             userViewModel.showError = true
@@ -176,17 +119,17 @@ struct LoginView: View {
                 // Versuch, den Benutzer anzumelden
                 try await FirebaseAuthManager.shared.signIn(email: email, password: password)
             } catch let error as UserError {
-                // Spezifische Fehler
+                // Spezifische und Unbekannter Fehler
                 userViewModel.errorMessage = error.errorDescriptionGerman
                 userViewModel.showError = true
             } catch {
-                // Unbekannter Fehler
                 userViewModel.errorMessage = UserError.unknownError.errorDescriptionGerman
                 userViewModel.showError = true
             }
         }
     }
 }
+
 #Preview {
     LoginView()
         .environmentObject(UserViewModel())

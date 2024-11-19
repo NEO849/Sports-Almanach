@@ -15,7 +15,9 @@ struct SelectedEventsButton: View {
     var body: some View {
         Button(action: action) {
             /// A-Synchronér "call" nicht gleichzeitig möglich
-            Text(eventViewModel.selectedEvents.contains(event) ? "--->>   Zum Entfernen Swipe   <<---" : "--->>  Hinzufügen zu Wett-Events  <<---")
+            Text(eventViewModel.selectedEvents.contains(event)
+                 ? "--->>   Zum Entfernen Swipe   <<---"
+                 : "--->>  Hinzufügen zu Wett-Events  <<---")
                 .font(.subheadline)
                 .foregroundColor(eventViewModel.selectedEvents.contains(event) ? .green : .blue)
                 .padding(.vertical, 8)
