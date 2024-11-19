@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct LogoutButton: View {
+    @EnvironmentObject var userViewModel: UserViewModel
     @Binding var showLoginView: Bool
     
     var body: some View {
         HStack {
             Spacer()
             Button(action: {
+                userViewModel.logout()
                 showLoginView = true
             }) {
                 Image(systemName: "rectangle.portrait.and.arrow.right")
