@@ -44,7 +44,7 @@ struct RegisterView: View {
                     // Eingabefelder
                     Group {
                         InputField(
-                            placeholder: "Benutzername eingeben ...",
+                            placeholder: "Benutzername",
                             isSecure: false,
                             icon: "person",
                             text: $username,
@@ -52,7 +52,7 @@ struct RegisterView: View {
                         )
                         
                         InputField(
-                            placeholder: "Email eingeben ...",
+                            placeholder: "Email",
                             isSecure: false,
                             icon: "envelope",
                             text: $email,
@@ -60,7 +60,7 @@ struct RegisterView: View {
                         )
                         
                         InputField(
-                            placeholder: "Passwort eingeben ...",
+                            placeholder: "Passwort",
                             isSecure: true,
                             icon: "lock",
                             text: $password,
@@ -68,7 +68,7 @@ struct RegisterView: View {
                         )
                         
                         InputField(
-                            placeholder: "Passwort wiederholen ...",
+                            placeholder: "Passwort wiederholen",
                             isSecure: true,
                             icon: "lock",
                             text: $passwordRepeat,

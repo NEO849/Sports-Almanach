@@ -11,28 +11,34 @@ struct AnimatedText: View {
     @State private var textOffset: CGFloat = UIScreen.main.bounds.width
     
     var body: some View {
+        
         VStack(spacing: 20) {
-            Rectangle()
-                .fill(.gray)
-                .cornerRadius(10)
-                .padding(.horizontal, 10)
+            Text("Infos, Wetten, und vieles mehr... Viel Spaß!")
+                .font(.title3)
+                .foregroundColor(.white)
+                .multilineTextAlignment(.center)
+                .padding()
                 .frame(maxWidth: 340)
-                .overlay(
-                    Text("Infos, Wetten, und vieles mehr... Viel Spaß!")
-                        .font(.title3)
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                        .background(
-                            Color.black)
-                )
-                // Von Rechts nach Links
+                .background(
+                    Color.black)
+                .cornerRadius(10)
+                .shadow(color: .white, radius: 10, x: 3, y: -3)
                 .offset(x: textOffset)
                 .onAppear {
-                    withAnimation(.linear(duration: 5)) {
+                    withAnimation(.linear(duration: 4)) {
                         textOffset = 0
                     }
                 }
         }
+    }
+}
+
+#Preview {
+    ZStack {
+        Image("hintergrund")
+            .resizable()
+            .scaledToFill()
+            .edgesIgnoringSafeArea(.all)
+        AnimatedText()
     }
 }
