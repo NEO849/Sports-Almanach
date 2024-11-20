@@ -29,20 +29,23 @@ struct InputField: View {
             Group {
                 if isSecure && !isPasswordVisible {
                     SecureField("", text: $text)
+                        .textContentType(.password)
+                        .textContentType(.oneTimeCode)
+                        .autocorrectionDisabled(true)
                 } else {
                     TextField("", text: $text)
-                    
+                        .textContentType(.oneTimeCode)
+                        .autocorrectionDisabled(true)
                 }
             }
             .padding(.horizontal, 52)
             .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(isTextEntered ? Color.black.opacity(0.4) : Color.gray.opacity(0.2))
+                    .fill(isTextEntered ? .black.opacity(0.4) : .gray.opacity(0.2))
             )
             .foregroundColor(.white)
             .cornerRadius(10)
-            .textInputAutocapitalization(.never)
             
             // Icon für das Textfeld
             Image(systemName: icon)

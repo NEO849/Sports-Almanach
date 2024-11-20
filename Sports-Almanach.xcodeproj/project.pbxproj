@@ -43,8 +43,10 @@
 		F05BC2CD2CA7B1AB00562C51 /* OddsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */; };
 		F05BC2D22CA7EA7D00562C51 /* splashintro.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = F05BC2D12CA7EA7D00562C51 /* splashintro.mp4 */; };
 		F05CA82B2CEBFA3E0080F2B7 /* SocialLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA82A2CEBFA340080F2B7 /* SocialLoginButton.swift */; };
-		F05CA82D2CEBFA7E0080F2B7 /* LoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA82C2CEBFA740080F2B7 /* LoginButton.swift */; };
+		F05CA82D2CEBFA7E0080F2B7 /* LoginRegButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA82C2CEBFA740080F2B7 /* LoginRegButton.swift */; };
 		F05CA82F2CEBFAD40080F2B7 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA82E2CEBFACA0080F2B7 /* InputField.swift */; };
+		F05CA8312CECAB080080F2B7 /* BirthdayUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA8302CECAB040080F2B7 /* BirthdayUtils.swift */; };
+		F05CA8332CECB4DF0080F2B7 /* ValidationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA8322CECB4DC0080F2B7 /* ValidationUtils.swift */; };
 		F063893B2CB7F34600746C98 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = F063893A2CB7F34600746C98 /* FirebaseAnalytics */; };
 		F063893D2CB7F34600746C98 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = F063893C2CB7F34600746C98 /* FirebaseAnalyticsOnDeviceConversion */; };
 		F063893F2CB7F34600746C98 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = F063893E2CB7F34600746C98 /* FirebaseAnalyticsWithoutAdIdSupport */; };
@@ -89,7 +91,6 @@
 		F0A80FC72CD194CB00379EB8 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A80FC62CD194C700379EB8 /* WebView.swift */; };
 		F0BB2F8F2CB74BB00034DB67 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */; };
 		F0CC787E2CD9B02A009160D5 /* homeview.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = F0CC787D2CD9B02A009160D5 /* homeview.mp4 */; };
-		F0DFB6CD2CC005E400819342 /* BirthdayChecker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0DFB6CC2CC005DF00819342 /* BirthdayChecker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -130,8 +131,10 @@
 		F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsRow.swift; sourceTree = "<group>"; };
 		F05BC2D12CA7EA7D00562C51 /* splashintro.mp4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = splashintro.mp4; sourceTree = "<group>"; };
 		F05CA82A2CEBFA340080F2B7 /* SocialLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginButton.swift; sourceTree = "<group>"; };
-		F05CA82C2CEBFA740080F2B7 /* LoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginButton.swift; sourceTree = "<group>"; };
+		F05CA82C2CEBFA740080F2B7 /* LoginRegButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRegButton.swift; sourceTree = "<group>"; };
 		F05CA82E2CEBFACA0080F2B7 /* InputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
+		F05CA8302CECAB040080F2B7 /* BirthdayUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayUtils.swift; sourceTree = "<group>"; };
+		F05CA8322CECB4DC0080F2B7 /* ValidationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationUtils.swift; sourceTree = "<group>"; };
 		F06FE7F32CD83D5E00FB7CAC /* SelectedEventsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedEventsButton.swift; sourceTree = "<group>"; };
 		F081DC902CB549F500116E7B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F081DC932CB54CC500116E7B /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
@@ -146,7 +149,6 @@
 		F0A80FC62CD194C700379EB8 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		F0CC787D2CD9B02A009160D5 /* homeview.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = homeview.mp4; sourceTree = "<group>"; };
-		F0DFB6CC2CC005DF00819342 /* BirthdayChecker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayChecker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,7 +303,7 @@
 			isa = PBXGroup;
 			children = (
 				F05CA82E2CEBFACA0080F2B7 /* InputField.swift */,
-				F05CA82C2CEBFA740080F2B7 /* LoginButton.swift */,
+				F05CA82C2CEBFA740080F2B7 /* LoginRegButton.swift */,
 				F05CA82A2CEBFA340080F2B7 /* SocialLoginButton.swift */,
 				F052E2F82CEA318000769631 /* LogoutButton.swift */,
 				F06FE7F32CD83D5E00FB7CAC /* SelectedEventsButton.swift */,
@@ -378,7 +380,8 @@
 		F095C90C2C8FD5B5002C94FD /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				F0DFB6CC2CC005DF00819342 /* BirthdayChecker.swift */,
+				F05CA8322CECB4DC0080F2B7 /* ValidationUtils.swift */,
+				F05CA8302CECAB040080F2B7 /* BirthdayUtils.swift */,
 				F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */,
 				F052E2FC2CEA324500769631 /* DividerView.swift */,
 			);
@@ -523,7 +526,7 @@
 				F026938A2CBD298D009596CD /* AuthError.swift in Sources */,
 				F05BC2C72CA6B3C200562C51 /* EventRow.swift in Sources */,
 				F05CA82F2CEBFAD40080F2B7 /* InputField.swift in Sources */,
-				F05CA82D2CEBFA7E0080F2B7 /* LoginButton.swift in Sources */,
+				F05CA82D2CEBFA7E0080F2B7 /* LoginRegButton.swift in Sources */,
 				F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */,
 				F052E3012CEA336500769631 /* AnimatedText.swift in Sources */,
 				F052E3032CEA33B400769631 /* AutoScrollingBannerView.swift in Sources */,
@@ -531,6 +534,7 @@
 				F046287B2C88A757008FB346 /* ContentView.swift in Sources */,
 				F05BC2CD2CA7B1AB00562C51 /* OddsRow.swift in Sources */,
 				F00CB70E2C9CF74E003D70E3 /* LoginView.swift in Sources */,
+				F05CA8332CECB4DF0080F2B7 /* ValidationUtils.swift in Sources */,
 				F095C9092C8FB0DE002C94FD /* EventViewModel.swift in Sources */,
 				F05CA82B2CEBFA3E0080F2B7 /* SocialLoginButton.swift in Sources */,
 				F00CB7072C9CF484003D70E3 /* BetView.swift in Sources */,

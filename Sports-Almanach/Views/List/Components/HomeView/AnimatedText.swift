@@ -13,13 +13,8 @@ struct AnimatedText: View {
     var body: some View {
         VStack(spacing: 20) {
             Rectangle()
+                .fill(.gray)
                 .cornerRadius(10)
-                .background(
-                    Color.white
-                        .cornerRadius(10)
-                        .opacity(0.3)
-                        .shadow(color: .black.opacity(0.5), radius: 10, x: 3, y: 10)
-                )
                 .padding(.horizontal, 10)
                 .frame(maxWidth: 340)
                 .overlay(
@@ -30,8 +25,6 @@ struct AnimatedText: View {
                         .padding()
                         .background(
                             Color.black)
-                        .cornerRadius(10)
-                        .shadow(color: .white, radius: 10, x: 3, y: 10)
                 )
                 // Von Rechts nach Links
                 .offset(x: textOffset)

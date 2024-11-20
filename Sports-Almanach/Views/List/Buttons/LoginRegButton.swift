@@ -8,11 +8,21 @@
 import SwiftUI
 
 struct LoginRegButton: View {
+    
     let title: String
     let action: () -> Void
     
+    @State private var isPressed: Bool = false
+    
     var body: some View {
-        Button(action: action) {
+        
+        Button(action: {
+            action()
+            withAnimation(.spring()) {
+                isPressed.toggle()
+            }
+            isPressed = false
+        }) {
             Text(title)
                 .font(.headline)
                 .foregroundColor(.white)
@@ -26,6 +36,7 @@ struct LoginRegButton: View {
                 )
                 .cornerRadius(10)
                 .shadow(color: .orange, radius: 4, x: -2, y: -2)
+                .scaleEffect(isPressed ? 0.8 : 1.0)
         }
     }
 }
