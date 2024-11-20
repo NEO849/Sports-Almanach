@@ -38,7 +38,7 @@ struct LoginView: View {
                     
                     // Eingabe: Email und Passwort
                     InputField(
-                        placeholder: "Email eingeben ...",
+                        placeholder: "Email eingeben",
                         isSecure: false,
                         icon: "envelope",
                         text: $email,
@@ -54,20 +54,14 @@ struct LoginView: View {
                     )
                     
                     // Login
-                    LoginButton(title: "LOGIN") {
-                        withAnimation(.spring()) {
-                            isPressed.toggle()
-                        }
+                    LoginRegButton(title: "LOGIN") {
                         attemptSignIn()
                     }
-                    .scaleEffect(isPressed ? 0.8 : 1.0)
-                    .animation(.spring(response: 0.8), value: isPressed)
                     
                     // Registrierungshinweis
                     HStack {
                         Text("Noch keinen Account?")
                             .foregroundColor(.white)
-                        
                         NavigationLink(destination: RegisterView()) {
                             Text("Hier Registrieren!")
                                 .foregroundColor(.blue)
@@ -81,14 +75,12 @@ struct LoginView: View {
                         SocialLoginButton(title: "Google", icon: "g.circle.fill", platform: .google, action: {
                             /// Google Logic
                         })
-                        
                         SocialLoginButton(title: "Facebook", icon: "f.circle.fill", platform: .facebook, action: {
                             /// Facebook Logic
                         })
                     }
                     .padding(.bottom, 32)
                 }
-                .offset(y: animationOffset)
             }
             .navigationBarBackButtonHidden(true)
             .alert(isPresented: $userViewModel.showError) {
@@ -99,7 +91,6 @@ struct LoginView: View {
                         // Reset
                         email = ""
                         password = ""
-                        isPressed = false
                     }
                 )
             }
