@@ -81,7 +81,7 @@ struct RegisterView: View {
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Mindestalter 18 Jahre")
                             .font(.footnote)
-                            .foregroundColor(.blue.opacity(0.8))
+                            .foregroundColor(.blue)
                         
                         ZStack {
                             HStack {
