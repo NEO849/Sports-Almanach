@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LoginButton: View {
+struct LoginRegButton: View {
     let title: String
     let action: () -> Void
     
