@@ -52,10 +52,13 @@ struct LoginView: View {
                         text: $password,
                         isPasswordVisible: $isPasswordVisible
                     )
+                    .padding(.bottom, 36)
                     
                     // Login
                     LoginRegButton(title: "LOGIN") {
-                        attemptSignIn()
+                        Task {
+                            await userViewModel.login(email: email, password: password)
+                        }
                     }
                     
                     // Registrierungshinweis
@@ -68,10 +71,10 @@ struct LoginView: View {
                                 .underline()
                         }
                     }
-                    .padding(.bottom, 90)
+                    .padding(.bottom, 80)
                     
                     // Social Buttons
-                    HStack(spacing: 24) {
+                    HStack(spacing: 34) {
                         SocialLoginButton(title: "Google", icon: "g.circle.fill", platform: .google, action: {
                             /// Google Logic
                         })
@@ -88,34 +91,10 @@ struct LoginView: View {
                     title: Text("Fehler"),
                     message: Text(userViewModel.errorMessage ?? "Unbekannter Fehler"),
                     dismissButton: .default(Text("OK")) {
-                        // Reset
-                        email = ""
+                        // Reset nur Passwort
                         password = ""
                     }
                 )
-            }
-        }
-    }
-    
-    // Anmelden des Benutzers, Überprüfen der Eingaben
-    private func attemptSignIn() {
-        if email.isEmpty || password.isEmpty {
-            userViewModel.errorMessage = UserError.emailOrPasswordInvalid.errorDescriptionGerman
-            userViewModel.showError = true
-            return
-        }
-        
-        Task {
-            do {
-                // Versuch, den Benutzer anzumelden
-                try await FirebaseAuthManager.shared.signIn(email: email, password: password)
-            } catch let error as UserError {
-                // Spezifische und Unbekannter Fehler
-                userViewModel.errorMessage = error.errorDescriptionGerman
-                userViewModel.showError = true
-            } catch {
-                userViewModel.errorMessage = UserError.unknownError.errorDescriptionGerman
-                userViewModel.showError = true
             }
         }
     }
@@ -124,4 +103,5 @@ struct LoginView: View {
 #Preview {
     LoginView()
         .environmentObject(UserViewModel())
+        .border(.red)
 }
