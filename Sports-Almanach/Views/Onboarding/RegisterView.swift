@@ -136,6 +136,7 @@ struct RegisterView: View {
     // Registrierung starten
     func attemptSignUp() {
         Task {
+            userViewModel.errorMessages = []
             await userViewModel.register(username: username, email: email, password: password, passwordRepeat: passwordRepeat, birthday: birthday)
             
             if userViewModel.errorMessages.isEmpty {
