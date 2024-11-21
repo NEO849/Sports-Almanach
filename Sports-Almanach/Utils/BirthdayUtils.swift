@@ -68,7 +68,7 @@ struct BirthdayUtils {
         
         Timer.scheduledTimer(withTimeInterval: nextCheckTime.timeIntervalSince(now), repeats: true) { _ in
             Task { @MainActor in
-                viewModel.checkUserBirthday()
+                viewModel.updateMoneyUserBirthday()
             }
         }
     }
