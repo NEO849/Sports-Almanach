@@ -39,11 +39,27 @@ struct SocialLoginButton: View {
                 LinearGradient(gradient: Self.gradientColors[platform]!, startPoint: .top, endPoint: .bottom)
             )
             .cornerRadius(10)
-            .shadow(color: .gray.opacity(0.7), radius: 5)
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .stroke(Color.orange, lineWidth: 1)
+                    .stroke(.orange, lineWidth: 1)
             )
         }
+    }
+}
+
+#Preview {
+    ZStack {
+        Image("hintergrund")
+            .resizable()
+            .scaledToFill()
+            .edgesIgnoringSafeArea(.all)
+        
+        SocialLoginButton(title: "Google",
+                          icon: "g.circle.fill",
+                          platform: .google,
+                          action: {
+            print("Google Login Button tapped")
+        }
+        )
     }
 }

@@ -40,3 +40,16 @@ struct LoginRegButton: View {
         }
     }
 }
+
+#Preview {
+    ZStack {
+        Image("hintergrund")
+            .resizable()
+            .scaledToFill()
+            .edgesIgnoringSafeArea(.all)
+        
+        LoginRegButton(title: "Login") {
+            print("Button gedrückt")
+        }
+    }
+}

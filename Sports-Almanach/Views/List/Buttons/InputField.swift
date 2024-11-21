@@ -74,3 +74,25 @@ struct InputField: View {
         )
     }
 }
+
+#Preview {
+    @Previewable @State var password: String = ""
+    @Previewable @State var isPasswordVisible: Bool = false
+    
+    ZStack {
+        Image("hintergrund")
+            .resizable()
+            .scaledToFill()
+            .edgesIgnoringSafeArea(.all)
+
+        InputField(
+            placeholder: "Passwort eingeben",
+            isSecure: true,
+            icon: "lock",
+            text: $password,
+            isPasswordVisible: $isPasswordVisible
+        )
+        .padding()
+        .border(.red, width: 1)
+    }
+}
