@@ -24,11 +24,40 @@ class UserViewModel: ObservableObject {
     @Published var userProfile: Profile?
     
     init() {
-        // Tägliche Überprüfung des Geburtstags planen
+        /// Tägliche Überprüfung des Geburtstags planen
         BirthdayUtils.dailyBirthdayCheck(for: self)
     }
     
-    // Authentifizierung - Registrierung
+    // MARK: -
+    func login(email: String, password: String) async {
+        guard !email.isEmpty || !password.isEmpty else {
+            self.errorMessage = UserError.userInputIsEmpty.errorDescriptionGerman
+            self.showError = true
+            return
+        }
+        
+        do {
+            try await FirebaseAuthManager.shared.signIn(email: email, password: password)
+            isLoggedIn = true
+            await loadUserProfile()
+        } catch {
+            self.errorMessage = UserError.emailOrPasswordInvalid.errorDescriptionGerman
+            self.showError = true
+        }
+    }
+    
+    // MARK: -
+    func emailAlreadyExists(email: String) async -> Bool {
+        let datab = Firestore.firestore()
+        let snapshot = try? await datab.collection("Profile").whereField("email", isEqualTo: email).getDocuments()
+        
+        if let snapshot = snapshot, !snapshot.isEmpty {
+            return true
+        }
+        return false
+    }
+    
+    // MARK: - Registrierung, Eingabevalidierungen und Firebase-Überprüfung auf Duplikate
     func register(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) async {
         errorMessages = ValidationUtils.validateRegistrationInputs(username: username, email: email, password: password, passwordRepeat: passwordRepeat, birthday: birthday)
         
@@ -36,8 +65,15 @@ class UserViewModel: ObservableObject {
             return
         }
         
-        // Registrierung versuchen
+        // Überprüfen, ob die E-Mail bereits existiert
+        let emailExists = await emailAlreadyExists(email: email)
+        if emailExists {
+            errorMessages.append(.emailAlreadyExists)
+            return
+        }
+        
         do {
+            // Firebase Anmeldung
             try await FirebaseAuthManager.shared.signUp(email: email, password: password)
             let datab = Firestore.firestore()
             let newProfile = Profile(id: UUID(), name: username, startMoney: startMoney, birthday: birthday, balance: startMoney)
@@ -52,29 +88,17 @@ class UserViewModel: ObservableObject {
             try datab.collection("Profile").document(userId).setData(from: newProfile)
             isRegistered = true
         } catch {
-            errorMessage = error.localizedDescription
-            errorMessages.append(.emailOrPasswordInvalid)
+            print("Auth-Fehler: Beim Registrieren ist ein Fehler aufgetreten")
         }
     }
     
-    // Anmeldung
-    func login(email: String, password: String) async {
-        do {
-            try await FirebaseAuthManager.shared.signIn(email: email, password: password)
-            isLoggedIn = true
-            await loadUserProfile()
-        } catch {
-            errorMessage = UserError.emailOrPasswordInvalid.errorDescription
-        }
-    }
-    
-    // Logout
+    // MARK: -
     func logout() {
         FirebaseAuthManager.shared.signOut()
         isLoggedIn = false
     }
     
-    // Profil laden
+    // MARK:
     func loadUserProfile() async {
         guard let userId = FirebaseAuthManager.shared.userID else { return }
         let datab = Firestore.firestore()
@@ -92,7 +116,7 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    // Profil aktualisieren
+    // MARK: -
     func updateProfile(newBalance: Double) {
         guard let userId = FirebaseAuthManager.shared.userID else { return }
         let dataB = Firestore.firestore()
@@ -106,7 +130,8 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    func checkUserBirthday() {
+    // MARK: - Bei Geburtstag Bonus auszahlen, Reseten, Updaten
+    func updateMoneyUserBirthday() {
         guard let userId = FirebaseAuthManager.shared.userID, let birthday = userBirthday else {
             print("Fehler: Benutzer-ID oder Geburtstag fehlt.")
             return

@@ -18,11 +18,11 @@ struct ValidationUtils {
     ) -> [UserError] {
         var errors: [UserError] = []
         
-        if username.isEmpty {
-            errors.append(UserError.usernameEmpty)
+        if username.isEmpty || email.isEmpty || password.isEmpty || passwordRepeat.isEmpty {
+            errors.append(UserError.userInputIsEmpty)
         }
         
-        if username.containsWhitespace {
+        if password.containsWhitespace {
             errors.append(UserError.noSpace)
         }
         
@@ -46,7 +46,7 @@ struct ValidationUtils {
     }
 }
 
-// MARK:  - Gute Wart-und Wiederverwendeberkeit
+// MARK: -
 extension String {
     var containsWhitespace: Bool {
         return self.contains(" ")
