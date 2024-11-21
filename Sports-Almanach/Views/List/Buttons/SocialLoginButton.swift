@@ -28,13 +28,13 @@ struct SocialLoginButton: View {
             HStack(spacing: 16) {
                 Image(systemName: icon)
                     .foregroundColor(.white)
-                    .font(.title2) 
+                    .font(.title)
                 Text(title)
-                    .font(.subheadline)
+                    .font(.headline)
                     .foregroundColor(.white)
             }
-            .frame(width: 94, height: 56)
-            .padding(.horizontal, 22)
+            .frame(width: 120, height: 56)
+            .padding(.horizontal, 16)
             .background(
                 LinearGradient(gradient: Self.gradientColors[platform]!, startPoint: .top, endPoint: .bottom)
             )

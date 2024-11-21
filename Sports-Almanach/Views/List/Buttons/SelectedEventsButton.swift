@@ -20,13 +20,24 @@ struct SelectedEventsButton: View {
                  : "--->>  Hinzufügen zu Wett-Events  <<---")
                 .font(.subheadline)
                 .foregroundColor(eventViewModel.selectedEvents.contains(event) ? .green : .blue)
-                .padding(.vertical, 8)
+                .padding(.vertical, 12)
                 .frame(maxWidth: .infinity)
                 .background(
                     RoundedRectangle(cornerRadius: 10)
-                        .stroke(Color.orange, lineWidth: 1)
+                        .stroke(.orange, lineWidth: 1)
                 )
         }
-        .buttonStyle(.borderless)
+    }
+}
+
+#Preview {
+    
+    let action: () -> Void = {
+        print("Button wurde gedrückt")
+    }
+    ZStack {
+        Image("hintergrund")
+        SelectedEventsButton(action: action, eventViewModel: EventViewModel(), event: MockEvents.events.first!)
+            .cornerRadius(10)
     }
 }
