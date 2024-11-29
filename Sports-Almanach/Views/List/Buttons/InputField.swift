@@ -38,7 +38,6 @@ struct InputField: View {
                         .autocorrectionDisabled(true)
                 }
             }
-            .padding(.horizontal, 52)
             .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 10)
