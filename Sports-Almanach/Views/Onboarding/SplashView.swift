@@ -20,7 +20,7 @@ struct SplashView: View {
             ZStack {
                 // Überprüft ob die Video-URL existiert
                 if let videoURL = Bundle.main.url(forResource: "splashintro", withExtension: "mp4") {
-                    // VP mit AVPlayer initial. und Starten
+                    // AVPlayer initial. und Starten
                     VideoPlayer(player: player ?? AVPlayer(url: videoURL))
                         .onAppear {
                             player = AVPlayer(url: videoURL)
