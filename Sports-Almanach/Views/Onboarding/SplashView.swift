@@ -11,7 +11,7 @@ import AVKit
 struct SplashView: View {
     
     @State private var showLoginView = false
-    @State private var player: AVPlayer? // Für AVPlayer
+    @State private var player: AVPlayer?
     
     var body: some View {
         
