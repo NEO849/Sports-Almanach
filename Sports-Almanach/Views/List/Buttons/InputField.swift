@@ -14,57 +14,62 @@ struct InputField: View {
     @Binding var text: String
     @Binding var isPasswordVisible: Bool
     @State private var isTextEntered = false
+    @FocusState private var isFocused: Bool
     
     var body: some View {
         
         ZStack(alignment: .leading) {
-            // Platzhaltertext
-            if text.isEmpty {
+            // Placeholder
+            if text.trimmingCharacters(in: .whitespaces).isEmpty {
                 Text(placeholder)
-                    .foregroundColor(isTextEntered ? .white : .white.opacity(0.8)) // Dynamische Farbe
+                    .foregroundColor(.white.opacity(0.8))
                     .padding(.leading, 52)
             }
             
-            // Textfeld oder SecureField
-            Group {
-                if isSecure && !isPasswordVisible {
-                    SecureField("", text: $text)
-                        .textContentType(.password)
-                        .textContentType(.oneTimeCode)
-                        .autocorrectionDisabled(true)
-                } else {
-                    TextField("", text: $text)
-                        .textContentType(.oneTimeCode)
-                        .autocorrectionDisabled(true)
+            HStack(spacing: 12) {
+                // Icon for Textfield
+                Image(systemName: icon)
+                    .foregroundColor(isFocused || !text.isEmpty ? .white : .white.opacity(0.8))
+                                     .frame(width: 24, height: 24)
+                
+                // Textfield or Securefield
+                Group {
+                    if isSecure && !isPasswordVisible {
+                        SecureField("", text: $text)
+                            .textContentType(.password)
+                            .autocorrectionDisabled(true)
+                            .focused($isFocused)
+                    } else {
+                        TextField("", text: $text)
+                            .textContentType(placeholder.lowercased().contains("email") ? .emailAddress : .oneTimeCode)
+                            .autocapitalization(.none)
+                            .autocorrectionDisabled(true)
+                            .focused($isFocused)
+                    }
+                }
+                
+                // Eye Icon for Passwordvisibility
+                if isSecure {
+                    Spacer()
+                    Button(action: {
+                        withAnimation(.easeInOut(duration: 0.4)) {
+                            isPasswordVisible.toggle()
+                        }
+                    }) {
+                        Image(systemName: isPasswordVisible ? "eye" : "eye.slash")
+                            .foregroundColor(isPasswordVisible ? .green : .red)
+                            .frame(width: 24, height: 24)
+                    }
                 }
             }
+            .padding(.horizontal, 12)
             .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                    .fill(isTextEntered ? .black.opacity(0.4) : .gray.opacity(0.2))
-            )
+                         .fill(isFocused || !text.isEmpty ? .black.opacity(0.4) : .gray.opacity(0.2))
+                 )
             .foregroundColor(.white)
             .cornerRadius(10)
-            
-            // Icon für das Textfeld
-            Image(systemName: icon)
-                .foregroundColor(isTextEntered ? .white : .white.opacity(0.8))
-                .frame(width: 24, height: 24)
-                .padding(.leading, 12)
-            
-            // Augen-Icon für Passwortsichtbarkeit
-            if isSecure {
-                Button(action: {
-                    withAnimation(.easeInOut(duration: 0.4)) {
-                        isPasswordVisible.toggle()
-                    }
-                }) {
-                    Image(systemName: isPasswordVisible ? "eye" : "eye.slash")
-                        .foregroundColor(isPasswordVisible ? .green : .red)
-                        .frame(width: 24, height: 24)
-                }
-                .padding(.leading, 256)
-            }
         }
         .frame(width: 300, height: 50)
         .overlay(
@@ -83,7 +88,7 @@ struct InputField: View {
             .resizable()
             .scaledToFill()
             .edgesIgnoringSafeArea(.all)
-
+        
         InputField(
             placeholder: "Passwort eingeben",
             isSecure: true,
