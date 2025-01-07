@@ -30,7 +30,7 @@ struct RegisterView: View {
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
                 
-                ScrollView(showsIndicators: false)  {
+                ScrollView(showsIndicators: false) {
                     VStack(spacing: 24) {
                         Title(title: "Registrieren")
                             .padding(.bottom, 40)
@@ -152,5 +152,4 @@ struct RegisterView: View {
 #Preview {
     RegisterView()
         .environmentObject(UserViewModel())
-        .border(.red)
 }

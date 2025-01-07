@@ -77,10 +77,11 @@ struct LoginView: View {
                         // Social Buttons
                         HStack(spacing: 34) {
                             SocialLoginButton(title: "Google", icon: "g.circle.fill", platform: .google) {
-                                // TODO: Implement Google Logic
+                                // Implement Google Logic
+                
                             }
                             SocialLoginButton(title: "Facebook", icon: "f.circle.fill", platform: .facebook) {
-                                // TODO: Implement Facebook Logic
+                                // Implement Facebook Logic
                             }
                         }
                         .padding(.bottom, 32)
