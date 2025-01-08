@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct RegisterView: View {
-    /// Bugs, erstes Secure Feld-Begrenzung, autofill, emailtype setzen -> SECURE PUSH
     @EnvironmentObject var userViewModel: UserViewModel
     @State private var username: String = ""
     @State private var email: String = ""

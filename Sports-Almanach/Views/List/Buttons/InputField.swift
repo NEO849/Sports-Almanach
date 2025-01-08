@@ -7,17 +7,17 @@
 
 import SwiftUI
 
+/// The reusable component adapts its appearance and behavior based on the provided properties.
+/// Parent-view controlled and local focus for UI effects.
 struct InputField: View {
     let placeholder: String
     let isSecure: Bool
     let icon: String
     @Binding var text: String
     @Binding var isPasswordVisible: Bool
-    @State private var isTextEntered = false
     @FocusState private var isFocused: Bool
     
     var body: some View {
-        
         ZStack(alignment: .leading) {
             // Placeholder
             if text.trimmingCharacters(in: .whitespaces).isEmpty {
@@ -30,18 +30,16 @@ struct InputField: View {
                 // Icon for Textfield
                 Image(systemName: icon)
                     .foregroundColor(isFocused || !text.isEmpty ? .white : .white.opacity(0.8))
-                                     .frame(width: 24, height: 24)
+                    .frame(width: 24, height: 24)
                 
                 // Textfield or Securefield
                 Group {
                     if isSecure && !isPasswordVisible {
                         SecureField("", text: $text)
-                            .textContentType(.password)
                             .autocorrectionDisabled(true)
                             .focused($isFocused)
                     } else {
                         TextField("", text: $text)
-                            .textContentType(placeholder.lowercased().contains("email") ? .emailAddress : .oneTimeCode)
                             .autocapitalization(.none)
                             .autocorrectionDisabled(true)
                             .focused($isFocused)
@@ -66,8 +64,8 @@ struct InputField: View {
             .padding(.vertical, 12)
             .background(
                 RoundedRectangle(cornerRadius: 10)
-                         .fill(isFocused || !text.isEmpty ? .black.opacity(0.4) : .gray.opacity(0.2))
-                 )
+                    .fill(isFocused || !text.isEmpty ? .black.opacity(0.4) : .gray.opacity(0.2))
+            )
             .foregroundColor(.white)
             .cornerRadius(10)
         }
