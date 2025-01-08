@@ -9,7 +9,7 @@ import Foundation
 import FirebaseAuth
 import Observation
 
-/// Verwaltet die Firebase-Authentifizierung
+/// Manages Firebase Authentication operations and user state
 @Observable
 class FirebaseAuthManager {
     
@@ -20,6 +20,20 @@ class FirebaseAuthManager {
     }
     var userID: String? {
         user?.uid
+    }
+    
+    // Firebase Auth instance
+    private let auth = Auth.auth()
+    private init() {
+        checkAuth()
+    }
+    
+    private func checkAuth() {
+        guard let currentUser = auth.currentUser else {
+            print("Firebase: Not logged in")
+            return
+        }
+        self.user = currentUser
     }
     
     // Registrieren, An,-Abmelden
@@ -47,20 +61,4 @@ class FirebaseAuthManager {
             print("Firebase: Sign out failed.")
         }
     }
-    
-    // Erstellen einer Instanz nur von Innerhalb
-    private init() {
-        checkAuth()
-    }
-    
-    private func checkAuth() {
-        guard let currentUser = auth.currentUser else {
-            print("Firebase: Not logged in")
-            return
-        }
-        self.user = currentUser
-    }
-    
-    // FS- Authentifizierungsinstanz
-    private let auth = Auth.auth()
 }

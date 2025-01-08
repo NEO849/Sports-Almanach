@@ -10,6 +10,7 @@ import Foundation
 struct Profile: Identifiable, Codable {
     let id: UUID
     let name: String
+    let email: String
     let startMoney: Double
     let birthday: Date
     var balance: Double
