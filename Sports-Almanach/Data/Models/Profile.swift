@@ -7,12 +7,28 @@
 
 import Foundation
 
+/// Modell für das Benutzerprofil
 struct Profile: Identifiable, Codable {
-    let id: UUID
+    let id: String
     let name: String
     let email: String
-    let startMoney: Double
     let birthday: Date
+    let startMoney: Double
     var balance: Double
-    var selectedEvents: [Event] = []
-}
+    var selectedEventIds: [String] = []
+    
+    /// Standartwert für ID (UUID als String konventieren), ID von aussen
+     init(id: String = UUID().uuidString,
+          name: String,
+          email: String,
+          birthday: Date,
+          startMoney: Double,
+          balance: Double) {
+         self.id = id
+         self.name = name
+         self.email = email
+         self.birthday = birthday
+         self.startMoney = startMoney
+         self.balance = balance
+     }
+ }
