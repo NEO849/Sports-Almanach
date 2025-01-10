@@ -15,7 +15,7 @@ class UserViewModel: ObservableObject {
     
     @Published var showError: Bool = false
     @Published var errorMessage: String?  // Login-Fehler
-    @Published var errorMessages: [UserError] = []  // Registrierungs-Fehler
+    @Published var errorMessages: [UserError] = [] // Register-Fehler
     @Published var isLoggedIn: Bool = false
     @Published var isRegistered: Bool = false
     @Published var startMoney: Double = 1000.00
@@ -23,19 +23,21 @@ class UserViewModel: ObservableObject {
     @Published var userBirthday: Timestamp?
     @Published var userProfile: Profile?
     
+    // FirestoreRepository
+    private let fsRepository = FirestoreRepository()
+    
     init() {
         /// Tägliche Überprüfung des Geburtstags planen
         BirthdayUtils.dailyBirthdayCheck(for: self)
     }
     
-    // MARK: -
+    // MARK: - Login Function
     func login(email: String, password: String) async {
         guard !email.isEmpty || !password.isEmpty else {
             self.errorMessage = UserError.userInputIsEmpty.errorDescriptionGerman
             self.showError = true
             return
         }
-        
         do {
             try await FirebaseAuthManager.shared.signIn(email: email, password: password)
             isLoggedIn = true
@@ -46,24 +48,15 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    // MARK: -
-    func emailAlreadyExists(email: String) async -> Bool {
-        let datab = Firestore.firestore()
-        let snapshot = try? await datab.collection("Profile").whereField("email", isEqualTo: email).getDocuments()
-        
-        if let snapshot = snapshot, !snapshot.isEmpty {
-            return true
-        }
-        return false
-    }
-    
-    // MARK: - Registrierung, Eingabevalidierungen und Firebase-Überprüfung auf Duplikate
-    func register(username: String, email: String, password: String, passwordRepeat: String, birthday: Date) async {
+    // MARK: - Registration
+    func register(
+        username: String,
+        email: String, password: String,
+        passwordRepeat: String,
+        birthday: Date) async {
         errorMessages = ValidationUtils.validateRegistrationInputs(username: username, email: email, password: password, passwordRepeat: passwordRepeat, birthday: birthday)
         
-        guard errorMessages.isEmpty else {
-            return
-        }
+        guard errorMessages.isEmpty else { return }
         
         // Überprüfen, ob die E-Mail bereits existiert
         let emailExists = await emailAlreadyExists(email: email)
@@ -71,43 +64,45 @@ class UserViewModel: ObservableObject {
             errorMessages.append(.emailAlreadyExists)
             return
         }
-        
         do {
             // Firebase Anmeldung
             try await FirebaseAuthManager.shared.signUp(email: email, password: password)
-            let datab = Firestore.firestore()
-            let newProfile = Profile(id: UUID(), name: username, startMoney: startMoney, birthday: birthday, balance: startMoney)
             
-            // Benutzer-ID holen
             guard let userId = FirebaseAuthManager.shared.userID else {
                 print("Auth-Fehler: Keine gültige userId")
                 return
             }
             
-            // Profil in Firestore speichern
-            try datab.collection("Profile").document(userId).setData(from: newProfile)
+            let newProfile = Profile(
+                id: UUID().uuidString,
+                name: username,
+                email: email,
+                birthday: birthday,
+                startMoney: startMoney,
+                balance: startMoney
+            )
+            
+            try await fsRepository.saveProfile(newProfile, userId: userId)
             isRegistered = true
         } catch {
             print("Auth-Fehler: Beim Registrieren ist ein Fehler aufgetreten")
         }
     }
     
-    // MARK: -
+    // MARK: - Logout Function
     func logout() {
         FirebaseAuthManager.shared.signOut()
         isLoggedIn = false
     }
     
-    // MARK:
+    // MARK: - Load Profile
     func loadUserProfile() async {
         guard let userId = FirebaseAuthManager.shared.userID else { return }
-        let datab = Firestore.firestore()
         
         do {
-            let document = try await datab.collection("Profile").document(userId).getDocument()
-            if document.exists {
-                self.userProfile = try document.data(as: Profile.self)
-                self.balance = self.userProfile?.balance ?? 0.0
+            if let profile = try await fsRepository.loadProfile(userId: userId) {
+                self.userProfile = profile
+                self.balance = profile.balance
             } else {
                 print("Fehler beim Laden des Profils")
             }
@@ -116,21 +111,33 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    // MARK: -
+    // MARK: - Email Check
+    func emailAlreadyExists(email: String) async -> Bool {
+        do {
+            return try await fsRepository.emailExists(email)
+        } catch {
+            print("Fehler beim Überprüfen der Email: \(error)")
+            return false
+        }
+    }
+    
+    // MARK: - Update Profile
     func updateProfile(newBalance: Double) {
         guard let userId = FirebaseAuthManager.shared.userID else { return }
-        let dataB = Firestore.firestore()
-        let profileData: [String: Any] = ["balance": newBalance]
-        dataB.collection("Profile").document(userId).updateData(profileData) { error in
-            if let error = error {
+        
+        Task {
+            do {
+                try await fsRepository.updateBalance(userId: userId, newBalance: newBalance)
+                await MainActor.run {
+                    self.balance = newBalance
+                }
+            } catch {
                 print("Fehler beim Aktualisieren des Kontostands: \(error)")
-            } else {
-                self.balance = newBalance
             }
         }
     }
     
-    // MARK: - Bei Geburtstag Bonus auszahlen, Reseten, Updaten
+    // Birthday related functions remain the same
     func updateMoneyUserBirthday() {
         guard let userId = FirebaseAuthManager.shared.userID, let birthday = userBirthday else {
             print("Fehler: Benutzer-ID oder Geburtstag fehlt.")
@@ -139,7 +146,7 @@ class UserViewModel: ObservableObject {
         BirthdayUtils.checkBirthday(userId: userId, birthday: birthday)
     }
     
-    // Kontostand zurücksetzen, wenn er negativ ist
+    // Balance related functions remain the same
     func resetBalance() {
         if balance == 0 {
             self.balance = startMoney
@@ -147,7 +154,6 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    // Kontostand aktualisieren
     func updateBalance(newBalanceAfterBet: Double) {
         self.balance = newBalanceAfterBet
         resetBalance()
