@@ -122,32 +122,42 @@ struct RegisterView: View {
                 .scrollDismissesKeyboard(.immediately)
                 .ignoresSafeArea(.keyboard)
                 .navigationBarBackButtonHidden(true)
+                // Alert mit AuthState
                 .alert("Fehler", isPresented: $showErrorAlert) {
                     Button("OK", role: .cancel) { }
                 } message: {
-                    ForEach(userViewModel.errorMessages, id: \.self) { error in
-                        Text(error.errorDescriptionGerman ?? "Unbekannter Fehler")
+                    ForEach(userViewModel.authState.errorMessages, id: \.self) { error in
+                        Text(error.errorDescriptionGerman ?? "")
                     }
                 }
             }
         }
     }
     
-    // Registrierung starten
-    func attemptSignUp() {
+    // MARK: - Helper Methods
+    private func attemptSignUp() {
         Task {
-            userViewModel.errorMessages = []
-            await userViewModel.register(username: username, email: email, password: password, passwordRepeat: passwordRepeat, birthday: birthday)
+            await userViewModel.register(
+                username: username,
+                email: email,
+                password: password,
+                passwordRepeat: passwordRepeat,
+                birthday: birthday
+            )
             
-            if userViewModel.errorMessages.isEmpty {
-                navigateToContentView = true
-            } else {
-                showErrorAlert = true
+            // Update UI auf dem Main Actor
+            await MainActor.run {
+                if userViewModel.authState.errorMessages.isEmpty {
+                    // Navigation zur HomeView nach erfolgreicher Registrierung
+                    navigateToContentView = true
+                } else {
+                    showErrorAlert = true
+                }
             }
         }
     }
 }
-
+    
 #Preview {
     RegisterView()
         .environmentObject(UserViewModel())

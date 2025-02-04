@@ -15,4 +15,26 @@ struct Bet: Identifiable, Decodable, Equatable {
     let amount: Double
     var winAmount: Double?
     let timestamp: Date
+    
+    // Property für Wettschein-Nummer
+    let betSlipNumber: Int
+    
+    // Custom init
+    init(id: UUID = UUID(),
+         event: Event,
+         outcome: BetOutcome,
+         odds: Double,
+         amount: Double,
+         winAmount: Double? = nil,
+         timestamp: Date = Date(),
+         betSlipNumber: Int) {
+        self.id = id
+        self.event = event
+        self.outcome = outcome
+        self.odds = odds
+        self.amount = amount
+        self.winAmount = winAmount
+        self.timestamp = timestamp
+        self.betSlipNumber = betSlipNumber
+    }
 }

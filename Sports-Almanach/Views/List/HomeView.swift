@@ -57,7 +57,8 @@ struct HomeView: View {
                         .padding(.bottom, 60)
                 }
                 .navigationBarBackButtonHidden(true)
-                .onChange(of: userViewModel.isLoggedIn) { _, newValue in
+                // Beobachtet den AuthState
+                .onChange(of: userViewModel.authState.isLoggedIn) { _, newValue in
                     if !newValue {
                         navigateToLogin = true
                     }

@@ -27,13 +27,12 @@ struct BetView: View {
             
             VStack {
                 HStack(alignment: .center) {
-                    Text("Kontostand: \(userViewModel.balance, specifier: "%.2f") €")
+                    Text("Kontostand: \(userViewModel.userState.balance, specifier: "%.2f") €")
                         .font(.title3)
                         .foregroundColor(.white)
                         .padding(.leading, 8)
-                        .onReceive(userViewModel.$balance) { _ in
-                            // Evtl Später Animation
-                        }
+                        .animation(.easeInOut, value: userViewModel.userState.balance)
+
                     Spacer()
                     
                     Button("Wettschein") {

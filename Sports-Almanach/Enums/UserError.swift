@@ -18,6 +18,7 @@ enum UserError: Error, LocalizedError {
     case passwordMismatch
     case tooYoung
     case unknownError
+    case userNotFound
 
     /// Durch Switch-Case, Fehlermeldung in Deutsch, ohne den rawValue und einfacher Erweiterbarkeit
     var errorDescriptionGerman: String? {
@@ -40,6 +41,8 @@ enum UserError: Error, LocalizedError {
             return "Mindestalter 18 Jahre!"
         case .unknownError:
             return "Unbekannter Fehler."
+        case .userNotFound:
+              return "Benutzer wurde nicht gefunden."
         }
     }
 }

@@ -13,38 +13,33 @@ import SwiftUI
 @MainActor
 class UserViewModel: ObservableObject {
     
-    @Published var showError: Bool = false
-    @Published var errorMessage: String?  // Login-Fehler
-    @Published var errorMessages: [UserError] = [] // Register-Fehler
-    @Published var isLoggedIn: Bool = false
-    @Published var isRegistered: Bool = false
-    @Published var startMoney: Double = 1000.00
-    @Published var balance: Double = 1000.00
-    @Published var userBirthday: Timestamp?
-    @Published var userProfile: Profile?
+    @Published private(set) var authState = AuthState()
+    @Published private(set) var userState = UserState()
     
     // FirestoreRepository
-    private let fsRepository = FirestoreRepository()
+    private let fsRepository: FirestoreRepository
+    // Auth State Listener Handle für Cleanup
+    private var authStateHandle: AuthStateDidChangeListenerHandle?
     
-    init() {
+    
+    init(repository: FirestoreRepository = FirestoreRepository()) {
+        self.fsRepository = repository
         /// Tägliche Überprüfung des Geburtstags planen
         BirthdayUtils.dailyBirthdayCheck(for: self)
+        setupAuthStateListener()
     }
     
     // MARK: - Login Function
     func login(email: String, password: String) async {
-        guard !email.isEmpty || !password.isEmpty else {
-            self.errorMessage = UserError.userInputIsEmpty.errorDescriptionGerman
-            self.showError = true
-            return
-        }
+        authState.isLoading = true
+        defer { authState.isLoading = false }
+        
         do {
             try await FirebaseAuthManager.shared.signIn(email: email, password: password)
-            isLoggedIn = true
+            authState.isLoggedIn = true
             await loadUserProfile()
         } catch {
-            self.errorMessage = UserError.emailOrPasswordInvalid.errorDescriptionGerman
-            self.showError = true
+            handleAuthError(error)
         }
     }
     
@@ -54,45 +49,59 @@ class UserViewModel: ObservableObject {
         email: String, password: String,
         passwordRepeat: String,
         birthday: Date) async {
-        errorMessages = ValidationUtils.validateRegistrationInputs(username: username, email: email, password: password, passwordRepeat: passwordRepeat, birthday: birthday)
-        
-        guard errorMessages.isEmpty else { return }
-        
-        // Überprüfen, ob die E-Mail bereits existiert
-        let emailExists = await emailAlreadyExists(email: email)
-        if emailExists {
-            errorMessages.append(.emailAlreadyExists)
-            return
-        }
-        do {
-            // Firebase Anmeldung
-            try await FirebaseAuthManager.shared.signUp(email: email, password: password)
+            authState.isLoading = true
+            defer { authState.isLoading = false }
             
-            guard let userId = FirebaseAuthManager.shared.userID else {
-                print("Auth-Fehler: Keine gültige userId")
+            // Validierung
+            let validationErrors = ValidationUtils.validateRegistrationInputs(
+                username: username,
+                email: email,
+                password: password,
+                passwordRepeat: passwordRepeat,
+                birthday: birthday
+            )
+            
+            if !validationErrors.isEmpty {
+                authState.errorMessages = validationErrors
                 return
             }
             
-            let newProfile = Profile(
-                id: UUID().uuidString,
-                name: username,
-                email: email,
-                birthday: birthday,
-                startMoney: startMoney,
-                balance: startMoney
-            )
+            // Email-Überprüfung
+            if await emailAlreadyExists(email: email) {
+                authState.errorMessages = [.emailAlreadyExists]
+                return
+            }
             
-            try await fsRepository.saveProfile(newProfile, userId: userId)
-            isRegistered = true
-        } catch {
-            print("Auth-Fehler: Beim Registrieren ist ein Fehler aufgetreten")
+            do {
+                // Firebase Anmeldung
+                try await FirebaseAuthManager.shared.signUp(email: email, password: password)
+                
+                guard let userId = FirebaseAuthManager.shared.userID else {
+                    authState.errorMessage = UserError.userNotFound.errorDescriptionGerman
+                    return
+                }
+                
+                let newProfile = Profile(
+                    id: UUID().uuidString,
+                    name: username,
+                    email: email,
+                    birthday: birthday,
+                    startMoney: Constants.defaultStartMoney, // Hier geändert
+                    balance: Constants.defaultStartMoney
+                )
+                
+                try await fsRepository.saveProfile(newProfile, userId: userId)
+                authState.isRegistered = true
+                await loadUserProfile()
+            } catch {
+                handleAuthError(error)
+            }
         }
-    }
     
     // MARK: - Logout Function
     func logout() {
         FirebaseAuthManager.shared.signOut()
-        isLoggedIn = false
+        resetState()
     }
     
     // MARK: - Load Profile
@@ -101,13 +110,13 @@ class UserViewModel: ObservableObject {
         
         do {
             if let profile = try await fsRepository.loadProfile(userId: userId) {
-                self.userProfile = profile
-                self.balance = profile.balance
+                userState.profile = profile
+                userState.balance = profile.balance
             } else {
                 print("Fehler beim Laden des Profils")
             }
         } catch {
-            errorMessage = error.localizedDescription
+            authState.errorMessage = error.localizedDescription
         }
     }
     
@@ -129,7 +138,7 @@ class UserViewModel: ObservableObject {
             do {
                 try await fsRepository.updateBalance(userId: userId, newBalance: newBalance)
                 await MainActor.run {
-                    self.balance = newBalance
+                    userState.balance = newBalance
                 }
             } catch {
                 print("Fehler beim Aktualisieren des Kontostands: \(error)")
@@ -139,7 +148,7 @@ class UserViewModel: ObservableObject {
     
     // Birthday related functions remain the same
     func updateMoneyUserBirthday() {
-        guard let userId = FirebaseAuthManager.shared.userID, let birthday = userBirthday else {
+        guard let userId = FirebaseAuthManager.shared.userID, let birthday = userState.birthday else {
             print("Fehler: Benutzer-ID oder Geburtstag fehlt.")
             return
         }
@@ -148,15 +157,78 @@ class UserViewModel: ObservableObject {
     
     // Balance related functions remain the same
     func resetBalance() {
-        if balance == 0 {
-            self.balance = startMoney
-            updateProfile(newBalance: self.balance)
+        if userState.balance == 0 {
+            userState.balance = Constants.defaultStartMoney
+                  updateProfile(newBalance: userState.balance)
+              }
+          }
+    
+    func updateBalance(newBalanceAfterBet: Double) {
+        userState.balance = newBalanceAfterBet
+        resetBalance()
+        updateProfile(newBalance: newBalanceAfterBet)
+    }
+    
+    // MARK: - Private Methods
+    private func handleAuthError(_ error: Error) {
+        if let authError = error as? AuthErrorCode {
+            switch authError.code {
+            case .emailAlreadyInUse:
+                authState.errorMessage = UserError.emailAlreadyExists.errorDescriptionGerman
+            case .invalidEmail:
+                authState.errorMessage = UserError.invalidEmail.errorDescriptionGerman
+            default:
+                authState.errorMessage = UserError.unknownError.errorDescriptionGerman
+            }
+        }
+        authState.showError = true
+    }
+    
+    private func resetState() {
+        authState = AuthState()
+        userState = UserState()
+    }
+    
+    private func setupAuthStateListener() {
+        // Speichert den Auth State Listener Handle für späteres Cleanup
+        authStateHandle = Auth.auth().addStateDidChangeListener { [weak self] (_: Auth, user: User?) in
+            guard let self = self else { return }
+            
+            Task { @MainActor in
+                self.authState.isLoggedIn = user != nil
+                if user != nil {
+                    await self.loadUserProfile()
+                }
+            }
         }
     }
     
-    func updateBalance(newBalanceAfterBet: Double) {
-        self.balance = newBalanceAfterBet
-        resetBalance()
-        updateProfile(newBalance: newBalanceAfterBet)
+    // Cleanup hinzufügen
+    deinit {
+        if let handle = authStateHandle {
+            Auth.auth().removeStateDidChangeListener(handle)
+        }
+    }
+    
+    // MARK: - State Structs
+    struct AuthState {
+        var isLoading = false
+        var isLoggedIn = false
+        var isRegistered = false
+        var showError = false
+        var errorMessage: String?
+        var errorMessages: [UserError] = []
+    }
+    
+    struct UserState {
+        var profile: Profile?
+        var balance: Double = Constants.defaultStartMoney
+        var birthday: Timestamp?
+    }
+    
+    // MARK: - Constants
+    private enum Constants {
+        // Startgeld für neue Benutzer
+        static let defaultStartMoney: Double = 1000.00
     }
 }

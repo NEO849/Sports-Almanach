@@ -33,7 +33,6 @@ struct BetRow: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    // Wenn Quote ausgewählt ist -> Zum Wettschein
                     if let outcome = selectedOdd {
                         // Berechnet Quote basierend auf outcome
                         let currentOdds: Double
@@ -46,8 +45,16 @@ struct BetRow: View {
                             currentOdds = odds.awayWinOdds
                         }
                         
-                        let bet = Bet(id: UUID(), event: event, outcome: outcome, odds: currentOdds, amount: 0, timestamp: Date())
-                        
+                        // Neue Wette mit betSlipNumber
+                        let bet = Bet(
+                            id: UUID(),
+                            event: event,
+                            outcome: outcome,
+                            odds: currentOdds,
+                            amount: 0,
+                            timestamp: Date(),
+                            betSlipNumber: betViewModel.nextBetNumber() 
+                        )
                         // Ist Wette bereits im Wettschein vorhanden?
                         if !betViewModel.isBetAlreadyExists(for: event) {
                             betViewModel.bets.append(bet)

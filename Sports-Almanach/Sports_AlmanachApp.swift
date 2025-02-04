@@ -8,29 +8,43 @@
 import SwiftUI
 import Firebase
 
+// MARK: - AppDelegate für Firebase Setup
+// AppDelegate übernimmt die Initialisierung von Firebase außerhalb des Main Actors
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+    ) -> Bool {
+        // Firebase Konfiguration in einem nicht-isolierten Kontext
+        FirebaseConfiguration.shared.setLoggerLevel(.min)
+        FirebaseApp.configure()
+        return true
+    }
+}
+
 @main
 struct Sports_AlmanachApp: App {
     
-    @StateObject var userViewModel = UserViewModel()
-    @StateObject var eventViewModel = EventViewModel()
+    // App Delegate für besseres Lifecycle Management
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     
-    init() {
-        FirebaseConfiguration.shared.setLoggerLevel(.min)
-        FirebaseApp.configure()
-    }
+    // StateObjects für SwiftUI State Management
+    @StateObject private var userViewModel = UserViewModel()
+    @StateObject private var eventViewModel = EventViewModel()
     
     var body: some Scene {
         WindowGroup {
-            if FirebaseAuthManager.shared.isUserSignedIn {
-                ContentView()
-                    .environmentObject(userViewModel)
-                    .environmentObject(eventViewModel)
-            } else {
-                SplashView()
-                    .environmentObject(userViewModel)
-                    .environmentObject(eventViewModel)
+            // Ausgelagerte View-Logic für bessere Testbarkeit
+            Group {
+                if FirebaseAuthManager.shared.isUserSignedIn {
+                    ContentView()
+                } else {
+                    SplashView()
+                }
             }
-            
+            // Environment Objects für Dependency Injection
+            .environmentObject(userViewModel)
+            .environmentObject(eventViewModel)
         }
     }
 }

@@ -30,14 +30,19 @@ struct BetSlipView: View {
                 }
                 
                 VStack(spacing: 8) {
-                    Text("Kontostand: \(userViewModel.balance, specifier: "%.2f")")
+                    // Kontostand über userState
+                    Text("Kontostand: \(userViewModel.userState.balance, specifier: "%.2f")")
                         .padding()
                     
-                    if userViewModel.balance > 0 {
-                        Slider(value: $betViewModel.betAmount, in: 0...userViewModel.balance, step: 1)
-                            .padding()
-                            .onChange(of: betViewModel.betAmount) { _ = betViewModel.calculatePossibleWin()
-                            }
+                    // Slider mit korrigiertem Balance-Zugriff
+                    if userViewModel.userState.balance > 0 {
+                        Slider(value: $betViewModel.betAmount,
+                               in: 0...userViewModel.userState.balance,
+                               step: 1)
+                        .padding()
+                        .onChange(of: betViewModel.betAmount) {
+                            _ = betViewModel.calculatePossibleWin()
+                        }
                     } else {
                         Text("Kein Guthaben verfügbar")
                             .foregroundColor(.red)
@@ -100,19 +105,26 @@ struct BetSlipView: View {
 }
 
 #Preview {
-    let betViewModel = BetViewModel()
-    let userViewModel = UserViewModel()
+    // View Model und Mock-Daten in einer Closure vorbereiten
+    let preview: some View = {
+        let betViewModel = BetViewModel()
+        let userViewModel = UserViewModel()
+        
+        // Mock-Wetten erstellen
+        let mockBet1 = Bet(id: UUID(), event: MockEvents.events[0], outcome: .homeWin, odds: 2.5, amount: 10, timestamp: Date(), betSlipNumber: 1)
+        let mockBet2 = Bet(id: UUID(), event: MockEvents.events[1], outcome: .draw, odds: 3.0, amount: 20, timestamp: Date(), betSlipNumber: 2)
+        let mockBet3 = Bet(id: UUID(), event: MockEvents.events[2], outcome: .awayWin, odds: 2.0, amount: 15, timestamp: Date(), betSlipNumber: 3)
+        let mockBet4 = Bet(id: UUID(), event: MockEvents.events[3], outcome: .homeWin, odds: 1.8, amount: 12, timestamp: Date(), betSlipNumber: 4)
+        let mockBet5 = Bet(id: UUID(), event: MockEvents.events[4], outcome: .draw, odds: 2.7, amount: 25, timestamp: Date(), betSlipNumber: 5)
+        
+        // Wetten zuweisen
+        betViewModel.bets = [mockBet1, mockBet2, mockBet3, mockBet4, mockBet5]
+        
+        // View mit Environment Objects zurückgeben
+        return BetSlipView()
+            .environmentObject(betViewModel)
+            .environmentObject(userViewModel)
+    }()
     
-    let mockBet1 = Bet(id: UUID(), event: MockEvents.events[0], outcome: .homeWin, odds: 2.5, amount: 10, timestamp: Date())
-    let mockBet2 = Bet(id: UUID(), event: MockEvents.events[1], outcome: .draw, odds: 3.0, amount: 20, timestamp: Date())
-    let mockBet3 = Bet(id: UUID(), event: MockEvents.events[2], outcome: .awayWin, odds: 2.0, amount: 15, timestamp: Date())
-    let mockBet4 = Bet(id: UUID(), event: MockEvents.events[3], outcome: .homeWin, odds: 1.8, amount: 12, timestamp: Date())
-    let mockBet5 = Bet(id: UUID(), event: MockEvents.events[4], outcome: .draw, odds: 2.7, amount: 25, timestamp: Date())
-    
-    // Beispielwetten zuweisen
-    betViewModel.bets = [mockBet1, mockBet2, mockBet3, mockBet4, mockBet5]
-    
-    return BetSlipView()
-        .environmentObject(betViewModel)
-        .environmentObject(userViewModel)
+    return preview
 }

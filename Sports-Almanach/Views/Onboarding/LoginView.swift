@@ -91,19 +91,19 @@ struct LoginView: View {
                 .ignoresSafeArea(.keyboard)
             }
             .navigationBarBackButtonHidden(true)
-            .alert(isPresented: $userViewModel.showError) {
-                Alert(
-                    title: Text("Fehler"),
-                    message: Text(userViewModel.errorMessage ?? "Unbekannter Fehler"),
-                    dismissButton: .default(Text("OK")) {
-                        // Only Password Reset
-                        password = ""
+            // Alert mit AuthState
+                    .alert("Fehler", isPresented: .constant(userViewModel.authState.showError)) {
+                        Button("OK") {
+                            password = ""
+                        }
+                    } message: {
+                        Text(userViewModel.authState.errorMessage ?? "Unbekannter Fehler")
                     }
-                )
+                }
             }
         }
-    }
-}
+
+    
 
 #Preview {
     LoginView()
