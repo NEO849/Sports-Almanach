@@ -14,6 +14,7 @@ struct LoginView: View {
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
     @State private var animationOffset: CGFloat = 300
+    @State private var navigateToContentView: Bool = false
     
     var body: some View {
         
@@ -59,7 +60,17 @@ struct LoginView: View {
                         LoginRegButton(title: "LOGIN") {
                             Task {
                                 await userViewModel.login(email: email, password: password)
+                                await MainActor.run {
+                                    if userViewModel.authState.isLoggedIn {
+                                        navigateToContentView = true  // Navigation aktivieren
+                                    }
+                                }
                             }
+                        }
+                        
+                        // Navigation zur ContentView über navigationDestination
+                        .navigationDestination(isPresented: $navigateToContentView) {
+                            ContentView()
                         }
                         
                         // Registration Link
@@ -78,7 +89,7 @@ struct LoginView: View {
                         HStack(spacing: 34) {
                             SocialLoginButton(title: "Google", icon: "g.circle.fill", platform: .google) {
                                 // Implement Google Logic
-                
+                                
                             }
                             SocialLoginButton(title: "Facebook", icon: "f.circle.fill", platform: .facebook) {
                                 // Implement Facebook Logic
@@ -92,18 +103,18 @@ struct LoginView: View {
             }
             .navigationBarBackButtonHidden(true)
             // Alert mit AuthState
-                    .alert("Fehler", isPresented: .constant(userViewModel.authState.showError)) {
-                        Button("OK") {
-                            password = ""
-                        }
-                    } message: {
-                        Text(userViewModel.authState.errorMessage ?? "Unbekannter Fehler")
-                    }
+            .alert("Fehler", isPresented: .constant(userViewModel.authState.showError)) {
+                Button("OK") {
+                    password = ""
                 }
+            } message: {
+                Text(userViewModel.authState.errorMessage ?? "Unbekannter Fehler")
             }
         }
+    }
+}
 
-    
+
 
 #Preview {
     LoginView()

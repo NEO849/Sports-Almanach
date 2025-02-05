@@ -108,6 +108,11 @@ struct RegisterView: View {
                         }
                         .padding(.bottom, 16)
                         
+                        // Navigation zur ContentView nach erfolgreicher Registrierung
+                        .navigationDestination(isPresented: $navigateToContentView) {
+                            ContentView()
+                        }
+                        
                         // Zur LoginView zurück
                         NavigationLink(destination: LoginView()) {
                             Text("Zurück zur Anmeldung")
@@ -134,7 +139,6 @@ struct RegisterView: View {
         }
     }
     
-    // MARK: - Helper Methods
     private func attemptSignUp() {
         Task {
             await userViewModel.register(
@@ -157,7 +161,7 @@ struct RegisterView: View {
         }
     }
 }
-    
+
 #Preview {
     RegisterView()
         .environmentObject(UserViewModel())
