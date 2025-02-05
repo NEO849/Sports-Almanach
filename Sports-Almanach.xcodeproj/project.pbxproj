@@ -148,7 +148,6 @@
 		F06389652CB7F34600746C98 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = F06389642CB7F34600746C98 /* FirebaseStorage */; };
 		F06389672CB7F34600746C98 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = F06389662CB7F34600746C98 /* FirebaseStorageCombine-Community */; };
 		F06389692CB7F34600746C98 /* FirebaseVertexAI-Preview in Frameworks */ = {isa = PBXBuildFile; productRef = F06389682CB7F34600746C98 /* FirebaseVertexAI-Preview */; };
-		F06FE7F42CD83D7A00FB7CAC /* SelectedEventsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F06FE7F32CD83D5E00FB7CAC /* SelectedEventsButton.swift */; };
 		F081DC942CB54CDD00116E7B /* FirebaseAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F081DC932CB54CC500116E7B /* FirebaseAuthManager.swift */; };
 		F081DC972CB54D9200116E7B /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F081DC962CB54D9200116E7B /* FirebaseAuth */; };
 		F081DC992CB54D9200116E7B /* FirebaseAuthCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = F081DC982CB54D9200116E7B /* FirebaseAuthCombine-Community */; };
@@ -215,7 +214,6 @@
 		F05CA82E2CEBFACA0080F2B7 /* InputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		F05CA8302CECAB040080F2B7 /* BirthdayUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayUtils.swift; sourceTree = "<group>"; };
 		F05CA8322CECB4DC0080F2B7 /* ValidationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationUtils.swift; sourceTree = "<group>"; };
-		F06FE7F32CD83D5E00FB7CAC /* SelectedEventsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedEventsButton.swift; sourceTree = "<group>"; };
 		F081DC932CB54CC500116E7B /* FirebaseAuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAuthManager.swift; sourceTree = "<group>"; };
 		F095C8F82C8FAE97002C94FD /* EventStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventStatus.swift; sourceTree = "<group>"; };
 		F095C8FA2C8FAEBC002C94FD /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
@@ -465,7 +463,6 @@
 				F05CA82C2CEBFA740080F2B7 /* LoginRegButton.swift */,
 				F05CA82A2CEBFA340080F2B7 /* SocialLoginButton.swift */,
 				F052E2F82CEA318000769631 /* LogoutButton.swift */,
-				F06FE7F32CD83D5E00FB7CAC /* SelectedEventsButton.swift */,
 				B5A198602D52D1DF00619045 /* BetNumberButton.swift */,
 			);
 			path = Buttons;
@@ -709,7 +706,6 @@
 				F05BC2C22CA6A85B00562C51 /* Season.swift in Sources */,
 				F04217992CD2702900BEA19B /* CustomTabBar.swift in Sources */,
 				F05BC2C52CA6AF9C00562C51 /* EventDetailView.swift in Sources */,
-				F06FE7F42CD83D7A00FB7CAC /* SelectedEventsButton.swift in Sources */,
 				F00CB7092C9CF4B4003D70E3 /* EventsView.swift in Sources */,
 				F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */,
 				F04EE1002CC895600095BD28 /* BetSlipView.swift in Sources */,

@@ -173,12 +173,12 @@ class BetViewModel: ObservableObject {
         
         if actualOutcome == bet.outcome {
             // Gewinn: Einsatz behalten und Gewinn gutschreiben
-            let winAmount = bet.amount * bet.odds
+            let winAmount = bet.betAmount * bet.odds
             let newBalance = currentBalance + winAmount
             userViewModel?.updateBalance(newBalanceAfterBet: newBalance)
         } else {
             // Verlust: Nur den Einsatz abziehen
-            let newBalance = currentBalance - bet.amount
+            let newBalance = currentBalance - bet.betAmount
             userViewModel?.updateBalance(newBalanceAfterBet: newBalance)
         }
     }
@@ -192,7 +192,7 @@ class BetViewModel: ObservableObject {
             event: event,
             outcome: outcome,
             odds: selectedOdds,
-            amount: betAmount,
+            betAmount: betAmount,
             winAmount: winAmount,
             betSlipNumber: betNumber
         )

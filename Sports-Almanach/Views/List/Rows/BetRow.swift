@@ -51,7 +51,8 @@ struct BetRow: View {
                             event: event,
                             outcome: outcome,
                             odds: currentOdds,
-                            amount: 0,
+                            betAmount: betViewModel.betAmount, 
+                            winAmount: betViewModel.betAmount * currentOdds, 
                             timestamp: Date(),
                             betSlipNumber: betViewModel.nextBetNumber() 
                         )

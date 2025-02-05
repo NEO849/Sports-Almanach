@@ -103,28 +103,70 @@ struct BetSlipView: View {
 }
 
 #Preview {
-    // View Model und Mock-Daten in einer Closure vorbereiten
-    let preview: some View = {
-        let betViewModel = BetViewModel()
-        let userViewModel = UserViewModel()
-        let eventViewModel = EventViewModel()
-        
-        // Mock-Wetten erstellen
-        let mockBet1 = Bet(id: UUID(), event: MockEvents.events[0], outcome: .homeWin, odds: 2.5, amount: 10, timestamp: Date(), betSlipNumber: 1)
-        let mockBet2 = Bet(id: UUID(), event: MockEvents.events[1], outcome: .draw, odds: 3.0, amount: 20, timestamp: Date(), betSlipNumber: 2)
-        let mockBet3 = Bet(id: UUID(), event: MockEvents.events[2], outcome: .awayWin, odds: 2.0, amount: 15, timestamp: Date(), betSlipNumber: 3)
-        let mockBet4 = Bet(id: UUID(), event: MockEvents.events[3], outcome: .homeWin, odds: 1.8, amount: 12, timestamp: Date(), betSlipNumber: 4)
-        let mockBet5 = Bet(id: UUID(), event: MockEvents.events[4], outcome: .draw, odds: 2.7, amount: 25, timestamp: Date(), betSlipNumber: 5)
-        
-        // Wetten zuweisen
-        betViewModel.bets = [mockBet1, mockBet2, mockBet3, mockBet4, mockBet5]
-        
-        // View mit Environment Objects zurückgeben
-        return BetSlipView()
-            .environmentObject(betViewModel)
-            .environmentObject(userViewModel)
-            .environmentObject(eventViewModel)
+    // Erzeuge betViewModel inkl. zugewiesener Mock-Wetten innerhalb eines Closures,
+    // sodass alle Zuweisungen außerhalb des ViewBuilder-Kontexts durchgeführt werden.
+    let betViewModel: BetViewModel = {
+        let vm = BetViewModel()
+        let mockBet1 = Bet(
+            id: UUID(),
+            event: MockEvents.events[0],
+            outcome: .homeWin,
+            odds: 2.5,
+            betAmount: 10,
+            winAmount: 10 * 2.5,
+            timestamp: Date(),
+            betSlipNumber: 1
+        )
+        let mockBet2 = Bet(
+            id: UUID(),
+            event: MockEvents.events[1],
+            outcome: .draw,
+            odds: 3.0,
+            betAmount: 20,
+            winAmount: 20 * 3.0,
+            timestamp: Date(),
+            betSlipNumber: 2
+        )
+        let mockBet3 = Bet(
+            id: UUID(),
+            event: MockEvents.events[2],
+            outcome: .awayWin,
+            odds: 2.0,
+            betAmount: 15,
+            winAmount: 15 * 2.0,
+            timestamp: Date(),
+            betSlipNumber: 3
+        )
+        let mockBet4 = Bet(
+            id: UUID(),
+            event: MockEvents.events[3],
+            outcome: .homeWin,
+            odds: 1.8,
+            betAmount: 12,
+            winAmount: 12 * 1.8,
+            timestamp: Date(),
+            betSlipNumber: 4
+        )
+        let mockBet5 = Bet(
+            id: UUID(),
+            event: MockEvents.events[4],
+            outcome: .draw,
+            odds: 2.7,
+            betAmount: 25,
+            winAmount: 25 * 2.7,
+            timestamp: Date(),
+            betSlipNumber: 5
+        )
+        vm.bets = [mockBet1, mockBet2, mockBet3, mockBet4, mockBet5]
+        return vm
     }()
     
-    return preview
+    let userViewModel = UserViewModel()
+    let eventViewModel = EventViewModel()
+    
+    // Gib die BetSlipView mit den EnvironmentObject-Zuweisungen zurück.
+    BetSlipView()
+        .environmentObject(betViewModel)
+        .environmentObject(userViewModel)
+        .environmentObject(eventViewModel)
 }

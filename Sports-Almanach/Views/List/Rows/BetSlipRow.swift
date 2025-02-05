@@ -67,15 +67,16 @@ struct BetSlipRow: View {
 }
 
 #Preview {
+    // Erstelle ein Mock-Bet-Objekt für die Vorschau
     let mockBet = Bet(
-           id: UUID(),
-           event: MockEvents.events.first!,
-           outcome: .homeWin,
-           odds: 2.5,
-           amount: 10,
-           timestamp: Date(),
-           betSlipNumber: 1 
-       )
-
-       return BetSlipRow(index: 0, bet: mockBet)
-   }
+        id: UUID(),
+        event: MockEvents.events.first!,
+        outcome: .homeWin,
+        odds: 2.5,
+        betAmount: 10,                   
+        winAmount: 10 * 2.5,
+        timestamp: Date(),
+        betSlipNumber: 1
+    )
+    BetSlipRow(index: 0, bet: mockBet)
+}

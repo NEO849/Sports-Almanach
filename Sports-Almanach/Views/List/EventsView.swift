@@ -122,29 +122,18 @@ struct EventsView: View {
                                 }
                                 .tint(.green)
                             }
-                            /// Zusätzl. Btn, Speicherung
-                            HStack {
-                                SelectedEventsButton(action: {
-                                    /// UserProfile im Hintergrund
-                                    Task {   await eventViewModel.saveEventToUserProfile(event: event)
-                                    }
-                                    /// Datas an Btn übergeben
-                                }, eventViewModel: eventViewModel, event: event)
-                                .frame(maxWidth: .infinity)
-                                .padding(.trailing, 16)
-                            }
-                            .onReceive(eventViewModel.$selectedEvents) { _ in }
+                            
+                            .listRowBackground(Color.clear)
                         }
-                        .listRowBackground(Color.clear)
                     }
+                    .listStyle(.plain)
+                    .navigationTitle("")
+                    Spacer()
                 }
-                .listStyle(.plain)
-                .navigationTitle("")
-                Spacer()
+            } // Läd Events
+            .task {
+                await eventViewModel.loadEvents(for: selectedSeason)
             }
-        } // Läd Events
-        .task {
-            await eventViewModel.loadEvents(for: selectedSeason)
         }
     }
 }
