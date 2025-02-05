@@ -106,7 +106,7 @@ struct BetSlipView: View {
     // Erzeuge betViewModel inkl. zugewiesener Mock-Wetten innerhalb eines Closures,
     // sodass alle Zuweisungen außerhalb des ViewBuilder-Kontexts durchgeführt werden.
     let betViewModel: BetViewModel = {
-        let vm = BetViewModel()
+        let mock = BetViewModel()
         let mockBet1 = Bet(
             id: UUID(),
             event: MockEvents.events[0],
@@ -157,14 +157,13 @@ struct BetSlipView: View {
             timestamp: Date(),
             betSlipNumber: 5
         )
-        vm.bets = [mockBet1, mockBet2, mockBet3, mockBet4, mockBet5]
-        return vm
+        mock.bets = [mockBet1, mockBet2, mockBet3, mockBet4, mockBet5]
+        return mock
     }()
     
     let userViewModel = UserViewModel()
     let eventViewModel = EventViewModel()
     
-    // Gib die BetSlipView mit den EnvironmentObject-Zuweisungen zurück.
     BetSlipView()
         .environmentObject(betViewModel)
         .environmentObject(userViewModel)

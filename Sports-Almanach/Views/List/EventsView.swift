@@ -96,7 +96,6 @@ struct EventsView: View {
                     }
                     .padding(.horizontal, 20)
                     
-                    /// Swipen und SelectedBetButton -> func zum Hinzufügen und Entfernen von selectedEvents + ction: () -> Void
                     List {
                         ForEach(eventViewModel.events) { event in
                             
