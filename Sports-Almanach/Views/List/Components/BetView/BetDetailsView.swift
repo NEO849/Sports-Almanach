@@ -73,7 +73,7 @@ private struct BetDetailsSection: View {
     
     var body: some View {
         VStack(spacing: 12) {
-            DetailRow(title: "Wetteinsatz:", value: "\(formatAmount(bet.amount)) €")
+            DetailRow(title: "Wetteinsatz:", value: "\(formatAmount(bet.betAmount)) €")
             DetailRow(title: "Quote:", value: formatAmount(bet.odds))
             DetailRow(title: "Tipp:", value: bet.outcome.titleGerman)
             if let winAmount = bet.winAmount {
@@ -108,13 +108,11 @@ private struct DetailRow: View {
         event: MockEvents.events[0],
         outcome: .homeWin,
         odds: 2.5,
-        amount: 10,
+        betAmount: 10,
         winAmount: 25.0,
         timestamp: Date(),
         betSlipNumber: 1
     )
     
-    return BetDetailsView(bet: mockBet)
+    BetDetailsView(bet: mockBet)
 }
-
-// End of file
