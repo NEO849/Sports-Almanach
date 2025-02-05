@@ -8,98 +8,96 @@
 import SwiftUI
 
 struct BetSlipView: View {
-    @EnvironmentObject var betViewModel: BetViewModel
-    @EnvironmentObject var userViewModel: UserViewModel
     @Environment(\.dismiss) var dismiss
-    
+    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var eventViewModel: EventViewModel
+    @EnvironmentObject var betViewModel: BetViewModel
+    @State private var showAlert = false
+    @State private var alertMessage = ""
+    @State private var betAmount: Double = 0.0
+
     var body: some View {
         
-        NavigationView {
-            VStack {
-                Text("Wettschein")
-                    .font(.title2)
-                    .bold()
+        NavigationStack {
+            ZStack {
+                // Hintergrundbild
+                Image("hintergrund")
+                    .resizable()
+                    .scaledToFill()
+                    .edgesIgnoringSafeArea(.all)
                 
-                ScrollView {
+                VStack {
+                    // Ausgelagerte Listen-View
+                    ScrollView {
+                        VStack(spacing: 8) {
+                            ForEach(betViewModel.bets) { bet in
+                                BetSlipRow(index: betViewModel.bets.firstIndex(of: bet) ?? 0, bet: bet)
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    
+                    // Wetteinsatz mit Slider
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("Wetteinsatz: \(betAmount, specifier: "%.2f") €")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                        
+                        Slider(value: $betAmount, in: 0...userViewModel.userState.balance)
+                            .tint(.green)
+                            .onChange(of: betAmount) { _, newValue in
+                                betViewModel.betAmount = newValue
+                            }
+                    }
+                    .padding()
+                    
+                    // Quoten und Gewinn
                     VStack(spacing: 8) {
-                        ForEach(betViewModel.bets) { bet in
-                            BetSlipRow(index: betViewModel.bets.firstIndex(of: bet) ?? 0, bet: bet)
-                        }
+                        Text("Gesamtquote: \(betViewModel.totalOdds, specifier: "%.2f")x")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                        Text("Möglicher Gewinn: \(betViewModel.potentialWinAmount, specifier: "%.2f") €")
+                            .font(.headline)
+                            .foregroundColor(.white)
                     }
-                    .padding(.horizontal)
-                }
-                
-                VStack(spacing: 8) {
-                    // Kontostand über userState
-                    Text("Kontostand: \(userViewModel.userState.balance, specifier: "%.2f")")
-                        .padding()
+                    .padding()
                     
-                    // Slider mit korrigiertem Balance-Zugriff
-                    if userViewModel.userState.balance > 0 {
-                        Slider(value: $betViewModel.betAmount,
-                               in: 0...userViewModel.userState.balance,
-                               step: 1)
-                        .padding()
-                        .onChange(of: betViewModel.betAmount) {
-                            _ = betViewModel.calculatePossibleWin()
+                    // Wetten Button
+                    Button(action: {
+                        if betViewModel.placeBets(userBalance: userViewModel.userState.balance) {
+                            dismiss()
+                        } else {
+                            alertMessage = "Nicht genügend Guthaben oder ungültiger Wetteinsatz"
+                            showAlert = true
                         }
-                    } else {
-                        Text("Kein Guthaben verfügbar")
-                            .foregroundColor(.red)
+                    }) {
+                        Text("WETTEN")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
                             .padding()
+                            .background(
+                                betViewModel.canPlaceBet(userBalance: userViewModel.userState.balance)
+                                    ? Color.green
+                                    : Color.gray
+                            )
+                            .cornerRadius(10)
                     }
-                    
-                    HStack {
-                        Text("Wetteinsatz:")
-                        Spacer()
-                        Text("\(betViewModel.betAmount, specifier: "%.2f")")
-                    }
-                    .padding(.horizontal)
-                    
-                    HStack {
-                        Text("Gesamtquote:")
-                        Spacer()
-                        Text("\(betViewModel.totalOdds, specifier: "%.2f")")
-                    }
-                    .padding(.horizontal)
-                    
-                    HStack {
-                        Text("Möglicher Gewinn:")
-                        Spacer()
-                        Text("\(betViewModel.potentialWinAmount, specifier: "%.2f")")
-                    }
-                    .padding(.horizontal)
+                    .disabled(!betViewModel.canPlaceBet(userBalance: userViewModel.userState.balance))
+                    .padding()
                 }
-                Spacer()
-                
-                // Platzieren der Wette
-                Button("Wetten") {
-                    if let event = betViewModel.selectedBetEvent,
-                       let outcome = betViewModel.betOutcomeResult {
-                        betViewModel.placeBet(on: event, outcome: outcome, betAmount: betViewModel.betAmount)
-                    }
-                    dismiss()
-                }
-                .font(.title3)
-                .padding(.vertical, 8)
-                .padding(.horizontal, 8)
-                .frame(width: 150)
-                .foregroundColor(.white)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 10)
-                        .stroke(.orange, lineWidth: 2)
-                )
-                .padding(.bottom, 48)
-                .disabled(betViewModel.betAmount == 0 || betViewModel.selectedBetEvent == nil)
             }
+            .navigationTitle("Wettschein")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Fertig") {
-                        dismiss() // Sheet schließen
-                    }
-                }
+            .alert("Fehler", isPresented: $showAlert) {
+                Button("OK") { }
+            } message: {
+                Text(alertMessage)
             }
+        }
+        .task {
+            // ViewModels beim Erscheinen der View setzen
+            betViewModel.setViewModels(user: userViewModel, event: eventViewModel)
         }
     }
 }
@@ -109,6 +107,7 @@ struct BetSlipView: View {
     let preview: some View = {
         let betViewModel = BetViewModel()
         let userViewModel = UserViewModel()
+        let eventViewModel = EventViewModel()
         
         // Mock-Wetten erstellen
         let mockBet1 = Bet(id: UUID(), event: MockEvents.events[0], outcome: .homeWin, odds: 2.5, amount: 10, timestamp: Date(), betSlipNumber: 1)
@@ -124,6 +123,7 @@ struct BetSlipView: View {
         return BetSlipView()
             .environmentObject(betViewModel)
             .environmentObject(userViewModel)
+            .environmentObject(eventViewModel)
     }()
     
     return preview

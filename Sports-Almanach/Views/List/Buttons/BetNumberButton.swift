@@ -5,6 +5,7 @@ import SwiftUI
 struct BetNumberButton: View {
     // MARK: - Properties
     let bet: Bet
+    @EnvironmentObject var userViewModel: UserViewModel
     let action: () -> Void
     
     // MARK: - Body

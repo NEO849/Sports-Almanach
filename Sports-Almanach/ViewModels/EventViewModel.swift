@@ -16,6 +16,7 @@ class EventViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var isLoading: Bool = false
     @Published var selectedEvents: [Event] = []
+    @Published var selectedBetEvents: [Event] = []
     
     /// Repository für API-Zugriffe
     private let eventRepository = EventRepository()
@@ -127,6 +128,23 @@ class EventViewModel: ObservableObject {
                 await deleteEventFromUserProfile(eventId: event.id)
             }
         }
+    }
+    
+    /// Event für Wetten auswählen
+    func addToBet(_ event: Event) {
+        if !selectedBetEvents.contains(event) {
+            selectedBetEvents.append(event)
+        }
+    }
+    
+    /// Event aus der Wettliste entfernen
+    func removeFromBet(_ event: Event) {
+        selectedBetEvents.removeAll { $0.id == event.id }
+    }
+    
+    /// Alle gewetteten Events entfernen
+    func clearSelectedEvents() {
+        selectedBetEvents.removeAll()
     }
     
     // MARK: - Hilfsfunktionen für die Darstellung

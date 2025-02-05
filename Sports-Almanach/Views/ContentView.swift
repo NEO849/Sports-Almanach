@@ -9,9 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var selectedTab: Tab = .home // Start-Tab
-    @EnvironmentObject var userViewModel: UserViewModel
-    @EnvironmentObject var eventViewModel: EventViewModel
+    // MARK: - Properties
+    // StateObject für Lifecycle Management
+    @StateObject private var betViewModel = BetViewModel()
+    @StateObject private var userViewModel = UserViewModel()
+    @StateObject private var eventViewModel = EventViewModel()
     
     enum Tab {
         case home, events, bet, statistics
@@ -25,40 +27,44 @@ struct ContentView: View {
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
                 
-                TabView(selection: $selectedTab) {
+                TabView {
                     
                     HomeView()
                         .environmentObject(userViewModel)
                         .environmentObject(eventViewModel)
                         .tabItem {
-                            Label("Home", systemImage: "house")
+                            Image(systemName: "house")
+                            Text("Home")
                         }
-                        .tag(Tab.home)
                     
                     EventsView()
                         .environmentObject(eventViewModel)
                         .tabItem {
-                            Label("Events", systemImage: "calendar")
+                            Image(systemName: "calendar")
+                            Text("Events")
                         }
-                        .tag(Tab.events)
                     
                     BetView()
                         .environmentObject(userViewModel)
                         .environmentObject(eventViewModel)
                         .tabItem {
-                            Label("Wetten", systemImage: "dollarsign.circle")
+                            Image(systemName: "creditcard")
+                            Text("Wetten")
                         }
-                        .tag(Tab.bet)
                     
                     StatisticsView()
                         .tabItem {
-                            Label("Statistiken", systemImage: "rectangle.and.pencil.and.ellipsis")
+                            Image(systemName: "chart.bar")
+                            Text("Statistik")
                         }
-                        .tag(Tab.statistics)
                 }
                 .accentColor(.orange)
             }
         }
+        // ViewModels als EnvironmentObjects bereitstellen
+        .environmentObject(betViewModel)
+        .environmentObject(userViewModel)
+        .environmentObject(eventViewModel)
     }
 }
 

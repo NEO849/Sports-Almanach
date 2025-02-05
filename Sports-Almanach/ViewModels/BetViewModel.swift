@@ -9,9 +9,12 @@ import Foundation
 import SwiftUI
 import FirebaseFirestore
 
+@MainActor
 class BetViewModel: ObservableObject {
     
-    @EnvironmentObject var userViewModel: UserViewModel
+    private var userViewModel: UserViewModel?
+    private var eventViewModel: EventViewModel?
+    
     @Published var selectedBetEvent: Event?
     @Published var betAmount: Double = 0.0 {
         didSet {
@@ -22,6 +25,25 @@ class BetViewModel: ObservableObject {
     @Published var totalOdds: Double = 0.0
     @Published var potentialWinAmount: Double = 0.0
     @Published var bets: [Bet] = []
+    
+    // MARK: - Properties für Statistik
+    @Published var allBets: [Bet] = []
+    @Published var currentBetNumber: Int = UserDefaults.standard.integer(forKey: "currentBetNumber") {
+        didSet {
+            UserDefaults.standard.set(currentBetNumber, forKey: "currentBetNumber")
+        }
+    }
+    
+    init() {
+        // Keine direkte Initialisierung der ViewModels
+        // Diese werden später über setViewModels gesetzt
+    }
+    
+    // Setter für ViewModels - wird von außen aufgerufen
+    func setViewModels(user: UserViewModel, event: EventViewModel) {
+        self.userViewModel = user
+        self.eventViewModel = event
+    }
     
     // MARK: - Hilfsfunktionen
     
@@ -54,82 +76,46 @@ class BetViewModel: ObservableObject {
         return betAmount * totalOdds
     }
     
-    /// Kontostand zurücksetzen
+    /// Kontostand asynchron zurücksetzen
     func resetBalance() {
-        userViewModel.resetBalance()
+        userViewModel?.resetBalance()
     }
     
     /// Überprüft ob Wette bereits existiert
     func isBetAlreadyExists(for event: Event) -> Bool {
         return bets.contains(where: { $0.event.id == event.id })
     }
-    
-    // Property für Wettnummerierung
-     private var currentBetNumber = UserDefaults.standard.integer(forKey: "currentBetNumber") {
-         didSet {
-             UserDefaults.standard.set(currentBetNumber, forKey: "currentBetNumber")
-         }
-     }
      
-     // MARK: - Public Methods für Wettnummerierung
-     /// Generiert die nächste verfügbare Wettnummer
-     func nextBetNumber() -> Int {
-         currentBetNumber += 1
-         return currentBetNumber
-     }
+    // MARK: - Wettschein-Funktionen
+    func nextBetNumber() -> Int {
+        currentBetNumber += 1
+        return currentBetNumber
+    }
     
-    /// Wette platzieren mit automatischer Nummerierung
-    func placeBet(on event: Event, outcome: BetOutcome, betAmount: Double) {
-        // Guthaben-Check
-        guard betAmount <= userViewModel.userState.balance else {
-            print("Fehler: Nicht genügend Guthaben.")
-            return
-        }
-        
-        // Quoten-Berechnung
+    // Wette zur Statistik hinzufügen
+    private func addBetToStatistics(_ bet: Bet) {
+        allBets.append(bet)
+        // Sortiere nach Wettnummer
+        allBets.sort { $0.betSlipNumber > $1.betSlipNumber }
+    }
+    
+    // MARK: - Wettfunktionen
+    /// Berechnet die Gewinnquote und den Gewinnbetrag
+    private func calculateOddsAndWinAmount(for event: Event, outcome: BetOutcome, betAmount: Double) -> (odds: Double, winAmount: Double) {
         let odds = OddsCalculator.calculateOdds(for: event)
-        var winAmount: Double = 0.0
-        var selectedOdds: Double = 0.0
+        var selectedOdds: Double
         
-        // Quote basierend auf Outcome auswählen
         switch outcome {
-        case .homeWin:
-            selectedOdds = odds.homeWinOdds
-            winAmount = betAmount * selectedOdds
-        case .draw:
-            selectedOdds = odds.drawOdds
-            winAmount = betAmount * selectedOdds
-        case .awayWin:
-            selectedOdds = odds.awayWinOdds
-            winAmount = betAmount * selectedOdds
+        case .homeWin: selectedOdds = odds.homeWinOdds
+        case .draw: selectedOdds = odds.drawOdds
+        case .awayWin: selectedOdds = odds.awayWinOdds
         }
         
-        // Neue Wette mit fortlaufender Nummer erstellen
-        let betNumber = nextBetNumber()
-        let newBet = Bet(
-            event: event,
-            outcome: outcome,
-            odds: selectedOdds,
-            amount: betAmount,
-            winAmount: winAmount,
-            betSlipNumber: betNumber
-        )
-        
-        // Wette zur Liste hinzufügen
-        bets.append(newBet)
-        
-        // Kontostand aktualisieren
-        let newBalance = userViewModel.userState.balance - betAmount
-        Task {
-            userViewModel.updateBalance(newBalanceAfterBet: newBalance)
-        }
-        
-        // Wette in Firestore speichern
-        guard let userId = FirebaseAuthManager.shared.userID else {
-            print("Fehler: Benutzer-ID nicht gefunden.")
-            return
-        }
-        
+        return (selectedOdds, betAmount * selectedOdds)
+    }
+    
+    /// Speichert die Wette in Firestore und fügt sie zur Statistik hinzu
+    private func saveBetToFirestore(userId: String, event: Event, betAmount: Double, outcome: BetOutcome, winAmount: Double, betNumber: Int) {
         let dataB = Firestore.firestore()
         let betData: [String: Any] = [
             "userId": userId,
@@ -141,7 +127,6 @@ class BetViewModel: ObservableObject {
             "timestamp": Timestamp()
         ]
         
-        // In Firestore speichern
         dataB.collection("Bets").addDocument(data: betData) { error in
             if let error = error {
                 print("Fehler beim Speichern der Wette: \(error)")
@@ -149,10 +134,109 @@ class BetViewModel: ObservableObject {
                 print("Wette erfolgreich gespeichert.")
             }
         }
+    }
+    
+    /// Platzieren ohne sofortige Kontostandsänderung
+    /// Berechnet Wetteinsatz und aktualisiert Kontostand
+    private func processBetPlacement(userBalance: Double) -> Double {
+        let totalBetAmount = betAmount
+        let newBalance = userBalance - totalBetAmount
+        userViewModel?.updateBalance(newBalanceAfterBet: newBalance)
+        return newBalance
+    }
+    
+    /// Wette platzieren mit Kontostandaktualisierung
+    func placeBets(userBalance: Double) -> Bool {
+        guard canPlaceBet(userBalance: userBalance) else { return false }
         
-        // UI State aktualisieren
-        selectedBetEvent = event
-        betOutcomeResult = outcome
-        updateTotalOdds()
+        // Kontostand zuerst aktualisieren
+        let newBalance = processBetPlacement(userBalance: userBalance)
+        
+        // Dann Wetten registrieren
+        for bet in bets {
+            processAndSaveBet(
+                event: bet.event,
+                outcome: bet.outcome,
+                betAmount: betAmount
+            )
+            // Event aus der Liste entfernen
+            eventViewModel?.removeFromBet(bet.event)
+        }
+        
+        clearBetSlip()
+        return true
+    }
+    
+    /// Verarbeiten und Kontostand aktualisieren
+    func processBetResult(bet: Bet, actualOutcome: BetOutcome) {
+        guard let currentBalance = userViewModel?.userState.balance else { return }
+        
+        if actualOutcome == bet.outcome {
+            // Gewinn: Einsatz behalten und Gewinn gutschreiben
+            let winAmount = bet.amount * bet.odds
+            let newBalance = currentBalance + winAmount
+            userViewModel?.updateBalance(newBalanceAfterBet: newBalance)
+        } else {
+            // Verlust: Nur den Einsatz abziehen
+            let newBalance = currentBalance - bet.amount
+            userViewModel?.updateBalance(newBalanceAfterBet: newBalance)
+        }
+    }
+    
+    /// Wette registrieren ohne Kontostandsänderung
+    private func processAndSaveBet(event: Event, outcome: BetOutcome, betAmount: Double) {
+        let (selectedOdds, winAmount) = calculateOddsAndWinAmount(for: event, outcome: outcome, betAmount: betAmount)
+        
+        let betNumber = nextBetNumber()
+        let newBet = Bet(
+            event: event,
+            outcome: outcome,
+            odds: selectedOdds,
+            amount: betAmount,
+            winAmount: winAmount,
+            betSlipNumber: betNumber
+        )
+        
+        // Zur Statistik hinzufügen
+        addBetToStatistics(newBet)
+        
+        // In Firestore speichern
+        if let userId = FirebaseAuthManager.shared.userID {
+            // Betdaten erstellen
+            let betData: [String: Any] = [
+                "userId": userId,
+                "eventId": event.id,
+                "betAmount": betAmount,
+                "outcome": outcome.rawValue,
+                "winAmount": winAmount,
+                "betNumber": betNumber,
+                "timestamp": Timestamp()
+            ]
+            
+            // In Firestore speichern
+            Firestore.firestore().collection("Bets")
+                .addDocument(data: betData) { error in
+                    if let error = error {
+                        print("Fehler beim Speichern der Wette: \(error)")
+                    } else {
+                        print("Wette erfolgreich gespeichert.")
+                    }
+                }
+        }
+    }
+    
+    /// Überprüft, ob eine Wette platziert werden kann
+    func canPlaceBet(userBalance: Double) -> Bool {
+        return !bets.isEmpty && betAmount > 0 && betAmount <= userBalance
+    }
+    
+    // Zurücksetzen des Wettscheins
+    private func clearBetSlip() {
+        bets.removeAll()
+        betAmount = 0.0
+        totalOdds = 0.0
+        potentialWinAmount = 0.0
+        selectedBetEvent = nil
+        betOutcomeResult = nil
     }
 }

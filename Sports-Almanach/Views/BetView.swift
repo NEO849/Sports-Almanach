@@ -54,12 +54,12 @@ struct BetView: View {
                 List {
                     ForEach(eventViewModel.selectedBetEvents) { event in
                         BetRow(eventViewModel: eventViewModel, event: event)
-                            .environmentObject(betViewModel)      .swipeActions(edge: .trailing, allowsFullSwipe: true) { // Swipe-Aktionen Links
+                            .environmentObject(betViewModel)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(role: .destructive) {
-                                    // Wette aus dem bets-Array(BVM)
                                     betViewModel.bets.removeAll(where: { $0.event.id == event.id })
                                     betViewModel.updateTotalOdds()
-                                    eventViewModel.removeFromBet(event) // Event aus der Liste der ausgewählten Events
+                                    eventViewModel.removeFromBet(event)
                                 } label: {
                                     Label("Löschen", systemImage: "trash")
                                 }
@@ -75,6 +75,10 @@ struct BetView: View {
                 .environmentObject(userViewModel)
                 .environmentObject(eventViewModel)
                 .environmentObject(betViewModel)
+                .onAppear {
+                    // ViewModels setzen
+                    betViewModel.setViewModels(user: userViewModel, event: eventViewModel)
+                }
         }
     }
 }
