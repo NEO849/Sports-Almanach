@@ -15,11 +15,6 @@ struct BetNumberButton: View {
                 Text("#\(bet.betSlipNumber)")
                     .font(.system(.body, design: .monospaced))
                     .bold()
-                
-                // Kurze Info zum Wetttyp
-                Text(bet.outcome.titleGerman)
-                    .font(.system(.caption, design: .rounded))
-                    .foregroundColor(bet.outcome.color)
             }
             .padding(12)
             .frame(width: 80)
@@ -43,12 +38,12 @@ struct BetNumberButton: View {
         event: MockEvents.events[0],
         outcome: .homeWin,
         odds: 2.5,
-        amount: 10,
+        betAmount: 10, winAmount: 30.0,
         timestamp: Date(),
         betSlipNumber: 1
     )
     
-    return BetNumberButton(bet: mockBet) {
+    BetNumberButton(bet: mockBet) {
         print("Button tapped")
     }
 }
