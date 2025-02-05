@@ -80,6 +80,7 @@
 		B533F8D32D309F1600EC9B27 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B533F8D22D309F1600EC9B27 /* FirebaseStorage */; };
 		B533F8D52D309F1600EC9B27 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = B533F8D42D309F1600EC9B27 /* FirebaseStorageCombine-Community */; };
 		B533F8D72D309F1600EC9B27 /* FirebaseVertexAI-Preview in Frameworks */ = {isa = PBXBuildFile; productRef = B533F8D62D309F1600EC9B27 /* FirebaseVertexAI-Preview */; };
+		B541F6872D53732B00A40B73 /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B541F6862D53732000A40B73 /* Banner.swift */; };
 		B5A198612D52D1DF00619045 /* BetNumberButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A198602D52D1DF00619045 /* BetNumberButton.swift */; };
 		B5A198632D52D1EE00619045 /* BetDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A198622D52D1EE00619045 /* BetDetailsView.swift */; };
 		B5C044782D30C84200590CD9 /* FirestoreRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C044772D30C83700590CD9 /* FirestoreRepository.swift */; };
@@ -169,6 +170,7 @@
 
 /* Begin PBXFileReference section */
 		B533F8452D307D1F00EC9B27 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B541F6862D53732000A40B73 /* Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
 		B5A198602D52D1DF00619045 /* BetNumberButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetNumberButton.swift; sourceTree = "<group>"; };
 		B5A198622D52D1EE00619045 /* BetDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetDetailsView.swift; sourceTree = "<group>"; };
 		B5C044772D30C83700590CD9 /* FirestoreRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreRepository.swift; sourceTree = "<group>"; };
@@ -517,6 +519,7 @@
 		F095C8F72C8FAE74002C94FD /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B541F6862D53732000A40B73 /* Banner.swift */,
 				F01DD55B2CCDCECB001176A2 /* Bet.swift */,
 				F04A08792CBD360900E493FF /* EventResponse.swift */,
 				F095C8FC2C8FAEE2002C94FD /* Profile.swift */,
@@ -710,6 +713,7 @@
 				F00CB7092C9CF4B4003D70E3 /* EventsView.swift in Sources */,
 				F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */,
 				F04EE1002CC895600095BD28 /* BetSlipView.swift in Sources */,
+				B541F6872D53732B00A40B73 /* Banner.swift in Sources */,
 				F052E2F92CEA319600769631 /* LogoutButton.swift in Sources */,
 				F05CA8312CECAB080080F2B7 /* BirthdayUtils.swift in Sources */,
 				F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */,

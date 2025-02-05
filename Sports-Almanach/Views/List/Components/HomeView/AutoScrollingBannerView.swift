@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct AutoScrollingBannerView: View {
-    let bannerImages: [HomeView.BannerImage]
+    let bannerImages: [Banner]
     @State private var offset: CGFloat = 0
     @State private var timer: Timer?
     
-    private var repeatedBannerImages: [HomeView.BannerImage] {
+    private var repeatedBannerImages: [Banner] {
         Array(repeating: bannerImages, count: 50).flatMap { $0 }
     }
     

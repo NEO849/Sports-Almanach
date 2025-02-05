@@ -15,21 +15,6 @@ struct HomeView: View {
     @State private var navigateToLogin: Bool = false
     @State private var expandedSection: String?
     
-    struct BannerImage: Identifiable, Hashable {
-        let id = UUID()
-        let imageName: String
-    }
-    
-    let bannerImages = [
-        BannerImage(imageName: "bannersports"),
-        BannerImage(imageName: "boxen"),
-        BannerImage(imageName: "golf"),
-        BannerImage(imageName: "laufen"),
-        BannerImage(imageName: "radfahren"),
-        BannerImage(imageName: "schwimmen"),
-        BannerImage(imageName: "tennis")
-    ]
-    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -53,9 +38,9 @@ struct HomeView: View {
                     
                     DividerView()
                     
-                    AutoScrollingBannerView(bannerImages: bannerImages)
-                        .padding(.bottom, 60)
-                }
+                    AutoScrollingBannerView(bannerImages: Banner.defaultBanners)
+                                     .padding(Edge.Set.bottom, 60)
+                             }
                 .navigationBarBackButtonHidden(true)
                 // Beobachtet den AuthState
                 .onChange(of: userViewModel.authState.isLoggedIn) { _, newValue in
