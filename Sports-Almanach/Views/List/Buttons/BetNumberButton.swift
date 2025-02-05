@@ -47,5 +47,3 @@ struct BetNumberButton: View {
         print("Button tapped")
     }
 }
-
-// End of file
