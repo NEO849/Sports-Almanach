@@ -8,25 +8,14 @@
 import SwiftUI
 import Firebase
 
-// MARK: - AppDelegate für Firebase Setup
-// AppDelegate übernimmt die Initialisierung von Firebase außerhalb des Main Actors
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
-    ) -> Bool {
-        // Firebase Konfiguration in einem nicht-isolierten Kontext
-        FirebaseConfiguration.shared.setLoggerLevel(.min)
-        FirebaseApp.configure()
-        return true
-    }
-}
+
 
 @main
 struct Sports_AlmanachApp: App {
     
-    // App Delegate für besseres Lifecycle Management
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    init() {
+          FirebaseApp.configure() 
+      }
     
     // StateObjects für SwiftUI State Management
     @StateObject private var userViewModel = UserViewModel()

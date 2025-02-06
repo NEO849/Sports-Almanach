@@ -8,7 +8,6 @@
 import Foundation
 import FirebaseAuth
 import FirebaseFirestore
-import SwiftUI
 
 @MainActor
 class UserViewModel: ObservableObject {
@@ -16,14 +15,13 @@ class UserViewModel: ObservableObject {
     @Published private(set) var authState = AuthState()
     @Published private(set) var userState = UserState()
     
-    // FirestoreRepository
-    private let fsRepository: FirestoreRepository
+    private let profileRepo: ProfileRepository
     // Auth State Listener Handle für Cleanup
     private var authStateHandle: AuthStateDidChangeListenerHandle?
     
     
-    init(repository: FirestoreRepository = FirestoreRepository()) {
-        self.fsRepository = repository
+    init(profileRepo: ProfileRepository = ProfileRepository()) {
+        self.profileRepo = profileRepo
         /// Tägliche Überprüfung des Geburtstags planen
         BirthdayUtils.dailyBirthdayCheck(for: self)
         setupAuthStateListener()
@@ -90,7 +88,7 @@ class UserViewModel: ObservableObject {
                     balance: Constants.defaultStartMoney
                 )
                 
-                try await fsRepository.saveProfile(newProfile, userId: userId)
+                try await profileRepo.saveProfile(newProfile, userId: userId)
                 authState.isRegistered = true
                 await loadUserProfile()
             } catch {
@@ -109,7 +107,7 @@ class UserViewModel: ObservableObject {
         guard let userId = FirebaseAuthManager.shared.userID else { return }
         
         do {
-            if let profile = try await fsRepository.loadProfile(userId: userId) {
+            if let profile = try await profileRepo.loadProfile(userId: userId) {
                 userState.profile = profile
                 userState.balance = profile.balance
             } else {
@@ -123,7 +121,7 @@ class UserViewModel: ObservableObject {
     // MARK: - Email Check
     func emailAlreadyExists(email: String) async -> Bool {
         do {
-            return try await fsRepository.emailExists(email)
+            return try await profileRepo.emailExists(email)
         } catch {
             print("Fehler beim Überprüfen der Email: \(error)")
             return false
@@ -136,7 +134,7 @@ class UserViewModel: ObservableObject {
         
         Task {
             do {
-                try await fsRepository.updateBalance(userId: userId, newBalance: newBalance)
+                try await profileRepo.updateBalance(userId: userId, newBalance: newBalance)
                 await MainActor.run {
                     userState.balance = newBalance
                 }
@@ -146,7 +144,6 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    // Birthday related functions remain the same
     func updateMoneyUserBirthday() {
         guard let userId = FirebaseAuthManager.shared.userID, let birthday = userState.birthday else {
             print("Fehler: Benutzer-ID oder Geburtstag fehlt.")
@@ -155,7 +152,6 @@ class UserViewModel: ObservableObject {
         BirthdayUtils.checkBirthday(userId: userId, birthday: birthday)
     }
     
-    // Balance related functions remain the same
     func resetBalance() {
         if userState.balance == 0 {
             userState.balance = Constants.defaultStartMoney

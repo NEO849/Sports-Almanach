@@ -8,8 +8,8 @@
 import Foundation
 import FirebaseFirestore
 
-/// Zentrale Stelle für alle Firestore-Datenbankoperationen
-class FirestoreRepository {
+/// Zentrale Stelle für alle Crud-Datenbankoperationen
+class ProfileRepository {
     /// Firestore-Datenbankinstanz für alle Operationen
     private let dbInstanz = Firestore.firestore()
     
