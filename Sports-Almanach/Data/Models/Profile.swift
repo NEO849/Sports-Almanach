@@ -15,7 +15,6 @@ struct Profile: Identifiable, Codable {
     let birthday: Date
     let startMoney: Double
     var balance: Double
-    var selectedEventIds: [String] = []
     
     /// Standartwert für ID (UUID als String konventieren), ID von aussen
      init(id: String = UUID().uuidString,
