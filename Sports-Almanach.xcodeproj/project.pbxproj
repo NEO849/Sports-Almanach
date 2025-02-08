@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B51C351C2D5750F6003119DF /* CoreModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B51C351A2D5750F6003119DF /* CoreModel.xcdatamodeld */; };
 		B533F8462D307D1F00EC9B27 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B533F8452D307D1F00EC9B27 /* GoogleService-Info.plist */; };
 		B533F8482D307E6300EC9B27 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B533F8472D307E6300EC9B27 /* FirebaseAnalytics */; };
 		B533F84A2D307E6300EC9B27 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = B533F8492D307E6300EC9B27 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -83,6 +82,7 @@
 		B533F8D72D309F1600EC9B27 /* FirebaseVertexAI-Preview in Frameworks */ = {isa = PBXBuildFile; productRef = B533F8D62D309F1600EC9B27 /* FirebaseVertexAI-Preview */; };
 		B541F6872D53732B00A40B73 /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B541F6862D53732000A40B73 /* Banner.swift */; };
 		B5478FBB2D576EFA00A59AF6 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5478FBA2D576EFA00A59AF6 /* DataController.swift */; };
+		B56F20E32D57D7FB009DEA26 /* CoreModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B56F20E12D57D7FB009DEA26 /* CoreModel.xcdatamodeld */; };
 		B5A198612D52D1DF00619045 /* BetNumberButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A198602D52D1DF00619045 /* BetNumberButton.swift */; };
 		B5A198632D52D1EE00619045 /* BetDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A198622D52D1EE00619045 /* BetDetailsView.swift */; };
 		B5C044782D30C84200590CD9 /* ProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C044772D30C83700590CD9 /* ProfileRepository.swift */; };
@@ -170,10 +170,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		B51C351B2D5750F6003119DF /* CoreModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreModel.xcdatamodel; sourceTree = "<group>"; };
 		B533F8452D307D1F00EC9B27 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B541F6862D53732000A40B73 /* Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
 		B5478FBA2D576EFA00A59AF6 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		B56F20E22D57D7FB009DEA26 /* CoreModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreModel.xcdatamodel; sourceTree = "<group>"; };
 		B5A198602D52D1DF00619045 /* BetNumberButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetNumberButton.swift; sourceTree = "<group>"; };
 		B5A198622D52D1EE00619045 /* BetDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetDetailsView.swift; sourceTree = "<group>"; };
 		B5C044772D30C83700590CD9 /* ProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRepository.swift; sourceTree = "<group>"; };
@@ -347,8 +347,8 @@
 		B51C35192D57507A003119DF /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				B51C351A2D5750F6003119DF /* CoreModel.xcdatamodeld */,
 				B5478FBA2D576EFA00A59AF6 /* DataController.swift */,
+				B56F20E12D57D7FB009DEA26 /* CoreModel.xcdatamodeld */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -687,6 +687,7 @@
 				F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */,
 				F052E2FB2CEA31FD00769631 /* Title.swift in Sources */,
 				F01DD55E2CCDD485001176A2 /* BetSlipRow.swift in Sources */,
+				B56F20E32D57D7FB009DEA26 /* CoreModel.xcdatamodeld in Sources */,
 				F081DC942CB54CDD00116E7B /* FirebaseAuthManager.swift in Sources */,
 				F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */,
 				F008388C2CD2EEB10004D97B /* Sport.swift in Sources */,
@@ -694,7 +695,6 @@
 				F04A087A2CBD361300E493FF /* EventResponse.swift in Sources */,
 				B5A198632D52D1EE00619045 /* BetDetailsView.swift in Sources */,
 				F0A0168C2CA09B4400C749E3 /* UserError.swift in Sources */,
-				B51C351C2D5750F6003119DF /* CoreModel.xcdatamodeld in Sources */,
 				F05BC2C02CA6A79B00562C51 /* League.swift in Sources */,
 				F026938A2CBD298D009596CD /* AuthError.swift in Sources */,
 				B5C044782D30C84200590CD9 /* ProfileRepository.swift in Sources */,
@@ -1445,12 +1445,12 @@
 /* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
-		B51C351A2D5750F6003119DF /* CoreModel.xcdatamodeld */ = {
+		B56F20E12D57D7FB009DEA26 /* CoreModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				B51C351B2D5750F6003119DF /* CoreModel.xcdatamodel */,
+				B56F20E22D57D7FB009DEA26 /* CoreModel.xcdatamodel */,
 			);
-			currentVersion = B51C351B2D5750F6003119DF /* CoreModel.xcdatamodel */;
+			currentVersion = B56F20E22D57D7FB009DEA26 /* CoreModel.xcdatamodel */;
 			path = CoreModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
