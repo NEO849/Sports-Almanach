@@ -7,14 +7,15 @@
 
 import SwiftUI
 
+/// Main view of the app after login
 struct ContentView: View {
     
-    // MARK: - Properties
-    // StateObject für Lifecycle Management
+    // MARK: - Create ViewModels as StateObjects to preserve their state
     @StateObject private var betViewModel = BetViewModel()
     @StateObject private var userViewModel = UserViewModel()
     @StateObject private var eventViewModel = EventViewModel()
-    
+
+    // Define available navigation tabs
     enum Tab {
         case home, events, bet, statistics
     }
@@ -26,9 +27,10 @@ struct ContentView: View {
                     .resizable()
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
-                
+
+                // Main navigation using TabView
                 TabView {
-                    
+                    // Each tab with its required ViewModels
                     HomeView()
                         .environmentObject(userViewModel)
                         .environmentObject(eventViewModel)
@@ -36,14 +38,12 @@ struct ContentView: View {
                             Image(systemName: "house")
                             Text("Home")
                         }
-                    
                     EventsView()
                         .environmentObject(eventViewModel)
                         .tabItem {
                             Image(systemName: "calendar")
                             Text("Events")
                         }
-                    
                     BetView()
                         .environmentObject(userViewModel)
                         .environmentObject(eventViewModel)
@@ -51,7 +51,6 @@ struct ContentView: View {
                             Image(systemName: "creditcard")
                             Text("Wetten")
                         }
-                    
                     StatisticsView()
                         .tabItem {
                             Image(systemName: "chart.bar")
@@ -61,7 +60,7 @@ struct ContentView: View {
                 .accentColor(.orange)
             }
         }
-        // ViewModels als EnvironmentObjects bereitstellen
+        // Make ViewModels available globally
         .environmentObject(betViewModel)
         .environmentObject(userViewModel)
         .environmentObject(eventViewModel)

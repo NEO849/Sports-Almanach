@@ -8,20 +8,22 @@
 import SwiftUI
 import Firebase
 
+/// Marks this as the application's entry point
 @main
 struct Sports_AlmanachApp: App {
-    
+
+    // Initialize Firebase when app starts
     init() {
-          FirebaseApp.configure() 
+          FirebaseApp.configure()
       }
     
-    // StateObjects für SwiftUI State Management
+    // These ViewModels will be available throughout the entire app lifecycle
     @StateObject private var userViewModel = UserViewModel()
     @StateObject private var eventViewModel = EventViewModel()
     
     var body: some Scene {
         WindowGroup {
-            // Ausgelagerte View-Logic für bessere Testbarkeit
+            // Route to different views based on authentication status
             Group {
                 if FirebaseAuthManager.shared.isUserSignedIn {
                     ContentView()
@@ -29,7 +31,7 @@ struct Sports_AlmanachApp: App {
                     SplashView()
                 }
             }
-            // Environment Objects für Dependency Injection
+            // Inject ViewModels into the environment for child views to access
             .environmentObject(userViewModel)
             .environmentObject(eventViewModel)
         }

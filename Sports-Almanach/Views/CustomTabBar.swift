@@ -7,19 +7,23 @@
 
 import SwiftUI
 
-/// Benutzerdefinierte Tab-Leiste für die Navigation
+/// Custom tab bar with animations
 struct CustomTabBar: View {
+    // Current and previous tab for animation logic
     @Binding var displayedTab: Tab
     @State var previousTab: Tab
+    
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var eventViewModel: EventViewModel
     
+    // Available tabs with raw string values
     enum Tab: String, CaseIterable {
         case home, events, bet, statistics
     }
     
     var body: some View {
         VStack {
+            // Content area based on selected tab
             Group {
                 // /// if / else alternative
                 //                if selectedTab == .home {
@@ -46,10 +50,10 @@ struct CustomTabBar: View {
                     StatisticsView()
                 }
             }
-            // Übergangsanimation basierend der Tab-Reihenfolge
+            // Animated transition between tabs
             .transition(transitionAnimation(for: displayedTab))
             
-            /// Tab-Leiste
+            // Custom tab bar buttons
             HStack {
                 ForEach(Tab.allCases, id: \.self) { currentTab in
                     TabBarButton(
@@ -68,7 +72,7 @@ struct CustomTabBar: View {
         }
     }
     
-    // Basierend auf der Tab-Reihenfolge
+    // Calculate transition based on tab order
     private func transitionAnimation(for currentTab: Tab) -> AnyTransition {
         // /// if / else alternative
         //            let previousIndex = Tab.allCases.firstIndex(of: previousTab)!
@@ -83,9 +87,13 @@ struct CustomTabBar: View {
         return currentTabIndex > previousTabIndex ? .move(edge: .trailing) : .move(edge: .leading)
     }
     
+    /// Single button in the tab bar with animation and styling
     struct TabBarButton: View {
+        /// The tab this button represents
         var tab: CustomTabBar.Tab
+        /// Currently selected tab (two-way binding)
         @Binding var selectedTab: CustomTabBar.Tab
+        /// Previous tab for animation direction
         @Binding var previousTab: CustomTabBar.Tab
         
         var body: some View {
@@ -95,6 +103,7 @@ struct CustomTabBar: View {
                 }
             }) {
                 VStack {
+                    // Icon with dynamic size and color
                     Image(systemName: icon(for: tab))
                         .font(.system(size: 18))
                         .foregroundColor(selectedTab == tab ? .orange : .blue)
@@ -107,6 +116,8 @@ struct CustomTabBar: View {
             .frame(maxWidth: .infinity)
         }
         
+        // MARK: - Helper Functions
+        /// Returns the appropriate SF Symbol for each tab
         private func icon(for tab: CustomTabBar.Tab) -> String {
             switch tab {
             case .home: return "house"
@@ -115,7 +126,7 @@ struct CustomTabBar: View {
             case .statistics: return "rectangle.and.pencil.and.ellipsis"
             }
         }
-        
+        /// Returns the display text for each tab
         private func tabTitle(for tab: CustomTabBar.Tab) -> String {
             switch tab {
             case .home: return "Home"
