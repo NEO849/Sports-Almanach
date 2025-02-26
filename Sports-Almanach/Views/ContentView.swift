@@ -10,15 +10,10 @@ import SwiftUI
 /// Main view of the app after login
 struct ContentView: View {
     
-    // MARK: - Create ViewModels as StateObjects to preserve their state
-    @StateObject private var betViewModel = BetViewModel()
-    @StateObject private var userViewModel = UserViewModel()
-    @StateObject private var eventViewModel = EventViewModel()
-
-    // Define available navigation tabs
-    enum Tab {
-        case home, events, bet, statistics
-    }
+    // MARK: - Properties
+    @EnvironmentObject var betViewModel: BetViewModel
+    @EnvironmentObject var userViewModel: UserViewModel
+    @EnvironmentObject var eventViewModel: EventViewModel
     
     var body: some View {
         NavigationStack {
@@ -35,26 +30,28 @@ struct ContentView: View {
                         .environmentObject(userViewModel)
                         .environmentObject(eventViewModel)
                         .tabItem {
-                            Image(systemName: "house")
-                            Text("Home")
+                            Image(systemName: TabSelection.home.icon)
+                            Text(TabSelection.home.title)
                         }
                     EventsView()
                         .environmentObject(eventViewModel)
                         .tabItem {
-                            Image(systemName: "calendar")
-                            Text("Events")
+                            Image(systemName: TabSelection.events.icon)
+                            Text(TabSelection.events.title)
                         }
                     BetView()
                         .environmentObject(userViewModel)
                         .environmentObject(eventViewModel)
                         .tabItem {
-                            Image(systemName: "creditcard")
-                            Text("Wetten")
+                            Image(systemName: TabSelection.bet.icon)
+                            Text(TabSelection.bet.title)
                         }
                     StatisticsView()
+                        .environmentObject(userViewModel)
+                        .environmentObject(betViewModel)
                         .tabItem {
-                            Image(systemName: "chart.bar")
-                            Text("Statistik")
+                            Image(systemName: TabSelection.statistics.icon)
+                            Text(TabSelection.statistics.title)
                         }
                 }
                 .accentColor(.orange)
@@ -71,4 +68,5 @@ struct ContentView: View {
     ContentView()
         .environmentObject(UserViewModel())
         .environmentObject(EventViewModel())
+        .environmentObject(BetViewModel())
 }

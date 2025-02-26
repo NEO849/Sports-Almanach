@@ -18,6 +18,7 @@ struct Sports_AlmanachApp: App {
       }
     
     // These ViewModels will be available throughout the entire app lifecycle
+    @StateObject private var betViewModel = BetViewModel()
     @StateObject private var userViewModel = UserViewModel()
     @StateObject private var eventViewModel = EventViewModel()
     
@@ -32,6 +33,7 @@ struct Sports_AlmanachApp: App {
                 }
             }
             // Inject ViewModels into the environment for child views to access
+            .environmentObject(betViewModel)
             .environmentObject(userViewModel)
             .environmentObject(eventViewModel)
         }

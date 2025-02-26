@@ -3,36 +3,49 @@
 //  Sports-Almanach
 //
 //  Created by Michael Fleps on 21.09.24.
-// .
+//
 
 import SwiftUI
 import AVKit
 
+/// Splash screen displaying an intro video before navigating to the login screen
+/// - Uses AVPlayer to play a video during app startup
+/// - Automatically navigates to login after video playback
 struct SplashView: View {
     
+    // MARK: - Properties
     @State private var showLoginView = false
     @State private var player: AVPlayer?
     
+    /// Duration after which to navigate to login screen (matches video length)
+    private let navigationDelay: Double = 3.3
+    private let videoFileName = "splashintro"
+    
     var body: some View {
-        
         NavigationStack {
-            
             ZStack {
-                // Überprüft ob die Video-URL existiert
-                if let videoURL = Bundle.main.url(forResource: "splashintro", withExtension: "mp4") {
-                    // AVPlayer initial. und Starten
+                // Check if the video URL exists in the bundle
+                if let videoURL = Bundle.main.url(forResource: videoFileName, withExtension: "mp4") {
+                    // Initialize and start AVPlayer
                     VideoPlayer(player: player ?? AVPlayer(url: videoURL))
                         .onAppear {
+                            // Create player instance and start playback
                             player = AVPlayer(url: videoURL)
                             player?.play()
                             
-                            // Navigation auslösen
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 3.3) {
+                            // Trigger navigation after video ends
+                            DispatchQueue.main.asyncAfter(deadline: .now() + navigationDelay) {
                                 showLoginView = true
                             }
                         }
+                        .onDisappear {
+                            // Clean up player resources when view disappears
+                            player?.pause()
+                            player = nil
+                        }
                         .edgesIgnoringSafeArea(.all)
                 } else {
+                    // Fallback if video not found
                     ProgressView()
                         .scaleEffect(3.3, anchor: .center)
                         .foregroundColor(.orange)
@@ -64,7 +77,7 @@ struct SplashView: View {
                 }
             }
             .navigationDestination(isPresented: $showLoginView) {
-                // Wenn showLoginView true
+                // Navigate to login when showLoginView becomes true
                 LoginView()
             }
         }
