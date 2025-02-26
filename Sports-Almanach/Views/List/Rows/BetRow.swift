@@ -45,7 +45,7 @@ struct BetRow: View {
                             currentOdds = odds.awayWinOdds
                         }
                         
-                        // Neue Wette mit betSlipNumber
+                        // Neue Wette erstellen
                         let bet = Bet(
                             id: UUID(),
                             event: event,
@@ -54,7 +54,7 @@ struct BetRow: View {
                             betAmount: betViewModel.betAmount, 
                             winAmount: betViewModel.betAmount * currentOdds, 
                             timestamp: Date(),
-                            betSlipNumber: betViewModel.nextBetNumber() 
+                            betSlipNumber: betViewModel.nextBetSlipNumber 
                         )
                         // Ist Wette bereits im Wettschein vorhanden?
                         if !betViewModel.isBetAlreadyExists(for: event) {

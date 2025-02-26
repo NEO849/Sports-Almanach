@@ -171,16 +171,29 @@ class UserViewModel: ObservableObject {
     }
     
     func resetBalance() {
-        if userState.balance == 0 {
+        print("Reset Balance aufgerufen. Aktueller Kontostand: \(userState.balance)")
+        if userState.balance <= 0 {
+            print("Kontostand ist 0 oder kleiner, setze auf Standardwert")
             userState.balance = Constants.defaultStartMoney
-                  updateProfile(newBalance: userState.balance)
-              }
-          }
+            // Wichtig: Zuerst in Firebase speichern
+            Task {
+                await MainActor.run {
+                    updateProfile(newBalance: Constants.defaultStartMoney)
+                }
+            }
+        }
+    }
     
     func updateBalance(newBalanceAfterBet: Double) {
+        print("Update Balance aufgerufen. Neuer Kontostand: \(newBalanceAfterBet)")
         userState.balance = newBalanceAfterBet
-        resetBalance()
-        updateProfile(newBalance: newBalanceAfterBet)
+        // Prüfe und setze zurück wenn nötig
+        if userState.balance <= 0 {
+            resetBalance()
+        } else {
+            // Nur updaten wenn nicht zurückgesetzt wurde
+            updateProfile(newBalance: newBalanceAfterBet)
+        }
     }
     
     // MARK: - Private Methods

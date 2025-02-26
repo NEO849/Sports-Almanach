@@ -38,14 +38,6 @@ struct BetView: View {
                     Button("Wettschein") {
                         showBetSlip = true
                     }
-                    .font(.title3)
-                    .padding(.vertical, 2)
-                    .padding(.horizontal, 2)
-                    .foregroundColor(.white)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.orange, lineWidth: 1)
-                    )
                     .buttonStyle(.borderedProminent)
                     .tint(.blue)
                     .padding(.trailing, 8)
@@ -57,13 +49,17 @@ struct BetView: View {
                     ForEach(eventViewModel.selectedEvents) { event in
                         BetRow(eventViewModel: eventViewModel, event: event)
                             .environmentObject(betViewModel)
-                            .swipeActions(edge: .trailing, allowsFullSwipe: true) { // Swipe-Links, Wette Löschen
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) { 
                                 Button(role: .destructive) {
+                                    // Zuerst aus den ausgewählten Events entfernen
+                                    eventViewModel.removeFromSelectedEvents(event) 
+                                    // Dann aus den Wetten entfernen
                                     betViewModel.bets.removeAll(where: { $0.event.id == event.id })
+                                    // Quoten aktualisieren
                                     betViewModel.updateTotalOdds()
                                     Task {
                                         await eventViewModel.deleteEventFromUserProfile(eventId: event.id)
-                                    } // Die ausgewählten Events aus der Liste
+                                    } 
                                 } label: {
                                     Label("Löschen", systemImage: "trash")
                                 }

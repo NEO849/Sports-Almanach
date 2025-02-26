@@ -28,14 +28,28 @@ struct BetSlipView: View {
                 
                 VStack {
                     // Ausgelagerte Listen-View
-                    ScrollView {
-                        VStack(spacing: 8) {
-                            ForEach(betViewModel.bets) { bet in
-                                BetSlipRow(index: betViewModel.bets.firstIndex(of: bet) ?? 0, bet: bet)
-                            }
+                    List {
+                        ForEach(betViewModel.bets.indices, id: \.self) { index in
+                            let bet = betViewModel.bets[index]
+                            BetSlipRow(index: index, bet: bet)
+                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                    Button(role: .destructive) {
+                                        // Entferne die Wette aus dem Wettschein
+                                        betViewModel.bets.remove(at: index)
+                                        // Quoten neu berechnen
+                                        betViewModel.updateTotalOdds()
+                                        // Event aus der ausgewählten Liste entfernen
+                                        if let event = eventViewModel.selectedEvents.first(where: { $0.id == bet.event.id }) {
+                                            eventViewModel.removeFromSelectedEvents(event)
+                                        }
+                                    } label: {
+                                        Label("Löschen", systemImage: "trash")
+                                    }
+                                }
                         }
-                        .padding(.horizontal)
                     }
+                    .listStyle(.plain)
+                    .padding(.horizontal)
                     
                     // Wetteinsatz mit Slider
                     VStack(alignment: .leading, spacing: 8) {
@@ -87,8 +101,24 @@ struct BetSlipView: View {
                     .padding()
                 }
             }
-            .navigationTitle("Wettschein")
-            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    HStack(spacing: 8) {
+                        // MARK: - Wettschein-Nummer Indikator
+                        Text("#\(betViewModel.bets.first?.betSlipNumber ?? 0)")
+                            .font(.system(size: 18, weight: .bold))
+                            .foregroundColor(.orange)
+                            .frame(width: 52, height: 38)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 6)
+                                    .stroke(.orange, lineWidth: 2)
+                            )
+                        Text("Wettschein")
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                    }
+                }
+            }
             .alert("Fehler", isPresented: $showAlert) {
                 Button("OK") { }
             } message: {
@@ -103,8 +133,6 @@ struct BetSlipView: View {
 }
 
 #Preview {
-    // Erzeuge betViewModel inkl. zugewiesener Mock-Wetten innerhalb eines Closures,
-    // sodass alle Zuweisungen außerhalb des ViewBuilder-Kontexts durchgeführt werden.
     let betViewModel: BetViewModel = {
         let mock = BetViewModel()
         let mockBet1 = Bet(

@@ -50,6 +50,45 @@ struct Event: Identifiable, Codable, Equatable {
         case statusString = "strStatus"
     }
     
+    /// Initialisierung aus Firestore-Daten
+    init(id: String,
+         name: String,
+         sport: String,
+         leagueName: String,
+         leagueImage: String,
+         season: String,
+         homeTeam: String,
+         awayTeam: String,
+         date: String,
+         time: String,
+         stadion: String,
+         image: String,
+         videoURL: String?,
+         homeTeamBadge: String?,
+         awayTeamBadge: String?,
+         statusString: String,
+         homeScore: String? = nil,
+         awayScore: String? = nil) {
+        self.id = id
+        self.name = name
+        self.sport = sport
+        self.leagueName = leagueName
+        self.leagueImage = leagueImage
+        self.season = season
+        self.homeTeam = homeTeam
+        self.awayTeam = awayTeam
+        self.date = date
+        self.time = time
+        self.stadion = stadion
+        self.image = image
+        self.videoURL = videoURL
+        self.homeTeamBadge = homeTeamBadge
+        self.awayTeamBadge = awayTeamBadge
+        self.statusString = statusString
+        self.homeScore = homeScore
+        self.awayScore = awayScore
+    }
+    
     static func == (lhs: Event, rhs: Event) -> Bool {
         return lhs.id == rhs.id // Vergleich basierend auf der ID
     }

@@ -98,22 +98,11 @@ struct EventsView: View {
                     
                     List {
                         ForEach(eventViewModel.events) { event in
-                            
-                            /// NavigationLink
                             NavigationLink(destination: EventDetailView(event: event)) {
                                 EventRow(event: event)
                             }
                             .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                                // Mittels Swipe und Id Löschen
-                                Button {
-                                    Task {
-                                        await eventViewModel.deleteEventFromUserProfile(eventId: event.id)
-                                    }
-                                } label: {
-                                    Label("Löschen", systemImage: "trash")
-                                }
-                                .tint(.red)
-                                
+                                // Nur noch Button zum Hinzufügen zur Wette
                                 Button {
                                     eventViewModel.addToSelectedtEvents(event)
                                 } label: {
@@ -121,9 +110,9 @@ struct EventsView: View {
                                 }
                                 .tint(.green)
                             }
-                            
                             .listRowBackground(Color.clear)
                         }
+                        .deleteDisabled(true)
                     }
                     .listStyle(.plain)
                     .navigationTitle("")

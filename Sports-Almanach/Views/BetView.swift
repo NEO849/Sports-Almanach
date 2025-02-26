@@ -57,12 +57,16 @@ struct BetView: View {
                             .environmentObject(betViewModel)
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(role: .destructive) {
+                                    // Zuerst aus den Wetten entfernen
                                     betViewModel.bets.removeAll(where: { $0.event.id == event.id })
+                                    // Dann Quoten aktualisieren
                                     betViewModel.updateTotalOdds()
+                                    // Zuletzt aus den ausgewählten Events entfernen
                                     eventViewModel.removeFromBet(event)
                                 } label: {
                                     Label("Löschen", systemImage: "trash")
                                 }
+                                .tint(.red)
                             }
                     }
                 }

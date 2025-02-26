@@ -20,8 +20,6 @@ struct MockEvents {
             season: "2019-2020",
             homeTeam: "Liverpool",
             awayTeam: "Norwich",
-            homeScore: "4",
-            awayScore: "1",
             date: "2019-08-09",
             time: "19:00",
             stadion: "Anfield",
@@ -29,7 +27,9 @@ struct MockEvents {
             videoURL: "https://www.youtube.com/watch?v=5WWOpHQ1yJo",
             homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/vwpvry1467462651.png",
             awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/xtsxrt1421432888.png",
-            statusString: "Not Started"
+            statusString: "Not Started",
+            homeScore: "4",
+            awayScore: "1"
         ),
         Event(
             id: "602130",
@@ -40,8 +40,6 @@ struct MockEvents {
             season: "2019-2020",
             homeTeam: "Crystal Palace",
             awayTeam: "Arsenal",
-            homeScore: "2",
-            awayScore: "2",
             date: "2019-08-10",
             time: "16:00",
             stadion: "Selhurst Park",
@@ -49,7 +47,9 @@ struct MockEvents {
             videoURL: "https://www.youtube.com/watch?v=VuEb0SzUNaI",
             homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/crystal_palace_badge.png",
             awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/arsenal_badge.png",
-            statusString: "Match Finished"
+            statusString: "Match Finished",
+            homeScore: "2",
+            awayScore: "2"
         ),
         Event(
             id: "602131",
@@ -60,8 +60,6 @@ struct MockEvents {
             season: "2019-2020",
             homeTeam: "Manchester City",
             awayTeam: "Tottenham",
-            homeScore: "1",
-            awayScore: "2",
             date: "2019-08-11",
             time: "17:00:00",
             stadion: "Etihad Stadium",
@@ -69,8 +67,9 @@ struct MockEvents {
             videoURL: "https://www.youtube.com/watch?v=efgh5678",
             homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/man_city_badge.png",
             awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/tottenham_badge.png",
-            statusString: "Match Finished"
-            
+            statusString: "Match Finished",
+            homeScore: "1",
+            awayScore: "2"
         ),
         Event(
             id: "602132",
@@ -81,8 +80,6 @@ struct MockEvents {
             season: "2019-2020",
             homeTeam: "Liverpool",
             awayTeam: "Norwich",
-            homeScore: "0",
-            awayScore: "0",
             date: "2019-08-09",
             time: "19:00:00",
             stadion: "Anfield",
@@ -90,8 +87,9 @@ struct MockEvents {
             videoURL: "https://www.youtube.com/watch?v=WzGN6uWqwQ4",
             homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/west_ham_badge.png",
             awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/norwich_badge.png",
-            statusString: "In Progress"
-            
+            statusString: "In Progress",
+            homeScore: "0",
+            awayScore: "0"
         ),
         Event(
             id: "602133",
@@ -102,8 +100,6 @@ struct MockEvents {
             season: "2019-2020",
             homeTeam: "Crystal Palace",
             awayTeam: "Arsenal",
-            homeScore: "8",
-            awayScore: "2",
             date: "2019-08-10",
             time: "16:00:00",
             stadion: "Selhurst Park",
@@ -111,8 +107,9 @@ struct MockEvents {
             videoURL: "https://www.youtube.com/watch?v=DvEz6wC4r5w",
             homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/tottenham_badge.png",
             awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/arsenal_badge.png",
-            statusString: "Not Started"
-            
+            statusString: "Not Started",
+            homeScore: "8",
+            awayScore: "2"
         ),
         Event(
             id: "602134",
@@ -123,8 +120,6 @@ struct MockEvents {
             season: "2019-2020",
             homeTeam: "Manchester City",
             awayTeam: "Tottenham",
-            homeScore: "5",
-            awayScore: "5",
             date: "2019-08-11",
             time: "17:00:00",
             stadion: "Etihad Stadium",
@@ -132,8 +127,9 @@ struct MockEvents {
             videoURL: "https://www.youtube.com/watch?v=EQe4D70MG3o",
             homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/man_city_badge.png",
             awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/arsenal_badge.png",
-            statusString: "In Progress"
-            
+            statusString: "In Progress",
+            homeScore: "5",
+            awayScore: "5"
         ),
         Event(
             id: "602135",
@@ -144,8 +140,6 @@ struct MockEvents {
             season: "2019-2020",
             homeTeam: "Manchester City",
             awayTeam: "Tottenham",
-            homeScore: "0",
-            awayScore: "4",
             date: "2019-08-11",
             time: "17:00:00",
             stadion: "Etihad Stadium",
@@ -153,8 +147,9 @@ struct MockEvents {
             videoURL: "https://www.youtube.com/watch?v=wthyUDmO1XU",
             homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/man_city_badge.png",
             awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/arsenal_badge.png",
-            statusString: "Not Started"
-            
+            statusString: "Not Started",
+            homeScore: "0",
+            awayScore: "4"
         )
     ]
 }
