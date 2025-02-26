@@ -83,11 +83,12 @@
 		B541F6872D53732B00A40B73 /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B541F6862D53732000A40B73 /* Banner.swift */; };
 		B5478FBB2D576EFA00A59AF6 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5478FBA2D576EFA00A59AF6 /* DataController.swift */; };
 		B56F20E32D57D7FB009DEA26 /* CoreModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B56F20E12D57D7FB009DEA26 /* CoreModel.xcdatamodeld */; };
+		B575E8012D6E9A1A00D2140E /* TabSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8002D6E9A0D00D2140E /* TabSelection.swift */; };
+		B575E8032D6E9E5E00D2140E /* AppErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8022D6E9E5B00D2140E /* AppErrors.swift */; };
 		B5A198612D52D1DF00619045 /* BetNumberButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A198602D52D1DF00619045 /* BetNumberButton.swift */; };
 		B5A198632D52D1EE00619045 /* BetDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A198622D52D1EE00619045 /* BetDetailsView.swift */; };
 		B5C044782D30C84200590CD9 /* ProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C044772D30C83700590CD9 /* ProfileRepository.swift */; };
 		F008388C2CD2EEB10004D97B /* Sport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F008388B2CD2EDF30004D97B /* Sport.swift */; };
-		F00CB7032C9CEF11003D70E3 /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7022C9CEEF9003D70E3 /* ApiError.swift */; };
 		F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7042C9CF430003D70E3 /* HomeView.swift */; };
 		F00CB7072C9CF484003D70E3 /* BetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7062C9CF47F003D70E3 /* BetView.swift */; };
 		F00CB7092C9CF4B4003D70E3 /* EventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7082C9CF4AF003D70E3 /* EventsView.swift */; };
@@ -97,7 +98,6 @@
 		F00CB7162C9E480D003D70E3 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7152C9E47FC003D70E3 /* SplashView.swift */; };
 		F01DD55C2CCDCECF001176A2 /* Bet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01DD55B2CCDCECB001176A2 /* Bet.swift */; };
 		F01DD55E2CCDD485001176A2 /* BetSlipRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F01DD55D2CCDD479001176A2 /* BetSlipRow.swift */; };
-		F026938A2CBD298D009596CD /* AuthError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F02693892CBD2987009596CD /* AuthError.swift */; };
 		F04217992CD2702900BEA19B /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04217982CD2702100BEA19B /* CustomTabBar.swift */; };
 		F04628792C88A757008FB346 /* Sports_AlmanachApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F04628782C88A757008FB346 /* Sports_AlmanachApp.swift */; };
 		F046287B2C88A757008FB346 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F046287A2C88A757008FB346 /* ContentView.swift */; };
@@ -163,7 +163,6 @@
 		F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C8FE2C8FAF01002C94FD /* MockEvents.swift */; };
 		F095C9092C8FB0DE002C94FD /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C9082C8FB0DE002C94FD /* EventViewModel.swift */; };
 		F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */; };
-		F0A0168C2CA09B4400C749E3 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A0168B2CA09B3900C749E3 /* UserError.swift */; };
 		F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */; };
 		F0A80FC72CD194CB00379EB8 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A80FC62CD194C700379EB8 /* WebView.swift */; };
 		F0BB2F8F2CB74BB00034DB67 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */; };
@@ -174,11 +173,12 @@
 		B541F6862D53732000A40B73 /* Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
 		B5478FBA2D576EFA00A59AF6 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		B56F20E22D57D7FB009DEA26 /* CoreModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreModel.xcdatamodel; sourceTree = "<group>"; };
+		B575E8002D6E9A0D00D2140E /* TabSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSelection.swift; sourceTree = "<group>"; };
+		B575E8022D6E9E5B00D2140E /* AppErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrors.swift; sourceTree = "<group>"; };
 		B5A198602D52D1DF00619045 /* BetNumberButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetNumberButton.swift; sourceTree = "<group>"; };
 		B5A198622D52D1EE00619045 /* BetDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetDetailsView.swift; sourceTree = "<group>"; };
 		B5C044772D30C83700590CD9 /* ProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRepository.swift; sourceTree = "<group>"; };
 		F008388B2CD2EDF30004D97B /* Sport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sport.swift; sourceTree = "<group>"; };
-		F00CB7022C9CEEF9003D70E3 /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
 		F00CB7042C9CF430003D70E3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		F00CB7062C9CF47F003D70E3 /* BetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetView.swift; sourceTree = "<group>"; };
 		F00CB7082C9CF4AF003D70E3 /* EventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsView.swift; sourceTree = "<group>"; };
@@ -188,7 +188,6 @@
 		F00CB7152C9E47FC003D70E3 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		F01DD55B2CCDCECB001176A2 /* Bet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bet.swift; sourceTree = "<group>"; };
 		F01DD55D2CCDD479001176A2 /* BetSlipRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSlipRow.swift; sourceTree = "<group>"; };
-		F02693892CBD2987009596CD /* AuthError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthError.swift; sourceTree = "<group>"; };
 		F04217982CD2702100BEA19B /* CustomTabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
 		F04628752C88A757008FB346 /* Sports-Almanach.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sports-Almanach.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F04628782C88A757008FB346 /* Sports_AlmanachApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sports_AlmanachApp.swift; sourceTree = "<group>"; };
@@ -225,7 +224,6 @@
 		F095C8FE2C8FAF01002C94FD /* MockEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEvents.swift; sourceTree = "<group>"; };
 		F095C9082C8FB0DE002C94FD /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
 		F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
-		F0A0168B2CA09B3900C749E3 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
 		F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsCalculator.swift; sourceTree = "<group>"; };
 		F0A80FC62CD194C700379EB8 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -495,9 +493,8 @@
 		F095C8F32C89F71A002C94FD /* Enums */ = {
 			isa = PBXGroup;
 			children = (
-				F0A0168B2CA09B3900C749E3 /* UserError.swift */,
-				F02693892CBD2987009596CD /* AuthError.swift */,
-				F00CB7022C9CEEF9003D70E3 /* ApiError.swift */,
+				B575E8022D6E9E5B00D2140E /* AppErrors.swift */,
+				B575E8002D6E9A0D00D2140E /* TabSelection.swift */,
 				F095C8F82C8FAE97002C94FD /* EventStatus.swift */,
 				F008388B2CD2EDF30004D97B /* Sport.swift */,
 				F05BC2BF2CA6A79700562C51 /* League.swift */,
@@ -694,9 +691,7 @@
 				F04A087D2CBD508000E493FF /* EventRepository.swift in Sources */,
 				F04A087A2CBD361300E493FF /* EventResponse.swift in Sources */,
 				B5A198632D52D1EE00619045 /* BetDetailsView.swift in Sources */,
-				F0A0168C2CA09B4400C749E3 /* UserError.swift in Sources */,
 				F05BC2C02CA6A79B00562C51 /* League.swift in Sources */,
-				F026938A2CBD298D009596CD /* AuthError.swift in Sources */,
 				B5C044782D30C84200590CD9 /* ProfileRepository.swift in Sources */,
 				F05BC2C72CA6B3C200562C51 /* EventRow.swift in Sources */,
 				F05CA82F2CEBFAD40080F2B7 /* InputField.swift in Sources */,
@@ -707,6 +702,7 @@
 				F052E3032CEA33B400769631 /* AutoScrollingBannerView.swift in Sources */,
 				F04EE0FE2CC8927E0095BD28 /* BetRow.swift in Sources */,
 				F046287B2C88A757008FB346 /* ContentView.swift in Sources */,
+				B575E8012D6E9A1A00D2140E /* TabSelection.swift in Sources */,
 				F05BC2CD2CA7B1AB00562C51 /* OddsRow.swift in Sources */,
 				F00CB70E2C9CF74E003D70E3 /* LoginView.swift in Sources */,
 				F05CA8332CECB4DF0080F2B7 /* ValidationUtils.swift in Sources */,
@@ -714,7 +710,6 @@
 				F05CA82B2CEBFA3E0080F2B7 /* SocialLoginButton.swift in Sources */,
 				F00CB7072C9CF484003D70E3 /* BetView.swift in Sources */,
 				F00CB7102C9CF7BD003D70E3 /* RegisterView.swift in Sources */,
-				F00CB7032C9CEF11003D70E3 /* ApiError.swift in Sources */,
 				F04628792C88A757008FB346 /* Sports_AlmanachApp.swift in Sources */,
 				F095C8FD2C8FAEE2002C94FD /* Profile.swift in Sources */,
 				F05BC2C92CA732ED00562C51 /* BetOutcome.swift in Sources */,
@@ -729,6 +724,7 @@
 				F05CA8312CECAB080080F2B7 /* BirthdayUtils.swift in Sources */,
 				F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */,
 				F052E2FF2CEA32BB00769631 /* SectionListView.swift in Sources */,
+				B575E8032D6E9E5E00D2140E /* AppErrors.swift in Sources */,
 				B5478FBB2D576EFA00A59AF6 /* DataController.swift in Sources */,
 				F01DD55C2CCDCECF001176A2 /* Bet.swift in Sources */,
 				F05BC2CB2CA7339F00562C51 /* BetViewModel.swift in Sources */,

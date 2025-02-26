@@ -39,7 +39,7 @@ class FirebaseAuthManager {
     // Registrieren, An,-Abmelden
     func signUp(email: String, password: String) async throws {
         let authResult = try await auth.createUser(withEmail: email, password: password)
-        guard let email = authResult.user.email else { throw AuthError.noEmail }
+        guard let email = authResult.user.email else { throw AppErrors.Auth.noEmail }
         print("Firebase: User with email '\(email)' is registered with id '\(authResult.user.uid)'")
         self.user = authResult.user
         try await signIn(email: email, password: password)
@@ -47,7 +47,7 @@ class FirebaseAuthManager {
 
     func signIn(email: String, password: String) async throws {
         let authResult = try await auth.signIn(withEmail: email, password: password)
-        guard let email = authResult.user.email else { throw AuthError.noEmail }
+        guard let email = authResult.user.email else { throw AppErrors.Auth.noEmail }
         print("Firebase: User with email '\(email)' signed in with id '\(authResult.user.uid)'")
         self.user = authResult.user
     }

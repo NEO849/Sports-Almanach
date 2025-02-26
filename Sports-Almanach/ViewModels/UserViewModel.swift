@@ -9,6 +9,8 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestore
 
+/// ViewModel for managing user authentication and profile
+/// Uses MVVM pattern to separate views from business logic
 @MainActor
 class UserViewModel: ObservableObject {
     
@@ -22,12 +24,15 @@ class UserViewModel: ObservableObject {
     
     init(profileRepo: ProfileRepository = ProfileRepository()) {
         self.profileRepo = profileRepo
-        /// Tägliche Überprüfung des Geburtstags planen
+        /// Schedule daily birthday check
         BirthdayUtils.dailyBirthdayCheck(for: self)
         setupAuthStateListener()
     }
     
     // MARK: - Login Function
+    /// Logs in a user with email and password
+    /// - Sets loading state and handles errors
+    /// - Loads user profile on success
     func login(email: String, password: String) async {
         authState.isLoading = true
         defer { authState.isLoading = false }
@@ -42,6 +47,9 @@ class UserViewModel: ObservableObject {
     }
     
     // MARK: - Registration
+    /// - Validates inputs before saving
+    /// - Checks for existing email addresses
+    /// - Creates Firebase account and user profile
     func register(
         username: String,
         email: String, password: String,
@@ -50,7 +58,7 @@ class UserViewModel: ObservableObject {
             authState.isLoading = true
             defer { authState.isLoading = false }
             
-            // Validierung
+            // Validation of all input fields against defined rules
             let validationErrors = ValidationUtils.validateRegistrationInputs(
                 username: username,
                 email: email,
@@ -64,27 +72,28 @@ class UserViewModel: ObservableObject {
                 return
             }
             
-            // Email-Überprüfung
+            // Email check against duplicates in the database
             if await emailAlreadyExists(email: email) {
-                authState.errorMessages = [.emailAlreadyExists]
+                authState.errorMessages = [AppErrors.User.emailAlreadyExists]
                 return
             }
             
             do {
-                // Firebase Anmeldung
+                // Firebase registration through AuthManager
                 try await FirebaseAuthManager.shared.signUp(email: email, password: password)
                 
                 guard let userId = FirebaseAuthManager.shared.userID else {
-                    authState.errorMessage = UserError.userNotFound.errorDescriptionGerman
+                    authState.errorMessage = AppErrors.User.userNotFound.errorDescriptionGerman
                     return
                 }
                 
+                // Create new profile with starting balance
                 let newProfile = Profile(
                     id: UUID().uuidString,
                     name: username,
                     email: email,
                     birthday: birthday,
-                    startMoney: Constants.defaultStartMoney, // Hier geändert
+                    startMoney: Constants.defaultStartMoney,
                     balance: Constants.defaultStartMoney
                 )
                 
@@ -97,12 +106,16 @@ class UserViewModel: ObservableObject {
         }
     
     // MARK: - Logout Function
+    /// Logs out the user and resets ViewModels
+    /// - Important: Resets both auth and user state
     func logout() {
         FirebaseAuthManager.shared.signOut()
         resetState()
     }
     
     // MARK: - Load Profile
+    /// Loads the user profile from Firebase
+    /// - Essential for initialization after login and for updates
     func loadUserProfile() async {
         guard let userId = FirebaseAuthManager.shared.userID else { return }
         
@@ -119,6 +132,9 @@ class UserViewModel: ObservableObject {
     }
     
     // MARK: - Email Check
+    /// Checks if an email address already exists in the database
+    /// - Parameter email: Email address to check
+    /// - Returns: True if the email already exists
     func emailAlreadyExists(email: String) async -> Bool {
         do {
             return try await profileRepo.emailExists(email)
@@ -129,6 +145,8 @@ class UserViewModel: ObservableObject {
     }
     
     // MARK: - Update Profile
+    /// Updates user balance in the database and local state
+    /// - Parameter newBalance: The new account balance
     func updateProfile(newBalance: Double) {
         guard let userId = FirebaseAuthManager.shared.userID else { return }
         
@@ -166,27 +184,33 @@ class UserViewModel: ObservableObject {
     }
     
     // MARK: - Private Methods
+    /// Processes Firebase authentication errors and sets appropriate error messages
+    /// - Converts Firebase error codes to user-friendly messages
     private func handleAuthError(_ error: Error) {
         if let authError = error as? AuthErrorCode {
             switch authError.code {
             case .emailAlreadyInUse:
-                authState.errorMessage = UserError.emailAlreadyExists.errorDescriptionGerman
+                authState.errorMessage = AppErrors.User.emailAlreadyExists.errorDescriptionGerman
             case .invalidEmail:
-                authState.errorMessage = UserError.invalidEmail.errorDescriptionGerman
+                authState.errorMessage = AppErrors.User.invalidEmail.errorDescriptionGerman
             default:
-                authState.errorMessage = UserError.unknownError.errorDescriptionGerman
+                authState.errorMessage = AppErrors.User.unknownError.errorDescriptionGerman
             }
         }
         authState.showError = true
     }
     
+    /// Resets all states to their default values
+    /// - Used during logout to ensure clean state
     private func resetState() {
         authState = AuthState()
         userState = UserState()
     }
-    
+
+    /// Sets up a Firebase listener for authentication state changes
+    /// - Uses weak self to avoid memory leaks
     private func setupAuthStateListener() {
-        // Speichert den Auth State Listener Handle für späteres Cleanup
+        // Stores the Auth State Listener Handle for later cleanup
         authStateHandle = Auth.auth().addStateDidChangeListener { [weak self] (_: Auth, user: User?) in
             guard let self = self else { return }
             
@@ -198,8 +222,9 @@ class UserViewModel: ObservableObject {
             }
         }
     }
-    
-    // Cleanup hinzufügen
+
+    /// Removes Firebase listeners when the class is deinitialized
+    /// - Prevents memory leaks and unnecessary callback executions
     deinit {
         if let handle = authStateHandle {
             Auth.auth().removeStateDidChangeListener(handle)
@@ -207,15 +232,19 @@ class UserViewModel: ObservableObject {
     }
     
     // MARK: - State Structs
+    /// Model for authentication state
+    /// - Holds all auth-related flags and error messages
     struct AuthState {
         var isLoading = false
         var isLoggedIn = false
         var isRegistered = false
         var showError = false
         var errorMessage: String?
-        var errorMessages: [UserError] = []
+        var errorMessages: [AppErrors.User] = []
     }
     
+    /// Model for user state
+    /// - Contains profile data and current account information
     struct UserState {
         var profile: Profile?
         var balance: Double = Constants.defaultStartMoney
@@ -223,8 +252,10 @@ class UserViewModel: ObservableObject {
     }
     
     // MARK: - Constants
+    /// Constants for the application
+    /// - Central definition of default values
     private enum Constants {
-        // Startgeld für neue Benutzer
+        // Starting money for new users
         static let defaultStartMoney: Double = 1000.00
     }
 }
