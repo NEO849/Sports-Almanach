@@ -27,7 +27,7 @@ class EventRepository {
         
         /// url gültig?
         guard let url = URL(string: urlString) else {
-            throw ApiError.invalidURL
+            throw AppErrors.Api.invalidURL
         }
         print("URL-String: \(urlString)")
         
@@ -72,10 +72,10 @@ class EventRepository {
             return response.events
         } catch let decodingError as DecodingError {
             print("Fehler beim Dekodieren der Daten: \(decodingError.localizedDescription)")
-            throw ApiError.decodingFailed
+            throw AppErrors.Api.decodingFailed
         } catch {
             print("Anfrage an den Server ist fehlgeschlagen: \(error.localizedDescription)")
-            throw ApiError.requestFailed
+            throw AppErrors.Api.requestFailed
         }
     }
     
