@@ -57,7 +57,7 @@ struct LoginView: View {
                         .padding(.bottom, 36)
                         
                         // Login
-                        LoginRegButton(title: "LOGIN") {
+                        PrimaryActionButton(title: "LOGIN") {
                             Task {
                                 await userViewModel.login(email: email, password: password)
                                 await MainActor.run {

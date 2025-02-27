@@ -103,7 +103,7 @@ struct RegisterView: View {
                         .padding(.bottom, 24)
                         
                         // Registrieren
-                        LoginRegButton(title: "REGISTRIEREN") {
+                        PrimaryActionButton(title: "REGISTRIEREN") {
                             attemptSignUp()
                         }
                         .padding(.bottom, 16)

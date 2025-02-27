@@ -15,7 +15,7 @@ struct BetSlipView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var betAmount: Double = 0.0
-
+    
     var body: some View {
         
         NavigationStack {
@@ -26,7 +26,27 @@ struct BetSlipView: View {
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
                 
-                VStack {
+                VStack(spacing: 16) {
+                    // MARK: - Header mit Wettscheinnummer
+                    HStack {
+                        Spacer()
+                        HStack(spacing: 8) {
+                            Text("# \(betViewModel.bets.first?.betSlipNumber ?? 0)")
+                                .font(.system(size: 24, weight: .bold))
+                            Text("   Wettschein")
+                                .font(.system(size: 18, weight: .bold))
+                        }
+                        .foregroundColor(.orange)
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 8)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(.orange, lineWidth: 2)
+                        )
+                        Spacer()
+                    }
+                    .padding(.top)
+                    
                     // Ausgelagerte Listen-View
                     List {
                         ForEach(betViewModel.bets.indices, id: \.self) { index in
@@ -51,72 +71,64 @@ struct BetSlipView: View {
                     .listStyle(.plain)
                     .padding(.horizontal)
                     
-                    // Wetteinsatz mit Slider
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Wetteinsatz: \(betAmount, specifier: "%.2f") €")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                        
-                        Slider(value: $betAmount, in: 0...userViewModel.userState.balance)
-                            .tint(.green)
-                            .onChange(of: betAmount) { _, newValue in
-                                betViewModel.betAmount = newValue
+                    // Wetteinsatz, Quoten und Gewinn
+                    VStack(spacing: 12) {
+                        VStack(alignment: .leading, spacing: 8) {
+                            HStack {
+                                Text("Wetteinsatz:             \(betAmount, specifier: "%.2f") €")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .padding(.leading, 32)
+                                Spacer()
                             }
+                            
+                            // Slider
+                            HStack {
+                                Slider(value: $betAmount, in: 0...userViewModel.userState.balance)
+                                    .tint(.green)
+                                    .onChange(of: betAmount) { _, newValue in
+                                        betViewModel.betAmount = newValue
+                                    }
+                            }
+                            .padding(.horizontal, 32)
+                        }
+                        
+                        // Gesamtquote und möglicher Gewinn
+                        HStack {
+                            Text("Gesamtquote:")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding(.leading, 32)
+                            Text("        \(betViewModel.totalOdds, specifier: "%.2f") €")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
+                        
+                        HStack {
+                            Text("Möglicher Gewinn:")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding(.leading, 32)
+                            Text("\(betViewModel.potentialWinAmount, specifier: "%.2f") €")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
                     }
-                    .padding()
+                    .padding(.vertical)
                     
-                    // Quoten und Gewinn
-                    VStack(spacing: 8) {
-                        Text("Gesamtquote: \(betViewModel.totalOdds, specifier: "%.2f")x")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                        Text("Möglicher Gewinn: \(betViewModel.potentialWinAmount, specifier: "%.2f") €")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                    }
-                    .padding()
-                    
-                    // Wetten Button
-                    Button(action: {
+                    // Wetten
+                    PrimaryActionButton(title: "WETTEN") {
                         if betViewModel.placeBets(userBalance: userViewModel.userState.balance) {
                             dismiss()
                         } else {
                             alertMessage = "Nicht genügend Guthaben oder ungültiger Wetteinsatz"
                             showAlert = true
                         }
-                    }) {
-                        Text("WETTEN")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(
-                                betViewModel.canPlaceBet(userBalance: userViewModel.userState.balance)
-                                    ? Color.green
-                                    : Color.gray
-                            )
-                            .cornerRadius(10)
                     }
-                    .disabled(!betViewModel.canPlaceBet(userBalance: userViewModel.userState.balance))
-                    .padding()
-                }
-            }
-            .toolbar {
-                ToolbarItem(placement: .principal) {
-                    HStack(spacing: 8) {
-                        // MARK: - Wettschein-Nummer Indikator
-                        Text("#\(betViewModel.bets.first?.betSlipNumber ?? 0)")
-                            .font(.system(size: 18, weight: .bold))
-                            .foregroundColor(.orange)
-                            .frame(width: 52, height: 38)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 6)
-                                    .stroke(.orange, lineWidth: 2)
-                            )
-                        Text("Wettschein")
-                            .font(.headline)
-                            .foregroundColor(.primary)
-                    }
+                    .disabled(!betViewModel.canPlaceBet(userBalance: userViewModel.userState.balance)) // Füge disabled hier hinzu
+                    .padding(32)
                 }
             }
             .alert("Fehler", isPresented: $showAlert) {
@@ -126,7 +138,7 @@ struct BetSlipView: View {
             }
         }
         .task {
-            // ViewModels beim Erscheinen der View setzen
+            // Beim Erscheinen der View setzen
             betViewModel.setViewModels(user: userViewModel, event: eventViewModel)
         }
     }

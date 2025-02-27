@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct LoginRegButton: View {
+struct PrimaryActionButton: View {
     
     let title: String
     let action: () -> Void
@@ -15,7 +15,6 @@ struct LoginRegButton: View {
     @State private var isPressed: Bool = false
     
     var body: some View {
-        
         Button(action: {
             action()
             withAnimation(.spring()) {
@@ -48,7 +47,7 @@ struct LoginRegButton: View {
             .scaledToFill()
             .edgesIgnoringSafeArea(.all)
         
-        LoginRegButton(title: "Login") {
+        PrimaryActionButton(title: "Login") {
             print("Button gedrückt")
         }
     }

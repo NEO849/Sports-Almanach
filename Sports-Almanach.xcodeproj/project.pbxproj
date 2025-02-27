@@ -123,7 +123,7 @@
 		F05BC2CD2CA7B1AB00562C51 /* OddsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */; };
 		F05BC2D22CA7EA7D00562C51 /* splashintro.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = F05BC2D12CA7EA7D00562C51 /* splashintro.mp4 */; };
 		F05CA82B2CEBFA3E0080F2B7 /* SocialLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA82A2CEBFA340080F2B7 /* SocialLoginButton.swift */; };
-		F05CA82D2CEBFA7E0080F2B7 /* LoginRegButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA82C2CEBFA740080F2B7 /* LoginRegButton.swift */; };
+		F05CA82D2CEBFA7E0080F2B7 /* PrimaryActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA82C2CEBFA740080F2B7 /* PrimaryActionButton.swift */; };
 		F05CA82F2CEBFAD40080F2B7 /* InputField.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA82E2CEBFACA0080F2B7 /* InputField.swift */; };
 		F05CA8312CECAB080080F2B7 /* BirthdayUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA8302CECAB040080F2B7 /* BirthdayUtils.swift */; };
 		F05CA8332CECB4DF0080F2B7 /* ValidationUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA8322CECB4DC0080F2B7 /* ValidationUtils.swift */; };
@@ -215,7 +215,7 @@
 		F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsRow.swift; sourceTree = "<group>"; };
 		F05BC2D12CA7EA7D00562C51 /* splashintro.mp4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = splashintro.mp4; sourceTree = "<group>"; };
 		F05CA82A2CEBFA340080F2B7 /* SocialLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginButton.swift; sourceTree = "<group>"; };
-		F05CA82C2CEBFA740080F2B7 /* LoginRegButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginRegButton.swift; sourceTree = "<group>"; };
+		F05CA82C2CEBFA740080F2B7 /* PrimaryActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryActionButton.swift; sourceTree = "<group>"; };
 		F05CA82E2CEBFACA0080F2B7 /* InputField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputField.swift; sourceTree = "<group>"; };
 		F05CA8302CECAB040080F2B7 /* BirthdayUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BirthdayUtils.swift; sourceTree = "<group>"; };
 		F05CA8322CECB4DC0080F2B7 /* ValidationUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationUtils.swift; sourceTree = "<group>"; };
@@ -474,7 +474,7 @@
 			isa = PBXGroup;
 			children = (
 				F05CA82E2CEBFACA0080F2B7 /* InputField.swift */,
-				F05CA82C2CEBFA740080F2B7 /* LoginRegButton.swift */,
+				F05CA82C2CEBFA740080F2B7 /* PrimaryActionButton.swift */,
 				F05CA82A2CEBFA340080F2B7 /* SocialLoginButton.swift */,
 				F052E2F82CEA318000769631 /* LogoutButton.swift */,
 				B5A198602D52D1DF00619045 /* BetNumberButton.swift */,
@@ -698,7 +698,7 @@
 				B5C044782D30C84200590CD9 /* ProfileRepository.swift in Sources */,
 				F05BC2C72CA6B3C200562C51 /* EventRow.swift in Sources */,
 				F05CA82F2CEBFAD40080F2B7 /* InputField.swift in Sources */,
-				F05CA82D2CEBFA7E0080F2B7 /* LoginRegButton.swift in Sources */,
+				F05CA82D2CEBFA7E0080F2B7 /* PrimaryActionButton.swift in Sources */,
 				B5A198612D52D1DF00619045 /* BetNumberButton.swift in Sources */,
 				F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */,
 				F052E3012CEA336500769631 /* AnimatedText.swift in Sources */,
