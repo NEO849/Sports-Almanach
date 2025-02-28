@@ -11,16 +11,18 @@ struct PrimaryActionButton: View {
     
     let title: String
     let action: () -> Void
-    
+    let isActive: Bool
     @State private var isPressed: Bool = false
     
     var body: some View {
         Button(action: {
-            action()
-            withAnimation(.spring()) {
-                isPressed.toggle()
+            if isActive {
+                action()
+                withAnimation(.spring()) {
+                    isPressed.toggle()
+                }
+                isPressed = false
             }
-            isPressed = false
         }) {
             Text(title)
                 .font(.headline)
@@ -28,13 +30,15 @@ struct PrimaryActionButton: View {
                 .frame(width: 300, height: 50)
                 .background(
                     LinearGradient(
-                        colors: [.black, .orange.opacity(0.8)],
+                        colors: isActive ? 
+                            [.black, .orange.opacity(0.8)] : 
+                            [.gray.opacity(0.6), .gray.opacity(0.4)],
                         startPoint: .top,
                         endPoint: .bottom
                     )
                 )
                 .cornerRadius(10)
-                .shadow(color: .orange, radius: 4, x: -2, y: -2)
+                .shadow(color: isActive ? .orange : .gray, radius: 4, x: -2, y: -2)
                 .scaleEffect(isPressed ? 0.8 : 1.0)
         }
     }
@@ -47,8 +51,12 @@ struct PrimaryActionButton: View {
             .scaledToFill()
             .edgesIgnoringSafeArea(.all)
         
-        PrimaryActionButton(title: "Login") {
-            print("Button gedrückt")
-        }
+        PrimaryActionButton(
+            title: "Login",
+            action: {
+                print("Button gedrückt")
+            },
+            isActive: true
+        )
     }
 }

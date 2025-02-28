@@ -56,19 +56,23 @@ struct LoginView: View {
                         }
                         .padding(.bottom, 36)
                         
-                        // Login
-                        PrimaryActionButton(title: "LOGIN") {
-                            Task {
-                                await userViewModel.login(email: email, password: password)
-                                await MainActor.run {
-                                    if userViewModel.authState.isLoggedIn {
-                                        navigateToContentView = true  // Navigation aktivieren
+                        // Login Button 
+                        PrimaryActionButton(
+                            title: "LOGIN",
+                            action: {
+                                Task {
+                                    await userViewModel.login(email: email, password: password)
+                                    await MainActor.run {
+                                        if userViewModel.authState.isLoggedIn {
+                                            navigateToContentView = true
+                                        }
                                     }
                                 }
-                            }
-                        }
+                            },
+                            isActive: true
+                        )
                         
-                        // Navigation zur ContentView über navigationDestination
+                        // Navigation zur ContentView 
                         .navigationDestination(isPresented: $navigateToContentView) {
                             ContentView()
                         }

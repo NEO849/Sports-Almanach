@@ -103,9 +103,13 @@ struct RegisterView: View {
                         .padding(.bottom, 24)
                         
                         // Registrieren
-                        PrimaryActionButton(title: "REGISTRIEREN") {
-                            attemptSignUp()
-                        }
+                        PrimaryActionButton(
+                            title: "REGISTRIEREN",
+                            action: {
+                                attemptSignUp()
+                            },
+                            isActive: true 
+                        )
                         .padding(.bottom, 16)
                         
                         // Navigation zur ContentView nach erfolgreicher Registrierung
