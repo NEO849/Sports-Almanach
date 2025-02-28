@@ -15,6 +15,7 @@ struct BetSlipView: View {
     @State private var showAlert = false
     @State private var alertMessage = ""
     @State private var betAmount: Double = 0.0
+    @State private var sliderTouched = false
     
     var body: some View {
         
@@ -69,13 +70,13 @@ struct BetSlipView: View {
                         }
                     }
                     .listStyle(.plain)
-                    .padding(.horizontal)
+                    .padding(.horizontal, 32)
                     
                     // Wetteinsatz, Quoten und Gewinn
                     VStack(spacing: 12) {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
-                                Text("Wetteinsatz:             \(betAmount, specifier: "%.2f") €")
+                                Text("Wetteinsatz:            \(betAmount, specifier: "%.2f") €")
                                     .font(.headline)
                                     .foregroundColor(.white)
                                     .padding(.leading, 32)
@@ -88,6 +89,8 @@ struct BetSlipView: View {
                                     .tint(.green)
                                     .onChange(of: betAmount) { _, newValue in
                                         betViewModel.betAmount = newValue
+                                        // Button wird nur aktiv mit Betrag
+                                        sliderTouched = newValue > 0
                                     }
                             }
                             .padding(.horizontal, 32)
@@ -118,16 +121,20 @@ struct BetSlipView: View {
                     }
                     .padding(.vertical)
                     
-                    // Wetten
-                    PrimaryActionButton(title: "WETTEN") {
-                        if betViewModel.placeBets(userBalance: userViewModel.userState.balance) {
-                            dismiss()
-                        } else {
-                            alertMessage = "Nicht genügend Guthaben oder ungültiger Wetteinsatz"
-                            showAlert = true
-                        }
-                    }
-                    .disabled(!betViewModel.canPlaceBet(userBalance: userViewModel.userState.balance)) // Füge disabled hier hinzu
+                    // Wetten Button
+                    PrimaryActionButton(
+                        title: "WETTEN",
+                        action: {
+                            if betViewModel.placeBets(userBalance: userViewModel.userState.balance) {
+                                dismiss()
+                            } else {
+                                alertMessage = "Nicht genügend Guthaben oder ungültiger Wetteinsatz"
+                                showAlert = true
+                            }
+                        },
+                        isActive: sliderTouched
+                    )
+                    .disabled(!betViewModel.canPlaceBet(userBalance: userViewModel.userState.balance))
                     .padding(32)
                 }
             }
