@@ -120,7 +120,6 @@
 		F05BC2C72CA6B3C200562C51 /* EventRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2C62CA6B3BB00562C51 /* EventRow.swift */; };
 		F05BC2C92CA732ED00562C51 /* BetOutcome.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2C82CA732EA00562C51 /* BetOutcome.swift */; };
 		F05BC2CB2CA7339F00562C51 /* BetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2CA2CA7339500562C51 /* BetViewModel.swift */; };
-		F05BC2CD2CA7B1AB00562C51 /* OddsRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */; };
 		F05BC2D22CA7EA7D00562C51 /* splashintro.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = F05BC2D12CA7EA7D00562C51 /* splashintro.mp4 */; };
 		F05CA82B2CEBFA3E0080F2B7 /* SocialLoginButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA82A2CEBFA340080F2B7 /* SocialLoginButton.swift */; };
 		F05CA82D2CEBFA7E0080F2B7 /* PrimaryActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = F05CA82C2CEBFA740080F2B7 /* PrimaryActionButton.swift */; };
@@ -212,7 +211,6 @@
 		F05BC2C62CA6B3BB00562C51 /* EventRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventRow.swift; sourceTree = "<group>"; };
 		F05BC2C82CA732EA00562C51 /* BetOutcome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetOutcome.swift; sourceTree = "<group>"; };
 		F05BC2CA2CA7339500562C51 /* BetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetViewModel.swift; sourceTree = "<group>"; };
-		F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsRow.swift; sourceTree = "<group>"; };
 		F05BC2D12CA7EA7D00562C51 /* splashintro.mp4 */ = {isa = PBXFileReference; lastKnownFileType = text; path = splashintro.mp4; sourceTree = "<group>"; };
 		F05CA82A2CEBFA340080F2B7 /* SocialLoginButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialLoginButton.swift; sourceTree = "<group>"; };
 		F05CA82C2CEBFA740080F2B7 /* PrimaryActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryActionButton.swift; sourceTree = "<group>"; };
@@ -579,7 +577,6 @@
 			children = (
 				F05BC2C62CA6B3BB00562C51 /* EventRow.swift */,
 				F04EE0FD2CC892700095BD28 /* BetRow.swift */,
-				F05BC2CC2CA7B1A300562C51 /* OddsRow.swift */,
 				F01DD55D2CCDD479001176A2 /* BetSlipRow.swift */,
 			);
 			path = Rows;
@@ -706,7 +703,6 @@
 				F04EE0FE2CC8927E0095BD28 /* BetRow.swift in Sources */,
 				F046287B2C88A757008FB346 /* ContentView.swift in Sources */,
 				B575E8012D6E9A1A00D2140E /* TabSelection.swift in Sources */,
-				F05BC2CD2CA7B1AB00562C51 /* OddsRow.swift in Sources */,
 				F00CB70E2C9CF74E003D70E3 /* LoginView.swift in Sources */,
 				F05CA8332CECB4DF0080F2B7 /* ValidationUtils.swift in Sources */,
 				F095C9092C8FB0DE002C94FD /* EventViewModel.swift in Sources */,
