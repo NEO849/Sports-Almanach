@@ -121,7 +121,7 @@ class BetViewModel: ObservableObject {
     // MARK: - Wettfunktionen
     /// Berechnet die Gewinnquote und den Gewinnbetrag
     private func calculateOddsAndWinAmount(for event: Event, outcome: BetOutcome, betAmount: Double) -> (odds: Double, winAmount: Double) {
-        let odds = OddsCalculator.calculateOdds(for: event)
+        let odds = SportEventUtils.calculateOdds(for: event)
         var selectedOdds: Double
         
         switch outcome {

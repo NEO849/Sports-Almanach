@@ -77,7 +77,7 @@ struct BetRow: View {
             .padding(.horizontal, 16)
             
             // Quoten Grid
-            let odds = OddsCalculator.calculateOdds(for: event)
+            let odds = SportEventUtils.calculateOdds(for: event)
             oddsGrid(odds: odds)
                 .padding(.horizontal, 12)
             

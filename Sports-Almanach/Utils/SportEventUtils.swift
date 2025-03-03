@@ -1,5 +1,5 @@
 //
-//  OddsCalculator.swift
+//  SportEventUtils..swift
 //  Sports-Almanach
 //
 //  Created by Michael Fleps on 24.09.24.
@@ -8,7 +8,7 @@
 import Foundation
 
 /// Berechnet Quoten für Heimsieg, Unentschieden und Auswärtssieg basierend auf den Spielständen.
-struct OddsCalculator {
+struct SportEventUtils {
     
     static func calculateOdds(for event: Event) -> (homeWinOdds: Double, drawOdds: Double, awayWinOdds: Double) {
         

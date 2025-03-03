@@ -81,8 +81,6 @@
 		B533F8D52D309F1600EC9B27 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = B533F8D42D309F1600EC9B27 /* FirebaseStorageCombine-Community */; };
 		B533F8D72D309F1600EC9B27 /* FirebaseVertexAI-Preview in Frameworks */ = {isa = PBXBuildFile; productRef = B533F8D62D309F1600EC9B27 /* FirebaseVertexAI-Preview */; };
 		B541F6872D53732B00A40B73 /* Banner.swift in Sources */ = {isa = PBXBuildFile; fileRef = B541F6862D53732000A40B73 /* Banner.swift */; };
-		B5478FBB2D576EFA00A59AF6 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5478FBA2D576EFA00A59AF6 /* DataController.swift */; };
-		B56F20E32D57D7FB009DEA26 /* CoreModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B56F20E12D57D7FB009DEA26 /* CoreModel.xcdatamodeld */; };
 		B575E8012D6E9A1A00D2140E /* TabSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8002D6E9A0D00D2140E /* TabSelection.swift */; };
 		B575E8032D6E9E5E00D2140E /* AppErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8022D6E9E5B00D2140E /* AppErrors.swift */; };
 		B575E8072D6EBA7700D2140E /* BetRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8062D6EBA5C00D2140E /* BetRepository.swift */; };
@@ -163,7 +161,7 @@
 		F095C8FF2C8FAF01002C94FD /* MockEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C8FE2C8FAF01002C94FD /* MockEvents.swift */; };
 		F095C9092C8FB0DE002C94FD /* EventViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C9082C8FB0DE002C94FD /* EventViewModel.swift */; };
 		F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */; };
-		F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */; };
+		F0A016912CA23A5200C749E3 /* SportEventUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A016902CA23A4D00C749E3 /* SportEventUtils.swift */; };
 		F0A80FC72CD194CB00379EB8 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0A80FC62CD194C700379EB8 /* WebView.swift */; };
 		F0BB2F8F2CB74BB00034DB67 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */; };
 /* End PBXBuildFile section */
@@ -171,11 +169,10 @@
 /* Begin PBXFileReference section */
 		B533F8452D307D1F00EC9B27 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B541F6862D53732000A40B73 /* Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
-		B5478FBA2D576EFA00A59AF6 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
-		B56F20E22D57D7FB009DEA26 /* CoreModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CoreModel.xcdatamodel; sourceTree = "<group>"; };
 		B575E8002D6E9A0D00D2140E /* TabSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSelection.swift; sourceTree = "<group>"; };
 		B575E8022D6E9E5B00D2140E /* AppErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrors.swift; sourceTree = "<group>"; };
 		B575E8062D6EBA5C00D2140E /* BetRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetRepository.swift; sourceTree = "<group>"; };
+		B5A0939A2D75A70A0075E9EC /* DateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateController.swift; sourceTree = "<group>"; };
 		B5A198602D52D1DF00619045 /* BetNumberButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetNumberButton.swift; sourceTree = "<group>"; };
 		B5A198622D52D1EE00619045 /* BetDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetDetailsView.swift; sourceTree = "<group>"; };
 		B5C044772D30C83700590CD9 /* ProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRepository.swift; sourceTree = "<group>"; };
@@ -224,7 +221,7 @@
 		F095C8FE2C8FAF01002C94FD /* MockEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockEvents.swift; sourceTree = "<group>"; };
 		F095C9082C8FB0DE002C94FD /* EventViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewModel.swift; sourceTree = "<group>"; };
 		F095C90A2C8FB0F7002C94FD /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
-		F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsCalculator.swift; sourceTree = "<group>"; };
+		F0A016902CA23A4D00C749E3 /* SportEventUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SportEventUtils.swift; sourceTree = "<group>"; };
 		F0A80FC62CD194C700379EB8 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		F0BB2F8E2CB74B9E0034DB67 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -345,8 +342,7 @@
 		B51C35192D57507A003119DF /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				B5478FBA2D576EFA00A59AF6 /* DataController.swift */,
-				B56F20E12D57D7FB009DEA26 /* CoreModel.xcdatamodeld */,
+				B5A0939A2D75A70A0075E9EC /* DateController.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -552,7 +548,7 @@
 			children = (
 				F05CA8322CECB4DC0080F2B7 /* ValidationUtils.swift */,
 				F05CA8302CECAB040080F2B7 /* BirthdayUtils.swift */,
-				F0A016902CA23A4D00C749E3 /* OddsCalculator.swift */,
+				F0A016902CA23A4D00C749E3 /* SportEventUtils.swift */,
 				F052E2FC2CEA324500769631 /* DividerView.swift */,
 			);
 			path = Utils;
@@ -684,7 +680,6 @@
 				F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */,
 				F052E2FB2CEA31FD00769631 /* Title.swift in Sources */,
 				F01DD55E2CCDD485001176A2 /* BetSlipRow.swift in Sources */,
-				B56F20E32D57D7FB009DEA26 /* CoreModel.xcdatamodeld in Sources */,
 				F081DC942CB54CDD00116E7B /* FirebaseAuthManager.swift in Sources */,
 				F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */,
 				F008388C2CD2EEB10004D97B /* Sport.swift in Sources */,
@@ -722,10 +717,9 @@
 				B541F6872D53732B00A40B73 /* Banner.swift in Sources */,
 				F052E2F92CEA319600769631 /* LogoutButton.swift in Sources */,
 				F05CA8312CECAB080080F2B7 /* BirthdayUtils.swift in Sources */,
-				F0A016912CA23A5200C749E3 /* OddsCalculator.swift in Sources */,
+				F0A016912CA23A5200C749E3 /* SportEventUtils.swift in Sources */,
 				F052E2FF2CEA32BB00769631 /* SectionListView.swift in Sources */,
 				B575E8032D6E9E5E00D2140E /* AppErrors.swift in Sources */,
-				B5478FBB2D576EFA00A59AF6 /* DataController.swift in Sources */,
 				F01DD55C2CCDCECF001176A2 /* Bet.swift in Sources */,
 				F05BC2CB2CA7339F00562C51 /* BetViewModel.swift in Sources */,
 				F052E2FD2CEA325100769631 /* DividerView.swift in Sources */,
@@ -1439,19 +1433,6 @@
 			productName = "FirebaseFirestoreCombine-Community";
 		};
 /* End XCSwiftPackageProductDependency section */
-
-/* Begin XCVersionGroup section */
-		B56F20E12D57D7FB009DEA26 /* CoreModel.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				B56F20E22D57D7FB009DEA26 /* CoreModel.xcdatamodel */,
-			);
-			currentVersion = B56F20E22D57D7FB009DEA26 /* CoreModel.xcdatamodel */;
-			path = CoreModel.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = F046286D2C88A757008FB346 /* Project object */;
 }

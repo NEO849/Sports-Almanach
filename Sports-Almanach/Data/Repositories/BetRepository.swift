@@ -69,7 +69,7 @@ class BetRepository {
             "userId": userId,
             "eventId": bet.event.id,
             "betAmount": bet.betAmount,
-            "outcome": bet.outcome.rawValue,
+            "outcome": bet.outcome.rawValue, // Speichere direkt als Int
             "odds": bet.odds,
             "winAmount": bet.winAmount ?? 0.0,
             "betSlipNumber": bet.betSlipNumber,
@@ -160,11 +160,11 @@ class BetRepository {
                     // Extrahiere Wettdaten mit Error Handling
                     guard let eventId = data["eventId"] as? String,
                           let betAmount = data["betAmount"] as? Double,
-                          let outcomeRaw = data["outcome"] as? String,
+                          let outcomeRaw = data["outcome"] as? Int, // Direkt als Int lesen
                           let odds = data["odds"] as? Double,
                           let betSlipNumber = data["betSlipNumber"] as? Int,
                           let timestamp = (data["timestamp"] as? Timestamp)?.dateValue(),
-                          let outcome = BetOutcome(rawValue: outcomeRaw) else {
+                          let outcome = BetOutcome(rawValue: outcomeRaw) else { // Verwende den Int direkt
                         throw AppErrors.Api.decodingFailed
                     }
                     
