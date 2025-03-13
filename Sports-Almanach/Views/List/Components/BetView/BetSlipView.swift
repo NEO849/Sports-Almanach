@@ -157,7 +157,7 @@ struct BetSlipView: View {
         let mockBet1 = Bet(
             id: UUID(),
             event: MockEvents.events[0],
-            outcome: .homeWin,
+            userPick: .homeWin,
             odds: 2.5,
             betAmount: 10,
             winAmount: 10 * 2.5,
@@ -167,7 +167,7 @@ struct BetSlipView: View {
         let mockBet2 = Bet(
             id: UUID(),
             event: MockEvents.events[1],
-            outcome: .draw,
+            userPick: .draw,
             odds: 3.0,
             betAmount: 20,
             winAmount: 20 * 3.0,
@@ -177,7 +177,7 @@ struct BetSlipView: View {
         let mockBet3 = Bet(
             id: UUID(),
             event: MockEvents.events[2],
-            outcome: .awayWin,
+            userPick: .awayWin,
             odds: 2.0,
             betAmount: 15,
             winAmount: 15 * 2.0,
@@ -187,7 +187,7 @@ struct BetSlipView: View {
         let mockBet4 = Bet(
             id: UUID(),
             event: MockEvents.events[3],
-            outcome: .homeWin,
+            userPick: .homeWin,
             odds: 1.8,
             betAmount: 12,
             winAmount: 12 * 1.8,
@@ -197,7 +197,7 @@ struct BetSlipView: View {
         let mockBet5 = Bet(
             id: UUID(),
             event: MockEvents.events[4],
-            outcome: .draw,
+            userPick: .draw,
             odds: 2.7,
             betAmount: 25,
             winAmount: 25 * 2.7,

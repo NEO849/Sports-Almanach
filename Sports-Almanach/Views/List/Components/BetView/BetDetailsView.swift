@@ -75,7 +75,7 @@ private struct BetDetailsSection: View {
         VStack(spacing: 12) {
             DetailRow(title: "Wetteinsatz:", value: "\(formatAmount(bet.betAmount)) €")
             DetailRow(title: "Quote:", value: formatAmount(bet.odds))
-            DetailRow(title: "Tipp:", value: bet.outcome.titleGerman)
+            DetailRow(title: "Tipp:", value: bet.userPick.titleGerman)
             if let winAmount = bet.winAmount {
                 DetailRow(title: "Möglicher Gewinn:", value: "\(formatAmount(winAmount)) €")
             }
@@ -106,7 +106,7 @@ private struct DetailRow: View {
     let mockBet = Bet(
         id: UUID(),
         event: MockEvents.events[0],
-        outcome: .homeWin,
+        userPick: .homeWin,
         odds: 2.5,
         betAmount: 10,
         winAmount: 25.0,
