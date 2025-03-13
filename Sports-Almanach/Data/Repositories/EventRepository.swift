@@ -14,12 +14,29 @@ class EventRepository {
     private let useMockData = false // Umschalten
     
     func fetchEvents(for season: Season) async throws -> [Event] {
-        if useMockData {
-            return fetchMockEvents(for: season)
-        } else {
-            return try await fetchApiEvents(for: season)
-        }
-    }
+         if useMockData {
+             return fetchMockEvents(for: season)
+         } else {
+             // Retry-Mechanismus für API-Aufrufe
+             let maxRetries = 3
+             var lastError: Error?
+             
+             for attempt in 1...maxRetries {
+                 do {
+                     let events = try await fetchApiEvents(for: season)
+                     print("✅ Events erfolgreich geladen (Versuch \(attempt))")
+                     return events
+                 } catch {
+                     lastError = error
+                     print("🔴 API-Fehler (Versuch \(attempt)/\(maxRetries)): \(error.localizedDescription)")
+                     // 1 Sekunde Verzögerung vor erneutem Versuch
+                     try? await Task.sleep(nanoseconds: UInt64(1_000_000_000)) 
+                 }
+             }
+             
+             throw lastError ?? AppErrors.Api.requestFailed
+         }
+     }
     
     /// API-Call, Enpunkt in Enum
     private func fetchApiEvents(for season: Season) async throws -> [Event] {
