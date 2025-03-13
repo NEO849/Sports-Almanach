@@ -19,7 +19,11 @@ struct BetRow: View {
         selectedTip != nil
     }
     
-    /// Erstellt eine neue Wette basierend auf der Benutzerauswahl
+    /// Reset der Auswahl nach erfolgreicher Wette
+    private func resetSelection() {
+        selectedTip = nil
+    }
+    
     private func createBet() {
         let odds = SportEventUtils.calculateOdds(for: event)
         guard let userTip = selectedTip else { return }
@@ -41,20 +45,17 @@ struct BetRow: View {
             betSlipNumber: betViewModel.currentBetSlipNumber
         )
         
-        // Zum Wettschein, wenn noch nicht vorhanden
         if !betViewModel.bets.contains(where: { $0.event.id == event.id }) {
-            betViewModel.bets.append(bet)
+            betViewModel.addBet(bet)
+            resetSelection() // Reset nach erfolgreicher Wette
         } else {
             showAlert = true
         }
     }
     
-    
-    
     // MARK: - Body
     var body: some View {
         VStack(alignment: .leading) {
-            // Event Details
             Text(event.name)
                 .font(.headline)
                 .padding(.horizontal, 16)
@@ -94,22 +95,19 @@ struct BetRow: View {
         }
     }
     
-    // MARK: - Subviews
-    /// Grid für die Quotenanzeige
+    // MARK: - Grid für die Quotenanzeige
     private func oddsGrid(odds: (homeWinOdds: Double, drawOdds: Double, awayWinOdds: Double)) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             QuoteRow(title: "1 (Heimsieg)",
                      odds: odds.homeWinOdds,
                      isSelected: selectedTip == .homeWin) {
                 selectedTip = (selectedTip == .homeWin) ? nil : .homeWin
-            }
-            
+            }            
             QuoteRow(title: "0 (Unentschieden)",
                      odds: odds.drawOdds,
                      isSelected: selectedTip == .draw) {
                 selectedTip = (selectedTip == .draw) ? nil : .draw
             }
-            
             QuoteRow(title: "2 (Auswärtssieg)",
                      odds: odds.awayWinOdds,
                      isSelected: selectedTip == .awayWin) {

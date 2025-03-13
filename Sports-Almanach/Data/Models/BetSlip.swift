@@ -16,10 +16,16 @@ struct BetSlip: Identifiable, Codable, Equatable {
     let createdAt: Date
     var isWon: Bool
     
-    var totalStake: Double { SportEventUtils.calculateTotalStake(bets) }
-    var totalOdds: Double { SportEventUtils.calculateTotalOdds(bets) }
-    var potentialWinAmount: Double { SportEventUtils.calculatePotentialWin(stake: totalStake, odds: totalOdds) }
-    
+    // MARK: - Berechnet den Gesamteinsatz, Gesamtquote und den möglichen Gewinn
+    var totalStake: Double {
+        SportEventUtils.calculateTotalStake(bets)
+    }
+    var totalOdds: Double {
+        SportEventUtils.calculateTotalOdds(bets)
+    }
+    var potentialWinAmount: Double {
+        SportEventUtils.calculatePotentialWin(stake: totalStake, odds: totalOdds)
+    }
     
     init(id: UUID = UUID(),
          userId: String,

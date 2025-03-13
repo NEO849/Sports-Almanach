@@ -21,7 +21,6 @@ struct BetSlipView: View {
         
         NavigationStack {
             ZStack {
-                // Hintergrundbild
                 Image("hintergrund")
                     .resizable()
                     .scaledToFill()
@@ -55,9 +54,7 @@ struct BetSlipView: View {
                             BetSlipRow(index: index, bet: bet)
                                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                     Button(role: .destructive) {
-                                        betViewModel.bets.remove(at: index)
-                                        // Quoten neu berechnen
-                                        betViewModel.updateTotalOdds()
+                                        betViewModel.removeBet(at: index)
                                         if let event = eventViewModel.selectedEvents.first(where: { $0.id == bet.event.id }) {
                                             eventViewModel.removeFromSelectedEvents(event)
                                         }
@@ -81,20 +78,17 @@ struct BetSlipView: View {
                                 Spacer()
                             }
                             
-                            // Slider
                             HStack {
                                 Slider(value: $betAmount, in: 0...userViewModel.userState.balance)
                                     .tint(.green)
                                     .onChange(of: betAmount) { _, newValue in
-                                        betViewModel.betAmount = newValue
-                                        // Wird nur aktiv mit Betrag
+                                        betViewModel.updateBetAmount(newValue)
                                         sliderTouched = newValue > 0
                                     }
                             }
                             .padding(.horizontal, 32)
                         }
-                        
-                        // Gesamtquote und möglicher Gewinn
+                  
                         HStack {
                             Text("Gesamtquote:")
                                 .font(.headline)
@@ -123,11 +117,18 @@ struct BetSlipView: View {
                     PrimaryActionButton(
                         title: "WETTEN",
                         action: {
-                            if betViewModel.placeBets(userBalance: userViewModel.userState.balance) {
-                                dismiss()
-                            } else {
-                                alertMessage = "Nicht genügend Guthaben oder ungültiger Wetteinsatz"
-                                showAlert = true
+                            // Task für async
+                            Task {
+                                if await betViewModel.placeBets(userBalance: userViewModel.userState.balance) {
+                                    await MainActor.run {
+                                        dismiss()
+                                    }
+                                } else {
+                                    await MainActor.run {
+                                        alertMessage = "Nicht genügend Guthaben oder ungültiger Wetteinsatz"
+                                        showAlert = true
+                                    }
+                                }
                             }
                         },
                         isActive: sliderTouched
@@ -151,64 +152,54 @@ struct BetSlipView: View {
 #Preview {
     let betViewModel: BetViewModel = {
         let mock = BetViewModel()
-        let mockBet1 = Bet(
-            id: UUID(),
-            event: MockEvents.events[0],
-            userTip: .homeWin,
-            odds: 2.5,
-            betAmount: 10,
-            winAmount: 10 * 2.5,
-            timestamp: Date(),
-            betSlipNumber: 1
-        )
-        let mockBet2 = Bet(
-            id: UUID(),
-            event: MockEvents.events[1],
-            userTip: .draw,
-            odds: 3.0,
-            betAmount: 20,
-            winAmount: 20 * 3.0,
-            timestamp: Date(),
-            betSlipNumber: 2
-        )
-        let mockBet3 = Bet(
-            id: UUID(),
-            event: MockEvents.events[2],
-            userTip: .awayWin,
-            odds: 2.0,
-            betAmount: 15,
-            winAmount: 15 * 2.0,
-            timestamp: Date(),
-            betSlipNumber: 3
-        )
-        let mockBet4 = Bet(
-            id: UUID(),
-            event: MockEvents.events[3],
-            userTip: .homeWin,
-            odds: 1.8,
-            betAmount: 12,
-            winAmount: 12 * 1.8,
-            timestamp: Date(),
-            betSlipNumber: 4
-        )
-        let mockBet5 = Bet(
-            id: UUID(),
-            event: MockEvents.events[4],
-            userTip: .draw,
-            odds: 2.7,
-            betAmount: 25,
-            winAmount: 25 * 2.7,
-            timestamp: Date(),
-            betSlipNumber: 5
-        )
-        mock.bets = [mockBet1, mockBet2, mockBet3, mockBet4, mockBet5]
+        let mockBets = [
+            Bet(
+                event: MockEvents.events[0],
+                userTip: .homeWin,
+                odds: 2.5,
+                betAmount: 10,
+                timestamp: Date(),
+                betSlipNumber: 1
+            ),
+            Bet(
+                event: MockEvents.events[1],
+                userTip: .draw,
+                odds: 3.0,
+                betAmount: 20,
+                timestamp: Date(),
+                betSlipNumber: 2
+            ),
+            Bet(
+                event: MockEvents.events[2],
+                userTip: .awayWin,
+                odds: 2.0,
+                betAmount: 15,
+                timestamp: Date(),
+                betSlipNumber: 3
+            ),
+            Bet(
+                event: MockEvents.events[3],
+                userTip: .homeWin,
+                odds: 1.8,
+                betAmount: 12,
+                timestamp: Date(),
+                betSlipNumber: 4
+            ),
+            Bet(
+                event: MockEvents.events[4],
+                userTip: .draw,
+                odds: 2.7,
+                betAmount: 25,
+                timestamp: Date(),
+                betSlipNumber: 5
+            )
+        ]
+        mockBets.forEach { mock.addBet($0) }
         return mock
     }()
-    
     let userViewModel = UserViewModel()
     let eventViewModel = EventViewModel()
-    
-    BetSlipView()
+    return BetSlipView()
         .environmentObject(betViewModel)
         .environmentObject(userViewModel)
         .environmentObject(eventViewModel)
