@@ -2,7 +2,7 @@
 //  BetOutcomeResult.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 27.09.24.
+//  Created by Michael Fleps on 27.09.24
 //
 
 import Foundation
