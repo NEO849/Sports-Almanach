@@ -10,7 +10,7 @@ import Foundation
 struct Bet: Identifiable, Codable, Equatable {
     let id: UUID
     let event: Event
-    let userPick: UserTip
+    let userTip: UserTip       // User-Tipp als Int (1,0,2)
     let odds: Double
     let betAmount: Double
     var winAmount: Double?
@@ -20,7 +20,7 @@ struct Bet: Identifiable, Codable, Equatable {
     
     init(id: UUID = UUID(),
          event: Event,
-         userPick: UserTip,
+         userTip: UserTip,      
          odds: Double,
          betAmount: Double,
          winAmount: Double? = nil,
@@ -29,21 +29,12 @@ struct Bet: Identifiable, Codable, Equatable {
          isWon: Bool = false) {
         self.id = id
         self.event = event
-        self.userPick = userPick
+        self.userTip = userTip
         self.odds = odds
         self.betAmount = betAmount
         self.winAmount = winAmount
         self.timestamp = timestamp
         self.betSlipNumber = betSlipNumber
         self.isWon = isWon
-    }
-    
-    /// Wertet die Wette aus und aktualisiert isWon
-    mutating func evaluate(with eventResult: EventResult?) {
-        guard let result = eventResult else { return }
-        self.isWon = userPick.rawValue == result.rawValue  // Vergleich der Int-Werte (1,0,2)
-        if isWon {
-            self.winAmount = betAmount * odds
-        }
     }
 }

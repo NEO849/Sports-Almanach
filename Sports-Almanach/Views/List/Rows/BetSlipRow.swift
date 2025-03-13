@@ -35,16 +35,16 @@ struct BetSlipRow: View {
             
             HStack {
                 Spacer().frame(width: 16)
-                Text(bet.outcome.titleGerman)
+                Text(bet.userTip.titleGerman)
                     .font(.subheadline)
                     .frame(width: 100)
                     .padding(8)
-                    .background(bet.outcome.color)
+                    .background(bet.userTip.color)
                     .foregroundColor(.white)
                     .cornerRadius(8)
                     .overlay(
                         RoundedRectangle(cornerRadius: 8)
-                            .stroke(bet.outcome.color, lineWidth: 2)
+                            .stroke(bet.userTip.color, lineWidth: 2)
                     )
                 Spacer().frame(width: 16)
                 Text("Spielausgang")
@@ -71,7 +71,7 @@ struct BetSlipRow: View {
     let mockBet = Bet(
         id: UUID(),
         event: MockEvents.events.first!,
-        outcome: .homeWin,
+        userTip: .homeWin,
         odds: 2.5,
         betAmount: 10,                   
         winAmount: 10 * 2.5,

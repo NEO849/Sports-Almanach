@@ -36,7 +36,7 @@ struct BetNumberButton: View {
     let mockBet = Bet(
         id: UUID(),
         event: MockEvents.events[0],
-        userPick: .homeWin,
+        userTip: .homeWin,
         odds: 2.5,
         betAmount: 10, winAmount: 30.0,
         timestamp: Date(),

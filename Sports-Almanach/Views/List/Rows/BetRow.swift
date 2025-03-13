@@ -9,74 +9,64 @@ import SwiftUI
 
 struct BetRow: View {
     
-    @ObservedObject var eventViewModel: EventViewModel
     @EnvironmentObject var betViewModel: BetViewModel
-    @State private var selectedOdd: BetOutcome?
     @State private var showAlert = false
+    @State private var selectedTip: UserTip?
     let event: Event
     
     /// Ob eine Wette ausgewählt wurde
     private var isButtonActive: Bool {
-        selectedOdd != nil
+        selectedTip != nil
     }
     
-    /// Berechnet die aktuelle Quote basierend auf der Auswahl
-    private func getCurrentOdds(outcome: BetOutcome, odds: (homeWinOdds: Double, drawOdds: Double, awayWinOdds: Double)) -> Double {
-        switch outcome {
-        case .homeWin: return odds.homeWinOdds
-        case .draw: return odds.drawOdds
-        case .awayWin: return odds.awayWinOdds
-        }
-    }
-    
-    /// Zur Auswahl einer Quote
-    private func selectOdd(_ oddType: BetOutcome) {
-        if selectedOdd == oddType {
-            selectedOdd = nil
-        } else {
-            selectedOdd = oddType
-        }
-    }
-    
-    /// Erstellt eine neue Wette
-    private func createBet(odds: (homeWinOdds: Double, drawOdds: Double, awayWinOdds: Double)) {
-        guard let outcome = selectedOdd else { return }
+    /// Erstellt eine neue Wette basierend auf der Benutzerauswahl
+    private func createBet() {
+        let odds = SportEventUtils.calculateOdds(for: event)
+        guard let userTip = selectedTip else { return }
         
-        let currentOdds = getCurrentOdds(outcome: outcome, odds: odds)
+        // Quote basierend auf User-Tipp ermitteln
+        let currentOdds = switch userTip {
+        case .homeWin: odds.homeWinOdds
+        case .draw: odds.drawOdds
+        case .awayWin: odds.awayWinOdds
+        }
+        
+        // Neue Wette erstellen
         let bet = Bet(
-            id: UUID(),
             event: event,
-            outcome: outcome,
+            userTip: userTip,
             odds: currentOdds,
             betAmount: betViewModel.betAmount,
-            winAmount: betViewModel.betAmount * currentOdds,
             timestamp: Date(),
-            betSlipNumber: betViewModel.nextBetSlipNumber
+            betSlipNumber: betViewModel.currentBetSlipNumber
         )
         
-        if !betViewModel.isBetAlreadyExists(for: event) {
+        // Zum Wettschein, wenn noch nicht vorhanden
+        if !betViewModel.bets.contains(where: { $0.event.id == event.id }) {
             betViewModel.bets.append(bet)
-            betViewModel.updateTotalOdds()
-            betViewModel.potentialWinAmount = betViewModel.calculatePossibleWin()
         } else {
             showAlert = true
         }
     }
     
+    
+    
+    // MARK: - Body
     var body: some View {
         VStack(alignment: .leading) {
+            // Event Details
             Text(event.name)
                 .font(.headline)
                 .padding(.horizontal, 16)
             
             HStack {
-                Text("\(eventViewModel.formattedDate(for: event)) um \(eventViewModel.formattedTime(for: event))")
+                Text("\(event.date) um \(event.time)")
                     .font(.subheadline)
                     .foregroundColor(.orange)
             }
             .padding(.horizontal, 16)
             
-            // Quoten Grid
+            // Wettquoten
             let odds = SportEventUtils.calculateOdds(for: event)
             oddsGrid(odds: odds)
                 .padding(.horizontal, 12)
@@ -85,8 +75,8 @@ struct BetRow: View {
                 Spacer()
                 PrimaryActionButton(
                     title: "Zum Wettschein",
-                    action: { createBet(odds: odds) },
-                    isActive: selectedOdd != nil
+                    action: createBet,
+                    isActive: isButtonActive
                 )
                 .frame(width: 200, height: 40)
                 Spacer()
@@ -108,16 +98,22 @@ struct BetRow: View {
     /// Grid für die Quotenanzeige
     private func oddsGrid(odds: (homeWinOdds: Double, drawOdds: Double, awayWinOdds: Double)) -> some View {
         VStack(alignment: .leading, spacing: 10) {
-            QuoteRow(title: "Heimsieg:", odds: odds.homeWinOdds, isSelected: selectedOdd == .homeWin) {
-                selectOdd(.homeWin)
+            QuoteRow(title: "1 (Heimsieg)",
+                     odds: odds.homeWinOdds,
+                     isSelected: selectedTip == .homeWin) {
+                selectedTip = (selectedTip == .homeWin) ? nil : .homeWin
             }
             
-            QuoteRow(title: "Unentschieden:", odds: odds.drawOdds, isSelected: selectedOdd == .draw) {
-                selectOdd(.draw)
+            QuoteRow(title: "0 (Unentschieden)",
+                     odds: odds.drawOdds,
+                     isSelected: selectedTip == .draw) {
+                selectedTip = (selectedTip == .draw) ? nil : .draw
             }
             
-            QuoteRow(title: "Auswärtssieg:", odds: odds.awayWinOdds, isSelected: selectedOdd == .awayWin) {
-                selectOdd(.awayWin)
+            QuoteRow(title: "2 (Auswärtssieg)",
+                     odds: odds.awayWinOdds,
+                     isSelected: selectedTip == .awayWin) {
+                selectedTip = (selectedTip == .awayWin) ? nil : .awayWin
             }
         }
         .padding()
@@ -127,7 +123,7 @@ struct BetRow: View {
     }
 }
 
-// MARK: - QuoteRow View
+// MARK: - QuoteRow
 private struct QuoteRow: View {
     let title: String
     let odds: Double
@@ -149,6 +145,6 @@ private struct QuoteRow: View {
 // MARK: - Preview
 #Preview {
     let mockEvent = MockEvents.events.first!
-    return BetRow(eventViewModel: EventViewModel(), event: mockEvent)
+    return BetRow(event: mockEvent)
         .environmentObject(BetViewModel())
 }

@@ -7,11 +7,14 @@
 
 import Foundation
 
-enum League: String, Identifiable, CaseIterable {
+enum League: String, Identifiable, CaseIterable, CustomStringConvertible {
     case premierLeague = "English Premier League"
     case superliga = "Albanian Superliga"
     
     var id: String { rawValue }
+    
+    // CustomStringConvertible Konformität
+    var description: String { shortedLeagueName }
     
     var shortedLeagueName: String {
         switch self {

@@ -8,7 +8,7 @@
 import Foundation
 
 /// Jahreszahlenbereiche (Saison)
-enum Season: String, Identifiable, CaseIterable {
+enum Season: String, Identifiable, CaseIterable, CustomStringConvertible {
     case season20202021 = "2020-2021"
     case season20212022 = "2021-2022"
     case season20222023 = "2022-2023"
@@ -16,6 +16,9 @@ enum Season: String, Identifiable, CaseIterable {
     case season20242025 = "2024-2025"
     
     var id: String { rawValue }
+    
+    // CustomStringConvertible Konformität
+    var description: String { year }
     
     var year: String {
         rawValue

@@ -55,11 +55,9 @@ struct BetSlipView: View {
                             BetSlipRow(index: index, bet: bet)
                                 .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                     Button(role: .destructive) {
-                                        // Entferne die Wette aus dem Wettschein
                                         betViewModel.bets.remove(at: index)
                                         // Quoten neu berechnen
                                         betViewModel.updateTotalOdds()
-                                        // Event aus der ausgewählten Liste entfernen
                                         if let event = eventViewModel.selectedEvents.first(where: { $0.id == bet.event.id }) {
                                             eventViewModel.removeFromSelectedEvents(event)
                                         }
@@ -89,7 +87,7 @@ struct BetSlipView: View {
                                     .tint(.green)
                                     .onChange(of: betAmount) { _, newValue in
                                         betViewModel.betAmount = newValue
-                                        // Button wird nur aktiv mit Betrag
+                                        // Wird nur aktiv mit Betrag
                                         sliderTouched = newValue > 0
                                     }
                             }
@@ -144,8 +142,7 @@ struct BetSlipView: View {
                 Text(alertMessage)
             }
         }
-        .task {
-            // Beim Erscheinen der View setzen
+        .onAppear {
             betViewModel.setViewModels(user: userViewModel, event: eventViewModel)
         }
     }
@@ -157,7 +154,7 @@ struct BetSlipView: View {
         let mockBet1 = Bet(
             id: UUID(),
             event: MockEvents.events[0],
-            userPick: .homeWin,
+            userTip: .homeWin,
             odds: 2.5,
             betAmount: 10,
             winAmount: 10 * 2.5,
@@ -167,7 +164,7 @@ struct BetSlipView: View {
         let mockBet2 = Bet(
             id: UUID(),
             event: MockEvents.events[1],
-            userPick: .draw,
+            userTip: .draw,
             odds: 3.0,
             betAmount: 20,
             winAmount: 20 * 3.0,
@@ -177,7 +174,7 @@ struct BetSlipView: View {
         let mockBet3 = Bet(
             id: UUID(),
             event: MockEvents.events[2],
-            userPick: .awayWin,
+            userTip: .awayWin,
             odds: 2.0,
             betAmount: 15,
             winAmount: 15 * 2.0,
@@ -187,7 +184,7 @@ struct BetSlipView: View {
         let mockBet4 = Bet(
             id: UUID(),
             event: MockEvents.events[3],
-            userPick: .homeWin,
+            userTip: .homeWin,
             odds: 1.8,
             betAmount: 12,
             winAmount: 12 * 1.8,
@@ -197,7 +194,7 @@ struct BetSlipView: View {
         let mockBet5 = Bet(
             id: UUID(),
             event: MockEvents.events[4],
-            userPick: .draw,
+            userTip: .draw,
             odds: 2.7,
             betAmount: 25,
             winAmount: 25 * 2.7,
