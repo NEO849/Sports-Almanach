@@ -7,32 +7,43 @@
 
 import Foundation
 
-struct Bet: Identifiable, Decodable, Equatable {
+struct Bet: Identifiable, Codable, Equatable {
     let id: UUID
     let event: Event
-    let outcome: BetOutcome
+    let userPick: UserTip
     let odds: Double
     let betAmount: Double
     var winAmount: Double?
     let timestamp: Date
     let betSlipNumber: Int
+    var isWon: Bool = false
     
-    // Custom init
     init(id: UUID = UUID(),
          event: Event,
-         outcome: BetOutcome,
+         userPick: UserTip,
          odds: Double,
          betAmount: Double,
-         winAmount: Double?,
+         winAmount: Double? = nil,
          timestamp: Date = Date(),
-         betSlipNumber: Int) {
+         betSlipNumber: Int,
+         isWon: Bool = false) {
         self.id = id
         self.event = event
-        self.outcome = outcome
+        self.userPick = userPick
         self.odds = odds
         self.betAmount = betAmount
         self.winAmount = winAmount
         self.timestamp = timestamp
         self.betSlipNumber = betSlipNumber
+        self.isWon = isWon
+    }
+    
+    /// Wertet die Wette aus und aktualisiert isWon
+    mutating func evaluate(with eventResult: EventResult?) {
+        guard let result = eventResult else { return }
+        self.isWon = userPick.rawValue == result.rawValue  // Vergleich der Int-Werte (1,0,2)
+        if isWon {
+            self.winAmount = betAmount * odds
+        }
     }
 }
