@@ -10,55 +10,47 @@ import Foundation
 /// Zentrale -Klasse für alle Wett-bezogenen Berechnungen
 struct SportEventUtils {
     
-    /// Ermittelt das tatsächliche Ergebnis eines Events
+    /// Ermittelt Spielergebnis als Int-Werte (1,0,2)
     static func determineResult(from event: Event) -> EventResult? {
         guard let homeScore = Int(event.homeScore ?? ""),
               let awayScore = Int(event.awayScore ?? "") else {
             return nil
         }
         
-        if homeScore > awayScore { return .homeWin }    // 1
-        if homeScore < awayScore { return .awayWin }    // 2
-        return .draw                                    // 0
+        if homeScore > awayScore { return .homeWin }
+        if homeScore < awayScore { return .awayWin }
+        return .draw
     }
-
-    /// Vergleicht User-Tipp mit tatsächlichem Ergebnis
-    static func isCorrectTip(_ userPick: UserTip, for event: Event) -> Bool {
-        guard let result = determineResult(from: event) else { return false }
-        return userPick.rawValue == result.rawValue  // Direkter Int-Vergleich (1,0,2)
+    
+    /// Wertet einen kompletten Wettschein aus
+    ///   - betSlip: Der zu prüfende Wettschein
+    ///   - events: Liste aller Events zum Vergleich
+    /// - Returns: Tuple mit (gewonnen/verloren, Gesamtgewinn)
+    static func evaluateBetSlip(_ betSlip: BetSlip, events: [Event]) -> (isWon: Bool, totalWinAmount: Double) {
+        // Dictionary für schnelleren Event-Lookup
+        let eventDict = Dictionary(uniqueKeysWithValues: events.map { ($0.id, $0) })
+        
+        // Prüfe alle Wetten im Schein
+        for bet in betSlip.bets {
+            guard let event = eventDict[bet.event.id],
+                  let result = determineResult(from: event) else {
+                return (false, 0.0)
+            }
+            
+            // Prüfe ob Tipp korrekt war
+            if bet.userTip.rawValue != result.rawValue {
+                return (false, 0.0)
+            }
+        }
+        
+        // Alle Wetten gewonnen - berechne Gesamtgewinn
+        return (true, betSlip.potentialWinAmount)
     }
     
     /// Berechnet den möglichen Gewinn für eine Wette
     static func calculatePossibleWin(betAmount: Double, odds: Double) -> Double {
-        return betAmount * odds
+        betAmount * odds
     }
-    
-    /// Berechnet den Gesamtgewinn für einen Wettschein
-    static func calculateTotalWinAmount(bets: [Bet]) -> Double {
-        bets.reduce(0) { $0 + ($1.winAmount ?? 0) }
-    }
-    
-    /// Wertet einen kompletten Wettschein aus
-    static func evaluateBetSlip(_ betSlip: BetSlip, events: [Event]) -> (isWon: Bool, totalWinAmount: Double) {
-        var allBetsWon = true
-        var totalWinAmount = 0.0
-        
-        for bet in betSlip.bets {
-            guard let event = events.first(where: { $0.id == bet.event.id }) else { continue }
-            guard let result = determineResult(from: event) else { continue }
-            
-            // Vergleiche User-Tipp mit Ergebnis
-            if bet.userPick.rawValue == result.rawValue {
-                totalWinAmount += calculatePossibleWin(betAmount: bet.betAmount, odds: bet.odds)
-            } else {
-                allBetsWon = false
-                break
-            }
-        }
-        
-        return (allBetsWon, totalWinAmount)
-    }
-    
     // MARK: - Quoten Berechnung
     static func calculateOdds(for event: Event) -> (homeWinOdds: Double, drawOdds: Double, awayWinOdds: Double) {
         let homeScore = Int(event.homeScore ?? "") ?? 0
@@ -70,6 +62,22 @@ struct SportEventUtils {
             awayWinOdds: calculateAwayWinOdds(homeScore: homeScore, awayScore: awayScore)
         )
     }
+    
+    /// Berechnet den Gesamteinsatz eines Wettscheins
+    static func calculateTotalStake(_ bets: [Bet]) -> Double {
+        bets.reduce(0) { $0 + $1.betAmount }
+    }
+    
+    /// Die Gesamtquote eines Wettscheins
+    static func calculateTotalOdds(_ bets: [Bet]) -> Double {
+        bets.reduce(1.0) { $0 * $1.odds }
+    }
+    
+    /// Den möglichen Gesamtgewinn
+    static func calculatePotentialWin(stake: Double, odds: Double) -> Double {
+        stake * odds
+    }
+    
     
     // MARK: - Private Helper
     private static func calculateHomeWinOdds(homeScore: Int, awayScore: Int) -> Double {
