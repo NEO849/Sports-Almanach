@@ -9,32 +9,30 @@ import Foundation
 import SwiftUI
 
 /// Enum für die möglichen Ergebnisse einer Wette
-/// Implementiert Codable für JSON-Serialisierung und Int für Raw Value Mapping
 enum BetOutcome: Int, Codable {
-    // MARK: - Cases
-    // Raw Values entsprechen der Backend-API
-    case draw = 0    // Unentschieden
-    case homeWin = 1 // Heimsieg
-    case awayWin = 2 // Auswärtssieg
+    case draw = 1
+    case homeWin = 0
+    case awayWin = 2
+    case pending = -1
+    case invalid = -2
     
-    // MARK: - Computed Properties
-    /// Liefert die deutsche Übersetzung des Wettergebnisses
-    /// Wird für UI-Anzeige verwendet
     var titleGerman: String {
         switch self {
-        case .homeWin: return "Heimsieg"
-        case .draw: return "Remi"
-        case .awayWin: return "Auswärtssieg"
+        case .homeWin: return "1 (Heimsieg)"
+        case .draw: return "X (Unentschieden)"
+        case .awayWin: return "2 (Auswärtssieg)"
+        case .pending: return "Ausstehend"
+        case .invalid: return "Ungültig"
         }
     }
 
-    /// Liefert die Farbe für UI-Visualisierung
-    /// Verwendet SwiftUI Color für konsistentes Design
     var color: Color {
         switch self {
         case .homeWin: return .green
         case .draw: return .yellow
         case .awayWin: return .blue
+        case .pending: return .gray
+        case .invalid: return .red
         }
     }
 }
