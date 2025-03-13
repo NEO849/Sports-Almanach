@@ -16,29 +16,25 @@ class BetRepository {
     
     // MARK: - Logging
     private func logError(_ error: Error, context: String) {
-        #if DEBUG
+#if DEBUG
         print("🔴 \(context): \(error.localizedDescription)")
-        #endif
+#endif
     }
     
     private func logSuccess(_ message: String) {
-        #if DEBUG
+#if DEBUG
         print("✅ \(message)")
-        #endif
+#endif
     }
     
     private func logInfo(_ message: String) {
-        #if DEBUG
+#if DEBUG
         print("ℹ\u{fef} \(message)")
-        #endif
+#endif
     }
     
     // MARK: - BetSlip Management
-    
     /// Speichert einen neuen Wettschein
-    /// - Parameters:
-    ///   - betSlip: Der zu speichernde Wettschein
-    ///   - userId: ID des Benutzers
     @discardableResult
     func saveBetSlip(_ betSlip: BetSlip, userId: String) async throws -> Bool {
         do {
@@ -51,10 +47,8 @@ class BetRepository {
                 "totalStake": betSlip.totalStake,
                 "totalOdds": betSlip.totalOdds
             ]
-            
             // Wettschein speichern
             let slipRef = try await datab.collection("BetSlips").addDocument(data: betSlipData)
-            
             // Einzelne Wetten als Subcollection speichern
             for bet in betSlip.bets {
                 let betData: [String: Any] = [
@@ -64,10 +58,8 @@ class BetRepository {
                     "betAmount": bet.betAmount,
                     "timestamp": Timestamp(date: bet.timestamp)
                 ]
-                
                 try await slipRef.collection("bets").addDocument(data: betData)
             }
-            
             logSuccess("Wettschein \(betSlip.slipNumber) gespeichert")
             return true
         } catch {
@@ -95,18 +87,15 @@ class BetRepository {
                     logError(AppErrors.Api.decodingFailed, context: "BetSlip Dekodierung")
                     continue
                 }
-                
                 // Zugehörige Wetten laden
                 let betsSnapshot = try await document.reference
                     .collection("bets").getDocuments()
-                
                 var bets: [Bet] = []
                 for betDoc in betsSnapshot.documents {
                     if let bet = try? await loadBet(from: betDoc) {
                         bets.append(bet)
                     }
                 }
-                
                 // Wettschein erstellen
                 let betSlip = BetSlip(
                     userId: userId,
@@ -115,22 +104,17 @@ class BetRepository {
                     createdAt: createdAt,
                     isWon: isWon
                 )
-                
                 betSlips.append(betSlip)
             }
-            
             logSuccess("\(betSlips.count) Wettscheine geladen")
             return betSlips
-            
         } catch {
             logError(error, context: "Wettscheine laden")
             throw error
         }
     }
     
-    // MARK: - Private Helper
-    
-    /// Lädt eine einzelne Wette aus einem Firestore-Dokument
+    // MARK: - Lädt einzelne Wette aus einem Firestore-Dokument
     private func loadBet(from document: DocumentSnapshot) async throws -> Bet {
         let data = document.data() ?? [:]
         
@@ -142,17 +126,15 @@ class BetRepository {
               let timestamp = (data["timestamp"] as? Timestamp)?.dateValue() else {
             throw AppErrors.Api.decodingFailed
         }
-        
         // Zugehöriges Event laden
         let event = try await loadEvent(withId: eventId)
-        
         return Bet(
             event: event,
             userTip: userTip,
             odds: odds,
             betAmount: betAmount,
             timestamp: timestamp,
-            betSlipNumber: 0 // wird vom BetSlip gesetzt
+            betSlipNumber: 0
         )
     }
     

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B50CD6102D838B6100A02643 /* BettingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50CD60F2D838B5300A02643 /* BettingService.swift */; };
 		B533F8462D307D1F00EC9B27 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B533F8452D307D1F00EC9B27 /* GoogleService-Info.plist */; };
 		B533F8482D307E6300EC9B27 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B533F8472D307E6300EC9B27 /* FirebaseAnalytics */; };
 		B533F84A2D307E6300EC9B27 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = B533F8492D307E6300EC9B27 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -168,6 +169,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B50CD60F2D838B5300A02643 /* BettingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BettingService.swift; sourceTree = "<group>"; };
 		B533F8452D307D1F00EC9B27 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B541F6862D53732000A40B73 /* Banner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Banner.swift; sourceTree = "<group>"; };
 		B575E8002D6E9A0D00D2140E /* TabSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSelection.swift; sourceTree = "<group>"; };
@@ -461,6 +463,7 @@
 		F081DC922CB54C9400116E7B /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B50CD60F2D838B5300A02643 /* BettingService.swift */,
 				F081DC932CB54CC500116E7B /* FirebaseAuthManager.swift */,
 			);
 			path = Services;
@@ -696,6 +699,7 @@
 				B5DA45522D82A1110016EBB1 /* BetSlip.swift in Sources */,
 				F05CA82D2CEBFA7E0080F2B7 /* PrimaryActionButton.swift in Sources */,
 				B5A198612D52D1DF00619045 /* BetNumberButton.swift in Sources */,
+				B50CD6102D838B6100A02643 /* BettingService.swift in Sources */,
 				F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */,
 				F052E3012CEA336500769631 /* AnimatedText.swift in Sources */,
 				F052E3032CEA33B400769631 /* AutoScrollingBannerView.swift in Sources */,
