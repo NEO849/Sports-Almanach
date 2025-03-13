@@ -4,20 +4,23 @@
 //
 //  Created by Michael Fleps on 20.09.24.
 //
-
 import SwiftUI
 
 struct EventsView: View {
     
-    @EnvironmentObject var eventViewModel: EventViewModel
+    @EnvironmentObject var eventViewModel: EventViewModel // ViewModel als "Source of Truth"
+    
+    // Auswahl für Sport, Liga und Saison als @State, damit UI aktualisiert wird
     @State private var selectedLeague: League = .premierLeague
     @State private var selectedSeason: Season = .current
     @State private var selectedSport: Sport = .defaultSport
     
+    @State private var isLoading = false // Ladezustand für bessere UX
+    
     var body: some View {
-        
         NavigationStack {
             ZStack {
+                // Hintergrundbild
                 Image("hintergrund")
                     .resizable()
                     .scaledToFill()
@@ -26,102 +29,94 @@ struct EventsView: View {
                 VStack {
                     Spacer(minLength: 32)
                     
+                    // Auswahl-Menüs für Sport, Liga & Saison
                     HStack(spacing: 16) {
-                        // Sport-Auswahl mit Label
-                        VStack {
-                            Text("Sport")
-                                .font(.caption)
-                                .foregroundColor(.white)
-                            Menu {
-                                ForEach(Sport.allCases) { sport in
-                                    Button(sport.rawValue) {
-                                        selectedSport = sport
-                                    }
+                        // Sport-Menü mit korrekter Typ-Inferenz
+                        SelectionMenu(
+                            title: "Sport",
+                            selection: $selectedSport,
+                            options: Sport.allCases
+                        )
+                        
+                        // Liga-Menü
+                        SelectionMenu(
+                            title: "Liga",
+                            selection: $selectedLeague,
+                            options: League.allCases
+                        )
+                        
+                        // Saison-Menü mit Event-Handler
+                        SelectionMenu(
+                            title: "Saison",
+                            selection: $selectedSeason,
+                            options: Season.allCases,
+                            onSelect: {
+                                Task {
+                                    await loadEvents()
                                 }
-                            } label: {
-                                Text(" \(selectedSport.rawValue)")
                             }
-                            .padding()
-                            .frame(minWidth: 110)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.orange, lineWidth: 1)
-                            )
-                        }
-                        // Liga-Auswahl
-                        VStack {
-                            Text("Liga")
-                                .font(.caption)
-                                .foregroundColor(.white)
-                            Menu {
-                                ForEach(League.allCases) { league in
-                                    Button(league.rawValue) {
-                                        selectedLeague = league
-                                    }
-                                }
-                            } label: {
-                                Text(" \(selectedLeague.shortedLeagueName)")
-                            }
-                            .padding()
-                            .frame(minWidth: 110)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.orange, lineWidth: 1)
-                            )
-                        }
-                        // Saison-Auswahl
-                        VStack {
-                            Text("Saison")
-                                .font(.caption)
-                                .foregroundColor(.white)
-                            Menu {
-                                ForEach(Season.allCases) { season in
-                                    Button(season.year) {
-                                        selectedSeason = season
-                                        Task {
-                                            await eventViewModel.loadEvents(for: selectedSeason)
-                                        }
-                                    }
-                                }
-                            } label: {
-                                Text(" \(selectedSeason.year)")
-                            }
-                            .padding()
-                            .frame(minWidth: 110)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.orange, lineWidth: 1)
-                            )
-                        }
+                        )
                     }
                     .padding(.horizontal, 20)
                     
-                    List {
-                        ForEach(eventViewModel.events) { event in
-                            NavigationLink(destination: EventDetailView(event: event)) {
-                                EventRow(event: event)
-                            }
-                            .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                                // Nur noch Button zum Hinzufügen zur Wette
-                                Button {
-                                    eventViewModel.addToSelectedtEvents(event)
-                                } label: {
-                                    Label("Zur Wette", systemImage: "plus.circle.fill")
-                                }
-                                .tint(.green)
-                            }
-                            .listRowBackground(Color.clear)
+                    // Ladeanzeige während API-Call
+                    if isLoading {
+                        ProgressView("Lade Events...")
+                            .padding()
+                    } else {
+                        // Event-Liste
+                        List(eventViewModel.events, id: \.id) { event in
+                            EventRow(event: event)
                         }
-                        .deleteDisabled(true)
+                        .listRowBackground(Color.clear)
+                        .listStyle(.plain)
                     }
-                    .listStyle(.plain)
-                    .navigationTitle("")
-                    Spacer()
                 }
-            } // Läd Events
-            .task {
-                await eventViewModel.loadEvents(for: selectedSeason)
+                .deleteDisabled(true)
             }
+            .navigationTitle("")
+            .task {
+                await loadEvents() // Initial Events laden
+            }
+        }
+    }
+    
+    /// Lädt Events asynchron basierend auf der aktuellen Saison
+    private func loadEvents() async {
+        isLoading = true
+        await eventViewModel.loadEvents(season: selectedSeason)
+        isLoading = false
+    }
+}
+
+/// **Generische Auswahlmenü-View für Sport, Liga & Saison**
+struct SelectionMenu<T: Identifiable & CustomStringConvertible>: View {
+    let title: String
+    @Binding var selection: T
+    let options: [T]
+    var onSelect: (() -> Void)?
+    
+    var body: some View {
+        VStack {
+            Text(title)
+                .font(.caption)
+                .foregroundColor(.white)
+            Menu {
+                ForEach(options) { option in
+                    Button(option.description) {
+                        selection = option
+                        onSelect?()
+                    }
+                }
+            } label: {
+                Text(selection.description)
+            }
+            .padding()
+            .frame(minWidth: 110)
+            .overlay(
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.orange, lineWidth: 1)
+            )
         }
     }
 }
