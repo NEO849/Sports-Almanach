@@ -184,16 +184,39 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    func updateBalance(newBalanceAfterBet: Double) {
-        print("Update Balance aufgerufen. Neuer Kontostand: \(newBalanceAfterBet)")
-        userState.balance = newBalanceAfterBet
-        // Prüfe und setze zurück wenn nötig
-        if userState.balance <= 0 {
+    /// Zentrale Methode für Kontostandänderungen
+    func updateBalance(amount: Double, type: TransactionType) {
+        // Aktuelle Bilanz
+        let newBalance = userState.balance + amount
+        
+        // Kontostand unter 0 -> Reset auf Startgeld
+        if newBalance <= 0 {
             resetBalance()
-        } else {
-            // Nur updaten wenn nicht zurückgesetzt wurde
-            updateProfile(newBalance: newBalanceAfterBet)
+            return
         }
+        
+        // Kontostand aktualisieren
+        userState.balance = newBalance
+        
+        // In Firestore speichern
+        guard let userId = FirebaseAuthManager.shared.userID else { return }
+        
+        Task {
+            do {
+                try await profileRepo.updateBalance(userId: userId, newBalance: newBalance)
+                print("💰 \(type.rawValue): \(amount)€ → Neuer Kontostand: \(newBalance)€")
+            } catch {
+                print("❌ Fehler beim Aktualisieren des Kontostands: \(error)")
+            }
+        }
+    }
+    
+    // Enum für Transaktionsarten
+    enum TransactionType: String {
+        case bet = "Wetteinsatz"
+        case win = "Wettgewinn"
+        case birthdayBonus = "Geburtstagsbonus"
+        case reset = "Kontostand Reset"
     }
     
     // MARK: - Private Methods

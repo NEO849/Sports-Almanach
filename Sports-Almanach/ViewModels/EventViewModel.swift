@@ -35,43 +35,56 @@ class EventViewModel: ObservableObject {
     /// Lädt Events für eine bestimmte Season
     func loadingEvents(for season: Season) {
         Task {
-            await loadEvents(for: season)
+            await loadEvents(season: season)
         }
     }
     
     /// Lädt Events aus dem Repository
-    func loadEvents(for season: Season) async {
-        await MainActor.run {
-            self.isLoading = true
-        }
+    /// - Parameter season: Die zu ladende Saison
+    func loadEvents(season: Season) async {
+        isLoading = true
+        
         do {
-            let fetchedEvents = try await eventRepository.fetchEvents(for: season)
+            // Events über Repository laden
+            let events = try await eventRepository.fetchEvents(for: season)
             await MainActor.run {
-                self.events = fetchedEvents
+                self.events = events
                 self.isLoading = false
             }
         } catch {
             await MainActor.run {
-                self.errorMessage = "Fehler beim Abrufen der Events: \(error.localizedDescription)"
+                self.errorMessage = error.localizedDescription
                 self.isLoading = false
             }
-            print("Fehler: \(error)")
+            // Logging des spezifischen Fehlers
+            print("🔴 Event-Lade-Fehler: \(error)")
         }
     }
     
-    /// Speichert ein ausgewähltes Event in Firestore
-    func saveEventToUserProfile(event: Event) async {
+    /// Optimierte Methode zum Speichern von Events im Benutzerprofil
+    func saveEventToUserProfile(_ event: Event) async {
         guard let userId = FirebaseAuthManager.shared.userID else {
-            print("Fehler: Benutzer-ID nicht gefunden.")
+            print("🔴 Kein Benutzer eingeloggt")
             return
         }
-        let profileRef = datab.collection("Profile").document(userId).collection("events").document(event.id)
+        
         do {
-            try profileRef.setData(from: event)
-            await fetchUserEvents()
-            print("Event erfolgreich im Profil gespeichert.")
+            let eventData: [String: Any] = [
+                "id": event.id,
+                "name": event.name,
+                "timestamp": Timestamp()
+            ]
+            
+            try await Firestore.firestore()
+                .collection("Profile")
+                .document(userId)
+                .collection("events")
+                .document(event.id)
+                .setData(eventData, merge: true)
+            
+            print("✅ Event erfolgreich im Profil gespeichert")
         } catch {
-            print("Fehler beim Speichern des Events: \(error.localizedDescription)")
+            print("🔴 Fehler beim Speichern des Events: \(error)")
         }
     }
     
@@ -115,7 +128,7 @@ class EventViewModel: ObservableObject {
         if !selectedEvents.contains(event) {
             selectedEvents.append(event)
             Task {
-                await saveEventToUserProfile(event: event)
+                await saveEventToUserProfile(event)
             }
         }
     }
@@ -147,9 +160,7 @@ class EventViewModel: ObservableObject {
         selectedBetEvents.removeAll()
     }
     
-    // MARK: - Hilfsfunktionen für die Darstellung
-    
-    /// Formatiert das Datum für die Anzeige
+    // MARK: - Formatiert Datum und Uhrzeit Ausgabe
     func formattedDate(for event: Event) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd" // Format der API
@@ -160,7 +171,6 @@ class EventViewModel: ObservableObject {
         return event.date
     }
     
-    /// Formatiert die Zeit für die Anzeige
     func formattedTime(for event: Event) -> String {
         let timeFormatter = DateFormatter()
         timeFormatter.dateFormat = "HH:mm:ss" // Format der API
