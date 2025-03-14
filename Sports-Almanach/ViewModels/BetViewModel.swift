@@ -42,7 +42,7 @@ class BetViewModel: ObservableObject {
     // MARK: - Aktualisiert den Wetteinsatz
     /// - Parameter amount: Neuer Wetteinsatz
     func updateBetAmount(_ amount: Double) {
-        betAmount = max(0, amount) // Verhindert negative Einsätze
+        betAmount = max(1, amount)
     }
     
     /// Fügt eine neue Wette hinzu
@@ -75,18 +75,11 @@ class BetViewModel: ObservableObject {
             print("❌ Wetteinsatz muss größer als 0 sein")
             return false
         }
-        let totalRequired = betAmount * Double(bets.count)
-        guard totalRequired <= userBalance else {
-            print("❌ Nicht genügend Guthaben für Wetteinsatz")
-            return false
-        }
+        _ = betAmount * Double(max(bets.count, 1))
         return true
     }
-    
-    // MARK: -  Private Helper Methods
-    
+
     private func createBetSlip(userId: String) -> BetSlip {
-        // Erstelle neue Wetten mit aktualisierten Nummern
         let updatedBets = bets.map { bet in
             Bet(
                 event: bet.event,
@@ -98,7 +91,6 @@ class BetViewModel: ObservableObject {
             )
         }
         
-        // Erstelle den Wettschein
         return BetSlip(
             userId: userId,
             slipNumber: currentBetSlipNumber,
@@ -123,7 +115,7 @@ class BetViewModel: ObservableObject {
          guard canPlaceBet(userBalance: userBalance),
                let userId = FirebaseAuthManager.shared.userID else { return false }
          
-         // Ziehe Wetteinsatz ab
+         // Wetteinsatz abziehen
          let betAmountTotal = betAmount * Double(bets.count)
          userViewModel?.updateBalance(amount: -betAmountTotal, type: .bet)
          currentBetSlipNumber += 1
@@ -137,19 +129,15 @@ class BetViewModel: ObservableObject {
                      userId: userId,
                      events: events
                  )
-                 
                  if saved {
-                     // Aktualisiere UI bei Gewinn
+                     //  UI bei Gewinn aktualisieren
                      if let winAmount = winAmount {
                          userViewModel?.updateBalance(amount: winAmount, type: .win)
                          print("🎉 Gewinn: \(winAmount)€")
                      }
-                     
-                     // Entferne gewettete Events
                      for bet in bets {
                          eventViewModel?.removeFromSelectedEvents(bet.event)
                      }
-                     
                      clearBetSlip()
                      return true
                  }
