@@ -2,7 +2,7 @@
 //  BettingService.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 13.03.25.
+//  Created by Michael Fleps on 13.03.25
 //
 
 import Foundation
