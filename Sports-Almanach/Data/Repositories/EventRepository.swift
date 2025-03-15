@@ -29,8 +29,8 @@ class EventRepository {
                  } catch {
                      lastError = error
                      print("🔴 API-Fehler (Versuch \(attempt)/\(maxRetries)): \(error.localizedDescription)")
-                     // 1 Sekunde Verzögerung vor erneutem Versuch
-                     try? await Task.sleep(nanoseconds: UInt64(1_000_000_000)) 
+                     // 3 Sekunde Verzögerung vor erneutem Versuch
+                     try? await Task.sleep(nanoseconds: UInt64(3_000_000_000))
                  }
              }
              
@@ -53,7 +53,7 @@ class EventRepository {
             let (data, _) = try await URLSession.shared.data(from: url)
             
             // Fehlermanagement
-//            print("------- Rohe Daten: \(data)")
+            // print("------- Rohe Daten: \(data)")
 //            if let dataString = String(data: data, encoding: .utf8) {
 //                print("------- Daten empfangen: \(dataString)")
 //            } else {
