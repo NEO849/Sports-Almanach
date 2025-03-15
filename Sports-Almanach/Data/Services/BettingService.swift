@@ -22,11 +22,6 @@ class BettingService {
         return (saved, isWon ? winAmount : nil)
     }
     
-    /// Lädt historische Wettscheine
-    func loadBetHistory(userId: String) async throws -> [BetSlip] {
-        try await repository.loadBetSlips(userId: userId)
-    }
-    
     // MARK: - Wertet einen kompletten Wettschein aus
     private func evaluateBetSlip(_ betSlip: BetSlip, events: [Event]) -> (isWon: Bool, totalWinAmount: Double) {
         let eventDict = Dictionary(uniqueKeysWithValues: events.map { ($0.id, $0) })
@@ -47,6 +42,11 @@ class BettingService {
         }
         // Alle Wetten waren richtig - Gewinn berechnen
         return (true, betSlip.potentialWinAmount)
+    }
+    
+    /// Lädt historische Wettscheine
+    func loadBetSlipHistory(userId: String) async throws -> [BetSlip] {
+        try await repository.loadBetSlips(userId: userId)
     }
     
     /// Ermittelt das Ergebnis eines Events (1,0,2)

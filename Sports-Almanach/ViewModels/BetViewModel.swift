@@ -156,7 +156,7 @@ class BetViewModel: ObservableObject {
           Task {
               do {
                   // Nutzt bettingService
-                  let betSlips = try await bettingService.loadBetHistory(userId: userId)
+                  let betSlips = try await bettingService.loadBetSlipHistory(userId: userId)
                   if let lastNumber = betSlips.first?.slipNumber {
                       await MainActor.run { currentBetSlipNumber = lastNumber }
                   }
