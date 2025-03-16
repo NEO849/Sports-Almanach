@@ -124,7 +124,7 @@ class EventViewModel: ObservableObject {
     }
     
     /// Fügt ein Event zur Auswahl hinzu
-    func addToSelectedtEvents(_ event: Event) {
+    func addToSelectedEvents(_ event: Event) {
         if !selectedEvents.contains(event) {
             selectedEvents.append(event)
             Task {

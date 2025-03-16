@@ -65,7 +65,7 @@ struct EventRow: View {
             }
             .swipeActions(edge: .leading, allowsFullSwipe: false) {
                 Button {
-                    eventViewModel.addToSelectedtEvents(event)
+                    eventViewModel.addToSelectedEvents(event)
                 } label: {
                     Label("Zur Wette", systemImage: "plus.circle.fill")
                 }
