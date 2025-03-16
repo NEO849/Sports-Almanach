@@ -1,33 +1,29 @@
-// MARK: - Imports
+//
+//  EventRow.swift
+//  Sports-Almanach
+//
+//  Created by Michael Fleps on 16.03.25.
+//
+
 import SwiftUI
 
 /// Detailansicht für einen einzelnen Wettschein
-struct BetDetailsView: View {
-    // MARK: - Properties
+struct HistoryBetSlipView: View {
     let bet: Bet
     @Environment(\.dismiss) var dismiss
     
-    // MARK: - Body
     var body: some View {
         NavigationView {
             ZStack {
-                // Hintergrund
                 Color.black.opacity(0.9)
                     .edgesIgnoringSafeArea(.all)
-                
                 ScrollView {
                     VStack(spacing: 20) {
-                        // Header
                         Text("Wettschein #\(bet.betSlipNumber)")
                             .font(.title2)
                             .foregroundColor(.orange)
-                        
-                        // Event Details
                         EventDetailsSection(bet: bet)
-                        
-                        // Wett-Details
                         BetDetailsSection(bet: bet)
-                        
                         Spacer()
                     }
                     .padding()
@@ -47,7 +43,6 @@ struct BetDetailsView: View {
 }
 
 // MARK: - Helper Views
-/// Sektion für Event-Details
 private struct EventDetailsSection: View {
     let bet: Bet
     
@@ -62,11 +57,10 @@ private struct EventDetailsSection: View {
     }
 }
 
-/// Sektion für Wett-Details
 private struct BetDetailsSection: View {
     let bet: Bet
     
-    // Formatiere Zahlen als String mit 2 Dezimalstellen
+    // Zahlen als String mit 2 Dezimalstellen
        private func formatAmount(_ amount: Double) -> String {
            String(format: "%.2f", amount)
        }
@@ -101,7 +95,6 @@ private struct DetailRow: View {
     }
 }
 
-// MARK: - Preview
 #Preview {
     let mockBet = Bet(
         id: UUID(),
@@ -113,6 +106,5 @@ private struct DetailRow: View {
         timestamp: Date(),
         betSlipNumber: 1
     )
-    
-    BetDetailsView(bet: mockBet)
+    HistoryBetSlipView(bet: mockBet)
 }
