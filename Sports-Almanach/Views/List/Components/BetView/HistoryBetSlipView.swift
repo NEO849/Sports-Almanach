@@ -9,7 +9,7 @@ import SwiftUI
 
 /// Detailansicht für einen einzelnen Wettschein
 struct HistoryBetSlipView: View {
-    let bet: Bet
+    let betSlip: Bet
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -19,11 +19,11 @@ struct HistoryBetSlipView: View {
                     .edgesIgnoringSafeArea(.all)
                 ScrollView {
                     VStack(spacing: 20) {
-                        Text("Wettschein #\(bet.betSlipNumber)")
+                        Text("Wettschein #\(betSlip.betSlipNumber)")
                             .font(.title2)
                             .foregroundColor(.orange)
-                        EventDetailsSection(bet: bet)
-                        BetDetailsSection(bet: bet)
+                        EventDetailsSection(bet: betSlip)
+                        BetDetailsSection(bet: betSlip)
                         Spacer()
                     }
                     .padding()
@@ -106,5 +106,5 @@ private struct DetailRow: View {
         timestamp: Date(),
         betSlipNumber: 1
     )
-    HistoryBetSlipView(bet: mockBet)
+    HistoryBetSlipView(betSlip: mockBet)
 }
