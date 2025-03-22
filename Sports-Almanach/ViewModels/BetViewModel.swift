@@ -100,14 +100,16 @@ class BetViewModel: ObservableObject {
     
     /// Aktualisiert den möglichen Gewinnbetrag
     private func updatePotentialWinAmount() {
-        potentialWinAmount = SportEventUtils.calculatePotentialWin(
+        // Nutzt BettingService statt SportEventUtils
+        potentialWinAmount = bettingService.calculatePotentialWin(
             stake: betAmount * Double(bets.count),
             odds: totalOdds
         )
     }
     
     private func updateTotalOdds() {
-        totalOdds = SportEventUtils.calculateTotalOdds(bets)
+        // Nutzt BettingService statt SportEventUtils
+        totalOdds = bettingService.calculateTotalOdds(bets)
     }
     
     // MARK: - Platziert die Wetten und aktualisiert den Kontostand

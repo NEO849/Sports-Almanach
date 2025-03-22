@@ -86,7 +86,6 @@
 		B575E8032D6E9E5E00D2140E /* AppErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8022D6E9E5B00D2140E /* AppErrors.swift */; };
 		B575E8072D6EBA7700D2140E /* BetRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8062D6EBA5C00D2140E /* BetRepository.swift */; };
 		B5A198612D52D1DF00619045 /* BetNumberButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A198602D52D1DF00619045 /* BetNumberButton.swift */; };
-		B5A198632D52D1EE00619045 /* HistoryBetSlipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A198622D52D1EE00619045 /* HistoryBetSlipView.swift */; };
 		B5C044782D30C84200590CD9 /* ProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C044772D30C83700590CD9 /* ProfileRepository.swift */; };
 		B5DA45522D82A1110016EBB1 /* BetSlip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DA45512D82A1030016EBB1 /* BetSlip.swift */; };
 		F008388C2CD2EEB10004D97B /* Sport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F008388B2CD2EDF30004D97B /* Sport.swift */; };
@@ -177,7 +176,6 @@
 		B575E8062D6EBA5C00D2140E /* BetRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetRepository.swift; sourceTree = "<group>"; };
 		B5A0939A2D75A70A0075E9EC /* DateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateController.swift; sourceTree = "<group>"; };
 		B5A198602D52D1DF00619045 /* BetNumberButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetNumberButton.swift; sourceTree = "<group>"; };
-		B5A198622D52D1EE00619045 /* HistoryBetSlipView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryBetSlipView.swift; sourceTree = "<group>"; };
 		B5C044772D30C83700590CD9 /* ProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRepository.swift; sourceTree = "<group>"; };
 		B5DA45512D82A1030016EBB1 /* BetSlip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSlip.swift; sourceTree = "<group>"; };
 		F008388B2CD2EDF30004D97B /* Sport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sport.swift; sourceTree = "<group>"; };
@@ -435,7 +433,6 @@
 			isa = PBXGroup;
 			children = (
 				F04EE0FF2CC895540095BD28 /* BetSlipView.swift */,
-				B5A198622D52D1EE00619045 /* HistoryBetSlipView.swift */,
 			);
 			path = BetView;
 			sourceTree = "<group>";
@@ -691,7 +688,6 @@
 				F008388C2CD2EEB10004D97B /* Sport.swift in Sources */,
 				F04A087D2CBD508000E493FF /* EventRepository.swift in Sources */,
 				F04A087A2CBD361300E493FF /* EventResponse.swift in Sources */,
-				B5A198632D52D1EE00619045 /* HistoryBetSlipView.swift in Sources */,
 				F05BC2C02CA6A79B00562C51 /* League.swift in Sources */,
 				B5C044782D30C84200590CD9 /* ProfileRepository.swift in Sources */,
 				F05BC2C72CA6B3C200562C51 /* EventRow.swift in Sources */,

@@ -34,22 +34,18 @@ class BetRepository {
     }
     
     // MARK: - BetSlip Management
-    /// Speichert einen neuen Wettschein
     @discardableResult
     func saveBetSlip(_ betSlip: BetSlip, userId: String) async throws -> Bool {
         do {
-            // Wettschein-Daten
             let betSlipData: [String: Any] = [
                 "userId": userId,
                 "slipNumber": betSlip.slipNumber,
                 "createdAt": Timestamp(date: betSlip.createdAt),
-                "isWon": betSlip.isWon,
-                "totalStake": betSlip.totalStake,
-                "totalOdds": betSlip.totalOdds
+                "isWon": betSlip.isWon
             ]
-            // Wettschein speichern
             let slipRef = try await datab.collection("BetSlips").addDocument(data: betSlipData)
-            // Einzelne Wetten als Subcollection speichern
+            
+            // Einzelne Wetten speichern
             for bet in betSlip.bets {
                 let betData: [String: Any] = [
                     "eventId": bet.event.id,

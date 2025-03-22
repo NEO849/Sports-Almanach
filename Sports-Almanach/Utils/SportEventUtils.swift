@@ -28,27 +28,4 @@ struct SportEventUtils {
         let drawOdds = abs(homeScore - awayScore) <= 1 ? 3.0 : 5.0
         return (homeWinOdds, drawOdds, awayWinOdds)
     }
-    
-    /// Berechnet Gesamteinsatz
-    static func calculateTotalStake(_ bets: [Bet]) -> Double {
-        bets.reduce(0) { $0 + $1.betAmount }
-    }
-    
-    /// Berechnet Gesamtquote
-    static func calculateTotalOdds(_ bets: [Bet]) -> Double {
-        bets.reduce(1.0) { $0 * $1.odds }
-    }
-    
-    /// Berechnet potentiellen Gewinn
-    static func calculatePotentialWin(stake: Double, odds: Double) -> Double {
-        (stake * odds).rounded(to: 2)
-    }
-}
-
-// MARK: - Hilfserweiterung 
-private extension Double {
-    func rounded(to places: Int) -> Double {
-        let multiplier = pow(10.0, Double(places))
-        return (self * multiplier).rounded() / multiplier
-    }
 }

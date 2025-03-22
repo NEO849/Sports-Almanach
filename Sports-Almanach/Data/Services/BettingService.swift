@@ -15,11 +15,31 @@ class BettingService {
         self.repository = repository
     }
     
-    // MARK: - Verarbeitet einen kompletten Wetteinsatz, Tuple mit Speicherstatus und optionalem Gewinn
+    /// Berechnet den Gesamteinsatz für einen Wettschein
+    func calculateTotalStake(_ bets: [Bet]) -> Double {
+        bets.reduce(0.0) { $0 + $1.betAmount }
+    }
+    
+    /// Berechnet die Gesamtquote für einen Wettschein
+    func calculateTotalOdds(_ bets: [Bet]) -> Double {
+        bets.reduce(1.0) { $0 * $1.odds }
+    }
+    
+    /// Berechnet den möglichen Gewinn
+    func calculatePotentialWin(stake: Double, odds: Double) -> Double {
+        let result = stake * odds
+        return result.rounded(to: 2)
+    }
+    
+    // MARK: - Verarbeitet einen kompletten Wetteinsatz
     func processBet(_ betSlip: BetSlip, userId: String, events: [Event]) async throws -> (saved: Bool, winAmount: Double?) {
         let saved = try await repository.saveBetSlip(betSlip, userId: userId)
-        let (isWon, winAmount) = evaluateBetSlip(betSlip, events: events)
-        return (saved, isWon ? winAmount : nil)
+        let totalStake = calculateTotalStake(betSlip.bets)
+        let totalOdds = calculateTotalOdds(betSlip.bets)
+        let potentialWin = calculatePotentialWin(stake: totalStake, odds: totalOdds)
+        
+        let (isWon, _) = evaluateBetSlip(betSlip, events: events)
+        return (saved, isWon ? potentialWin : nil)
     }
     
     // MARK: - Wertet einen kompletten Wettschein aus
@@ -33,15 +53,19 @@ class BettingService {
                 print("❌ Event oder Ergebnis nicht verfügbar")
                 return (false, 0.0)
             }
-            // UserTip mit EventResult anhand der rawValues vergleichen
             if bet.userTip.rawValue != eventResult.rawValue {
                 print("❌ Wette verloren - Tipp: \(bet.userTip.rawValue), Ergebnis: \(eventResult.rawValue)")
                 return (false, 0.0)
             }
             print("✅ Wette gewonnen - Tipp: \(bet.userTip.titleGerman)")
         }
-        // Alle Wetten waren richtig - Gewinn berechnen
-        return (true, betSlip.potentialWinAmount)
+        
+        // Gewinnberechnung direkt hier
+        let totalStake = calculateTotalStake(betSlip.bets)
+        let totalOdds = calculateTotalOdds(betSlip.bets)
+        let winAmount = calculatePotentialWin(stake: totalStake, odds: totalOdds)
+        
+        return (true, winAmount)
     }
     
     /// Lädt historische Wettscheine
@@ -59,5 +83,14 @@ class BettingService {
         if homeScore > awayScore { return .homeWin }    // 1
         if homeScore < awayScore { return .awayWin }    // 2
         return .draw                                    // 0
+    }
+}
+
+// MARK: - Double Extension für interne Berechnungen
+/// Die Extension ist nur innerhalb dieser Datei verfügbar
+private extension Double {
+    func rounded(to places: Int) -> Double {
+        let multiplier = pow(10.0, Double(places))
+        return (self * multiplier).rounded() / multiplier
     }
 }
