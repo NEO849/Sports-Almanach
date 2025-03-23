@@ -10,42 +10,36 @@ import Foundation
 /// Service-Layer für die Wettverarbeitung und Auswertung
 class BettingService {
     private let repository: BetRepository
-    
+
     init(repository: BetRepository = BetRepository()) {
         self.repository = repository
     }
-    
-    /// Berechnet den Gesamteinsatz für einen Wettschein
-    func calculateTotalStake(_ bets: [Bet]) -> Double {
-        bets.reduce(0.0) { $0 + $1.betAmount }
-    }
-    
+
     /// Berechnet die Gesamtquote für einen Wettschein
     func calculateTotalOdds(_ bets: [Bet]) -> Double {
         bets.reduce(1.0) { $0 * $1.odds }
     }
-    
+
     /// Berechnet den möglichen Gewinn
     func calculatePotentialWin(stake: Double, odds: Double) -> Double {
         let result = stake * odds
         return result.rounded(to: 2)
     }
-    
+
     // MARK: - Verarbeitet einen kompletten Wetteinsatz
     func processBet(_ betSlip: BetSlip, userId: String, events: [Event]) async throws -> (saved: Bool, winAmount: Double?) {
         let saved = try await repository.saveBetSlip(betSlip, userId: userId)
-        let totalStake = calculateTotalStake(betSlip.bets)
         let totalOdds = calculateTotalOdds(betSlip.bets)
-        let potentialWin = calculatePotentialWin(stake: totalStake, odds: totalOdds)
-        
+        let potentialWin = calculatePotentialWin(stake: betSlip.betAmount, odds: totalOdds) // Gesamteinsatz aus BetSlip
+
         let (isWon, _) = evaluateBetSlip(betSlip, events: events)
         return (saved, isWon ? potentialWin : nil)
     }
-    
+
     // MARK: - Wertet einen kompletten Wettschein aus
     private func evaluateBetSlip(_ betSlip: BetSlip, events: [Event]) -> (isWon: Bool, totalWinAmount: Double) {
         let eventDict = Dictionary(uniqueKeysWithValues: events.map { ($0.id, $0) })
-        
+
         // Prüft jede Wette im Schein
         for bet in betSlip.bets {
             guard let event = eventDict[bet.event.id],
@@ -59,15 +53,13 @@ class BettingService {
             }
             print("✅ Wette gewonnen - Tipp: \(bet.userTip.titleGerman)")
         }
-        
+
         // Gewinnberechnung direkt hier
-        let totalStake = calculateTotalStake(betSlip.bets)
         let totalOdds = calculateTotalOdds(betSlip.bets)
-        let winAmount = calculatePotentialWin(stake: totalStake, odds: totalOdds)
-        
+        let winAmount = calculatePotentialWin(stake: betSlip.betAmount, odds: totalOdds) // Gesamteinsatz aus BetSlip
+
         return (true, winAmount)
     }
-    
     /// Lädt historische Wettscheine
     func loadBetSlipHistory(userId: String) async throws -> [BetSlip] {
         try await repository.loadBetSlips(userId: userId)

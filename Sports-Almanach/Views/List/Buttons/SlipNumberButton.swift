@@ -2,7 +2,7 @@
 import SwiftUI
 
 /// Button für die Anzeige der Wettnummer in der seitlichen Liste
-struct BetNumberButton: View {
+struct SlipNumberButton: View {
     // MARK: - Properties
     let bet: Bet
     @EnvironmentObject var userViewModel: UserViewModel
@@ -39,11 +39,9 @@ struct BetNumberButton: View {
         userTip: .homeWin,
         odds: 2.5,
         betAmount: 10, winAmount: 30.0,
-        timestamp: Date(),
-        betSlipNumber: 1
+        timestamp: Date()
     )
-    
-    BetNumberButton(bet: mockBet) {
+    SlipNumberButton(bet: mockBet) {
         print("Button tapped")
     }
 }

@@ -41,7 +41,9 @@ class BetRepository {
                 "userId": userId,
                 "slipNumber": betSlip.slipNumber,
                 "createdAt": Timestamp(date: betSlip.createdAt),
-                "isWon": betSlip.isWon
+                "isWon": betSlip.isWon,
+                "betAmount": betSlip.betAmount, // Gesamteinsatz hier
+                "winAmount": betSlip.winAmount as Any // kann nil sein
             ]
             let slipRef = try await datab.collection("BetSlips").addDocument(data: betSlipData)
             
@@ -51,8 +53,8 @@ class BetRepository {
                     "eventId": bet.event.id,
                     "userTip": bet.userTip.rawValue,
                     "odds": bet.odds,
-                    "betAmount": bet.betAmount,
-                    "timestamp": Timestamp(date: bet.timestamp)
+                    "timestamp": Timestamp(date: bet.timestamp),
+                    "winAmount": bet.winAmount as Any // kann nil sein
                 ]
                 try await slipRef.collection("bets").addDocument(data: betData)
             }
@@ -79,7 +81,9 @@ class BetRepository {
                 
                 guard let slipNumber = data["slipNumber"] as? Int,
                       let createdAt = (data["createdAt"] as? Timestamp)?.dateValue(),
-                      let isWon = data["isWon"] as? Bool else {
+                      let isWon = data["isWon"] as? Bool,
+                      let betAmount = data["betAmount"] as? Double,
+                      let winAmount = data["winAmount"] as? Double? else {
                     logError(AppErrors.Api.decodingFailed, context: "BetSlip Dekodierung")
                     continue
                 }
@@ -98,7 +102,9 @@ class BetRepository {
                     slipNumber: slipNumber,
                     bets: bets,
                     createdAt: createdAt,
-                    isWon: isWon
+                    isWon: isWon,
+                    betAmount: betAmount,
+                    winAmount: winAmount
                 )
                 betSlips.append(betSlip)
             }
@@ -118,19 +124,19 @@ class BetRepository {
               let userPickRaw = data["userTip"] as? Int,
               let userTip = UserTip(rawValue: userPickRaw),
               let odds = data["odds"] as? Double,
-              let betAmount = data["betAmount"] as? Double,
-              let timestamp = (data["timestamp"] as? Timestamp)?.dateValue() else {
+              let timestamp = (data["timestamp"] as? Timestamp)?.dateValue(),
+              let winAmount = data["winAmount"] as? Double? else {
             throw AppErrors.Api.decodingFailed
         }
         // Zugehöriges Event laden
         let event = try await loadEvent(withId: eventId)
         return Bet(
+            id: UUID(),
             event: event,
             userTip: userTip,
             odds: odds,
-            betAmount: betAmount,
-            timestamp: timestamp,
-            betSlipNumber: 0
+            winAmount: winAmount,
+            timestamp: timestamp
         )
     }
     
