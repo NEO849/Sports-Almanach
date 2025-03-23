@@ -26,7 +26,7 @@ struct SlipNumberButton: View {
                     .padding(.horizontal, 4)
                     .background(
                         Capsule()
-                            .fill(betSlip.isWon ? Color.green : Color.red)
+                            .fill(betSlip.isWon ? .green : .red)
                     )
             }
             .padding(12)
@@ -40,19 +40,31 @@ struct SlipNumberButton: View {
         }
         .foregroundColor(.white)
         .sheet(isPresented: $showDetails) {
-            BetSlipDetailSheet(betSlip: betSlip)
+   //         BetSlipDetailSheet(betSlip: betSlip)
         }
     }
 }
 
 // MARK: - Preview
 #Preview {
-    SlipNumberButton(
-        betSlip: BetSlip(
-            userId: "test",
-            slipNumber: 1,
-            bets: []
+    VStack {
+        SlipNumberButton(
+            betSlip: BetSlip(
+                userId: "test",
+                slipNumber: 1,
+                bets: [],
+                isWon: true
+            )
         )
-    )
-    .environmentObject(UserViewModel())
+        SlipNumberButton(
+            betSlip: BetSlip(
+                userId: "test",
+                slipNumber: 2,
+                bets: [],
+                isWon: false
+            )
+        )
+    }
+    .padding()
+    .background(.black)
 }

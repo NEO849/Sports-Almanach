@@ -71,103 +71,83 @@ class BetViewModel: ObservableObject {
             print("❌ Keine Wetten ausgewählt")
             return false
         }
-        guard betAmount > 0 else {
-            print("❌ Wetteinsatz muss größer als 0 sein")
-            return false
-        }
-        _ = betAmount * Double(max(bets.count, 1))
         return true
     }
 
     private func createBetSlip(userId: String) -> BetSlip {
-        let updatedBets = bets.map { bet in
-            Bet(
-                event: bet.event,
-                userTip: bet.userTip,
-                odds: bet.odds,
-                betAmount: betAmount,
-                timestamp: Date(),
-                betSlipNumber: currentBetSlipNumber
-            )
-        }
-        
         return BetSlip(
             userId: userId,
             slipNumber: currentBetSlipNumber,
-            bets: updatedBets
+            bets: bets,
+            betAmount: betAmount // Gesamteinsatz im BetSlip
         )
     }
-    
+
     /// Aktualisiert den möglichen Gewinnbetrag
     private func updatePotentialWinAmount() {
-        // Nutzt BettingService statt SportEventUtils
         potentialWinAmount = bettingService.calculatePotentialWin(
-            stake: betAmount * Double(bets.count),
+            stake: betAmount, // Gesamteinsatz
             odds: totalOdds
         )
     }
-    
+
     private func updateTotalOdds() {
-        // Nutzt BettingService statt SportEventUtils
         totalOdds = bettingService.calculateTotalOdds(bets)
     }
-    
+
     // MARK: - Platziert die Wetten und aktualisiert den Kontostand
     func placeBets(userBalance: Double) async -> Bool {
-         guard canPlaceBet(userBalance: userBalance),
-               let userId = FirebaseAuthManager.shared.userID else { return false }
-         
-         // Wetteinsatz abziehen
-         let betAmountTotal = betAmount * Double(bets.count)
-         userViewModel?.updateBalance(amount: -betAmountTotal, type: .bet)
-         currentBetSlipNumber += 1
-         
-         do {
-             let betSlip = createBetSlip(userId: userId)
-             
-             if let events = eventViewModel?.events {
-                 let (saved, winAmount) = try await bettingService.processBet(
-                     betSlip,
-                     userId: userId,
-                     events: events
-                 )
-                 if saved {
-                     //  UI bei Gewinn aktualisieren
-                     if let winAmount = winAmount {
-                         userViewModel?.updateBalance(amount: winAmount, type: .win)
-                         print("🎉 Gewinn: \(winAmount)€")
-                     }
-                     for bet in bets {
-                         eventViewModel?.removeFromSelectedEvents(bet.event)
-                     }
-                     clearBetSlip()
-                     return true
-                 }
-             }
-             return false
-         } catch {
-             print("❌ Fehler beim Verarbeiten der Wetten: \(error)")
-             return false
-         }
-     }
-    
+        guard canPlaceBet(userBalance: userBalance),
+              let userId = FirebaseAuthManager.shared.userID else { return false }
+
+        // Wetteinsatz abziehen
+        userViewModel?.updateBalance(amount: -betAmount, type: .bet)
+        currentBetSlipNumber += 1
+        do {
+            let betSlip = createBetSlip(userId: userId)
+            if let events = eventViewModel?.events {
+                let (saved, winAmount) = try await bettingService.processBet(
+                    betSlip,
+                    userId: userId,
+                    events: events
+                )
+                if saved {
+                    // UI bei Gewinn aktualisieren
+                    if let winAmount = winAmount {
+                        userViewModel?.updateBalance(amount: winAmount, type: .win)
+                        print("🎉 Gewinn: \(winAmount)€")
+                    }
+                    for bet in bets {
+                        eventViewModel?.removeFromSelectedEvents(bet.event)
+                    }
+                    clearBetSlip()
+                    return true
+                }
+            }
+            return false
+        } catch {
+            print("❌ Fehler beim Verarbeiten der Wetten: \(error)")
+            return false
+        }
+    }
+
     /// Lädt die letzte Wettscheinnummer
     private func loadBetSlipNumber() {
-          guard let userId = FirebaseAuthManager.shared.userID else { return }
-          
-          Task {
-              do {
-                  // Nutzt bettingService
-                  let betSlips = try await bettingService.loadBetSlipHistory(userId: userId)
-                  if let lastNumber = betSlips.first?.slipNumber {
-                      await MainActor.run { currentBetSlipNumber = lastNumber }
-                  }
-              } catch {
-                  print("❌ Fehler beim Laden der Wettscheinnummer: \(error)")
-              }
-          }
-      }
-    
+        guard let userId = FirebaseAuthManager.shared.userID else { return }
+
+        Task {
+            do {
+                // Nutzt bettingService
+                let betSlips = try await bettingService.loadBetSlipHistory(userId: userId)
+                if let lastNumber = betSlips.first?.slipNumber {
+                    await MainActor.run { currentBetSlipNumber = lastNumber }
+                }
+            } catch {
+                print("❌ Fehler beim Laden der Wettscheinnummer: \(error)")
+            }
+        }
+    }
+
     /// Setzt den Wettschein zurück
     private func clearBetSlip() {
         bets.removeAll()

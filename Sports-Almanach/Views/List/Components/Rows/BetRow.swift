@@ -41,7 +41,7 @@ struct BetRow: View {
             event: event,
             userTip: userTip,
             odds: currentOdds,
-            betAmount: betViewModel.betAmount,
+            winAmount: nil, // winAmount noch nicht bekannt
             timestamp: Date()
         )
         

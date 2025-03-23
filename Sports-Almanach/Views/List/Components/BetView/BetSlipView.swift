@@ -27,11 +27,10 @@ struct BetSlipView: View {
                     .edgesIgnoringSafeArea(.all)
                 
                 VStack(spacing: 16) {
-                    // MARK: - Header mit Wettscheinnummer
                     HStack {
                         Spacer()
                         HStack(spacing: 8) {
-                            Text("# \(betViewModel.bets.first?.betSlipNumber ?? 0)")
+                            Text("# \(betViewModel.currentBetSlipNumber)")
                                 .font(.system(size: 24, weight: .bold))
                             Text("   Wettschein")
                                 .font(.system(size: 18, weight: .bold))
@@ -47,7 +46,7 @@ struct BetSlipView: View {
                     }
                     .padding(.top)
                     
-                    // Ausgelagerte Listen-View
+                    // Liste der Wetten - Direkter Zugriff
                     List {
                         ForEach(betViewModel.bets.indices, id: \.self) { index in
                             let bet = betViewModel.bets[index]
@@ -67,11 +66,11 @@ struct BetSlipView: View {
                     .listStyle(.plain)
                     .padding(.horizontal, 32)
                     
-                    // Wetteinsatz, Quoten und Gewinn
+                    // Rest der View mit direktem Property-Zugriff
                     VStack(spacing: 12) {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
-                                Text("Wetteinsatz:            \(betAmount, specifier: "%.2f") €")
+                                Text("Wetteinsatz: \(betViewModel.betAmount, specifier: "%.2f") €")
                                     .font(.headline)
                                     .foregroundColor(.white)
                                     .padding(.leading, 32)
@@ -88,7 +87,7 @@ struct BetSlipView: View {
                             }
                             .padding(.horizontal, 32)
                         }
-                  
+                        
                         HStack {
                             Text("Gesamtquote:")
                                 .font(.headline)
@@ -154,53 +153,51 @@ struct BetSlipView: View {
         let mock = BetViewModel()
         let mockBets = [
             Bet(
+                id: UUID(),
                 event: MockEvents.events[0],
                 userTip: .homeWin,
                 odds: 2.5,
-                betAmount: 10,
-                timestamp: Date(),
-                betSlipNumber: 1
+                winAmount: 10,
+                timestamp: Date()
             ),
             Bet(
+                id: UUID(),
                 event: MockEvents.events[1],
                 userTip: .draw,
                 odds: 3.0,
-                betAmount: 20,
-                timestamp: Date(),
-                betSlipNumber: 2
+                winAmount: 20,
+                timestamp: Date()
             ),
             Bet(
+                id: UUID(),
                 event: MockEvents.events[2],
                 userTip: .awayWin,
                 odds: 2.0,
-                betAmount: 15,
-                timestamp: Date(),
-                betSlipNumber: 3
+                winAmount: 15,
+                timestamp: Date()
             ),
             Bet(
+                id: UUID(),
                 event: MockEvents.events[3],
                 userTip: .homeWin,
                 odds: 1.8,
-                betAmount: 12,
-                timestamp: Date(),
-                betSlipNumber: 4
+                winAmount: 12,
+                timestamp: Date()
             ),
             Bet(
+                id: UUID(),
                 event: MockEvents.events[4],
                 userTip: .draw,
                 odds: 2.7,
-                betAmount: 25,
-                timestamp: Date(),
-                betSlipNumber: 5
+                winAmount: 25,
+                timestamp: Date()
             )
         ]
         mockBets.forEach { mock.addBet($0) }
         return mock
     }()
-    let userViewModel = UserViewModel()
-    let eventViewModel = EventViewModel()
-    return BetSlipView()
+    BetSlipView()
         .environmentObject(betViewModel)
-        .environmentObject(userViewModel)
-        .environmentObject(eventViewModel)
+        .environmentObject(UserViewModel())
+        .environmentObject(EventViewModel())
 }
