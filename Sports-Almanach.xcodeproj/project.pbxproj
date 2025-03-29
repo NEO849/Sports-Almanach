@@ -86,6 +86,7 @@
 		B575E8032D6E9E5E00D2140E /* AppErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8022D6E9E5B00D2140E /* AppErrors.swift */; };
 		B575E8072D6EBA7700D2140E /* BetRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8062D6EBA5C00D2140E /* BetRepository.swift */; };
 		B5A198612D52D1DF00619045 /* SlipNumberButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A198602D52D1DF00619045 /* SlipNumberButton.swift */; };
+		B5B9BF992D97BCC00046955F /* LoggerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B9BF982D97BCBC0046955F /* LoggerService.swift */; };
 		B5C044782D30C84200590CD9 /* ProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C044772D30C83700590CD9 /* ProfileRepository.swift */; };
 		B5DA45522D82A1110016EBB1 /* BetSlip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DA45512D82A1030016EBB1 /* BetSlip.swift */; };
 		F008388C2CD2EEB10004D97B /* Sport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F008388B2CD2EDF30004D97B /* Sport.swift */; };
@@ -176,6 +177,7 @@
 		B575E8062D6EBA5C00D2140E /* BetRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetRepository.swift; sourceTree = "<group>"; };
 		B5A0939A2D75A70A0075E9EC /* DateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateController.swift; sourceTree = "<group>"; };
 		B5A198602D52D1DF00619045 /* SlipNumberButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipNumberButton.swift; sourceTree = "<group>"; };
+		B5B9BF982D97BCBC0046955F /* LoggerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerService.swift; sourceTree = "<group>"; };
 		B5C044772D30C83700590CD9 /* ProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRepository.swift; sourceTree = "<group>"; };
 		B5DA45512D82A1030016EBB1 /* BetSlip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSlip.swift; sourceTree = "<group>"; };
 		F008388B2CD2EDF30004D97B /* Sport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sport.swift; sourceTree = "<group>"; };
@@ -470,6 +472,7 @@
 		F081DC922CB54C9400116E7B /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				B5B9BF982D97BCBC0046955F /* LoggerService.swift */,
 				B50CD60F2D838B5300A02643 /* BettingService.swift */,
 				F081DC932CB54CC500116E7B /* FirebaseAuthManager.swift */,
 			);
@@ -710,6 +713,7 @@
 				F04EE0FE2CC8927E0095BD28 /* BetRow.swift in Sources */,
 				F046287B2C88A757008FB346 /* ContentView.swift in Sources */,
 				B575E8012D6E9A1A00D2140E /* TabSelection.swift in Sources */,
+				B5B9BF992D97BCC00046955F /* LoggerService.swift in Sources */,
 				F00CB70E2C9CF74E003D70E3 /* LoginView.swift in Sources */,
 				F05CA8332CECB4DF0080F2B7 /* ValidationUtils.swift in Sources */,
 				F095C9092C8FB0DE002C94FD /* EventViewModel.swift in Sources */,

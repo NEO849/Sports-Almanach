@@ -24,4 +24,6 @@ enum League: String, Identifiable, CaseIterable, CustomStringConvertible {
             return "Alban. Sup. L."
         }
     }
+    
+    static var defaultLeague: League { return .premierLeague }
 }

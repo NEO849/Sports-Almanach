@@ -19,12 +19,7 @@ enum Season: String, Identifiable, CaseIterable, CustomStringConvertible {
     
     // CustomStringConvertible Konformität
     var description: String { year }
+    var year: String { rawValue }
     
-    var year: String {
-        rawValue
-    }
-    
-    static var current: Season {
-        return .season20202021
-    }
+    static var defaultSeason: Season { return .season20202021 }
 }

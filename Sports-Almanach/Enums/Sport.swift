@@ -20,7 +20,5 @@ enum Sport: String, Identifiable, CaseIterable, CustomStringConvertible {
     // CustomStringConvertible Konformität
     var description: String { rawValue }
     
-    static var defaultSport: Sport {
-        return .soccer
-    }
+    static var defaultSport: Sport { return .soccer }
 }
