@@ -37,6 +37,7 @@ struct BetView: View {
                     .tint(.blue)
                     .padding(.trailing, 8)
                 }
+                .padding(.top, 38)
                 .padding(.horizontal, 22)
                 
                 // MARK: - Liste der ausgewählten Events

@@ -50,6 +50,7 @@ struct EventsView: View {
                         .frame(maxWidth: .infinity)
                         .frame(height: 42)
                     }
+                    .padding(.top, 38)
                     .padding(.horizontal, 20)
                     
                     if isLoading {
