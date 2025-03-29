@@ -9,32 +9,27 @@ import SwiftUI
 
 struct BetView: View {
     
-    /// Global
+    /// Global, Lokal, UI State
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var eventViewModel: EventViewModel
-    /// Lokal
     @StateObject var betViewModel = BetViewModel()
-    /// Status für Sheet
     @State private var showBetSlip = false
     
     var body: some View {
-        
         ZStack {
             Image("hintergrund")
                 .resizable()
                 .scaledToFill()
                 .edgesIgnoringSafeArea(.all)
-            
             VStack {
+                // Kontostand und Wettschein Button
                 HStack(alignment: .center) {
                     Text("Kontostand: \(userViewModel.userState.balance, specifier: "%.2f") €")
                         .font(.title3)
                         .foregroundColor(.white)
                         .padding(.leading, 8)
                         .animation(.easeInOut, value: userViewModel.userState.balance)
-
                     Spacer()
-                    
                     Button("Wettschein") {
                         showBetSlip = true
                     }
@@ -45,16 +40,16 @@ struct BetView: View {
                 .padding(.horizontal)
                 .padding(.top, 60)
                 
+                // MARK: - Liste der ausgewählten Events
                 List {
                     ForEach(eventViewModel.selectedEvents) { event in
                         BetRow(event: event)
                             .environmentObject(betViewModel)
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(role: .destructive) {
-                                    // Nur ausgewählte Events 
-                                    eventViewModel.removeFromSelectedEvents(event)
-                                    Task {
-                                        await eventViewModel.deleteEventFromUserProfile(eventId: event.id)
+                                    // Einzelnes Event löschen
+                                    withAnimation {
+                                        eventViewModel.removeFromSelectedEvents(event)
                                     }
                                 } label: {
                                     Label("Löschen", systemImage: "trash")
