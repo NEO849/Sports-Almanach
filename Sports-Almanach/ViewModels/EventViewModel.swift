@@ -20,7 +20,7 @@ class EventViewModel: ObservableObject {
     
     /// Repository für API-Zugriffe und Firestore-Datenbankinstanz
     private let eventRepository = EventRepository()
-    private let datab = Firestore.firestore()
+    private let dbase = Firestore.firestore()
     
     /// Initialisierung mit Laden der aktuellen Events
     init() {
@@ -81,37 +81,36 @@ class EventViewModel: ObservableObject {
         }
     }
     
-    /// Entfernt ein Event aus der Benutzerauswahl
-    /// Aktualisiert nur die UI, ohne die anderen Events zu beeinflussen
-    func removeFromSelectedEvents(_ event: Event) {
+    /// Entfernt ein Event aus der Auswahl und aus Firestore
+    func removeFromSelectedEvents(_ event: Event) async {
+        // 1. Zuerst aus der lokalen Liste entfernen mit Animation
         withAnimation {
-            // Nur das spezifische Event aus der Liste entfernen
             selectedEvents.removeAll { $0.id == event.id }
-            
-            // Firestore-Update im Hintergrund
-            Task {
-                await deleteEventFromUserProfile(eventId: event.id)
-            }
         }
+        
+        // 2. Dann aus Firestore löschen
+        await deleteEventFromUserProfile(eventId: event.id)
+        
+        print("✅ Event \(event.id) aus UI und Firestore entfernt")
     }
     
     /// Löscht ein Event aus dem Benutzerprofil in Firestore
     private func deleteEventFromUserProfile(eventId: String) async {
         guard let userId = FirebaseAuthManager.shared.userID else {
-            print("🔴 Benutzer-ID nicht gefunden")
+            print("❌ Benutzer-ID nicht gefunden")
             return
         }
         
         do {
-            let eventRef = datab.collection("Profile")
+            let eventRef = dbase.collection("Profile")
                 .document(userId)
                 .collection("events")
                 .document(eventId)
             
             try await eventRef.delete()
-            print("✅ Event \(eventId) erfolgreich gelöscht")
+            print("✅ Event \(eventId) aus Firestore gelöscht")
         } catch {
-            print("🔴 Fehler beim Löschen des Events: \(error)")
+            print("❌ Fehler beim Löschen des Events: \(error)")
         }
     }
     
@@ -121,7 +120,7 @@ class EventViewModel: ObservableObject {
             print("Fehler: Benutzer-ID nicht gefunden.")
             return
         }
-        let profileRef = datab.collection("Profile").document(userId).collection("events")
+        let profileRef = dbase.collection("Profile").document(userId).collection("events")
         do {
             let snapshot = try await profileRef.getDocuments()
             let events = snapshot.documents.compactMap { try? $0.data(as: Event.self) }
@@ -157,6 +156,13 @@ class EventViewModel: ObservableObject {
     /// Alle gewetteten Events entfernen
     func clearSelectedEvents() {
         selectedBetEvents.removeAll()
+    }
+    
+    /// Synchrone Wrapper-Funktion für das Event-Löschen
+    func syncDeleteEvent(_ event: Event) {
+        Task {
+            await removeFromSelectedEvents(event)
+        }
     }
     
     // MARK: - Hilfsmethoden aus SportEventUtils

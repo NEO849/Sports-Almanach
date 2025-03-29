@@ -88,14 +88,22 @@ class BetViewModel: ObservableObject {
         return true
     }
     
-    /// Platziert die Wetten und aktualisiert den Kontostand
-    func placeBets(userBalance: Double) async -> Bool {
+    /// Synchrone Wrapper-Funktion für placeBets
+    func syncPlaceBets(userBalance: Double) -> Bool {
+        Task {
+            await placeBets(userBalance: userBalance)
+        }
+        return true // Standardrückgabe
+    }
+    
+    /// Asynchrone Implementierung von placeBets
+    private func placeBets(userBalance: Double) async -> Bool {
         guard canPlaceBet(userBalance: userBalance),
               let userId = FirebaseAuthManager.shared.userID else { return false }
-
-        // Wetteinsatz abziehen
+        
         userViewModel?.updateBalance(amount: -betAmount, type: .bet)
         currentBetSlipNumber += 1
+        
         do {
             let betSlip = createBetSlip(userId: userId)
             if let events = eventViewModel?.events {
@@ -105,13 +113,11 @@ class BetViewModel: ObservableObject {
                     events: events
                 )
                 if saved {
-                    // UI bei Gewinn aktualisieren
                     if let winAmount = winAmount {
                         userViewModel?.updateBalance(amount: winAmount, type: .win)
-                        print("🎉 Gewinn: \(winAmount)€")
                     }
                     for bet in bets {
-                        eventViewModel?.removeFromSelectedEvents(bet.event)
+                        eventViewModel?.syncDeleteEvent(bet.event)
                     }
                     clearBetSlip()
                     return true
