@@ -7,60 +7,89 @@
 
 import Foundation
 
-/// Service-Layer für die Wettverarbeitung und Auswertung
+/// - Berechnung von Quoten und Gewinnen
+/// - Verarbeitung und Auswertung von Wettscheinen
+/// - Kommunikation mit dem Repository für Firestore-Operationen
 class BettingService {
     private let repository: BetRepository
-
+    
     init(repository: BetRepository = BetRepository()) {
         self.repository = repository
     }
-
-    /// Berechnet die Gesamtquote für einen Wettschein
+    
+    /// Berechnet die Gesamtquote für mehrere Wetten (Kombiwette)
     func calculateTotalOdds(_ bets: [Bet]) -> Double {
         bets.reduce(1.0) { $0 * $1.odds }
     }
-
-    /// Berechnet den möglichen Gewinn
+    
+    /// Berechnet den potenziellen Gewinn basierend auf Einsatz und Quote
+    ///   - stake: Wetteinsatz
+    ///   - odds: Quote (Einzel- oder Gesamtquote)
     func calculatePotentialWin(stake: Double, odds: Double) -> Double {
         let result = stake * odds
         return result.rounded(to: 2)
     }
-
-    // MARK: - Verarbeitet einen kompletten Wetteinsatz
+    
+    /// Verarbeitet einen kompletten Wettschein
+    /// - Speichert den Wettschein in Firestore
+    /// - Wertet die Wetten aus und berechnet den Gewinn
+    /// - Returns: Tuple mit (Erfolgreich gespeichert, Gewinnbetrag falls gewonnen)
     func processBet(_ betSlip: BetSlip, userId: String, events: [Event]) async throws -> (saved: Bool, winAmount: Double?) {
+        // Wettschein erst in Firestore speichern, Gesamtquote und möglichen Gewinn berechnen; Wettschein auswerten
         let saved = try await repository.saveBetSlip(betSlip, userId: userId)
         let totalOdds = calculateTotalOdds(betSlip.bets)
-        let potentialWin = calculatePotentialWin(stake: betSlip.betAmount, odds: totalOdds) // Gesamteinsatz aus BetSlip
-
+        let potentialWin = calculatePotentialWin(stake: betSlip.betAmount, odds: totalOdds)
         let (isWon, _) = evaluateBetSlip(betSlip, events: events)
         return (saved, isWon ? potentialWin : nil)
     }
-
-    // MARK: - Wertet einen kompletten Wettschein aus
+    
+    /// Wertet einen kompletten Wettschein aus
+    /// Prüft jede einzelne Wette und aktualisiert den Gewinnstatus
     private func evaluateBetSlip(_ betSlip: BetSlip, events: [Event]) -> (isWon: Bool, totalWinAmount: Double) {
+        var allBetsWon = true
         let eventDict = Dictionary(uniqueKeysWithValues: events.map { ($0.id, $0) })
-
-        // Prüft jede Wette im Schein
+        
+        // Einzelwetten auswerten und Status in Firestore aktualisieren
         for bet in betSlip.bets {
             guard let event = eventDict[bet.event.id],
                   let eventResult = getEventResult(from: event) else {
-                print("❌ Event oder Ergebnis nicht verfügbar")
+                print("❌ Event oder Ergebnis nicht verfügbar für Event ID: \(bet.event.id)")
                 return (false, 0.0)
             }
-            if bet.userTip.rawValue != eventResult.rawValue {
-                print("❌ Wette verloren - Tipp: \(bet.userTip.rawValue), Ergebnis: \(eventResult.rawValue)")
-                return (false, 0.0)
+            
+            let betWon = bet.userTip.rawValue == eventResult.rawValue
+            allBetsWon = allBetsWon && betWon
+            
+            // Einzelwette Gewinnbetrag berechnen
+            let singleBetWin = betWon ? calculatePotentialWin(stake: betSlip.betAmount / Double(betSlip.bets.count), odds: bet.odds) : nil
+            
+            // Wett-Status in Firestore aktualisieren
+            Task {
+                try? await repository.updateBetStatus(
+                    betSlipId: betSlip.id.uuidString,
+                    betId: bet.id.uuidString,
+                    isWon: betWon,
+                    winAmount: singleBetWin
+                )
             }
-            print("✅ Wette gewonnen - Tipp: \(bet.userTip.titleGerman)")
         }
-
-        // Gewinnberechnung direkt hier
+        
+        // Gesamtgewinn berechnen wenn alle Wetten gewonnen wurden
         let totalOdds = calculateTotalOdds(betSlip.bets)
-        let winAmount = calculatePotentialWin(stake: betSlip.betAmount, odds: totalOdds) // Gesamteinsatz aus BetSlip
-
-        return (true, winAmount)
+        let winAmount = calculatePotentialWin(stake: betSlip.betAmount, odds: totalOdds)
+        
+        // Gesamtstatus des Wettscheins aktualisieren
+        Task {
+            try? await repository.updateBetSlipStatus(
+                betSlipId: betSlip.id,
+                isWon: allBetsWon,
+                winAmount: allBetsWon ? winAmount : nil
+            )
+        }
+        return (allBetsWon, allBetsWon ? winAmount : 0.0)
     }
-    /// Lädt historische Wettscheine
+    
+    /// Lädt die Historie der Wettscheine eines Benutzers
     func loadBetSlipHistory(userId: String) async throws -> [BetSlip] {
         try await repository.loadBetSlips(userId: userId)
     }
@@ -71,15 +100,14 @@ class BettingService {
               let awayScore = Int(event.awayScore ?? "") else {
             return nil
         }
-        // Bestimmt das Ergebnis basierend auf den Toren
+        
         if homeScore > awayScore { return .homeWin }    // 1
         if homeScore < awayScore { return .awayWin }    // 2
         return .draw                                    // 0
     }
 }
 
-// MARK: - Double Extension für interne Berechnungen
-/// Die Extension ist nur innerhalb dieser Datei verfügbar
+/// Rundungsoperation
 private extension Double {
     func rounded(to places: Int) -> Double {
         let multiplier = pow(10.0, Double(places))
