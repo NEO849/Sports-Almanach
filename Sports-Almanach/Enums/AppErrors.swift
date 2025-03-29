@@ -7,15 +7,10 @@
 
 import Foundation
 
-/// Namespace to group all application errors
-/// - Provides a structured way to organize different error types
-/// - Improves code organization by keeping related error definitions together
+/// Zentrale Fehlerdefinitionen der App
 struct AppErrors {
     
-    // MARK: - User Authentication Errors
-    /// Defines possible errors that can occur during user registration/login
-    /// - Implements LocalizedError for better error handling in UI
-    /// - Provides German error descriptions for user-facing messages
+    // MARK: - User
     enum User: Error, LocalizedError {
         case userInputIsEmpty
         case emailOrPasswordInvalid
@@ -28,9 +23,6 @@ struct AppErrors {
         case unknownError
         case userNotFound
 
-        /// Returns localized German error description
-        /// - Provides user-friendly error messages
-        /// - Can be extended to support multiple languages
         var errorDescriptionGerman: String? {
             switch self {
             case .userInputIsEmpty:
@@ -57,41 +49,41 @@ struct AppErrors {
         }
     }
     
-    // MARK: - Authentication Session Errors
-    /// Defines authentication state errors
-    /// - Used for tracking the user's authentication session
+    // MARK: - API Errors
+    enum Api: Error, LocalizedError {
+        case invalidURL                 // Ungültige URL-Konstruktion
+        case requestFailed              // Allgemeiner Netzwerkfehler
+        case decodingFailed             // JSON Dekodierungsfehler
+        case invalidResponse            // Ungültige HTTP Response
+        case httpError(code: Int)       // Spezifischer HTTP Statuscode Fehler
+        
+        var errorDescriptionGerman: String {
+            switch self {
+            case .invalidURL:
+                return "Die API-URL konnte nicht erstellt werden"
+            case .requestFailed:
+                return "Die Verbindung zum Server ist fehlgeschlagen"
+            case .decodingFailed:
+                return "Die Serverdaten konnten nicht verarbeitet werden"
+            case .invalidResponse:
+                return "Der Server hat eine ungültige Antwort gesendet"
+            case .httpError(let code):
+                return "Server-Fehler mit Status \(code)"
+            }
+        }
+    }
+    
+    // MARK: - Authentication
     enum Auth: Error, LocalizedError {
         case noEmail
         case notAuthenticated
         
-        /// Returns localized German error description
         var errorDescriptionGerman: String? {
             switch self {
             case .noEmail:
                 return "Es wurde keine E-Mail-Adresse für den neu erstellten Benutzer gefunden."
             case .notAuthenticated:
                 return "Der Benutzer ist nicht authentifiziert."
-            }
-        }
-    }
-    
-    // MARK: - API Communication Errors
-    /// Defines possible errors that can occur during API requests
-    /// - Covers network, data parsing, and URL formation errors
-    enum Api: Error, LocalizedError {
-        case invalidURL
-        case requestFailed
-        case decodingFailed
-
-        /// Returns localized German error description
-        var errorDescriptionGerman: String? {
-            switch self {
-            case .invalidURL:
-                return "Die URL war ungültig"
-            case .requestFailed:
-                return "Die Anfrage an den Server ist fehlgeschlagen."
-            case .decodingFailed:
-                return "Die Daten konnten nicht verarbeitet werden."
             }
         }
     }
