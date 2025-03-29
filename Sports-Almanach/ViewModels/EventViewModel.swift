@@ -18,10 +18,8 @@ class EventViewModel: ObservableObject {
     @Published var selectedEvents: [Event] = []
     @Published var selectedBetEvents: [Event] = []
     
-    /// Repository für API-Zugriffe
+    /// Repository für API-Zugriffe und Firestore-Datenbankinstanz
     private let eventRepository = EventRepository()
-    
-    /// Firestore-Datenbankinstanz
     private let datab = Firestore.firestore()
     
     /// Initialisierung mit Laden der aktuellen Events
@@ -39,8 +37,7 @@ class EventViewModel: ObservableObject {
         }
     }
     
-    /// Lädt Events aus dem Repository
-    /// - Parameter season: Die zu ladende Saison
+    /// Lädt Events aus dem Repository (Standart Saison)
     func loadEvents(season: Season) async {
         isLoading = true
         
@@ -56,51 +53,65 @@ class EventViewModel: ObservableObject {
                 self.errorMessage = error.localizedDescription
                 self.isLoading = false
             }
-            // Logging des spezifischen Fehlers
             print("🔴 Event-Lade-Fehler: \(error)")
         }
     }
     
-    /// Optimierte Methode zum Speichern von Events im Benutzerprofil
+    /// Speichern von Events im Benutzerprofil
     func saveEventToUserProfile(_ event: Event) async {
         guard let userId = FirebaseAuthManager.shared.userID else {
             print("🔴 Kein Benutzer eingeloggt")
             return
         }
-        
         do {
             let eventData: [String: Any] = [
                 "id": event.id,
                 "name": event.name,
                 "timestamp": Timestamp()
             ]
-            
             try await Firestore.firestore()
                 .collection("Profile")
                 .document(userId)
                 .collection("events")
                 .document(event.id)
                 .setData(eventData, merge: true)
-            
             print("✅ Event erfolgreich im Profil gespeichert")
         } catch {
             print("🔴 Fehler beim Speichern des Events: \(error)")
         }
     }
     
-    /// Löscht ein Event aus Firestore
-    func deleteEventFromUserProfile(eventId: String) async {
+    /// Entfernt ein Event aus der Benutzerauswahl
+    /// Aktualisiert nur die UI, ohne die anderen Events zu beeinflussen
+    func removeFromSelectedEvents(_ event: Event) {
+        withAnimation {
+            // Nur das spezifische Event aus der Liste entfernen
+            selectedEvents.removeAll { $0.id == event.id }
+            
+            // Firestore-Update im Hintergrund
+            Task {
+                await deleteEventFromUserProfile(eventId: event.id)
+            }
+        }
+    }
+    
+    /// Löscht ein Event aus dem Benutzerprofil in Firestore
+    private func deleteEventFromUserProfile(eventId: String) async {
         guard let userId = FirebaseAuthManager.shared.userID else {
-            print("Fehler: Benutzer-ID nicht gefunden.")
+            print("🔴 Benutzer-ID nicht gefunden")
             return
         }
-        let eventRef = datab.collection("Profile").document(userId).collection("events").document(eventId)
+        
         do {
+            let eventRef = datab.collection("Profile")
+                .document(userId)
+                .collection("events")
+                .document(eventId)
+            
             try await eventRef.delete()
-            await fetchUserEvents()
-            print("Event mit ID \(eventId) erfolgreich gelöscht.")
+            print("✅ Event \(eventId) erfolgreich gelöscht")
         } catch {
-            print("Fehler beim Löschen des Events: \(error.localizedDescription)")
+            print("🔴 Fehler beim Löschen des Events: \(error)")
         }
     }
     
@@ -110,9 +121,7 @@ class EventViewModel: ObservableObject {
             print("Fehler: Benutzer-ID nicht gefunden.")
             return
         }
-        
         let profileRef = datab.collection("Profile").document(userId).collection("events")
-        
         do {
             let snapshot = try await profileRef.getDocuments()
             let events = snapshot.documents.compactMap { try? $0.data(as: Event.self) }
@@ -129,16 +138,6 @@ class EventViewModel: ObservableObject {
             selectedEvents.append(event)
             Task {
                 await saveEventToUserProfile(event)
-            }
-        }
-    }
-    
-    /// Entfernt ein Event aus der Auswahl
-    func removeFromSelectedEvents(_ event: Event) {
-        if let index = selectedEvents.firstIndex(of: event) {
-            selectedEvents.remove(at: index)
-            Task {
-                await deleteEventFromUserProfile(eventId: event.id)
             }
         }
     }
@@ -160,24 +159,11 @@ class EventViewModel: ObservableObject {
         selectedBetEvents.removeAll()
     }
     
-    // MARK: - Formatiert Datum und Uhrzeit Ausgabe
+    // MARK: - Hilfsmethoden aus SportEventUtils
     func formattedDate(for event: Event) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd" // Format der API
-        if let dateObj = dateFormatter.date(from: event.date) {
-            dateFormatter.dateStyle = .medium // Ausgabeformat
-            return dateFormatter.string(from: dateObj)
-        }
-        return event.date
+        SportEventUtils.formattedDate(for: event)
     }
-    
     func formattedTime(for event: Event) -> String {
-        let timeFormatter = DateFormatter()
-        timeFormatter.dateFormat = "HH:mm:ss" // Format der API
-        if let timeObj = timeFormatter.date(from: event.time) {
-            timeFormatter.timeStyle = .short // Ausgabeformat "19:00"
-            return timeFormatter.string(from: timeObj)
-        }
-        return event.time
+        SportEventUtils.formattedTime(for: event)
     }
 }
