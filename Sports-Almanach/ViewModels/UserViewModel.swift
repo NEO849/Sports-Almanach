@@ -24,9 +24,8 @@ class UserViewModel: ObservableObject {
     
     init(profileRepo: ProfileRepository = ProfileRepository()) {
         self.profileRepo = profileRepo
-        /// Schedule daily birthday check
-        BirthdayUtils.dailyBirthdayCheck(for: self)
         setupAuthStateListener()
+        setupBirthdayCheck()
     }
     
     // MARK: - Login Function
@@ -114,8 +113,8 @@ class UserViewModel: ObservableObject {
     }
     
     // MARK: - Load Profile
-    /// Loads the user profile from Firebase
-    /// - Essential for initialization after login and for updates
+    /// Lädt das Benutzerprofil aus Firebase
+    /// Setzt auch den Geburtstag für die Bonus-Überprüfung
     func loadUserProfile() async {
         guard let userId = FirebaseAuthManager.shared.userID else { return }
         
@@ -123,8 +122,11 @@ class UserViewModel: ObservableObject {
             if let profile = try await profileRepo.loadProfile(userId: userId) {
                 userState.profile = profile
                 userState.balance = profile.balance
+                // Geburtstag als Timestamp setzen
+                userState.birthday = Timestamp(date: profile.birthday)
+                print("✅ Profil geladen mit Geburtstag: \(profile.birthday)")
             } else {
-                print("Fehler beim Laden des Profils")
+                print("❌ Fehler beim Laden des Profils")
             }
         } catch {
             authState.errorMessage = error.localizedDescription
@@ -162,12 +164,10 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    func updateMoneyUserBirthday() {
-        guard let userId = FirebaseAuthManager.shared.userID, let birthday = userState.birthday else {
-            print("Fehler: Benutzer-ID oder Geburtstag fehlt.")
-            return
-        }
-        BirthdayUtils.checkBirthday(userId: userId, birthday: birthday)
+    // MARK: - Birthday Handling
+    /// Initiiert die tägliche Geburtstags-Überprüfung
+    func setupBirthdayCheck() {
+        BirthdayUtils.scheduleDailyBirthdayCheck(for: self)
     }
     
     func resetBalance() {
@@ -175,7 +175,7 @@ class UserViewModel: ObservableObject {
         if userState.balance <= 0 {
             print("Kontostand ist 0 oder kleiner, setze auf Standardwert")
             userState.balance = Constants.defaultStartMoney
-            // Wichtig: Zuerst in Firebase speichern
+            // Zuerst in Firebase speichern
             Task {
                 await MainActor.run {
                     updateProfile(newBalance: Constants.defaultStartMoney)
@@ -186,21 +186,14 @@ class UserViewModel: ObservableObject {
     
     /// Zentrale Methode für Kontostandänderungen
     func updateBalance(amount: Double, type: TransactionType) {
-        // Aktuelle Bilanz
         let newBalance = userState.balance + amount
-        
-        // Kontostand unter 0 -> Reset auf Startgeld
         if newBalance <= 0 {
             resetBalance()
             return
         }
-        
-        // Kontostand aktualisieren
+        // Kontostand aktualisieren und in Firestore speichern
         userState.balance = newBalance
-        
-        // In Firestore speichern
         guard let userId = FirebaseAuthManager.shared.userID else { return }
-        
         Task {
             do {
                 try await profileRepo.updateBalance(userId: userId, newBalance: newBalance)
@@ -211,7 +204,7 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    // Enum für Transaktionsarten
+    // Transaktionsarten
     enum TransactionType: String {
         case bet = "Wetteinsatz"
         case win = "Wettgewinn"
@@ -220,7 +213,6 @@ class UserViewModel: ObservableObject {
     }
     
     // MARK: - Private Methods
-    /// Processes Firebase authentication errors and sets appropriate error messages
     /// - Converts Firebase error codes to user-friendly messages
     private func handleAuthError(_ error: Error) {
         if let authError = error as? AuthErrorCode {
@@ -242,14 +234,12 @@ class UserViewModel: ObservableObject {
         authState = AuthState()
         userState = UserState()
     }
-
+    
     /// Sets up a Firebase listener for authentication state changes
     /// - Uses weak self to avoid memory leaks
     private func setupAuthStateListener() {
-        // Stores the Auth State Listener Handle for later cleanup
         authStateHandle = Auth.auth().addStateDidChangeListener { [weak self] (_: Auth, user: User?) in
             guard let self = self else { return }
-            
             Task { @MainActor in
                 self.authState.isLoggedIn = user != nil
                 if user != nil {
@@ -258,7 +248,7 @@ class UserViewModel: ObservableObject {
             }
         }
     }
-
+    
     /// Removes Firebase listeners when the class is deinitialized
     /// - Prevents memory leaks and unnecessary callback executions
     deinit {
@@ -269,7 +259,6 @@ class UserViewModel: ObservableObject {
     
     // MARK: - State Structs
     /// Model for authentication state
-    /// - Holds all auth-related flags and error messages
     struct AuthState {
         var isLoading = false
         var isLoggedIn = false
@@ -280,7 +269,6 @@ class UserViewModel: ObservableObject {
     }
     
     /// Model for user state
-    /// - Contains profile data and current account information
     struct UserState {
         var profile: Profile?
         var balance: Double = Constants.defaultStartMoney
@@ -288,10 +276,9 @@ class UserViewModel: ObservableObject {
     }
     
     // MARK: - Constants
-    /// Constants for the application
+    /// Starting money for new users
     /// - Central definition of default values
     private enum Constants {
-        // Starting money for new users
         static let defaultStartMoney: Double = 1000.00
     }
 }

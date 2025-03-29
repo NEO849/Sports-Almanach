@@ -8,72 +8,92 @@
 import Foundation
 import FirebaseFirestore
 
-/// Hilfsklasse für alle Geburtstags- und Altersoperationen
+/// Verwaltung von Geburtstags-Boni
 struct BirthdayUtils {
-    
-    static func checkBirthday(userId: String, birthday: Timestamp) {
-        let today = Date()
-        let birthdayDateUser = birthday.dateValue()
-        
-        // Ist heute Geburtstag?
-        if Calendar.current.isDate(today, inSameDayAs: birthdayDateUser) {
-            grantBirthdayBonus(userId: userId)
-        }
+    /// Konstanten für die Geburtstagsbonus-Logik
+    private enum Constants {
+        static let birthdayBonus: Double = 2500.0
+        /// Überprüfungszeit (06:00 Uhr)
+        static let checkHour: Int = 6
+        static let checkMinute: Int = 0
     }
     
-    // Bonus in Firestore gutschreiben, Referenz für das Benutzerdokument
-    private static func grantBirthdayBonus(userId: String) {
-        let bonus = 2500.00
-        let datab = Firestore.firestore()
-        let userRef = datab.collection("Profile").document(userId)
-        
-        // Transaktion und auslesen
-        datab.runTransaction { transaction, errorPointer in
-            do {
-                let userDocument: DocumentSnapshot = try transaction.getDocument(userRef)
-                
-                // Aktuellen Kontostand auslesen
-                guard let currentBalance = userDocument.get("startMoney") as? Double else {
-                    let error = NSError(domain: "BirthdayBonusError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Fehler beim Spielgeldstand."])
-                    errorPointer?.pointee = error
-                    return nil
-                }
-                
-                // Neuen Kontostand berechnen und aktualisieren
-                let newBalance = currentBalance + bonus
-                transaction.updateData(["balance": newBalance], forDocument: userRef)
-                return newBalance
-            } catch let fetchError as NSError {
-                errorPointer?.pointee = fetchError
-                return nil
-            }
-        } completion: { object, error in
-            // Abschluss der Transaktion
-            if let error = error {
-                print("Fehler beim Gutschreiben des Geburtstagsbonus: \(error)")
-            } else if let newBalance = object as? Double {
-                print("Geburtstagsbonus erfolgreich gutgeschrieben. Neuer Kontostand: \(newBalance)")
-            }
-        }
-    }
+    /// Speichert den letzten Überprüfungstag
+    private static var lastCheckDate: Date?
     
-    // Plant die tägliche Überprüfung des Geburtstags
-    static func dailyBirthdayCheck(for viewModel: UserViewModel) {
+    /// Plant die tägliche Überprüfung des Geburtstags um 06:00 Uhr
+    static func scheduleDailyBirthdayCheck(for viewModel: UserViewModel) {
         let calendar = Calendar.current
         let now = Date()
         
-        // Überprüfungszeitpunkt (00:01 Uhr) festlegen ud Timer planen
-        let checkTimeComponents = DateComponents(hour: 0, minute: 1)
-        let nextCheckTime = calendar.nextDate(after: now, matching: checkTimeComponents, matchingPolicy: .nextTime)!
+        // Nächsten Überprüfungszeitpunkt berechnen (06:00 Uhr)
+        var components = DateComponents()
+        components.hour = Constants.checkHour
+        components.minute = Constants.checkMinute
         
-        Timer.scheduledTimer(withTimeInterval: nextCheckTime.timeIntervalSince(now), repeats: true) { _ in
+        guard let nextCheck = calendar.nextDate(after: now, matching: components, matchingPolicy: .nextTime) else {
+            print("❌ Fehler beim Berechnen des nächsten Überprüfungszeitpunkts")
+            return
+        }
+        
+        let interval = nextCheck.timeIntervalSince(now)
+        print("🕐 Geburtstags-Check geplant für: \(nextCheck)")
+        
+        // Einmaliger Timer für die nächste Überprüfung am nächsten Tag
+        Timer.scheduledTimer(withTimeInterval: interval, repeats: false) { _ in
             Task { @MainActor in
-                viewModel.updateMoneyUserBirthday()
+                await checkAndGrantBirthdayBonus(for: viewModel)
+                scheduleDailyBirthdayCheck(for: viewModel)
             }
+        }
+        
+        // Sofortige erste Überprüfung
+        Task { @MainActor in
+            await checkAndGrantBirthdayBonus(for: viewModel)
+        }
+        
+        print("✅ Geburtstags-Check geplant für: \(nextCheck)")
+    }
+    
+    /// Überprüft und vergibt den Geburtstagsbonus
+    private static func checkAndGrantBirthdayBonus(for viewModel: UserViewModel) async {
+        let today = Date()
+        
+        // Prüft ob heute schon überprüft wurde
+        if let lastCheck = lastCheckDate,
+           Calendar.current.isDate(lastCheck, inSameDayAs: today) {
+            return
+        }
+        
+        // Aktualisiere letzten Überprüfungstag
+        lastCheckDate = today
+        
+        guard FirebaseAuthManager.shared.userID != nil,
+              let birthdayTimestamp = await viewModel.userState.birthday else {
+            print("❌ Keine Benutzer-ID oder Geburtstag gefunden")
+            await viewModel.loadUserProfile()
+            return
+        }
+        
+        let birthday = birthdayTimestamp.dateValue()
+        let calendar = Calendar.current
+        
+        print("📅 Vergleiche Datum - Geburtstag: \(birthday), Heute: \(today)")
+        
+        // Überprüfe ob heute Geburtstag ist
+        let isBirthday = calendar.isDate(today, equalTo: birthday, toGranularity: .day) &&
+                        calendar.isDate(today, equalTo: birthday, toGranularity: .month)
+        
+        if isBirthday {
+            print("🎉 Heute ist Geburtstag! Schreibe Bonus gut...")
+            await viewModel.updateBalance(amount: Constants.birthdayBonus, type: .birthdayBonus)
+            print("💰 Geburtstagsbonus von \(Constants.birthdayBonus)€ gutgeschrieben")
+        } else {
+            print("📝 Heute kein Geburtstag")
         }
     }
     
-    // Berechnet das Alter und ob er mindestens 18 Jahre alt ist
+    /// Überprüft ob ein Benutzer mindestens 18 Jahre alt ist
     static func isOldEnough(birthday: Date) -> Bool {
         let calendar = Calendar.current
         let ageComponents = calendar.dateComponents([.year], from: birthday, to: Date())
