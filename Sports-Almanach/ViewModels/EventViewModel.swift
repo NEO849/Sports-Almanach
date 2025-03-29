@@ -24,7 +24,7 @@ class EventViewModel: ObservableObject {
     
     /// Initialisierung mit Laden der aktuellen Events
     init() {
-        loadingEvents(for: .current)
+        loadingEvents(for: .defaultSeason)
         Task {
             await fetchUserEvents()
         }

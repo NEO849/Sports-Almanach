@@ -178,7 +178,7 @@ class BetRepository {
     /// Lädt ein Event aus dem EventRepository
     private func loadEvent(withId eventId: String) async throws -> Event {
         do {
-            let events = try await eventRepo.fetchEvents(for: .current)
+            let events = try await eventRepo.fetchEvents(for: .defaultSeason)
             guard let event = events.first(where: { $0.id == eventId }) else {
                 throw AppErrors.Api.decodingFailed
             }
