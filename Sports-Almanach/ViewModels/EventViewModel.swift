@@ -22,6 +22,9 @@ class EventViewModel: ObservableObject {
     private let eventRepository = EventRepository()
     private let dbase = Firestore.firestore()
     
+    // Task cancellation
+    private var loadingTask: Task<Void, Never>?
+    
     /// Initialisierung mit Laden der aktuellen Events
     init() {
         loadingEvents(for: .defaultSeason)
@@ -40,20 +43,25 @@ class EventViewModel: ObservableObject {
     /// Lädt Events aus dem Repository (Standart Saison)
     func loadEvents(season: Season) async {
         isLoading = true
-        
-        do {
-            // Events über Repository laden
-            let events = try await eventRepository.fetchEvents(for: season)
-            await MainActor.run {
-                self.events = events
-                self.isLoading = false
+        loadingTask = Task {
+            do {
+                if Task.isCancelled { return }
+                // Events über Repository laden
+                let events = try await eventRepository.fetchEvents(for: season)
+                if Task.isCancelled { return }
+                await MainActor.run {
+                    self.events = events
+                    self.isLoading = false
+                }
+            } catch {
+                if !Task.isCancelled {
+                    await MainActor.run {
+                        self.errorMessage = error.localizedDescription
+                        self.isLoading = false
+                    }
+                }
+                print("🔴 Event-Lade-Fehler: \(error)")
             }
-        } catch {
-            await MainActor.run {
-                self.errorMessage = error.localizedDescription
-                self.isLoading = false
-            }
-            print("🔴 Event-Lade-Fehler: \(error)")
         }
     }
     
@@ -100,7 +108,6 @@ class EventViewModel: ObservableObject {
             print("❌ Benutzer-ID nicht gefunden")
             return
         }
-        
         do {
             let eventRef = dbase.collection("Profile")
                 .document(userId)
@@ -163,6 +170,12 @@ class EventViewModel: ObservableObject {
         Task {
             await removeFromSelectedEvents(event)
         }
+    }
+    
+    /// Methode um Tasks zu canceln
+    func cancelLoadingTasks() {
+        loadingTask?.cancel()
+        loadingTask = nil
     }
     
     // MARK: - Hilfsmethoden aus SportEventUtils

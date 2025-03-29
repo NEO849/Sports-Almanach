@@ -37,8 +37,7 @@ struct BetView: View {
                     .tint(.blue)
                     .padding(.trailing, 8)
                 }
-                .padding(.horizontal)
-                .padding(.top, 60)
+                .padding(.horizontal, 22)
                 
                 // MARK: - Liste der ausgewählten Events
                 List {
@@ -67,6 +66,10 @@ struct BetView: View {
         }
         .onAppear {
             betViewModel.setViewModels(user: userViewModel, event: eventViewModel)
+        }
+        .onDisappear {
+            // Tasks canceln beim Verlassen der View
+            eventViewModel.cancelLoadingTasks()
         }
     }
 }

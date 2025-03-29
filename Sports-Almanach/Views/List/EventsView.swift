@@ -66,9 +66,12 @@ struct EventsView: View {
                 .deleteDisabled(true)
             }
             .navigationTitle("")
-            .task {
-                await loadEvents()
-            }
+        }
+        .task {
+            await loadEvents()
+        }
+        .onDisappear {
+            eventViewModel.cancelLoadingTasks()
         }
     }
     
