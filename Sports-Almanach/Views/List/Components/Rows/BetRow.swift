@@ -10,6 +10,7 @@ import SwiftUI
 struct BetRow: View {
     
     @EnvironmentObject var betViewModel: BetViewModel
+    @EnvironmentObject var eventViewModel: EventViewModel
     @State private var showAlert = false
     @State private var selectedTip: UserTip?
     let event: Event
@@ -19,12 +20,8 @@ struct BetRow: View {
         selectedTip != nil
     }
     
-    /// Reset der Auswahl nach erfolgreicher Wette
-    private func resetSelection() {
-        selectedTip = nil
-    }
-    
-    private func createBet() {
+    /// Fügt Wette hinzu und entfernt Event aus der Liste
+    private func addBetAndRemoveEvent() {
         let odds = SportEventUtils.calculateOdds(for: event)
         guard let userTip = selectedTip else { return }
         
@@ -34,32 +31,34 @@ struct BetRow: View {
         case .draw: odds.drawOdds
         case .awayWin: odds.awayWinOdds
         }
-        
-        // Neue Wette erstellen
         let bet = Bet(
             id: UUID(),
             event: event,
             userTip: userTip,
             odds: currentOdds,
-            winAmount: nil, // winAmount noch nicht bekannt
+            winAmount: nil,
             timestamp: Date()
         )
-        
         if !betViewModel.bets.contains(where: { $0.event.id == event.id }) {
+            // 1. Wette zum Wettschein hinzufügen
             betViewModel.addBet(bet)
-            resetSelection() // Reset nach erfolgreicher Wette
+            
+            // 2. Event aus UI und Firestore entfernen
+            Task {
+                await eventViewModel.removeFromSelectedEvents(event)
+            }
+            selectedTip = nil
         } else {
             showAlert = true
         }
     }
     
-    // MARK: - Body
+    // MARK: - View
     var body: some View {
         VStack(alignment: .leading) {
             Text(event.name)
                 .font(.headline)
                 .padding(.horizontal, 16)
-            
             HStack {
                 Text("\(event.date) um \(event.time)")
                     .font(.subheadline)
@@ -71,12 +70,11 @@ struct BetRow: View {
             let odds = SportEventUtils.calculateOdds(for: event)
             oddsGrid(odds: odds)
                 .padding(.horizontal, 12)
-            
             HStack {
                 Spacer()
                 PrimaryActionButton(
                     title: "Zum Wettschein",
-                    action: createBet,
+                    action: addBetAndRemoveEvent,
                     isActive: isButtonActive
                 )
                 .frame(width: 200, height: 40)
@@ -102,7 +100,7 @@ struct BetRow: View {
                      odds: odds.homeWinOdds,
                      isSelected: selectedTip == .homeWin) {
                 selectedTip = (selectedTip == .homeWin) ? nil : .homeWin
-            }            
+            }
             QuoteRow(title: "0 (Unentschieden)",
                      odds: odds.drawOdds,
                      isSelected: selectedTip == .draw) {
@@ -145,4 +143,5 @@ private struct QuoteRow: View {
     let mockEvent = MockEvents.events.first!
     return BetRow(event: mockEvent)
         .environmentObject(BetViewModel())
+        .environmentObject(EventViewModel())
 }

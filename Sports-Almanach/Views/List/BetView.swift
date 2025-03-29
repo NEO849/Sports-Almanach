@@ -12,7 +12,7 @@ struct BetView: View {
     /// Global, Lokal, UI State
     @EnvironmentObject var userViewModel: UserViewModel
     @EnvironmentObject var eventViewModel: EventViewModel
-    @StateObject var betViewModel = BetViewModel()
+    @StateObject private var betViewModel = BetViewModel()
     @State private var showBetSlip = false
     
     var body: some View {
@@ -48,9 +48,7 @@ struct BetView: View {
                             .swipeActions(edge: .trailing, allowsFullSwipe: true) {
                                 Button(role: .destructive) {
                                     // Einzelnes Event löschen
-                                    withAnimation {
-                                        eventViewModel.removeFromSelectedEvents(event)
-                                    }
+                                    eventViewModel.syncDeleteEvent(event)
                                 } label: {
                                     Label("Löschen", systemImage: "trash")
                                 }
@@ -66,6 +64,9 @@ struct BetView: View {
                 .environmentObject(userViewModel)
                 .environmentObject(eventViewModel)
                 .environmentObject(betViewModel)
+        }
+        .onAppear {
+            betViewModel.setViewModels(user: userViewModel, event: eventViewModel)
         }
     }
 }

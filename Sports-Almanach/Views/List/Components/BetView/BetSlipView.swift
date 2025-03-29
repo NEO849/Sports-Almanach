@@ -46,7 +46,7 @@ struct BetSlipView: View {
                     }
                     .padding(.top)
                     
-                    // Liste der Wetten - Direkter Zugriff
+                    // MARK: - Wettliste
                     List {
                         ForEach(betViewModel.bets.indices, id: \.self) { index in
                             let bet = betViewModel.bets[index]
@@ -55,7 +55,7 @@ struct BetSlipView: View {
                                     Button(role: .destructive) {
                                         betViewModel.removeBet(at: index)
                                         if let event = eventViewModel.selectedEvents.first(where: { $0.id == bet.event.id }) {
-                                            eventViewModel.removeFromSelectedEvents(event)
+                                            eventViewModel.syncDeleteEvent(event)
                                         }
                                     } label: {
                                         Label("Löschen", systemImage: "trash")
@@ -65,8 +65,6 @@ struct BetSlipView: View {
                     }
                     .listStyle(.plain)
                     .padding(.horizontal, 32)
-                    
-                    // Rest der View mit direktem Property-Zugriff
                     VStack(spacing: 12) {
                         VStack(alignment: .leading, spacing: 8) {
                             HStack {
@@ -76,7 +74,6 @@ struct BetSlipView: View {
                                     .padding(.leading, 32)
                                 Spacer()
                             }
-                            
                             HStack {
                                 Slider(value: $betAmount, in: 0...userViewModel.userState.balance)
                                     .tint(.green)
@@ -87,7 +84,6 @@ struct BetSlipView: View {
                             }
                             .padding(.horizontal, 32)
                         }
-                        
                         HStack {
                             Text("Gesamtquote:")
                                 .font(.headline)
@@ -98,7 +94,6 @@ struct BetSlipView: View {
                                 .foregroundColor(.white)
                             Spacer()
                         }
-                        
                         HStack {
                             Text("Möglicher Gewinn:")
                                 .font(.headline)
@@ -112,22 +107,14 @@ struct BetSlipView: View {
                     }
                     .padding(.vertical)
                     
-                    // Wetten Button
                     PrimaryActionButton(
                         title: "WETTEN",
                         action: {
-                            // Task für async
-                            Task {
-                                if await betViewModel.placeBets(userBalance: userViewModel.userState.balance) {
-                                    await MainActor.run {
-                                        dismiss()
-                                    }
-                                } else {
-                                    await MainActor.run {
-                                        alertMessage = "Nicht genügend Guthaben oder ungültiger Wetteinsatz"
-                                        showAlert = true
-                                    }
-                                }
+                            if betViewModel.syncPlaceBets(userBalance: userViewModel.userState.balance) {
+                                dismiss()
+                            } else {
+                                alertMessage = "Nicht genügend Guthaben oder ungültiger Wetteinsatz"
+                                showAlert = true
                             }
                         },
                         isActive: sliderTouched
