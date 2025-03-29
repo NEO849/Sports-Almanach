@@ -21,8 +21,18 @@ class ProfileRepository {
     
     /// Lädt ein Benutzerprofil aus Firestore
     func loadProfile(userId: String) async throws -> Profile? {
-        let snapshot = try await dbInstanz.collection("Profile").document(userId).getDocument()
-        return try? snapshot.data(as: Profile.self)
+        do {
+            let snapshot = try await dbInstanz.collection("Profile")
+                .document(userId)
+                .getDocument()
+            
+            let profile = try? snapshot.data(as: Profile.self)
+            print("📱 Profil geladen: \(String(describing: profile))")
+            return profile
+        } catch {
+            print("❌ Fehler beim Laden des Profils: \(error)")
+            throw error
+        }
     }
     
     /// Aktualisiert nur den Kontostand eines Benutzers

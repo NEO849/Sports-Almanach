@@ -8,95 +8,68 @@
 import Foundation
 import SwiftUI
 
-/// Kümmert sich um die Kommunikation mit der API und die Datenverarbeitung
+/// Verantwortlich für, API-Kommunikation, Daten-Caching und Fehlerbehandlung
 class EventRepository {
     
-    private let useMockData = false // Umschalten
+    /// Flag für Mock-Daten in der Entwicklung
+    private let useMockData = false
     
+    /// Lädt Events für eine bestimmte Saison, Implementiert einen Retry-Mechanismus für robuste API-Kommunikation
     func fetchEvents(for season: Season) async throws -> [Event] {
-         if useMockData {
-             return fetchMockEvents(for: season)
-         } else {
-             // Retry-Mechanismus für API-Aufrufe
-             let maxRetries = 3
-             var lastError: Error?
-             
-             for attempt in 1...maxRetries {
-                 do {
-                     let events = try await fetchApiEvents(for: season)
-                     print("✅ Events erfolgreich geladen (Versuch \(attempt))")
-                     return events
-                 } catch {
-                     lastError = error
-                     print("🔴 API-Fehler (Versuch \(attempt)/\(maxRetries)): \(error.localizedDescription)")
-                     // 3 Sekunde Verzögerung vor erneutem Versuch
-                     try? await Task.sleep(nanoseconds: UInt64(3_000_000_000))
-                 }
-             }
-             
-             throw lastError ?? AppErrors.Api.requestFailed
-         }
-     }
+        if useMockData {
+            return fetchMockEvents(for: season)
+        } else {
+            let maxRetries = 3
+            var lastError: Error?
+            
+            // Retry-Mechanismus
+            for attempt in 1...maxRetries {
+                do {
+                    let events = try await fetchApiEvents(for: season)
+                    print("✅ Events erfolgreich geladen (Versuch \(attempt))")
+                    return events
+                } catch {
+                    lastError = error
+                    print("🔴 API-Fehler (Versuch \(attempt)/\(maxRetries)): \(error.localizedDescription)")
+                    if attempt < maxRetries {
+                        try? await Task.sleep(nanoseconds: UInt64(3_000_000_000))
+                    }
+                }
+            }
+            throw lastError ?? AppErrors.Api.requestFailed
+        }
+    }
     
-    /// API-Call, Enpunkt in Enum
+    /// Führt den tatsächlichen API-Call durch
+    /// - Parameter season: Gewünschte Saison
+    /// - Returns: Array von Events
+    /// - Throws: API oder Dekodierungsfehler
     private func fetchApiEvents(for season: Season) async throws -> [Event] {
         let urlString = "https://www.thesportsdb.com/api/v1/json/3/eventsseason.php?id=4328&s=\(season.rawValue)"
         
-        /// url gültig?
         guard let url = URL(string: urlString) else {
             throw AppErrors.Api.invalidURL
         }
-        print("URL-String: \(urlString)")
         
-        /// Um die Daten A-Synchron abzurufen und in einen String umwandeln
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
             
-            // Fehlermanagement
-            // print("------- Rohe Daten: \(data)")
-//            if let dataString = String(data: data, encoding: .utf8) {
-//                print("------- Daten empfangen: \(dataString)")
-//            } else {
-//                print("Fehler beim Konvertieren der Daten in einen String.")
-//            }
-            
-            /// JSONDecoder konfigurieren
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .useDefaultKeys
             
-            /// Um die Daten in ein EventResponse Objekt zu dekodieren, events zurückgeben
             let response = try decoder.decode(EventResponse.self, from: data)
-            
-            // Fehlermanagement:  Werte der Properties ausgeben
-            // for event in response.events {
-            //                print("------- Werte der Properties")
-            //                print("Event: \(event.name)")
-            //                print("  id: \(event.id)")
-            //                print("  sport: \(event.sport)")
-            //                print("  leagueName: \(event.leagueName)")
-            //                print("  leagueImage: \(event.leagueImage)")
-            //                print("  season: \(event.season)")
-            //                print("  homeTeam: \(event.homeTeam)")
-            //                print("  awayTeam: \(event.awayTeam)")
-            //                print("  homeScore: \(event.homeScore ?? "0")") // Wenn nil
-            //                print("  awayScore: \(event.awayScore ?? "0")")
-            //                print("  videoURL: \(event.videoURL ?? "Kein Video")")
-            //                print("  homeTeamBadge: \(event.homeTeamBadge ?? "Kein Heimteam Wappen")")
-            //                print("  awayTeamBadge: \(event.awayTeamBadge ?? "Kein Auswärtsteam Wappen")")
-            //                print("  statusString: \(event.statusString)")
-            //            }
-            
             return response.events
+            
         } catch let decodingError as DecodingError {
-            print("Fehler beim Dekodieren der Daten: \(decodingError.localizedDescription)")
+            print("🔴 Dekodierungsfehler: \(decodingError.localizedDescription)")
             throw AppErrors.Api.decodingFailed
         } catch {
-            print("Anfrage an den Server ist fehlgeschlagen: \(error.localizedDescription)")
+            print("🔴 API-Fehler: \(error.localizedDescription)")
             throw AppErrors.Api.requestFailed
         }
     }
     
-    /// Mock-Daten, gefilterte Liste bassierend der season
+    /// Liefert Mock-Daten für Entwicklung und Tests
     private func fetchMockEvents(for season: Season) -> [Event] {
         return MockEvents.events.filter { $0.season == season.rawValue }
     }
