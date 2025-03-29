@@ -34,13 +34,11 @@ struct EventsView: View {
                                 options: Sport.allCases,
                                 placeholder: "Sport"
                             )
-                            
                             SelectionMenu(
                                 selection: $selectedLeague,
                                 options: League.allCases,
                                 placeholder: "Liga"
                             )
-                            
                             SelectionMenu(
                                 selection: $selectedSeason,
                                 options: Season.allCases,
@@ -51,9 +49,9 @@ struct EventsView: View {
                             )
                         }
                         .frame(maxWidth: .infinity)
-                        .frame(height: 52)
+                        .frame(height: 42)
                     }
-                    .padding(.horizontal, 16)
+                    .padding(.horizontal, 24)
                     
                     if isLoading {
                         ProgressView("Lade Events...")
@@ -102,14 +100,15 @@ struct SelectionMenu<T: Identifiable & CustomStringConvertible>: View {
             HStack(spacing: 8) {
                 Text(selection.description)
                     .foregroundColor(.white)
+                    .font(.subheadline)
                     .lineLimit(1)
-                
+                    .frame(maxWidth: .infinity, alignment: .leading)
                 
                 Image(systemName: "chevron.down")
                     .foregroundColor(.orange)
-                    .font(.caption)
             }
-            .padding(.horizontal, 12)
+            .padding(.horizontal, 16)
+            .padding(.vertical, 10)
         }
         .buttonStyle(.plain)
         .background(
