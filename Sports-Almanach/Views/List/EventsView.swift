@@ -4,67 +4,61 @@
 //
 //  Created by Michael Fleps on 20.09.24.
 //
+
 import SwiftUI
 
 struct EventsView: View {
     
-    @EnvironmentObject var eventViewModel: EventViewModel // ViewModel als "Source of Truth"
+    @EnvironmentObject var eventViewModel: EventViewModel // "Source of Truth"
     
-    // Auswahl für Sport, Liga und Saison als @State, damit UI aktualisiert wird
+    // @State, damit UI aktualisiert wird
     @State private var selectedLeague: League = .premierLeague
-    @State private var selectedSeason: Season = .current
+    @State private var selectedSeason: Season = .defaultSeason
     @State private var selectedSport: Sport = .defaultSport
-    
-    @State private var isLoading = false // Ladezustand für bessere UX
+    @State private var isLoading = false
     
     var body: some View {
         NavigationStack {
             ZStack {
-                // Hintergrundbild
                 Image("hintergrund")
                     .resizable()
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
-                
                 VStack {
                     Spacer(minLength: 32)
                     
-                    // Auswahl-Menüs für Sport, Liga & Saison
-                    HStack(spacing: 16) {
-                        // Sport-Menü mit korrekter Typ-Inferenz
-                        SelectionMenu(
-                            title: "Sport",
-                            selection: $selectedSport,
-                            options: Sport.allCases
-                        )
-                        
-                        // Liga-Menü
-                        SelectionMenu(
-                            title: "Liga",
-                            selection: $selectedLeague,
-                            options: League.allCases
-                        )
-                        
-                        // Saison-Menü mit Event-Handler
-                        SelectionMenu(
-                            title: "Saison",
-                            selection: $selectedSeason,
-                            options: Season.allCases,
-                            onSelect: {
-                                Task {
-                                    await loadEvents()
+                    HStack(spacing: 12) {
+                        Group {
+                            SelectionMenu(
+                                selection: $selectedSport,
+                                options: Sport.allCases,
+                                placeholder: "Sport"
+                            )
+                            
+                            SelectionMenu(
+                                selection: $selectedLeague,
+                                options: League.allCases,
+                                placeholder: "Liga"
+                            )
+                            
+                            SelectionMenu(
+                                selection: $selectedSeason,
+                                options: Season.allCases,
+                                placeholder: "Saison",
+                                onSelect: {
+                                    Task { await loadEvents() }
                                 }
-                            }
-                        )
+                            )
+                        }
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 52)
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 16)
                     
-                    // Ladeanzeige während API-Call
                     if isLoading {
                         ProgressView("Lade Events...")
                             .padding()
                     } else {
-                        // Event-Liste
                         List(eventViewModel.events, id: \.id) { event in
                             EventRow(event: event)
                         }
@@ -76,7 +70,7 @@ struct EventsView: View {
             }
             .navigationTitle("")
             .task {
-                await loadEvents() // Initial Events laden
+                await loadEvents()
             }
         }
     }
@@ -91,33 +85,37 @@ struct EventsView: View {
 
 /// **Generische Auswahlmenü-View für Sport, Liga & Saison**
 struct SelectionMenu<T: Identifiable & CustomStringConvertible>: View {
-    let title: String
     @Binding var selection: T
     let options: [T]
+    let placeholder: String
     var onSelect: (() -> Void)?
     
     var body: some View {
-        VStack {
-            Text(title)
-                .font(.caption)
-                .foregroundColor(.white)
-            Menu {
-                ForEach(options) { option in
-                    Button(option.description) {
-                        selection = option
-                        onSelect?()
-                    }
+        Menu {
+            ForEach(options) { option in
+                Button(option.description) {
+                    selection = option
+                    onSelect?()
                 }
-            } label: {
-                Text(selection.description)
             }
-            .padding()
-            .frame(minWidth: 110)
-            .overlay(
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.orange, lineWidth: 1)
-            )
+        } label: {
+            HStack(spacing: 8) {
+                Text(selection.description)
+                    .foregroundColor(.white)
+                    .lineLimit(1)
+                
+                
+                Image(systemName: "chevron.down")
+                    .foregroundColor(.orange)
+                    .font(.caption)
+            }
+            .padding(.horizontal, 12)
         }
+        .buttonStyle(.plain)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .stroke(Color.orange, lineWidth: 1)
+        )
     }
 }
 
