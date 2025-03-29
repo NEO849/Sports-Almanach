@@ -25,8 +25,6 @@ struct EventsView: View {
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
                 VStack {
-                    Spacer(minLength: 32)
-                    
                     HStack(spacing: 12) {
                         Group {
                             SelectionMenu(
@@ -45,13 +43,14 @@ struct EventsView: View {
                                 placeholder: "Saison",
                                 onSelect: {
                                     Task { await loadEvents() }
-                                }
+                                },
+                                textColor: .green
                             )
                         }
                         .frame(maxWidth: .infinity)
                         .frame(height: 42)
                     }
-                    .padding(.horizontal, 24)
+                    .padding(.horizontal, 20)
                     
                     if isLoading {
                         ProgressView("Lade Events...")
@@ -87,6 +86,7 @@ struct SelectionMenu<T: Identifiable & CustomStringConvertible>: View {
     let options: [T]
     let placeholder: String
     var onSelect: (() -> Void)?
+    var textColor: Color = .white // Default Farbe
     
     var body: some View {
         Menu {
@@ -99,7 +99,7 @@ struct SelectionMenu<T: Identifiable & CustomStringConvertible>: View {
         } label: {
             HStack(spacing: 8) {
                 Text(selection.description)
-                    .foregroundColor(.white)
+                    .foregroundColor(textColor)
                     .font(.subheadline)
                     .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
