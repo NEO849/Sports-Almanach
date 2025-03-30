@@ -85,7 +85,6 @@
 		B575E8012D6E9A1A00D2140E /* TabSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8002D6E9A0D00D2140E /* TabSelection.swift */; };
 		B575E8032D6E9E5E00D2140E /* AppErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8022D6E9E5B00D2140E /* AppErrors.swift */; };
 		B575E8072D6EBA7700D2140E /* BetRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8062D6EBA5C00D2140E /* BetRepository.swift */; };
-		B57FE7E92D98DFDC006F9AC6 /* BetStatisticSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57FE7E82D98DFD3006F9AC6 /* BetStatisticSheet.swift */; };
 		B5A198612D52D1DF00619045 /* SlipNumberButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A198602D52D1DF00619045 /* SlipNumberButton.swift */; };
 		B5B9BF992D97BCC00046955F /* LoggerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B9BF982D97BCBC0046955F /* LoggerService.swift */; };
 		B5C044782D30C84200590CD9 /* ProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C044772D30C83700590CD9 /* ProfileRepository.swift */; };
@@ -176,7 +175,6 @@
 		B575E8002D6E9A0D00D2140E /* TabSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSelection.swift; sourceTree = "<group>"; };
 		B575E8022D6E9E5B00D2140E /* AppErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrors.swift; sourceTree = "<group>"; };
 		B575E8062D6EBA5C00D2140E /* BetRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetRepository.swift; sourceTree = "<group>"; };
-		B57FE7E82D98DFD3006F9AC6 /* BetStatisticSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetStatisticSheet.swift; sourceTree = "<group>"; };
 		B5A0939A2D75A70A0075E9EC /* DateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateController.swift; sourceTree = "<group>"; };
 		B5A198602D52D1DF00619045 /* SlipNumberButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipNumberButton.swift; sourceTree = "<group>"; };
 		B5B9BF982D97BCBC0046955F /* LoggerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerService.swift; sourceTree = "<group>"; };
@@ -363,7 +361,6 @@
 		B5D1E6642D904AAE004D382C /* StatisticsView */ = {
 			isa = PBXGroup;
 			children = (
-				B57FE7E82D98DFD3006F9AC6 /* BetStatisticSheet.swift */,
 			);
 			path = StatisticsView;
 			sourceTree = "<group>";
@@ -725,7 +722,6 @@
 				F00CB7102C9CF7BD003D70E3 /* RegisterView.swift in Sources */,
 				F04628792C88A757008FB346 /* Sports_AlmanachApp.swift in Sources */,
 				F095C8FD2C8FAEE2002C94FD /* Profile.swift in Sources */,
-				B57FE7E92D98DFDC006F9AC6 /* BetStatisticSheet.swift in Sources */,
 				F05BC2C92CA732ED00562C51 /* Outcome.swift in Sources */,
 				F05BC2C22CA6A85B00562C51 /* Season.swift in Sources */,
 				F04217992CD2702900BEA19B /* CustomTabBar.swift in Sources */,
