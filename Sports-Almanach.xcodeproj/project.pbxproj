@@ -92,8 +92,8 @@
 		F008388C2CD2EEB10004D97B /* Sport.swift in Sources */ = {isa = PBXBuildFile; fileRef = F008388B2CD2EDF30004D97B /* Sport.swift */; };
 		F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7042C9CF430003D70E3 /* HomeView.swift */; };
 		F00CB7072C9CF484003D70E3 /* BetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7062C9CF47F003D70E3 /* BetView.swift */; };
-		F00CB7092C9CF4B4003D70E3 /* EventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7082C9CF4AF003D70E3 /* EventsView.swift */; };
-		F00CB70B2C9CF51E003D70E3 /* StatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70A2C9CF51A003D70E3 /* StatisticsView.swift */; };
+		F00CB7092C9CF4B4003D70E3 /* EventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7082C9CF4AF003D70E3 /* EventView.swift */; };
+		F00CB70B2C9CF51E003D70E3 /* StatisticView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70A2C9CF51A003D70E3 /* StatisticView.swift */; };
 		F00CB70E2C9CF74E003D70E3 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70D2C9CF747003D70E3 /* LoginView.swift */; };
 		F00CB7102C9CF7BD003D70E3 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */; };
 		F00CB7162C9E480D003D70E3 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F00CB7152C9E47FC003D70E3 /* SplashView.swift */; };
@@ -175,7 +175,6 @@
 		B575E8002D6E9A0D00D2140E /* TabSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSelection.swift; sourceTree = "<group>"; };
 		B575E8022D6E9E5B00D2140E /* AppErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrors.swift; sourceTree = "<group>"; };
 		B575E8062D6EBA5C00D2140E /* BetRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetRepository.swift; sourceTree = "<group>"; };
-		B5A0939A2D75A70A0075E9EC /* DateController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateController.swift; sourceTree = "<group>"; };
 		B5A198602D52D1DF00619045 /* SlipNumberButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipNumberButton.swift; sourceTree = "<group>"; };
 		B5B9BF982D97BCBC0046955F /* LoggerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerService.swift; sourceTree = "<group>"; };
 		B5C044772D30C83700590CD9 /* ProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRepository.swift; sourceTree = "<group>"; };
@@ -183,8 +182,8 @@
 		F008388B2CD2EDF30004D97B /* Sport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sport.swift; sourceTree = "<group>"; };
 		F00CB7042C9CF430003D70E3 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		F00CB7062C9CF47F003D70E3 /* BetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetView.swift; sourceTree = "<group>"; };
-		F00CB7082C9CF4AF003D70E3 /* EventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsView.swift; sourceTree = "<group>"; };
-		F00CB70A2C9CF51A003D70E3 /* StatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsView.swift; sourceTree = "<group>"; };
+		F00CB7082C9CF4AF003D70E3 /* EventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventView.swift; sourceTree = "<group>"; };
+		F00CB70A2C9CF51A003D70E3 /* StatisticView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticView.swift; sourceTree = "<group>"; };
 		F00CB70D2C9CF747003D70E3 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		F00CB70F2C9CF7AB003D70E3 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		F00CB7152C9E47FC003D70E3 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
@@ -343,14 +342,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		B51C35192D57507A003119DF /* CoreData */ = {
-			isa = PBXGroup;
-			children = (
-				B5A0939A2D75A70A0075E9EC /* DateController.swift */,
-			);
-			path = CoreData;
-			sourceTree = "<group>";
-		};
 		B533F8772D3096DE00EC9B27 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -358,11 +349,11 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		B5D1E6642D904AAE004D382C /* StatisticsView */ = {
+		B59DA04C2D99928300DCA09E /* StatisticView */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			path = StatisticsView;
+			path = StatisticView;
 			sourceTree = "<group>";
 		};
 		F046286C2C88A757008FB346 = {
@@ -452,7 +443,7 @@
 				F052E3042CEA353500769631 /* HomeView */,
 				F052E3052CEA3AB500769631 /* EventView */,
 				F052E3062CEA3B4D00769631 /* BetView */,
-				B5D1E6642D904AAE004D382C /* StatisticsView */,
+				B59DA04C2D99928300DCA09E /* StatisticView */,
 				F0A016872CA089C400C749E3 /* Rows */,
 				F089A72A2CD6E7A900A3C054 /* Buttons */,
 			);
@@ -519,7 +510,6 @@
 		F095C8F42C89F725002C94FD /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				B51C35192D57507A003119DF /* CoreData */,
 				F04A087B2CBD506200E493FF /* Repositories */,
 				F081DC922CB54C9400116E7B /* Services */,
 				F095C8F72C8FAE74002C94FD /* Models */,
@@ -574,9 +564,9 @@
 			isa = PBXGroup;
 			children = (
 				F00CB7042C9CF430003D70E3 /* HomeView.swift */,
-				F00CB7082C9CF4AF003D70E3 /* EventsView.swift */,
+				F00CB7082C9CF4AF003D70E3 /* EventView.swift */,
 				F00CB7062C9CF47F003D70E3 /* BetView.swift */,
-				F00CB70A2C9CF51A003D70E3 /* StatisticsView.swift */,
+				F00CB70A2C9CF51A003D70E3 /* StatisticView.swift */,
 				F05BC2C32CA6AF2700562C51 /* Components */,
 			);
 			path = List;
@@ -690,7 +680,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F00CB70B2C9CF51E003D70E3 /* StatisticsView.swift in Sources */,
+				F00CB70B2C9CF51E003D70E3 /* StatisticView.swift in Sources */,
 				F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */,
 				F052E2FB2CEA31FD00769631 /* Title.swift in Sources */,
 				F01DD55E2CCDD485001176A2 /* BetSlipRow.swift in Sources */,
@@ -727,7 +717,7 @@
 				F04217992CD2702900BEA19B /* CustomTabBar.swift in Sources */,
 				B575E8072D6EBA7700D2140E /* BetRepository.swift in Sources */,
 				F05BC2C52CA6AF9C00562C51 /* EventDetailView.swift in Sources */,
-				F00CB7092C9CF4B4003D70E3 /* EventsView.swift in Sources */,
+				F00CB7092C9CF4B4003D70E3 /* EventView.swift in Sources */,
 				F095C8FF2C8FAF01002C94FD /* Mocks.swift in Sources */,
 				F04EE1002CC895600095BD28 /* BetSlipView.swift in Sources */,
 				B541F6872D53732B00A40B73 /* Banner.swift in Sources */,

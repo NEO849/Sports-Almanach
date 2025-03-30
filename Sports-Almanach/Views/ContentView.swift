@@ -33,7 +33,7 @@ struct ContentView: View {
                             Image(systemName: TabSelection.home.icon)
                             Text(TabSelection.home.title)
                         }
-                    EventsView()
+                    EventView()
                         .environmentObject(eventViewModel)
                         .tabItem {
                             Image(systemName: TabSelection.events.icon)
@@ -46,7 +46,7 @@ struct ContentView: View {
                             Image(systemName: TabSelection.bet.icon)
                             Text(TabSelection.bet.title)
                         }
-                    StatisticsView()
+                    StatisticView()
                         .environmentObject(userViewModel)
                         .environmentObject(betViewModel)
                         .tabItem {

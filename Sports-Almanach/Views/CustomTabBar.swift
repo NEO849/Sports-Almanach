@@ -40,14 +40,14 @@ struct CustomTabBar: View {
                         .environmentObject(userViewModel)
                         .environmentObject(eventViewModel)
                 case .events:
-                    EventsView()
+                    EventView()
                         .environmentObject(eventViewModel)
                 case .bet:
                     BetView()
                         .environmentObject(userViewModel)
                         .environmentObject(eventViewModel)
                 case .statistics:
-                    StatisticsView()
+                    StatisticView()
                 }
             }
             // Animated transition between tabs

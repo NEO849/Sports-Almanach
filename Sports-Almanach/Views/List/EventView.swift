@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct EventsView: View {
+struct EventView: View {
     
     @EnvironmentObject var eventViewModel: EventViewModel // "Source of Truth"
     
@@ -123,6 +123,6 @@ struct SelectionMenu<T: Identifiable & CustomStringConvertible>: View {
 }
 
 #Preview {
-    EventsView()
+    EventView()
         .environmentObject(EventViewModel())
 }

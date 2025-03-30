@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: - StatisticsView
 // Hauptview für die Statistik-Funktionalität
 // Implementiert MVVM-Pattern mit ViewModels für Geschäftslogik
-struct StatisticsView: View {
+struct StatisticView: View {
     
     // MARK: - Dependencies
     // ViewModels werden via Environment injection bereitgestellt
@@ -50,7 +50,7 @@ struct StatisticsView: View {
     // MARK: - Preview
     struct StatisticsView_Previews: PreviewProvider {
         static var previews: some View {
-            StatisticsView()
+            StatisticView()
                 .environmentObject(BetViewModel())
                 .environmentObject(UserViewModel())
         }
