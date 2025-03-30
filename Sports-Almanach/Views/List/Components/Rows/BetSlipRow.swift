@@ -69,7 +69,7 @@ struct BetSlipRow: View {
 #Preview {
     let mockBet = Bet(
         id: UUID(),
-        event: MockEvents.events.first!,
+        event: Mocks.events.first!,
         userTip: .homeWin,
         odds: 2.5,
         winAmount: 10 * 2.5,

@@ -84,6 +84,6 @@ class EventRepository {
     /// Liefert Test-Daten
     private func fetchMockEvents(for season: Season) -> [Event] {
         logger.log("📋 Verwende Mock-Daten", level: .debug)
-        return MockEvents.events.filter { $0.season == season.rawValue }
+        return Mocks.events.filter { $0.season == season.rawValue }
     }
 }

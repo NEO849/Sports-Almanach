@@ -140,7 +140,7 @@ private struct QuoteRow: View {
 
 // MARK: - Preview
 #Preview {
-    let mockEvent = MockEvents.events.first!
+    let mockEvent = Mocks.events.first!
     return BetRow(event: mockEvent)
         .environmentObject(BetViewModel())
         .environmentObject(EventViewModel())

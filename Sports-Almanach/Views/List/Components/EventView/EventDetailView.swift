@@ -148,7 +148,7 @@ struct EventDetailView: View {
 }
 
 #Preview {
-    let mockEvent = MockEvents.events.first!
+    let mockEvent = Mocks.events.first!
     let eventViewModel = EventViewModel()
     return EventDetailView(event: mockEvent)
         .environmentObject(eventViewModel)

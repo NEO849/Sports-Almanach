@@ -77,7 +77,7 @@ struct BetView: View {
 
 #Preview {
     let eventViewModel = EventViewModel()
-    eventViewModel.selectedEvents = MockEvents.events
+    eventViewModel.selectedEvents = Mocks.events
     return BetView()
         .environmentObject(UserViewModel())
         .environmentObject(eventViewModel)

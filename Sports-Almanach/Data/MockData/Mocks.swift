@@ -7,9 +7,10 @@
 
 import Foundation
 
-/// Struktur, die Mockdaten für Sportevents bereitstellt
-struct MockEvents {
+/// Zentrale Struktur für alle Mock-Daten der App
+struct Mocks {
     
+    // MARK: - Mock Events
     static let events: [Event] = [
         Event(
             id: "602129",
@@ -150,6 +151,99 @@ struct MockEvents {
             statusString: "Not Started",
             homeScore: "0",
             awayScore: "4"
+        )
+    ]
+    
+    // MARK: - Mock Bets
+    static let bets: [Bet] = [
+        Bet(
+            id: UUID(),
+            event: events[0],
+            userTip: .homeWin,
+            odds: 1.80,
+            winAmount: 18.0,
+            timestamp: Date(),
+            isWon: true
+        ),
+        Bet(
+            id: UUID(),
+            event: events[1],
+            userTip: .draw,
+            odds: 3.50,
+            winAmount: nil,
+            timestamp: Date(),
+            isWon: false
+        ),
+        Bet(
+            id: UUID(),
+            event: events[2],
+            userTip: .awayWin,
+            odds: 4.20,
+            winAmount: 42.0,
+            timestamp: Date(),
+            isWon: true
+        )
+    ]
+    
+    // MARK: - Mock BetSlips
+    static let betSlips: [BetSlip] = [
+        BetSlip(
+            id: UUID(),
+            userId: "user1",
+            slipNumber: 1,
+            bets: [bets[0]],
+            createdAt: Date(),
+            isWon: true,
+            betAmount: 10.0,
+            winAmount: 18.0
+        ),
+        BetSlip(
+            id: UUID(),
+            userId: "user2",
+            slipNumber: 2,
+            bets: [bets[1]],
+            createdAt: Date(),
+            isWon: false,
+            betAmount: 10.0,
+            winAmount: nil
+        ),
+        BetSlip(
+            id: UUID(),
+            userId: "user3",
+            slipNumber: 3,
+            bets: [bets[2]],
+            createdAt: Date(),
+            isWon: true,
+            betAmount: 10.0,
+            winAmount: 42.0
+        )
+    ]
+    
+    // MARK: - Mock Profiles
+    static let profiles: [Profile] = [
+        Profile(
+            id: "user1",
+            name: "Max",
+            email: "max@example.com",
+            birthday: Date(),
+            startMoney: 1000.0,
+            balance: 1500.0
+        ),
+        Profile(
+            id: "user2",
+            name: "Anna",
+            email: "anna@example.com",
+            birthday: Date(),
+            startMoney: 1000.0,
+            balance: 800.0
+        ),
+        Profile(
+            id: "user3",
+            name: "Tom",
+            email: "tom@example.com",
+            birthday: Date(),
+            startMoney: 1000.0,
+            balance: 2500.0
         )
     ]
 }
