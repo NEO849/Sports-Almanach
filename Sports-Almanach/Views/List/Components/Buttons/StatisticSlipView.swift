@@ -8,7 +8,7 @@
 import SwiftUI
 
 /// Button für die Anzeige der Wettscheinnummer und Status in der StatisticsView
-struct SlipNumberButton: View {
+struct StatisticSlipView: View {
     let betSlip: BetSlip
     @State private var showDetails = false
 
@@ -48,7 +48,7 @@ struct SlipNumberButton: View {
 // MARK: - Preview
 #Preview {
     VStack {
-        SlipNumberButton(
+        StatisticSlipView(
             betSlip: BetSlip(
                 userId: "test",
                 slipNumber: 1,
@@ -56,7 +56,7 @@ struct SlipNumberButton: View {
                 isWon: true
             )
         )
-        SlipNumberButton(
+        StatisticSlipView(
             betSlip: BetSlip(
                 userId: "test",
                 slipNumber: 2,

@@ -85,7 +85,7 @@
 		B575E8012D6E9A1A00D2140E /* TabSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8002D6E9A0D00D2140E /* TabSelection.swift */; };
 		B575E8032D6E9E5E00D2140E /* AppErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8022D6E9E5B00D2140E /* AppErrors.swift */; };
 		B575E8072D6EBA7700D2140E /* BetRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8062D6EBA5C00D2140E /* BetRepository.swift */; };
-		B5A198612D52D1DF00619045 /* SlipNumberButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A198602D52D1DF00619045 /* SlipNumberButton.swift */; };
+		B5A198612D52D1DF00619045 /* StatisticSlipRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A198602D52D1DF00619045 /* StatisticSlipRow.swift */; };
 		B5B9BF992D97BCC00046955F /* LoggerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B9BF982D97BCBC0046955F /* LoggerService.swift */; };
 		B5C044782D30C84200590CD9 /* ProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C044772D30C83700590CD9 /* ProfileRepository.swift */; };
 		B5DA45522D82A1110016EBB1 /* BetSlip.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DA45512D82A1030016EBB1 /* BetSlip.swift */; };
@@ -175,7 +175,7 @@
 		B575E8002D6E9A0D00D2140E /* TabSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSelection.swift; sourceTree = "<group>"; };
 		B575E8022D6E9E5B00D2140E /* AppErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrors.swift; sourceTree = "<group>"; };
 		B575E8062D6EBA5C00D2140E /* BetRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetRepository.swift; sourceTree = "<group>"; };
-		B5A198602D52D1DF00619045 /* SlipNumberButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlipNumberButton.swift; sourceTree = "<group>"; };
+		B5A198602D52D1DF00619045 /* StatisticSlipRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticSlipRow.swift; sourceTree = "<group>"; };
 		B5B9BF982D97BCBC0046955F /* LoggerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerService.swift; sourceTree = "<group>"; };
 		B5C044772D30C83700590CD9 /* ProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRepository.swift; sourceTree = "<group>"; };
 		B5DA45512D82A1030016EBB1 /* BetSlip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSlip.swift; sourceTree = "<group>"; };
@@ -477,7 +477,6 @@
 				F05CA82C2CEBFA740080F2B7 /* PrimaryActionButton.swift */,
 				F05CA82A2CEBFA340080F2B7 /* SocialLoginButton.swift */,
 				F052E2F82CEA318000769631 /* LogoutButton.swift */,
-				B5A198602D52D1DF00619045 /* SlipNumberButton.swift */,
 			);
 			path = Buttons;
 			sourceTree = "<group>";
@@ -578,6 +577,7 @@
 				F05BC2C62CA6B3BB00562C51 /* EventRow.swift */,
 				F04EE0FD2CC892700095BD28 /* BetRow.swift */,
 				F01DD55D2CCDD479001176A2 /* BetSlipRow.swift */,
+				B5A198602D52D1DF00619045 /* StatisticSlipRow.swift */,
 			);
 			path = Rows;
 			sourceTree = "<group>";
@@ -695,7 +695,7 @@
 				F05CA82F2CEBFAD40080F2B7 /* InputField.swift in Sources */,
 				B5DA45522D82A1110016EBB1 /* BetSlip.swift in Sources */,
 				F05CA82D2CEBFA7E0080F2B7 /* PrimaryActionButton.swift in Sources */,
-				B5A198612D52D1DF00619045 /* SlipNumberButton.swift in Sources */,
+				B5A198612D52D1DF00619045 /* StatisticSlipRow.swift in Sources */,
 				B50CD6102D838B6100A02643 /* BettingService.swift in Sources */,
 				F00CB7052C9CF439003D70E3 /* HomeView.swift in Sources */,
 				F052E3012CEA336500769631 /* AnimatedText.swift in Sources */,
