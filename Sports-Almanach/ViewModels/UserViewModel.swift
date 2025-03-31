@@ -135,9 +135,6 @@ class UserViewModel: ObservableObject {
     }
     
     // MARK: - Email Check
-    /// Checks if an email address already exists in the database
-    /// - Parameter email: Email address to check
-    /// - Returns: True if the email already exists
     func emailAlreadyExists(email: String) async -> Bool {
         do {
             return try await profileRepo.emailExists(email)
@@ -148,8 +145,6 @@ class UserViewModel: ObservableObject {
     }
     
     // MARK: - Update Profile
-    /// Updates user balance in the database and local state
-    /// - Parameter newBalance: The new account balance
     func updateProfile(newBalance: Double) {
         guard let userId = FirebaseAuthManager.shared.userID else { return }
         
@@ -211,22 +206,24 @@ class UserViewModel: ObservableObject {
         case reset = "Kontostand Reset"
     }
     
-    // MARK: - Lädt und sortiert alle Profile für die Rangliste nach Kontostand
-    func loadAndSortRankedUsers() {
+    // MARK: - Lädt und sortiert alle Profile für die Rangliste
+    func loadAndSortRankedUsers() async {
+        // Ob ein User eingeloggt ist
         guard FirebaseAuthManager.shared.userID != nil else {
             print("❌ Kein Benutzer eingeloggt – Rangliste kann nicht geladen werden")
             return
         }
-        Task {
-            do {
-                let profiles = try await profileRepo.loadAllProfiles()
-                await MainActor.run {
-                    self.rankedUsers = profiles.sorted { $0.balance > $1.balance }
-                }
-            } catch {
-                await MainActor.run {
-                    authState.errorMessage = "Fehler beim Laden der Rangliste: \(error.localizedDescription)"
-                }
+        do {
+            // Lädt alle Profile aus der Datenbank und Sortiert diese
+            let profiles = try await profileRepo.loadAllProfiles()
+            await MainActor.run {
+                self.rankedUsers = profiles.sorted { $0.balance > $1.balance }
+                print("✅ Rangliste erfolgreich geladen: \(self.rankedUsers.count) Profile")
+            }
+        } catch {
+            await MainActor.run {
+                authState.errorMessage = "Fehler beim Laden der Rangliste: \(error.localizedDescription)"
+                print("❌ Fehler beim Laden der Rangliste: \(error)")
             }
         }
     }

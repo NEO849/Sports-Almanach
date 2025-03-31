@@ -19,24 +19,12 @@ class BetViewModel: ObservableObject {
     
     // MARK: - Published Properties für UI-Updates
     /// Aktueller Wetteinsatz - Löst Neuberechnung des potentiellen Gewinns aus
-    @Published private(set) var betAmount: Double = 0.0 {
-        didSet {
-            updatePotentialWinAmount()
-        }
-    }
-    /// Gesamtquote aller ausgewählten Wetten
-    @Published private(set) var totalOdds: Double = 1.0 {
-        didSet {
-            updatePotentialWinAmount()
-        }
-    }
+    @Published private(set) var betAmount: Double = 0.0 { didSet {updatePotentialWinAmount()}}
+    @Published private(set) var totalOdds: Double = 1.0 { didSet {updatePotentialWinAmount()}}
     @Published private(set) var potentialWinAmount: Double = 0.0
     @Published private(set) var currentBetSlipNumber: Int = 1
-    @Published private(set) var bets: [Bet] = [] {
-        didSet {
-            updateTotalOdds()
-        }
-    }
+    @Published private(set) var bets: [Bet] = [] { didSet {updateTotalOdds()}}
+    @Published private(set) var loadedBetSlips: [BetSlip] = []
     
     // MARK: - Initialisierung
     init(bettingService: BettingService = BettingService()) {
@@ -127,6 +115,18 @@ class BetViewModel: ObservableObject {
         } catch {
             print("❌ Fehler beim Verarbeiten der Wetten: \(error)")
             return false
+        }
+    }
+    
+    /// Lädt die Wettschein-Historie des aktuellen Benutzers
+    func loadBetSlipHistory() async {
+        guard let userId = FirebaseAuthManager.shared.userID else { return }
+        
+        do {
+            loadedBetSlips = try await bettingService.loadBetSlipHistory(userId: userId)
+            print("✅ \(loadedBetSlips.count) Wettscheine geladen")
+        } catch {
+            print("❌ Fehler beim Laden der Wettscheine: \(error)")
         }
     }
     

@@ -85,6 +85,8 @@
 		B575E8012D6E9A1A00D2140E /* TabSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8002D6E9A0D00D2140E /* TabSelection.swift */; };
 		B575E8032D6E9E5E00D2140E /* AppErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8022D6E9E5B00D2140E /* AppErrors.swift */; };
 		B575E8072D6EBA7700D2140E /* BetRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B575E8062D6EBA5C00D2140E /* BetRepository.swift */; };
+		B59DA04E2D9A16CF00DCA09E /* StatisticRankRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59DA04D2D9A16BB00DCA09E /* StatisticRankRow.swift */; };
+		B59DA0502D9A17E200DCA09E /* StatisticSlipDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59DA04F2D9A17DE00DCA09E /* StatisticSlipDetailView.swift */; };
 		B5A198612D52D1DF00619045 /* StatisticSlipRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A198602D52D1DF00619045 /* StatisticSlipRow.swift */; };
 		B5B9BF992D97BCC00046955F /* LoggerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5B9BF982D97BCBC0046955F /* LoggerService.swift */; };
 		B5C044782D30C84200590CD9 /* ProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C044772D30C83700590CD9 /* ProfileRepository.swift */; };
@@ -175,6 +177,8 @@
 		B575E8002D6E9A0D00D2140E /* TabSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabSelection.swift; sourceTree = "<group>"; };
 		B575E8022D6E9E5B00D2140E /* AppErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppErrors.swift; sourceTree = "<group>"; };
 		B575E8062D6EBA5C00D2140E /* BetRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetRepository.swift; sourceTree = "<group>"; };
+		B59DA04D2D9A16BB00DCA09E /* StatisticRankRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticRankRow.swift; sourceTree = "<group>"; };
+		B59DA04F2D9A17DE00DCA09E /* StatisticSlipDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticSlipDetailView.swift; sourceTree = "<group>"; };
 		B5A198602D52D1DF00619045 /* StatisticSlipRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticSlipRow.swift; sourceTree = "<group>"; };
 		B5B9BF982D97BCBC0046955F /* LoggerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerService.swift; sourceTree = "<group>"; };
 		B5C044772D30C83700590CD9 /* ProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRepository.swift; sourceTree = "<group>"; };
@@ -352,6 +356,7 @@
 		B59DA04C2D99928300DCA09E /* StatisticView */ = {
 			isa = PBXGroup;
 			children = (
+				B59DA04F2D9A17DE00DCA09E /* StatisticSlipDetailView.swift */,
 			);
 			path = StatisticView;
 			sourceTree = "<group>";
@@ -578,6 +583,7 @@
 				F04EE0FD2CC892700095BD28 /* BetRow.swift */,
 				F01DD55D2CCDD479001176A2 /* BetSlipRow.swift */,
 				B5A198602D52D1DF00619045 /* StatisticSlipRow.swift */,
+				B59DA04D2D9A16BB00DCA09E /* StatisticRankRow.swift */,
 			);
 			path = Rows;
 			sourceTree = "<group>";
@@ -684,6 +690,7 @@
 				F095C8FB2C8FAEBC002C94FD /* Event.swift in Sources */,
 				F052E2FB2CEA31FD00769631 /* Title.swift in Sources */,
 				F01DD55E2CCDD485001176A2 /* BetSlipRow.swift in Sources */,
+				B59DA0502D9A17E200DCA09E /* StatisticSlipDetailView.swift in Sources */,
 				F081DC942CB54CDD00116E7B /* FirebaseAuthManager.swift in Sources */,
 				F095C90B2C8FB0F7002C94FD /* UserViewModel.swift in Sources */,
 				F008388C2CD2EEB10004D97B /* Sport.swift in Sources */,
@@ -694,6 +701,7 @@
 				F05BC2C72CA6B3C200562C51 /* EventRow.swift in Sources */,
 				F05CA82F2CEBFAD40080F2B7 /* InputField.swift in Sources */,
 				B5DA45522D82A1110016EBB1 /* BetSlip.swift in Sources */,
+				B59DA04E2D9A16CF00DCA09E /* StatisticRankRow.swift in Sources */,
 				F05CA82D2CEBFA7E0080F2B7 /* PrimaryActionButton.swift in Sources */,
 				B5A198612D52D1DF00619045 /* StatisticSlipRow.swift in Sources */,
 				B50CD6102D838B6100A02643 /* BettingService.swift in Sources */,
