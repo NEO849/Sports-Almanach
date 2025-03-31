@@ -16,6 +16,7 @@ class UserViewModel: ObservableObject {
     
     @Published private(set) var authState = AuthState()
     @Published private(set) var userState = UserState()
+    @Published private(set) var rankedUsers: [Profile] = []
     
     private let profileRepo: ProfileRepository
     // Auth State Listener Handle für Cleanup
@@ -164,12 +165,6 @@ class UserViewModel: ObservableObject {
         }
     }
     
-    // MARK: - Birthday Handling
-    /// Initiiert die tägliche Geburtstags-Überprüfung
-    func setupBirthdayCheck() {
-        BirthdayUtils.scheduleDailyBirthdayCheck(for: self)
-    }
-    
     func resetBalance() {
         print("Reset Balance aufgerufen. Aktueller Kontostand: \(userState.balance)")
         if userState.balance <= 0 {
@@ -182,6 +177,10 @@ class UserViewModel: ObservableObject {
                 }
             }
         }
+    }
+    
+    private enum Constants {
+        static let defaultStartMoney: Double = 1000.00
     }
     
     /// Zentrale Methode für Kontostandänderungen
@@ -212,8 +211,34 @@ class UserViewModel: ObservableObject {
         case reset = "Kontostand Reset"
     }
     
+    // MARK: - Lädt und sortiert alle Profile für die Rangliste nach Kontostand
+    func loadAndSortRankedUsers() {
+        guard FirebaseAuthManager.shared.userID != nil else {
+            print("❌ Kein Benutzer eingeloggt – Rangliste kann nicht geladen werden")
+            return
+        }
+        Task {
+            do {
+                let profiles = try await profileRepo.loadAllProfiles()
+                await MainActor.run {
+                    self.rankedUsers = profiles.sorted { $0.balance > $1.balance }
+                }
+            } catch {
+                await MainActor.run {
+                    authState.errorMessage = "Fehler beim Laden der Rangliste: \(error.localizedDescription)"
+                }
+            }
+        }
+    }
+    
+    // MARK: - Birthday Handling
+    /// Initiiert die tägliche Geburtstags-Überprüfung
+    func setupBirthdayCheck() {
+        BirthdayUtils.scheduleDailyBirthdayCheck(for: self)
+    }
+    
     // MARK: - Private Methods
-    /// - Converts Firebase error codes to user-friendly messages
+    /// Firebase Fehler in Benutzerfreundlichen Meldungen ausgegeben
     private func handleAuthError(_ error: Error) {
         if let authError = error as? AuthErrorCode {
             switch authError.code {
@@ -273,12 +298,5 @@ class UserViewModel: ObservableObject {
         var profile: Profile?
         var balance: Double = Constants.defaultStartMoney
         var birthday: Timestamp?
-    }
-    
-    // MARK: - Constants
-    /// Starting money for new users
-    /// - Central definition of default values
-    private enum Constants {
-        static let defaultStartMoney: Double = 1000.00
     }
 }
