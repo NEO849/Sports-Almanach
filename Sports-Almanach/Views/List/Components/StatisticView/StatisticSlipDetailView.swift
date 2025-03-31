@@ -25,8 +25,6 @@ struct StatisticSlipDetailView: View {
                         .font(.title2)
                         .foregroundColor(.white)
                         .padding(.leading)
-                    
-                    // Gewinn/Verlust Status
                     HStack(spacing: 16) {
                         Text("Gewonnen")
                             .foregroundColor(.green)
@@ -70,7 +68,7 @@ struct StatisticSlipDetailView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Zurück") {
+                    Button("") {
                         dismiss()
                     }
                 }
