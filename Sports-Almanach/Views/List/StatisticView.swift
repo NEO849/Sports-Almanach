@@ -22,7 +22,7 @@ struct StatisticView: View {
                     .edgesIgnoringSafeArea(.all)
                 VStack(alignment: .leading, spacing: 20) {
                     RankListView(profiles: userViewModel.rankedUsers)
-                    DividerView()
+                    Divider()
                     BetSlipsListView(betSlips: betViewModel.loadedBetSlips)
                 }
                 .padding(.vertical)
