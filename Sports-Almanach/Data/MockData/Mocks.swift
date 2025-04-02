@@ -216,6 +216,36 @@ struct Mocks {
             isWon: true,
             betAmount: 10.0,
             winAmount: 42.0
+        ),
+        BetSlip(
+            id: UUID(),
+            userId: "user4",
+            slipNumber: 4,
+            bets: [bets[0]],
+            createdAt: Date(),
+            isWon: true,
+            betAmount: 10.0,
+            winAmount: 18.0
+        ),
+        BetSlip(
+            id: UUID(),
+            userId: "user5",
+            slipNumber: 5,
+            bets: [bets[1]],
+            createdAt: Date(),
+            isWon: false,
+            betAmount: 10.0,
+            winAmount: nil
+        ),
+        BetSlip(
+            id: UUID(),
+            userId: "user6",
+            slipNumber: 6,
+            bets: [bets[2]],
+            createdAt: Date(),
+            isWon: true,
+            betAmount: 10.0,
+            winAmount: 42.0
         )
     ]
     
@@ -239,6 +269,54 @@ struct Mocks {
         ),
         Profile(
             id: "user3",
+            name: "Tom",
+            email: "tom@example.com",
+            birthday: Date(),
+            startMoney: 1000.0,
+            balance: 2500.0
+        ),
+        Profile(
+            id: "user4",
+            name: "Max",
+            email: "max@example.com",
+            birthday: Date(),
+            startMoney: 1000.0,
+            balance: 1500.0
+        ),
+        Profile(
+            id: "user5",
+            name: "Anna",
+            email: "anna@example.com",
+            birthday: Date(),
+            startMoney: 1000.0,
+            balance: 800.0
+        ),
+        Profile(
+            id: "user6",
+            name: "Tom",
+            email: "tom@example.com",
+            birthday: Date(),
+            startMoney: 1000.0,
+            balance: 2500.0
+        ),
+        Profile(
+            id: "user7",
+            name: "Max",
+            email: "max@example.com",
+            birthday: Date(),
+            startMoney: 1000.0,
+            balance: 1500.0
+        ),
+        Profile(
+            id: "user8",
+            name: "Anna",
+            email: "anna@example.com",
+            birthday: Date(),
+            startMoney: 1000.0,
+            balance: 800.0
+        ),
+        Profile(
+            id: "user9",
             name: "Tom",
             email: "tom@example.com",
             birthday: Date(),
