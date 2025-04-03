@@ -12,6 +12,8 @@ struct StatisticView: View {
     
     @EnvironmentObject var betViewModel: BetViewModel
     @EnvironmentObject var userViewModel: UserViewModel
+    @State private var isLoadingRanks = true
+    @State private var isLoadingBets = true
     
     var body: some View {
         NavigationStack {
@@ -21,11 +23,23 @@ struct StatisticView: View {
                     .scaledToFill()
                     .edgesIgnoringSafeArea(.all)
                 VStack(alignment: .leading, spacing: 20) {
+                    Title(title: "Rangliste")
+                        .padding(.leading, 24)
+                        .padding(.bottom, 16)
                     RankListView(profiles: userViewModel.rankedUsers)
-                    Divider()
+                    
+                    Rectangle()
+                        .frame(height: 1)
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 24)
+                    
+                    Title(title: "Wettscheine")
+                        .padding(.leading, 24)
+                        .padding(.bottom, 16)
+                    
                     BetSlipsListView(betSlips: betViewModel.loadedBetSlips)
                 }
-                .padding(.vertical)
             }
         }
         .task {
@@ -39,14 +53,8 @@ struct StatisticView: View {
 /// Zeigt die Rangliste der Benutzer an
 struct RankListView: View {
     let profiles: [Profile]
-    
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Text("Rangliste")
-                .font(.title)
-                .foregroundColor(.white)
-                .padding(.horizontal)
-            
+        VStack() {
             ScrollView {
                 VStack(spacing: 8) {
                     ForEach(Array(profiles.enumerated()), id: \.element.id) { index, profile in
@@ -56,9 +64,7 @@ struct RankListView: View {
                         )
                     }
                 }
-                .padding(.horizontal)
             }
-            .frame(height: 200)
         }
     }
 }
@@ -66,14 +72,8 @@ struct RankListView: View {
 /// Zeigt die Liste der Wettscheine an
 struct BetSlipsListView: View {
     let betSlips: [BetSlip]
-    
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Text("Wettscheine")
-                .font(.title)
-                .foregroundColor(.white)
-                .padding(.horizontal)
-            
+        VStack() {
             ScrollView {
                 LazyVStack(spacing: 12) {
                     ForEach(betSlips) { betSlip in
@@ -82,7 +82,6 @@ struct BetSlipsListView: View {
                         }
                     }
                 }
-                .padding(.horizontal)
             }
         }
     }
