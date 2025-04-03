@@ -25,25 +25,21 @@ struct StatisticView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     Title(title: "Rangliste")
                         .padding(.leading, 24)
-                        .padding(.bottom, 16)
+                        .padding(.top, 36)
                     RankListView(profiles: userViewModel.rankedUsers)
-                    
                     Rectangle()
                         .frame(height: 1)
                         .frame(maxWidth: .infinity)
                         .foregroundColor(.white)
                         .padding(.horizontal, 24)
-                    
                     Title(title: "Wettscheine")
                         .padding(.leading, 24)
                         .padding(.bottom, 16)
-                    
                     BetSlipsListView(betSlips: betViewModel.loadedBetSlips)
                 }
             }
         }
         .task {
-            // Lädt Daten beim Erscheinen der View
             await userViewModel.loadAndSortRankedUsers()
             await betViewModel.loadBetSlipHistory()
         }
@@ -54,15 +50,13 @@ struct StatisticView: View {
 struct RankListView: View {
     let profiles: [Profile]
     var body: some View {
-        VStack() {
-            ScrollView {
-                VStack(spacing: 8) {
-                    ForEach(Array(profiles.enumerated()), id: \.element.id) { index, profile in
-                        StatisticRankRow(
-                            rank: index + 1,
-                            profile: profile
-                        )
-                    }
+        ScrollView {
+            LazyVStack(spacing: 12) {
+                ForEach(Array(profiles.enumerated()), id: \.element.id) { index, profile in
+                    StatisticRankRow(
+                        rank: index + 1,
+                        profile: profile
+                    )
                 }
             }
         }
@@ -73,13 +67,11 @@ struct RankListView: View {
 struct BetSlipsListView: View {
     let betSlips: [BetSlip]
     var body: some View {
-        VStack() {
-            ScrollView {
-                LazyVStack(spacing: 12) {
-                    ForEach(betSlips) { betSlip in
-                        NavigationLink(destination: StatisticSlipDetailView(betSlip: betSlip)) {
-                            StatisticSlipRow(betSlip: betSlip)
-                        }
+        ScrollView {
+            LazyVStack(spacing: 12) {
+                ForEach(betSlips) { betSlip in
+                    NavigationLink(destination: StatisticSlipDetailView(betSlip: betSlip)) {
+                        StatisticSlipRow(betSlip: betSlip)
                     }
                 }
             }
@@ -87,7 +79,6 @@ struct BetSlipsListView: View {
     }
 }
 
-// MARK: - Preview
 #Preview {
     StatisticView()
         .environmentObject(BetViewModel())
