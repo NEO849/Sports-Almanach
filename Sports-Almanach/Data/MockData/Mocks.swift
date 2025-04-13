@@ -266,62 +266,6 @@ struct Mocks {
             birthday: Date(),
             startMoney: 1000.0,
             balance: 800.0
-        ),
-        Profile(
-            id: "user3",
-            name: "Tom",
-            email: "tom@example.com",
-            birthday: Date(),
-            startMoney: 1000.0,
-            balance: 2500.0
-        ),
-        Profile(
-            id: "user4",
-            name: "Max",
-            email: "max@example.com",
-            birthday: Date(),
-            startMoney: 1000.0,
-            balance: 1500.0
-        ),
-        Profile(
-            id: "user5",
-            name: "Anna",
-            email: "anna@example.com",
-            birthday: Date(),
-            startMoney: 1000.0,
-            balance: 800.0
-        ),
-        Profile(
-            id: "user6",
-            name: "Tom",
-            email: "tom@example.com",
-            birthday: Date(),
-            startMoney: 1000.0,
-            balance: 2500.0
-        ),
-        Profile(
-            id: "user7",
-            name: "Max",
-            email: "max@example.com",
-            birthday: Date(),
-            startMoney: 1000.0,
-            balance: 1500.0
-        ),
-        Profile(
-            id: "user8",
-            name: "Anna",
-            email: "anna@example.com",
-            birthday: Date(),
-            startMoney: 1000.0,
-            balance: 800.0
-        ),
-        Profile(
-            id: "user9",
-            name: "Tom",
-            email: "tom@example.com",
-            birthday: Date(),
-            startMoney: 1000.0,
-            balance: 2500.0
         )
     ]
 }
