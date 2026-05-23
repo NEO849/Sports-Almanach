@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  GoogleService-Info.template.plist
+  Sports-Almanach
+
+  Drop your own GoogleService-Info.plist beside this file. The real file
+  is gitignored (see .gitignore) so each contributor / fork uses their own
+  Firebase project rather than the shared key that was accidentally
+  committed in the legacy repo.
+
+  How to obtain the file:
+    1. Go to the Firebase Console for your project
+    2. Project Settings → General → Your apps → iOS app
+    3. Click "GoogleService-Info.plist" to download
+    4. Drop the downloaded file into this directory and rename if needed
+
+  Required keys (filled in by Firebase):
+    - API_KEY
+    - GCM_SENDER_ID
+    - BUNDLE_ID         (com.aidata.Sports-Almanach in this project)
+    - PROJECT_ID
+    - STORAGE_BUCKET
+    - GOOGLE_APP_ID
+-->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>API_KEY</key>
+    <string>REPLACE_ME</string>
+    <key>GCM_SENDER_ID</key>
+    <string>REPLACE_ME</string>
+    <key>PLIST_VERSION</key>
+    <string>1</string>
+    <key>BUNDLE_ID</key>
+    <string>com.aidata.Sports-Almanach</string>
+    <key>PROJECT_ID</key>
+    <string>REPLACE_ME</string>
+    <key>STORAGE_BUCKET</key>
+    <string>REPLACE_ME</string>
+    <key>IS_ADS_ENABLED</key>
+    <false/>
+    <key>IS_ANALYTICS_ENABLED</key>
+    <false/>
+    <key>IS_APPINVITE_ENABLED</key>
+    <true/>
+    <key>IS_GCM_ENABLED</key>
+    <true/>
+    <key>IS_SIGNIN_ENABLED</key>
+    <true/>
+    <key>GOOGLE_APP_ID</key>
+    <string>REPLACE_ME</string>
+</dict>
+</plist>

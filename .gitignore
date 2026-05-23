@@ -60,3 +60,21 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# macOS metadata
+.DS_Store
+
+# Build artifacts
+build/
+*.xcodeproj/project.xcworkspace/xcuserdata
+*.xcodeproj/xcuserdata
+
+# Firebase config — must not be committed
+# Use GoogleService-Info.template.plist as the in-repo template; each contributor
+# drops their own keyed file in place. This stops accidental key disclosure
+# when forking the repo or pushing branches publicly.
+GoogleService-Info.plist
+
+# Local environment overrides
+*.local.xcconfig
+.envrc

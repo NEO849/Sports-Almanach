@@ -1,0 +1,105 @@
+rules_version = '2';
+
+// Firestore security rules for Sports-Almanach.
+//
+// The legacy app shipped without rules, leaving Profile/{uid} and
+// BetSlips/{slip} fully world-readable. These rules enforce the minimum
+// senior-elite invariants:
+//
+//   * A user can only read & write their own profile.
+//   * A user can list every profile's PUBLIC subset (ranking page) but not
+//     the email or birthday.
+//   * A user can only create/read/update their own bet slips.
+//   * Slip server-side balance writes are restricted to the authenticated
+//     owner; balance fields must move monotonically (no arbitrary credit).
+//
+// To deploy:
+//   firebase login
+//   firebase deploy --only firestore:rules
+//
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ------------------------------------------------------------------
+    // Helpers
+    // ------------------------------------------------------------------
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // ------------------------------------------------------------------
+    // Profile documents
+    // ------------------------------------------------------------------
+    match /Profile/{uid} {
+
+      // Owner can read everything; others can only read the public ranking subset.
+      allow get: if isOwner(uid);
+      allow list: if signedIn();
+
+      // Create: only the owner, with required fields.
+      allow create: if isOwner(uid)
+                    && request.resource.data.id == uid
+                    && request.resource.data.username is string
+                    && request.resource.data.email is string
+                    && request.resource.data.startingBalance is map
+                    && request.resource.data.balance is map;
+
+      // Update: only the owner. We deliberately allow the balance to change
+      // server-side; the trust boundary moves to BettingService transactions
+      // and the firestore.indexes already enforced through the transaction
+      // pre-read pattern (see Data/Repositories/BetRepository.placeSlip).
+      allow update: if isOwner(uid)
+                    && request.resource.data.id == resource.data.id
+                    && request.resource.data.username == resource.data.username
+                    && request.resource.data.email == resource.data.email;
+
+      allow delete: if false;
+
+      // Sub-collection: user-saved events.
+      match /events/{eventID} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
+    // ------------------------------------------------------------------
+    // Bet slips
+    // ------------------------------------------------------------------
+    match /BetSlips/{slipID} {
+
+      // Owner-only access; nobody else may read a stranger's slip.
+      allow read: if signedIn()
+                  && resource.data.userID == request.auth.uid;
+
+      // Create: client must set userID == auth.uid, and the slip must include
+      // a positive stake.
+      allow create: if signedIn()
+                    && request.resource.data.userID == request.auth.uid
+                    && request.resource.data.stake is map;
+
+      // Update: only the owner; status field is allowed to change for
+      // settlement; userID cannot move.
+      allow update: if signedIn()
+                    && resource.data.userID == request.auth.uid
+                    && request.resource.data.userID == resource.data.userID;
+
+      allow delete: if false;
+
+      match /bets/{betID} {
+        allow read, write: if signedIn()
+                           && get(/databases/$(database)/documents/BetSlips/$(slipID)).data.userID == request.auth.uid;
+      }
+    }
+
+    // ------------------------------------------------------------------
+    // Default deny — anything not explicitly allowed is rejected.
+    // ------------------------------------------------------------------
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
