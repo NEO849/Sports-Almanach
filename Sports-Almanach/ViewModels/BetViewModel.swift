@@ -2,177 +2,126 @@
 //  BetViewModel.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 27.09.24.
+//  Bet composition + history.
+//
+//  Differences vs the legacy implementation:
+//
+//  - `placeBets` is now `async throws` end-to-end. The legacy sync wrapper
+//    `syncPlaceBets` that always returned `true` (even on failure!) is gone.
+//  - Stake is `Money`, not `Double`.
+//  - Settlement happens via `BettingService.settlePendingSlips(...)`. A view
+//    can call `refreshHistory()` to drive both load and settlement.
 //
 
 import Foundation
 import SwiftUI
-import FirebaseFirestore
 
-/// Verantwortlich für, Wetteinsatz-Verwaltung, Quotenberechnung
 @MainActor
-class BetViewModel: ObservableObject {
-    
-    private weak var userViewModel: UserViewModel?
-    private weak var eventViewModel: EventViewModel?
+public final class BetViewModel: ObservableObject {
+
+    @Published public private(set) var draftBets: [Bet] = []
+    @Published public private(set) var stake: Money = .zero
+    @Published public private(set) var loadedSlips: [BetSlip] = []
+    @Published public private(set) var isPlacing: Bool = false
+    @Published public private(set) var lastError: String?
+
+    public var totalOdds: Decimal {
+        draftBets.reduce(Decimal(1)) { $0 * $1.odds }
+    }
+
+    public var potentialWin: Money {
+        (stake * totalOdds).rounded()
+    }
+
     private let bettingService: BettingService
-    
-    // MARK: - Published Properties für UI-Updates
-    /// Aktueller Wetteinsatz - Löst Neuberechnung des potentiellen Gewinns aus
-    @Published private(set) var betAmount: Double = 0.0 { didSet {updatePotentialWinAmount()}}
-    @Published private(set) var totalOdds: Double = 1.0 { didSet {updatePotentialWinAmount()}}
-    @Published private(set) var potentialWinAmount: Double = 0.0
-    @Published private(set) var currentBetSlipNumber: Int = 1
-    @Published private(set) var bets: [Bet] = [] { didSet {updateTotalOdds()}}
-    @Published private(set) var loadedBetSlips: [BetSlip] = []
-    
-    // MARK: - Initialisierung
-    init(bettingService: BettingService = BettingService()) {
+    private let betRepository: BetRepositoryProtocol
+    private let eventRepository: EventRepositoryProtocol
+    private let session: AppSession
+
+    public init(session: AppSession,
+                bettingService: BettingService = AppContainer.shared.bettingService(),
+                betRepository: BetRepositoryProtocol = AppContainer.shared.betRepository(),
+                eventRepository: EventRepositoryProtocol = AppContainer.shared.eventRepository()) {
+        self.session = session
         self.bettingService = bettingService
-        Task {
-            await loadInitialBetSlipNumber()
-        }
+        self.betRepository = betRepository
+        self.eventRepository = eventRepository
     }
-    
-    // MARK: - Public Interface
-    /// Aktualisiert den Wetteinsatz und berechnet möglichen Gewinn neu
-    func updateBetAmount(_ amount: Double) {
-        betAmount = max(1, amount) // Minimum 1€ Einsatz
+
+    // MARK: - Draft management
+
+    public func setStake(_ amount: Money) {
+        // The slider may report 0; clamp the floor so we don't violate the
+        // service-side minimum stake check silently.
+        stake = max(amount, .zero)
     }
-    
-    /// Fügt eine neue Wette zum Wettschein hinzu
-    func addBet(_ bet: Bet) {
-        if !bets.contains(where: { $0.event.id == bet.event.id }) {
-            bets.append(bet)
-        }
+
+    public func addDraftBet(_ bet: Bet) {
+        guard !draftBets.contains(where: { $0.event.eventID == bet.event.eventID }) else { return }
+        draftBets.append(bet)
     }
-    
-    /// Entfernt eine Wette aus dem Wettschein
-    func removeBet(at index: Int) {
-        guard index >= 0 && index < bets.count else { return }
-        bets.remove(at: index)
+
+    public func removeDraftBet(at offset: IndexSet) {
+        draftBets.remove(atOffsets: offset)
     }
-    
-    /// Verbindet die benötigten ViewModels
-    func setViewModels(user: UserViewModel, event: EventViewModel) {
-        self.userViewModel = user
-        self.eventViewModel = event
+
+    public func removeDraftBet(eventID: String) {
+        draftBets.removeAll { $0.event.eventID == eventID }
     }
-    
-    /// Überprüft ob eine Wette platziert werden kann
-    func canPlaceBet(userBalance: Double) -> Bool {
-        guard !bets.isEmpty else {
-            print("❌ Keine Wetten ausgewählt")
+
+    public func clearDraft() {
+        draftBets.removeAll()
+        stake = .zero
+    }
+
+    // MARK: - Place
+
+    public func placeSlip() async -> Bool {
+        guard let user = session.currentUser else {
+            lastError = AppErrors.Auth.notAuthenticated.errorDescription
             return false
         }
-        guard betAmount > 0 else {
-            print("❌ Kein Wetteinsatz gewählt")
-            return false
-        }
-        guard betAmount <= userBalance else {
-            print("❌ Nicht genügend Guthaben")
-            return false
-        }
-        return true
-    }
-    
-    /// Synchrone Wrapper-Funktion für placeBets
-    func syncPlaceBets(userBalance: Double) -> Bool {
-        Task {
-            await placeBets(userBalance: userBalance)
-        }
-        return true // Standardrückgabe
-    }
-    
-    /// Asynchrone Implementierung von placeBets
-    private func placeBets(userBalance: Double) async -> Bool {
-        guard canPlaceBet(userBalance: userBalance),
-              let userId = FirebaseAuthManager.shared.userID else { return false }
-        
-        userViewModel?.updateBalance(amount: -betAmount, type: .bet)
-        currentBetSlipNumber += 1
-        
+        isPlacing = true
+        defer { isPlacing = false }
         do {
-            let betSlip = createBetSlip(userId: userId)
-            if let events = eventViewModel?.events {
-                let (saved, winAmount) = try await bettingService.processBet(
-                    betSlip,
-                    userId: userId,
-                    events: events
-                )
-                if saved {
-                    if let winAmount = winAmount {
-                        userViewModel?.updateBalance(amount: winAmount, type: .win)
-                    }
-                    for bet in bets {
-                        eventViewModel?.syncDeleteEvent(bet.event)
-                    }
-                    clearBetSlip()
-                    return true
-                }
+            _ = try await bettingService.placeSlip(stake: stake, bets: draftBets, for: user)
+            clearDraft()
+            await refreshHistory()
+            return true
+        } catch {
+            lastError = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
+            return false
+        }
+    }
+
+    // MARK: - History + settlement
+
+    public func refreshHistory() async {
+        guard let userID = session.currentUser?.id else { return }
+        do {
+            try await bettingService.settlePendingSlips(forUser: userID) { [eventRepository] eventID in
+                try await eventRepository.fetchEvent(id: eventID)
             }
-            return false
+            loadedSlips = try await betRepository.loadSlips(userID: userID)
         } catch {
-            print("❌ Fehler beim Verarbeiten der Wetten: \(error)")
-            return false
+            AppLogger.error("Bet history refresh failed: \(error.localizedDescription)", category: .betting)
         }
     }
-    
-    /// Lädt die Wettschein-Historie des aktuellen Benutzers
-    func loadBetSlipHistory() async {
-        guard let userId = FirebaseAuthManager.shared.userID else { return }
-        
-        do {
-            loadedBetSlips = try await bettingService.loadBetSlipHistory(userId: userId)
-            print("✅ \(loadedBetSlips.count) Wettscheine geladen")
-        } catch {
-            print("❌ Fehler beim Laden der Wettscheine: \(error)")
-        }
+
+    // MARK: - Lifecycle from AppSession
+
+    public func didAuthenticate(_ user: SportsAlmanachUser) async {
+        await refreshHistory()
     }
-    
-    // MARK: - Private Helper Functions
-    /// Erstellt einen neuen Wettschein
-    private func createBetSlip(userId: String) -> BetSlip {
-        return BetSlip(
-            userId: userId,
-            slipNumber: currentBetSlipNumber,
-            bets: bets,
-            betAmount: betAmount
-        )
+
+    public func didSignOut() {
+        draftBets = []
+        stake = .zero
+        loadedSlips = []
+        lastError = nil
     }
-    
-    /// Berechnet den möglichen Gewinn basierend auf Einsatz und Gesamtquote
-    private func updatePotentialWinAmount() {
-        potentialWinAmount = bettingService.calculatePotentialWin(
-            stake: betAmount,
-            odds: totalOdds
-        )
-    }
-    
-    /// Aktualisiert die Gesamtquote aller Wetten
-    private func updateTotalOdds() {
-        totalOdds = bettingService.calculateTotalOdds(bets)
-    }
-    
-    /// Lädt die initiale Wettscheinnummer aus der Historie
-    private func loadInitialBetSlipNumber() async {
-        guard let userId = FirebaseAuthManager.shared.userID else { return }
-        do {
-            let betSlips = try await bettingService.loadBetSlipHistory(userId: userId)
-            let maxNumber = betSlips.map { $0.slipNumber }.max() ?? 0
-            await MainActor.run {
-                self.currentBetSlipNumber = maxNumber + 1
-            }
-        } catch {
-            print("❌ Fehler beim Laden der Wettscheinnummer: \(error)")
-        }
-    }
-    
-    /// Setzt den Wettschein zurück
-    private func clearBetSlip() {
-        bets.removeAll()
-        betAmount = 0.0
-        totalOdds = 1.0
-        potentialWinAmount = 0.0
+
+    public func clearError() {
+        lastError = nil
     }
 }

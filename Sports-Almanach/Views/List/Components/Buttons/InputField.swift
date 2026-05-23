@@ -2,99 +2,86 @@
 //  InputField.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 18.11.24.
+//  Reusable text field component, polished for iOS-HIG. Replaces the legacy
+//  field which mixed visibility-toggle into the same struct and used a
+//  hard-coded 300×50 frame. New version uses Dynamic Type, semantic icons,
+//  and `.ultraThinMaterial` so it blends with both photographic and gradient
+//  backgrounds.
 //
 
 import SwiftUI
 
-/// The reusable component adapts its appearance and behavior based on the provided properties.
-/// Parent-view controlled and local focus for UI effects.
 struct InputField: View {
-    let placeholder: String
-    let isSecure: Bool
-    let icon: String
-    @Binding var text: String
-    @Binding var isPasswordVisible: Bool
-    @FocusState private var isFocused: Bool
-    
-    var body: some View {
-        ZStack(alignment: .leading) {
-            // Placeholder
-            if text.trimmingCharacters(in: .whitespaces).isEmpty {
-                Text(placeholder)
-                    .foregroundColor(.white.opacity(0.8))
-                    .padding(.leading, 52)
-            }
-            
-            HStack(spacing: 12) {
-                // Icon for Textfield
-                Image(systemName: icon)
-                    .foregroundColor(isFocused || !text.isEmpty ? .white : .white.opacity(0.8))
-                    .frame(width: 24, height: 24)
-                
-                // Textfield or Securefield
-                Group {
-                    if isSecure && !isPasswordVisible {
-                        SecureField("", text: $text)
-                            .autocorrectionDisabled(true)
-                            .focused($isFocused)
-                    } else {
-                        TextField("", text: $text)
-                            .autocapitalization(.none)
-                            .autocorrectionDisabled(true)
-                            .focused($isFocused)
-                    }
-                }
-                
-                // Eye Icon for Passwordvisibility
-                if isSecure {
-                    Spacer()
-                    Button(action: {
-                        withAnimation(.easeInOut(duration: 0.4)) {
-                            isPasswordVisible.toggle()
-                        }
-                    }) {
-                        Image(systemName: isPasswordVisible ? "eye" : "eye.slash")
-                            .foregroundColor(isPasswordVisible ? .green : .red)
-                            .frame(width: 24, height: 24)
-                    }
-                }
-            }
-            .padding(.horizontal, 12)
-            .padding(.vertical, 12)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(isFocused || !text.isEmpty ? .black.opacity(0.4) : .gray.opacity(0.2))
-            )
-            .foregroundColor(.white)
-            .cornerRadius(10)
-        }
-        .frame(width: 300, height: 50)
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(.orange, lineWidth: 1)
-        )
-    }
-}
 
-#Preview {
-    @Previewable @State var password: String = ""
-    @Previewable @State var isPasswordVisible: Bool = false
-    
-    ZStack {
-        Image("hintergrund")
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(.all)
-        
-        InputField(
-            placeholder: "Passwort eingeben",
-            isSecure: true,
-            icon: "lock",
-            text: $password,
-            isPasswordVisible: $isPasswordVisible
-        )
-        .padding()
-        .border(.red, width: 1)
+    let title: String
+    let placeholder: String
+    let systemImage: String
+    @Binding var text: String
+    var isSecure: Bool = false
+    var contentType: UITextContentType? = nil
+    var keyboard: UIKeyboardType = .default
+
+    @State private var revealed = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: AppTheme.Spacing.xs) {
+            Text(title)
+                .font(AppTheme.Typography.subheadline)
+                .foregroundStyle(.white.opacity(0.85))
+
+            HStack(spacing: AppTheme.Spacing.s) {
+                Image(systemName: systemImage)
+                    .foregroundStyle(AppTheme.Colors.accent)
+                    .frame(width: 22)
+                    .accessibilityHidden(true)
+
+                input
+                    .textInputAutocapitalization(autocapitalization)
+                    .textContentType(contentType)
+                    .keyboardType(keyboard)
+                    .autocorrectionDisabled(isSecure || keyboard == .emailAddress)
+                    .foregroundStyle(.white)
+                    .tint(AppTheme.Colors.accent)
+
+                if isSecure {
+                    Button {
+                        revealed.toggle()
+                    } label: {
+                        Image(systemName: revealed ? "eye.slash" : "eye")
+                            .foregroundStyle(AppTheme.Colors.accent)
+                    }
+                    .accessibilityLabel(revealed ? "Passwort verbergen" : "Passwort anzeigen")
+                }
+            }
+            .padding(AppTheme.Spacing.m)
+            .background(
+                RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
+                    .fill(.ultraThinMaterial)
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
+                    .strokeBorder(AppTheme.Colors.accent.opacity(0.55), lineWidth: 1)
+            )
+        }
+    }
+
+    private var autocapitalization: TextInputAutocapitalization {
+        switch contentType {
+        case .emailAddress, .username, .password, .newPassword:
+            return .never
+        case .nickname, .name, .givenName, .familyName:
+            return .words
+        default:
+            return .sentences
+        }
+    }
+
+    @ViewBuilder
+    private var input: some View {
+        if isSecure && !revealed {
+            SecureField(placeholder, text: $text)
+        } else {
+            TextField(placeholder, text: $text)
+        }
     }
 }

@@ -2,94 +2,106 @@
 //  EventRow.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 27.09.24.
+//  Card-style row for the event list. Uses new EventStatus + AsyncImage with
+//  graceful loading, plus a swipe-leading "add to bet selection" action.
 //
 
 import SwiftUI
 
 struct EventRow: View {
+
     let event: Event
-    @EnvironmentObject var eventViewModel: EventViewModel
-    var showNavigationLink: Bool = true  // Flexible Verwendung
-    
+
+    @EnvironmentObject private var eventVM: EventViewModel
+
     var body: some View {
-        let rowContent = VStack(alignment: .leading) {
-            AsyncImage(url: URL(string: event.image)) { image in
-                image
-                    .resizable()
-                    .frame(maxWidth: .infinity, maxHeight: 162)
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-            } placeholder: {
-                ProgressView()
-                    .frame(height: 32)
-                    .progressViewStyle(CircularProgressViewStyle(tint: .orange))
-            }
-            
-            Spacer().frame(height: 8)
-            
-            HStack {
-                VStack(alignment: .leading) {
-                    Text(eventNameShort(event.name, limit: 34))
-                        .font(.headline)
-                        .lineLimit(1)
-                        .foregroundColor(.white)
-                    
-                    HStack(spacing: 8) {
-                        Text("\(eventViewModel.formattedDate(for: event)) um \(eventViewModel.formattedTime(for: event))")
-                            .font(.subheadline)
-                            .foregroundColor(.orange)
-                    }
-                }
-                Spacer()
-                
-                let status = EventStatus(rawValue: event.statusString) ?? .unknown
-                Text(status.currentStatusGerman)
-                    .font(.subheadline)
-                    .padding(6)
-                    .background(status.color)
-                    .cornerRadius(8)
-                    .foregroundColor(.white)
-            }
+        VStack(alignment: .leading, spacing: AppTheme.Spacing.s) {
+            thumbnail
+            metaRow
         }
-        .padding()
-        .overlay(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.orange, lineWidth: 1)
+        .padding(AppTheme.Spacing.m)
+        .background(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                .fill(.ultraThinMaterial)
         )
-        .padding(.vertical, 8)
-        
-        // Bedingte NavigationLink basierend auf showNavigationLink
-        if showNavigationLink {
-            NavigationLink(destination: EventDetailView(event: event)) {
-                rowContent
+        .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                .strokeBorder(AppTheme.Colors.accent.opacity(0.45), lineWidth: 1)
+        )
+        .padding(.vertical, AppTheme.Spacing.xs)
+        .swipeActions(edge: .leading, allowsFullSwipe: true) {
+            Button {
+                Task { await eventVM.addToSelection(event) }
+            } label: {
+                Label("Zur Wette", systemImage: "plus.circle.fill")
             }
-            .swipeActions(edge: .leading, allowsFullSwipe: false) {
-                Button {
-                    eventViewModel.addToSelectedEvents(event)
-                } label: {
-                    Label("Zur Wette", systemImage: "plus.circle.fill")
-                }
-                .tint(.green)
-            }
-        } else {
-            rowContent
+            .tint(AppTheme.Colors.success)
         }
     }
-    
-    // Kürzen des Eventnamens
-    private func eventNameShort(_ name: String, limit: Int) -> String {
+
+    @ViewBuilder
+    private var thumbnail: some View {
+        if let urlString = event.thumbnail, let url = URL(string: urlString) {
+            AsyncImage(url: url) { phase in
+                switch phase {
+                case .success(let image):
+                    image.resizable().scaledToFill()
+                case .empty:
+                    ProgressView().tint(AppTheme.Colors.accent)
+                        .frame(maxWidth: .infinity, minHeight: 120)
+                case .failure:
+                    placeholderImage
+                @unknown default:
+                    placeholderImage
+                }
+            }
+            .frame(maxWidth: .infinity, maxHeight: 160)
+            .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous))
+        } else {
+            placeholderImage
+        }
+    }
+
+    private var placeholderImage: some View {
+        Image(systemName: "sportscourt")
+            .font(.system(size: 40))
+            .foregroundStyle(.white.opacity(0.4))
+            .frame(maxWidth: .infinity, minHeight: 120)
+            .background(.black.opacity(0.25))
+            .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous))
+    }
+
+    private var metaRow: some View {
+        HStack(alignment: .top) {
+            VStack(alignment: .leading, spacing: 2) {
+                Text(shortName(event.name, limit: 36))
+                    .font(AppTheme.Typography.headline)
+                    .foregroundStyle(.white)
+                    .lineLimit(2)
+                Text("\(SportEventUtils.formattedDate(for: event)) · \(SportEventUtils.formattedTime(for: event))")
+                    .font(AppTheme.Typography.subheadline)
+                    .foregroundStyle(AppTheme.Colors.accent)
+            }
+            Spacer()
+            statusBadge
+        }
+    }
+
+    private var statusBadge: some View {
+        Text(event.status.displayName)
+            .font(AppTheme.Typography.caption.weight(.semibold))
+            .foregroundStyle(.white)
+            .padding(.horizontal, AppTheme.Spacing.s)
+            .padding(.vertical, AppTheme.Spacing.xxs)
+            .background(
+                Capsule().fill(event.status.color)
+            )
+    }
+
+    private func shortName(_ name: String, limit: Int) -> String {
         if name.count > limit {
-            let index = name.index(name.startIndex, offsetBy: limit)
-            return String(name[..<index]) + "..."
+            return String(name.prefix(limit)) + "…"
         }
         return name
     }
-}
-
-#Preview {
-    let mockEvent = Mocks.events.first!
-    let eventViewModel = EventViewModel()
-    return EventRow(event: mockEvent)
-        .environmentObject(eventViewModel)
-        .padding()
 }

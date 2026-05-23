@@ -2,146 +2,146 @@
 //  BetRow.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 23.10.24.
+//  Row that lets the user pick a 1/X/2 outcome for a selected event and add
+//  it to the slip. The legacy code mutated EventViewModel.selectedEvents
+//  inline from inside a swipe button — that side-effect now goes through
+//  the BetViewModel which is the authoritative draft owner.
 //
 
 import SwiftUI
 
 struct BetRow: View {
-    
-    @EnvironmentObject var betViewModel: BetViewModel
-    @EnvironmentObject var eventViewModel: EventViewModel
-    @State private var showAlert = false
-    @State private var selectedTip: UserTip?
+
     let event: Event
-    
-    /// Ob eine Wette ausgewählt wurde
-    private var isButtonActive: Bool {
-        selectedTip != nil
-    }
-    
-    /// Fügt Wette hinzu und entfernt Event aus der Liste
-    private func addBetAndRemoveEvent() {
-        let odds = SportEventUtils.calculateOdds(for: event)
-        guard let userTip = selectedTip else { return }
-        
-        // Quote basierend auf User-Tipp ermitteln
-        let currentOdds = switch userTip {
-        case .homeWin: odds.homeWinOdds
-        case .draw: odds.drawOdds
-        case .awayWin: odds.awayWinOdds
-        }
-        let bet = Bet(
-            id: UUID(),
-            event: event,
-            userTip: userTip,
-            odds: currentOdds,
-            winAmount: nil,
-            timestamp: Date()
-        )
-        if !betViewModel.bets.contains(where: { $0.event.id == event.id }) {
-            // 1. Wette zum Wettschein hinzufügen
-            betViewModel.addBet(bet)
-            
-            // 2. Event aus UI und Firestore entfernen
-            Task {
-                await eventViewModel.removeFromSelectedEvents(event)
-            }
-            selectedTip = nil
-        } else {
-            showAlert = true
-        }
-    }
-    
-    // MARK: - View
+
+    @EnvironmentObject private var betVM: BetViewModel
+    @EnvironmentObject private var eventVM: EventViewModel
+
+    @State private var selectedOutcome: MatchOutcome?
+    @State private var showDuplicateAlert = false
+
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(event.name)
-                .font(.headline)
-                .padding(.horizontal, 16)
-            HStack {
-                Text("\(event.date) um \(event.time)")
-                    .font(.subheadline)
-                    .foregroundColor(.orange)
-            }
-            .padding(.horizontal, 16)
-            
-            // Wettquoten
-            let odds = SportEventUtils.calculateOdds(for: event)
-            oddsGrid(odds: odds)
-                .padding(.horizontal, 12)
-            HStack {
-                Spacer()
-                PrimaryActionButton(
-                    title: "Zum Wettschein",
-                    action: addBetAndRemoveEvent,
-                    isActive: isButtonActive
-                )
-                .frame(width: 200, height: 40)
-                Spacer()
-            }
-            .padding(.horizontal, 16)
+        VStack(alignment: .leading, spacing: AppTheme.Spacing.s) {
+            header
+            oddsGrid
+            addToSlipButton
         }
-        .padding(.vertical, 12)
+        .padding(AppTheme.Spacing.m)
         .background(
-            RoundedRectangle(cornerRadius: 10)
-                .stroke(Color.orange, lineWidth: 2)
+            RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                .fill(.ultraThinMaterial)
         )
-        .padding(.horizontal, 16)
-        .alert("Wette existiert bereits!", isPresented: $showAlert) {
-            Button("OK", role: .cancel) { }
+        .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                .strokeBorder(AppTheme.Colors.accent.opacity(0.45), lineWidth: 1)
+        )
+        .alert("Wette existiert bereits", isPresented: $showDuplicateAlert) {
+            Button("OK", role: .cancel) {}
         }
     }
-    
-    // MARK: - Grid für die Quotenanzeige
-    private func oddsGrid(odds: (homeWinOdds: Double, drawOdds: Double, awayWinOdds: Double)) -> some View {
-        VStack(alignment: .leading, spacing: 10) {
-            QuoteRow(title: "1 (Heimsieg)",
-                     odds: odds.homeWinOdds,
-                     isSelected: selectedTip == .homeWin) {
-                selectedTip = (selectedTip == .homeWin) ? nil : .homeWin
-            }
-            QuoteRow(title: "0 (Unentschieden)",
-                     odds: odds.drawOdds,
-                     isSelected: selectedTip == .draw) {
-                selectedTip = (selectedTip == .draw) ? nil : .draw
-            }
-            QuoteRow(title: "2 (Auswärtssieg)",
-                     odds: odds.awayWinOdds,
-                     isSelected: selectedTip == .awayWin) {
-                selectedTip = (selectedTip == .awayWin) ? nil : .awayWin
-            }
-        }
-        .padding()
-        .background(Color.gray.opacity(0.1))
-        .cornerRadius(10)
-        .frame(maxWidth: .infinity, alignment: .center)
-    }
-}
 
-// MARK: - QuoteRow
-private struct QuoteRow: View {
-    let title: String
-    let odds: Double
-    let isSelected: Bool
-    let action: () -> Void
-    
-    var body: some View {
-        HStack {
-            Text(title)
-            Spacer()
-            Text(String(format: "%.2f", odds))
-            Image(systemName: isSelected ? "checkmark.square.fill" : "square")
-                .foregroundColor(.orange)
-                .onTapGesture(perform: action)
+    // MARK: - Components
+
+    private var header: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(event.name)
+                .font(AppTheme.Typography.headline)
+                .foregroundStyle(.white)
+                .lineLimit(2)
+            Text("\(SportEventUtils.formattedDate(for: event)) · \(SportEventUtils.formattedTime(for: event))")
+                .font(AppTheme.Typography.subheadline)
+                .foregroundStyle(AppTheme.Colors.accent)
         }
     }
-}
 
-// MARK: - Preview
-#Preview {
-    let mockEvent = Mocks.events.first!
-    return BetRow(event: mockEvent)
-        .environmentObject(BetViewModel())
-        .environmentObject(EventViewModel())
+    private var oddsGrid: some View {
+        let bundle = OddsCalculator.odds(homeScore: event.homeScore, awayScore: event.awayScore)
+        return VStack(spacing: AppTheme.Spacing.xs) {
+            outcomeRow(.homeWin, odds: bundle.homeWin)
+            outcomeRow(.draw, odds: bundle.draw)
+            outcomeRow(.awayWin, odds: bundle.awayWin)
+        }
+    }
+
+    private func outcomeRow(_ outcome: MatchOutcome, odds: Decimal) -> some View {
+        let isSelected = selectedOutcome == outcome
+        return Button {
+            selectedOutcome = isSelected ? nil : outcome
+        } label: {
+            HStack {
+                Circle()
+                    .fill(outcome.swatch)
+                    .frame(width: 12, height: 12)
+                Text(outcome.displayName)
+                    .font(AppTheme.Typography.body)
+                    .foregroundStyle(.white)
+                Spacer()
+                Text(formatted(odds))
+                    .font(AppTheme.Typography.body.monospacedDigit())
+                    .foregroundStyle(.white.opacity(0.85))
+                Image(systemName: isSelected ? "checkmark.circle.fill" : "circle")
+                    .foregroundStyle(isSelected ? AppTheme.Colors.accent : .white.opacity(0.4))
+            }
+            .padding(AppTheme.Spacing.s)
+            .background(
+                RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous)
+                    .fill(isSelected ? AppTheme.Colors.accent.opacity(0.18) : Color.black.opacity(0.18))
+            )
+        }
+        .buttonStyle(.plain)
+    }
+
+    private var addToSlipButton: some View {
+        Button {
+            addToSlip()
+        } label: {
+            HStack(spacing: AppTheme.Spacing.xs) {
+                Image(systemName: "plus.circle.fill")
+                Text("Zum Wettschein")
+                    .font(AppTheme.Typography.subheadline.weight(.semibold))
+            }
+            .foregroundStyle(.white)
+            .padding(.vertical, AppTheme.Spacing.s)
+            .frame(maxWidth: .infinity)
+            .background(
+                Capsule().fill(selectedOutcome == nil
+                               ? AppTheme.Colors.accent.opacity(0.35)
+                               : AppTheme.Colors.accent)
+            )
+        }
+        .disabled(selectedOutcome == nil)
+        .accessibilityHint("Wette zum Wettschein hinzufügen")
+    }
+
+    private func addToSlip() {
+        guard let outcome = selectedOutcome else { return }
+        if betVM.draftBets.contains(where: { $0.event.eventID == event.id }) {
+            showDuplicateAlert = true
+            return
+        }
+        let bundle = OddsCalculator.odds(homeScore: event.homeScore, awayScore: event.awayScore)
+        let odds: Decimal = {
+            switch outcome {
+            case .homeWin: return bundle.homeWin
+            case .draw:    return bundle.draw
+            case .awayWin: return bundle.awayWin
+            }
+        }()
+        let bet = Bet(
+            event: event.snapshot,
+            userTip: AnyOutcome(outcome),
+            odds: odds
+        )
+        betVM.addDraftBet(bet)
+        Task { await eventVM.removeFromSelection(event) }
+        selectedOutcome = nil
+    }
+
+    private func formatted(_ value: Decimal) -> String {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 2
+        formatter.minimumFractionDigits = 2
+        return formatter.string(from: value as NSDecimalNumber) ?? "\(value)"
+    }
 }

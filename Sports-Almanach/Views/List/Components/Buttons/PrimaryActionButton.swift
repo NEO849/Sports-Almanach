@@ -1,62 +1,70 @@
 //
-//  LoginButton.swift
+//  PrimaryActionButton.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 18.11.24.
+//  Senior-elite primary CTA — single source of truth for "the big button".
+//  Accepts an explicit `isLoading` so callers don't need to juggle inner
+//  ProgressViews, and falls back to a system-feedback haptic on tap.
 //
 
 import SwiftUI
 
 struct PrimaryActionButton: View {
-    
-    let title: String
-    let action: () -> Void
-    let isActive: Bool
-    @State private var isPressed: Bool = false
-    
-    var body: some View {
-        Button(action: {
-            if isActive {
-                action()
-                withAnimation(.spring()) {
-                    isPressed.toggle()
-                }
-                isPressed = false
-            }
-        }) {
-            Text(title)
-                .font(.headline)
-                .foregroundColor(.white)
-                .frame(width: 300, height: 50)
-                .background(
-                    LinearGradient(
-                        colors: isActive ? 
-                            [.black, .orange.opacity(0.8)] : 
-                            [.gray.opacity(0.6), .gray.opacity(0.4)],
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
-                .cornerRadius(10)
-                .shadow(color: isActive ? .orange : .gray, radius: 4, x: -2, y: -2)
-                .scaleEffect(isPressed ? 0.8 : 1.0)
-        }
-    }
-}
 
-#Preview {
-    ZStack {
-        Image("hintergrund")
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(.all)
-        
-        PrimaryActionButton(
-            title: "Login",
-            action: {
-                print("Button gedrückt")
-            },
-            isActive: true
-        )
+    let title: String
+    let isEnabled: Bool
+    let isLoading: Bool
+    let action: () -> Void
+
+    init(title: String,
+         isEnabled: Bool = true,
+         isLoading: Bool = false,
+         action: @escaping () -> Void) {
+        self.title = title
+        self.isEnabled = isEnabled
+        self.isLoading = isLoading
+        self.action = action
+    }
+
+    var body: some View {
+        Button(action: trigger) {
+            ZStack {
+                Text(title.uppercased())
+                    .font(AppTheme.Typography.headline)
+                    .foregroundStyle(.white)
+                    .opacity(isLoading ? 0 : 1)
+
+                if isLoading {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .tint(.white)
+                }
+            }
+            .frame(maxWidth: .infinity, minHeight: 52)
+            .background(background)
+        }
+        .buttonStyle(.plain)
+        .disabled(!isEnabled || isLoading)
+        .opacity(isEnabled ? 1 : 0.5)
+        .animation(AppTheme.Motion.snappy, value: isEnabled)
+        .accessibilityLabel(title)
+        .accessibilityAddTraits(.isButton)
+    }
+
+    private func trigger() {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        action()
+    }
+
+    private var background: some View {
+        RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
+            .fill(
+                LinearGradient(
+                    colors: [AppTheme.Colors.accent, AppTheme.Colors.accent.opacity(0.7)],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+            )
+            .shadow(color: AppTheme.Colors.accent.opacity(0.3), radius: 12, y: 6)
     }
 }

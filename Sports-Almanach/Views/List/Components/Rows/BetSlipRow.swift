@@ -2,78 +2,71 @@
 //  BetSlipRow.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 27.10.24.
-//
 
 import SwiftUI
 
 struct BetSlipRow: View {
+
     let index: Int
     let bet: Bet
-    
-    var body: some View {
-        
-        VStack(alignment: .leading) {
-            
-            HStack {
-                Text("\(index + 1).") // Fortlaufend
-                    .font(.subheadline)
-                Text(bet.event.name)
-                    .font(.headline)
-                Spacer()
-                Text(String(format: "%.2f", bet.odds))
-                    .font(.subheadline)
-                    .padding(8)
-                    .background(.white)
-                    .foregroundColor(.black)
-                    .cornerRadius(8)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(.black, lineWidth: 2)
-                    )
-            }
-            
-            HStack {
-                Spacer().frame(width: 16)
-                Text(bet.userTip.titleGerman)
-                    .font(.subheadline)
-                    .frame(width: 100)
-                    .padding(8)
-                    .background(bet.userTip.color)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(bet.userTip.color, lineWidth: 2)
-                    )
-                Spacer().frame(width: 16)
-                Text("Spielausgang")
-                    .font(.footnote)
-                    .padding(8)
-                    .background(.white)
-                    .foregroundColor(.black)
-                    .cornerRadius(8)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(.gray, lineWidth: 2)
-                    )
-                Spacer()
-            }
-        }
-        .padding()
-        .background(.gray.opacity(0.2))
-        .cornerRadius(8)
-    }
-}
 
-#Preview {
-    let mockBet = Bet(
-        id: UUID(),
-        event: Mocks.events.first!,
-        userTip: .homeWin,
-        odds: 2.5,
-        winAmount: 10 * 2.5,
-        timestamp: Date()
-    )
-    BetSlipRow(index: 0, bet: mockBet)
+    var body: some View {
+        VStack(alignment: .leading, spacing: AppTheme.Spacing.xs) {
+            HStack {
+                Text("\(index + 1).")
+                    .font(AppTheme.Typography.subheadline.weight(.semibold))
+                    .foregroundStyle(AppTheme.Colors.accent)
+                Text(bet.event.name)
+                    .font(AppTheme.Typography.headline)
+                    .foregroundStyle(.white)
+                    .lineLimit(2)
+                Spacer()
+                oddsChip
+            }
+            outcomeChip
+        }
+        .padding(AppTheme.Spacing.m)
+        .background(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
+                .fill(.ultraThinMaterial)
+        )
+    }
+
+    private var oddsChip: some View {
+        Text(formatDecimal(bet.odds))
+            .font(AppTheme.Typography.subheadline.monospacedDigit())
+            .padding(.horizontal, AppTheme.Spacing.s)
+            .padding(.vertical, AppTheme.Spacing.xxs)
+            .background(
+                Capsule().fill(.white)
+            )
+            .foregroundStyle(.black)
+    }
+
+    private var outcomeChip: some View {
+        Text(bet.userTip.displayName)
+            .font(AppTheme.Typography.footnote.weight(.semibold))
+            .padding(.horizontal, AppTheme.Spacing.s)
+            .padding(.vertical, AppTheme.Spacing.xxs)
+            .background(
+                Capsule().fill(outcomeColor.opacity(0.7))
+            )
+            .foregroundStyle(.white)
+    }
+
+    private var outcomeColor: Color {
+        switch bet.userTip.stableID {
+        case MatchOutcome.homeWin.rawValue: return AppTheme.Colors.homeWin
+        case MatchOutcome.draw.rawValue:    return AppTheme.Colors.draw
+        case MatchOutcome.awayWin.rawValue: return AppTheme.Colors.awayWin
+        default:                            return AppTheme.Colors.info
+        }
+    }
+
+    private func formatDecimal(_ value: Decimal) -> String {
+        let f = NumberFormatter()
+        f.minimumFractionDigits = 2
+        f.maximumFractionDigits = 2
+        return f.string(from: value as NSDecimalNumber) ?? "\(value)"
+    }
 }

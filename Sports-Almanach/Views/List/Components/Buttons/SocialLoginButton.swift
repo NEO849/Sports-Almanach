@@ -2,64 +2,41 @@
 //  SocialLoginButton.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 18.11.24.
-//
 
 import SwiftUI
 
-enum CustomButtons {
-    case google
-    case facebook
-    case github
+enum SocialPlatform: String {
+    case google, facebook, apple
 }
 
 struct SocialLoginButton: View {
+
     let title: String
     let icon: String
-    let platform: CustomButtons
+    let platform: SocialPlatform
     let action: () -> Void
-
-    private static let gradientColors: [CustomButtons: Gradient] = [
-        .google: Gradient(colors: [.black.opacity(0.9), .red]),
-        .facebook: Gradient(colors: [.black.opacity(0.9), .blue])]
 
     var body: some View {
         Button(action: action) {
-            HStack(spacing: 16) {
+            HStack(spacing: AppTheme.Spacing.s) {
                 Image(systemName: icon)
-                    .foregroundColor(.white)
-                    .font(.title)
+                    .font(.title3)
                 Text(title)
-                    .font(.headline)
-                    .foregroundColor(.white)
+                    .font(AppTheme.Typography.subheadline.weight(.semibold))
             }
-            .frame(width: 120, height: 56)
-            .padding(.horizontal, 16)
+            .foregroundStyle(.white)
+            .padding(.horizontal, AppTheme.Spacing.l)
+            .frame(minHeight: 44)
+            .frame(maxWidth: .infinity)
             .background(
-                LinearGradient(gradient: Self.gradientColors[platform]!, startPoint: .top, endPoint: .bottom)
+                RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
+                    .fill(.ultraThinMaterial)
             )
-            .cornerRadius(10)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(.orange, lineWidth: 1)
+            .overlay(
+                RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
+                    .strokeBorder(AppTheme.Colors.accent.opacity(0.6), lineWidth: 1)
             )
         }
-    }
-}
-
-#Preview {
-    ZStack {
-        Image("hintergrund")
-            .resizable()
-            .scaledToFill()
-            .edgesIgnoringSafeArea(.all)
-        
-        SocialLoginButton(title: "Google",
-                          icon: "g.circle.fill",
-                          platform: .google,
-                          action: {
-            print("Google Login Button tapped")
-        }
-        )
+        .accessibilityLabel("Mit \(title) anmelden")
     }
 }

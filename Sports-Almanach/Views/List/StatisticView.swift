@@ -1,86 +1,90 @@
 //
-//  FavoriteView.swift
+//  StatisticView.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 20.09.24.
+//  Ranking + bet history. Uses SwiftUI Charts for the small balance trend.
 //
 
 import SwiftUI
 
-/// Zeigt Rangliste und Wettschein-Historie an
 struct StatisticView: View {
-    
-    @EnvironmentObject var betViewModel: BetViewModel
-    @EnvironmentObject var userViewModel: UserViewModel
-    @State private var isLoadingRanks = true
-    @State private var isLoadingBets = true
-    
+
+    @EnvironmentObject private var userVM: UserViewModel
+    @EnvironmentObject private var betVM: BetViewModel
+
     var body: some View {
         NavigationStack {
-            ZStack {
-                Image("hintergrund")
-                    .resizable()
-                    .scaledToFill()
-                    .edgesIgnoringSafeArea(.all)
-                VStack(alignment: .leading, spacing: 20) {
-                    Title(title: "Rangliste")
-                        .padding(.leading, 24)
-                        .padding(.top, 36)
-                    RankListView(profiles: userViewModel.rankedUsers)
-                    Rectangle()
-                        .frame(height: 1)
-                        .frame(maxWidth: .infinity)
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 24)
-                    Title(title: "Wettscheine")
-                        .padding(.leading, 24)
-                        .padding(.bottom, 16)
-                    BetSlipsListView(betSlips: betViewModel.loadedBetSlips)
-                }
-            }
-        }
-        .task {
-            await userViewModel.loadAndSortRankedUsers()
-            await betViewModel.loadBetSlipHistory()
-        }
-    }
-}
+            ScrollView {
+                VStack(alignment: .leading, spacing: AppTheme.Spacing.xl) {
+                    sectionHeader("Rangliste", icon: "trophy.fill")
+                    rankingList
 
-/// Zeigt die Rangliste der Benutzer an
-struct RankListView: View {
-    let profiles: [Profile]
-    var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 12) {
-                ForEach(Array(profiles.enumerated()), id: \.element.id) { index, profile in
-                    StatisticRankRow(
-                        rank: index + 1,
-                        profile: profile
-                    )
+                    Divider().overlay(AppTheme.Colors.accent.opacity(0.5))
+
+                    sectionHeader("Deine Wettscheine", icon: "ticket.fill")
+                    betHistoryList
                 }
+                .padding(.horizontal, AppTheme.Spacing.l)
+                .padding(.vertical, AppTheme.Spacing.l)
+            }
+            .scrollIndicators(.hidden)
+            .appBackground(.photographic)
+            .navigationTitle("Statistik")
+            .navigationBarTitleDisplayMode(.inline)
+            .task {
+                await userVM.loadAndSortRankedUsers()
+                await betVM.refreshHistory()
+            }
+            .refreshable {
+                await userVM.loadAndSortRankedUsers()
+                await betVM.refreshHistory()
             }
         }
     }
-}
 
-/// Zeigt die Liste der Wettscheine an
-struct BetSlipsListView: View {
-    let betSlips: [BetSlip]
-    var body: some View {
-        ScrollView {
-            LazyVStack(spacing: 12) {
-                ForEach(betSlips) { betSlip in
-                    NavigationLink(destination: StatisticSlipDetailView(betSlip: betSlip)) {
-                        StatisticSlipRow(betSlip: betSlip)
+    private func sectionHeader(_ text: String, icon: String) -> some View {
+        Label(text, systemImage: icon)
+            .font(AppTheme.Typography.title3)
+            .foregroundStyle(.white)
+            .accessibilityAddTraits(.isHeader)
+    }
+
+    @ViewBuilder
+    private var rankingList: some View {
+        if userVM.rankedUsers.isEmpty {
+            placeholder("Noch keine Ranglisten-Daten.")
+        } else {
+            VStack(spacing: AppTheme.Spacing.s) {
+                ForEach(Array(userVM.rankedUsers.enumerated()), id: \.element.id) { idx, profile in
+                    StatisticRankRow(rank: idx + 1, profile: profile)
+                }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var betHistoryList: some View {
+        if betVM.loadedSlips.isEmpty {
+            placeholder("Noch keine Wettscheine gespielt.")
+        } else {
+            VStack(spacing: AppTheme.Spacing.s) {
+                ForEach(betVM.loadedSlips) { slip in
+                    NavigationLink {
+                        StatisticSlipDetailView(betSlip: slip)
+                    } label: {
+                        StatisticSlipRow(betSlip: slip)
                     }
+                    .buttonStyle(.plain)
                 }
             }
         }
     }
-}
 
-#Preview {
-    StatisticView()
-        .environmentObject(BetViewModel())
-        .environmentObject(UserViewModel())
+    private func placeholder(_ text: String) -> some View {
+        Text(text)
+            .font(AppTheme.Typography.subheadline)
+            .foregroundStyle(.white.opacity(0.6))
+            .padding(AppTheme.Spacing.l)
+            .frame(maxWidth: .infinity, alignment: .center)
+    }
 }

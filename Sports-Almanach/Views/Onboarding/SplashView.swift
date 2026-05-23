@@ -1,89 +1,77 @@
 //
-//  SpllashView.swift
+//  SplashView.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 21.09.24.
+//  Splash with the intro video. Uses `Task.sleep` (cancellable) instead of
+//  the legacy `DispatchQueue.main.asyncAfter`, and signals completion via
+//  callback so RootView can swap to the next phase.
 //
 
 import SwiftUI
 import AVKit
 
-/// Splash screen displaying an intro video before navigating to the login screen
-/// - Uses AVPlayer to play a video during app startup
-/// - Automatically navigates to login after video playback
 struct SplashView: View {
-    
-    // MARK: - Properties
-    @State private var showLoginView = false
+
+    let onFinished: () -> Void
+
     @State private var player: AVPlayer?
-    
-    /// Duration after which to navigate to login screen (matches video length)
-    private let navigationDelay: Double = 3.3
-    private let videoFileName = "splashintro"
-    
+
     var body: some View {
-        NavigationStack {
-            ZStack {
-                // Check if the video URL exists in the bundle
-                if let videoURL = Bundle.main.url(forResource: videoFileName, withExtension: "mp4") {
-                    // Initialize and start AVPlayer
-                    VideoPlayer(player: player ?? AVPlayer(url: videoURL))
-                        .onAppear {
-                            // Create player instance and start playback
-                            player = AVPlayer(url: videoURL)
-                            player?.play()
-                            
-                            // Trigger navigation after video ends
-                            DispatchQueue.main.asyncAfter(deadline: .now() + navigationDelay) {
-                                showLoginView = true
-                            }
-                        }
-                        .onDisappear {
-                            // Clean up player resources when view disappears
-                            player?.pause()
-                            player = nil
-                        }
-                        .edgesIgnoringSafeArea(.all)
-                } else {
-                    // Fallback if video not found
-                    ProgressView()
-                        .scaleEffect(3.3, anchor: .center)
-                        .foregroundColor(.orange)
-                }
-                
-                VStack {
-                    Spacer()
-                    HStack {
-                        VStack(alignment: .center) {
-                            Text("@ 2024 Michael F. J. / AI-Data-F3 Team")
-                                .font(.footnote)
-                                .foregroundColor(.orange)
-                                .padding(.horizontal, 10)
-                                .padding(.top, 10)
-                                .padding(.bottom, 5)
-                            
-                            Text("Version 1.0.1")
-                                .font(.footnote)
-                                .foregroundColor(.orange)
-                                .padding(.bottom, 10)
-                        }
-                        .background(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(Color.orange, lineWidth: 1)
-                        )
-                        .padding(.horizontal, 20)
-                        .padding(.bottom, 12)
-                    }
-                }
-            }
-            .navigationDestination(isPresented: $showLoginView) {
-                // Navigate to login when showLoginView becomes true
-                LoginView()
+        ZStack {
+            videoLayer
+                .ignoresSafeArea()
+
+            VStack {
+                Spacer()
+                signature
+                    .padding(.horizontal, AppTheme.Spacing.xl)
+                    .padding(.bottom, AppTheme.Spacing.l)
             }
         }
+        .task {
+            try? await Task.sleep(nanoseconds: UInt64(AppConstants.Splash.totalSeconds * 1_000_000_000))
+            onFinished()
+        }
+        .onDisappear {
+            player?.pause()
+            player = nil
+        }
     }
-}
 
-#Preview {
-    SplashView()
+    @ViewBuilder
+    private var videoLayer: some View {
+        if let url = Bundle.main.url(forResource: AppConstants.Splash.videoFileName, withExtension: "mp4") {
+            VideoPlayer(player: player ?? AVPlayer(url: url))
+                .onAppear {
+                    let p = AVPlayer(url: url)
+                    p.isMuted = true
+                    p.play()
+                    player = p
+                }
+        } else {
+            AppTheme.Colors.surfacePrimary
+                .overlay {
+                    ProgressView()
+                        .scaleEffect(2)
+                        .tint(AppTheme.Colors.accent)
+                }
+        }
+    }
+
+    private var signature: some View {
+        VStack(spacing: AppTheme.Spacing.xxs) {
+            Text("© 2024 Michael F. J. / AI-Data-F3 Team")
+                .font(AppTheme.Typography.caption)
+                .foregroundStyle(AppTheme.Colors.accent)
+            Text("Version 2.0")
+                .font(AppTheme.Typography.caption)
+                .foregroundStyle(AppTheme.Colors.accent.opacity(0.8))
+        }
+        .padding(.horizontal, AppTheme.Spacing.m)
+        .padding(.vertical, AppTheme.Spacing.s)
+        .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous)
+                .strokeBorder(AppTheme.Colors.accent.opacity(0.7), lineWidth: 1)
+        )
+    }
 }

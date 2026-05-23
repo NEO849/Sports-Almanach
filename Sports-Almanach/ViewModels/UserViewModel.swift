@@ -2,298 +2,210 @@
 //  UserViewModel.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 10.09.24.
+//  ViewModel for the authenticated user's profile + balance. Re-implemented
+//  on top of AppSession (auth stream) and ProfileRepositoryProtocol (DI).
+//
+//  Key behavioural fixes vs the legacy implementation:
+//
+//  - The dual `errorMessage` / `errorMessages` fields are consolidated into a
+//    single `formErrors` array. LoginView and RegisterView now share one path.
+//  - `updateBalance` no longer mutates local state before the Firestore write
+//    succeeds. The write happens first; the published balance is only updated
+//    after the repository call returns.
+//  - `loadAndSortRankedUsers` keeps the same surface but uses the protocol.
+//  - Birthday-bonus logic moves to a separate, year-keyed mechanism so a
+//    sign-out/sign-in within the same day can't double-credit a different user.
 //
 
 import Foundation
-import FirebaseAuth
-import FirebaseFirestore
+import SwiftUI
 
-/// ViewModel for managing user authentication and profile
-/// Uses MVVM pattern to separate views from business logic
 @MainActor
-class UserViewModel: ObservableObject {
-    
-    @Published private(set) var authState = AuthState()
-    @Published private(set) var userState = UserState()
-    @Published private(set) var rankedUsers: [Profile] = []
-    
-    private let profileRepo: ProfileRepository
-    // Auth State Listener Handle für Cleanup
-    private var authStateHandle: AuthStateDidChangeListenerHandle?
-    
-    
-    init(profileRepo: ProfileRepository = ProfileRepository()) {
-        self.profileRepo = profileRepo
-        setupAuthStateListener()
-        setupBirthdayCheck()
+public final class UserViewModel: ObservableObject {
+
+    // MARK: - Published state
+
+    @Published public private(set) var profile: Profile?
+    @Published public private(set) var balance: Money = AppConstants.Balances.startingBalance
+    @Published public private(set) var rankedUsers: [Profile] = []
+    @Published public private(set) var isLoading: Bool = false
+    @Published public private(set) var formErrors: [AppErrors.User] = []
+    @Published public private(set) var alertMessage: String?
+
+    // MARK: - Dependencies
+
+    private let profileRepository: ProfileRepositoryProtocol
+    private let session: AppSession
+
+    public init(session: AppSession,
+                profileRepository: ProfileRepositoryProtocol = AppContainer.shared.profileRepository()) {
+        self.profileRepository = profileRepository
+        self.session = session
     }
-    
-    // MARK: - Login Function
-    /// Logs in a user with email and password
-    /// - Sets loading state and handles errors
-    /// - Loads user profile on success
-    func login(email: String, password: String) async {
-        authState.isLoading = true
-        defer { authState.isLoading = false }
-        
-        do {
-            try await FirebaseAuthManager.shared.signIn(email: email, password: password)
-            authState.isLoggedIn = true
-            await loadUserProfile()
-        } catch {
+
+    // MARK: - Lifecycle hooks driven by AppSession
+
+    /// Call from the root view when phase flips to `.authenticated`.
+    public func didAuthenticate(_ user: SportsAlmanachUser) async {
+        await loadProfile(userID: user.id)
+        await maybeCreditBirthdayBonus()
+    }
+
+    public func didSignOut() {
+        profile = nil
+        balance = AppConstants.Balances.startingBalance
+        rankedUsers = []
+        formErrors = []
+        alertMessage = nil
+    }
+
+    // MARK: - Profile
+
+    /// Registers a new account and creates the matching Firestore profile.
+    public func register(username: String,
+                         email: String,
+                         password: String,
+                         passwordRepeat: String,
+                         birthday: Date) async {
+        isLoading = true
+        defer { isLoading = false }
+
+        let errors = ValidationUtils.validateRegistrationInputs(
+            username: username,
+            email: email,
+            password: password,
+            passwordRepeat: passwordRepeat,
+            birthday: birthday
+        )
+        if !errors.isEmpty {
+            formErrors = errors
+            return
+        }
+
+        let result = await session.signUp(email: email, password: password)
+        switch result {
+        case .failure(let error):
+            handleAuthError(error)
+        case .success(let user):
+            let newProfile = Profile(
+                id: user.id,
+                username: username,
+                email: email,
+                birthday: birthday
+            )
+            do {
+                try await profileRepository.createProfile(newProfile)
+                profile = newProfile
+                balance = newProfile.balance
+            } catch {
+                alertMessage = error.localizedDescription
+            }
+        }
+    }
+
+    /// Logs in via the AppSession (the auth stream will fire and trigger
+    /// `didAuthenticate` from the root view).
+    public func login(email: String, password: String) async {
+        isLoading = true
+        defer { isLoading = false }
+        let result = await session.signIn(email: email, password: password)
+        if case .failure(let error) = result {
             handleAuthError(error)
         }
     }
-    
-    // MARK: - Registration
-    /// - Validates inputs before saving
-    /// - Checks for existing email addresses
-    /// - Creates Firebase account and user profile
-    func register(
-        username: String,
-        email: String, password: String,
-        passwordRepeat: String,
-        birthday: Date) async {
-            authState.isLoading = true
-            defer { authState.isLoading = false }
-            
-            // Validation of all input fields against defined rules
-            let validationErrors = ValidationUtils.validateRegistrationInputs(
-                username: username,
-                email: email,
-                password: password,
-                passwordRepeat: passwordRepeat,
-                birthday: birthday
-            )
-            
-            if !validationErrors.isEmpty {
-                authState.errorMessages = validationErrors
+
+    /// Loads profile from Firestore — called after the auth stream flips on.
+    public func loadProfile(userID: String) async {
+        do {
+            guard let loaded = try await profileRepository.loadProfile(userID: userID) else {
+                AppLogger.warning("No profile document for \(userID)", category: .auth)
                 return
             }
-            
-            // Email check against duplicates in the database
-            if await emailAlreadyExists(email: email) {
-                authState.errorMessages = [AppErrors.User.emailAlreadyExists]
-                return
-            }
-            
-            do {
-                // Firebase registration through AuthManager
-                try await FirebaseAuthManager.shared.signUp(email: email, password: password)
-                
-                guard let userId = FirebaseAuthManager.shared.userID else {
-                    authState.errorMessage = AppErrors.User.userNotFound.errorDescriptionGerman
-                    return
-                }
-                
-                // Create new profile with starting balance
-                let newProfile = Profile(
-                    id: UUID().uuidString,
-                    name: username,
-                    email: email,
-                    birthday: birthday,
-                    startMoney: Constants.defaultStartMoney,
-                    balance: Constants.defaultStartMoney
-                )
-                
-                try await profileRepo.saveProfile(newProfile, userId: userId)
-                authState.isRegistered = true
-                await loadUserProfile()
-            } catch {
-                handleAuthError(error)
-            }
-        }
-    
-    // MARK: - Logout Function
-    /// Logs out the user and resets ViewModels
-    /// - Important: Resets both auth and user state
-    func logout() {
-        FirebaseAuthManager.shared.signOut()
-        resetState()
-    }
-    
-    // MARK: - Load Profile
-    /// Lädt das Benutzerprofil aus Firebase
-    /// Setzt auch den Geburtstag für die Bonus-Überprüfung
-    func loadUserProfile() async {
-        guard let userId = FirebaseAuthManager.shared.userID else { return }
-        
-        do {
-            if let profile = try await profileRepo.loadProfile(userId: userId) {
-                userState.profile = profile
-                userState.balance = profile.balance
-                // Geburtstag als Timestamp setzen
-                userState.birthday = Timestamp(date: profile.birthday)
-                print("✅ Profil geladen mit Geburtstag: \(profile.birthday)")
-            } else {
-                print("❌ Fehler beim Laden des Profils")
-            }
+            profile = loaded
+            balance = loaded.balance
         } catch {
-            authState.errorMessage = error.localizedDescription
+            alertMessage = error.localizedDescription
         }
     }
-    
-    // MARK: - Email Check
-    func emailAlreadyExists(email: String) async -> Bool {
+
+    /// Update the balance — Firestore first, then publish.
+    @discardableResult
+    public func setBalance(_ newBalance: Money) async -> Bool {
+        guard let userID = profile?.id ?? session.currentUser?.id else { return false }
         do {
-            return try await profileRepo.emailExists(email)
+            try await profileRepository.updateBalance(userID: userID, newBalance: newBalance)
+            balance = newBalance
+            profile?.balance = newBalance
+            return true
         } catch {
-            print("Fehler beim Überprüfen der Email: \(error)")
+            AppLogger.error("Balance update failed: \(error.localizedDescription)", category: .repository)
+            alertMessage = error.localizedDescription
             return false
         }
     }
-    
-    // MARK: - Update Profile
-    func updateProfile(newBalance: Double) {
-        guard let userId = FirebaseAuthManager.shared.userID else { return }
-        
-        Task {
-            do {
-                try await profileRepo.updateBalance(userId: userId, newBalance: newBalance)
-                await MainActor.run {
-                    userState.balance = newBalance
-                }
-            } catch {
-                print("Fehler beim Aktualisieren des Kontostands: \(error)")
-            }
-        }
-    }
-    
-    func resetBalance() {
-        print("Reset Balance aufgerufen. Aktueller Kontostand: \(userState.balance)")
-        if userState.balance <= 0 {
-            print("Kontostand ist 0 oder kleiner, setze auf Standardwert")
-            userState.balance = Constants.defaultStartMoney
-            // Zuerst in Firebase speichern
-            Task {
-                await MainActor.run {
-                    updateProfile(newBalance: Constants.defaultStartMoney)
-                }
-            }
-        }
-    }
-    
-    private enum Constants {
-        static let defaultStartMoney: Double = 1000.00
-    }
-    
-    /// Zentrale Methode für Kontostandänderungen
-    func updateBalance(amount: Double, type: TransactionType) {
-        let newBalance = userState.balance + amount
-        if newBalance <= 0 {
-            resetBalance()
-            return
-        }
-        // Kontostand aktualisieren und in Firestore speichern
-        userState.balance = newBalance
-        guard let userId = FirebaseAuthManager.shared.userID else { return }
-        Task {
-            do {
-                try await profileRepo.updateBalance(userId: userId, newBalance: newBalance)
-                print("💰 \(type.rawValue): \(amount)€ → Neuer Kontostand: \(newBalance)€")
-            } catch {
-                print("❌ Fehler beim Aktualisieren des Kontostands: \(error)")
-            }
-        }
-    }
-    
-    // Transaktionsarten
-    enum TransactionType: String {
-        case bet = "Wetteinsatz"
-        case win = "Wettgewinn"
-        case birthdayBonus = "Geburtstagsbonus"
-        case reset = "Kontostand Reset"
-    }
-    
-    // MARK: - Lädt und sortiert alle Profile für die Rangliste
-    func loadAndSortRankedUsers() async {
-        // Ob ein User eingeloggt ist
-        guard FirebaseAuthManager.shared.userID != nil else {
-            print("❌ Kein Benutzer eingeloggt – Rangliste kann nicht geladen werden")
-            return
-        }
+
+    public func loadAndSortRankedUsers() async {
         do {
-            // Lädt alle Profile aus der Datenbank und Sortiert diese
-            let profiles = try await profileRepo.loadAllProfiles()
-            await MainActor.run {
-                self.rankedUsers = profiles.sorted { $0.balance > $1.balance }
-                print("✅ Rangliste erfolgreich geladen: \(self.rankedUsers.count) Profile")
-            }
+            let profiles = try await profileRepository.loadAllProfiles()
+            rankedUsers = profiles.sorted { $0.balance > $1.balance }
         } catch {
-            await MainActor.run {
-                authState.errorMessage = "Fehler beim Laden der Rangliste: \(error.localizedDescription)"
-                print("❌ Fehler beim Laden der Rangliste: \(error)")
-            }
+            alertMessage = "Rangliste fehlgeschlagen: \(error.localizedDescription)"
         }
     }
-    
-    // MARK: - Birthday Handling
-    /// Initiiert die tägliche Geburtstags-Überprüfung
-    func setupBirthdayCheck() {
-        BirthdayUtils.scheduleDailyBirthdayCheck(for: self)
+
+    public func logout() {
+        session.signOut()
     }
-    
-    // MARK: - Private Methods
-    /// Firebase Fehler in Benutzerfreundlichen Meldungen ausgegeben
+
+    public func clearAlert() {
+        alertMessage = nil
+        formErrors = []
+    }
+
+    // MARK: - Birthday bonus
+    // Year-keyed so the bonus credits at most once per calendar year per user,
+    // regardless of sign-in cadence.
+    private func maybeCreditBirthdayBonus() async {
+        guard var profile else { return }
+        let calendar = Calendar.current
+        let today = Date()
+        let yearToday = calendar.component(.year, from: today)
+
+        // Same calendar day/month as DOB?
+        let dob = calendar.dateComponents([.month, .day], from: profile.birthday)
+        let now = calendar.dateComponents([.month, .day], from: today)
+        guard dob.month == now.month, dob.day == now.day else { return }
+        // Already credited this year?
+        guard profile.lastBirthdayBonusYear != yearToday else { return }
+
+        let newBalance = profile.balance + AppConstants.Balances.birthdayBonus
+        do {
+            try await profileRepository.updateBalance(userID: profile.id, newBalance: newBalance)
+            try await profileRepository.updateLastBirthdayBonusYear(userID: profile.id, year: yearToday)
+            profile.balance = newBalance
+            profile.lastBirthdayBonusYear = yearToday
+            self.profile = profile
+            self.balance = newBalance
+            AppLogger.info("Birthday bonus credited for \(profile.id)", category: .auth)
+        } catch {
+            AppLogger.warning("Birthday bonus failed: \(error.localizedDescription)", category: .auth)
+        }
+    }
+
+    // MARK: - Error mapping
+
     private func handleAuthError(_ error: Error) {
-        if let authError = error as? AuthErrorCode {
-            switch authError.code {
-            case .emailAlreadyInUse:
-                authState.errorMessage = AppErrors.User.emailAlreadyExists.errorDescriptionGerman
-            case .invalidEmail:
-                authState.errorMessage = AppErrors.User.invalidEmail.errorDescriptionGerman
-            default:
-                authState.errorMessage = AppErrors.User.unknownError.errorDescriptionGerman
-            }
+        let nsError = error as NSError
+        // FirebaseAuth uses a stable error code domain.
+        switch nsError.code {
+        case 17007: // ERROR_EMAIL_ALREADY_IN_USE
+            formErrors = [.emailAlreadyExists]
+        case 17008: // ERROR_INVALID_EMAIL
+            formErrors = [.invalidEmail]
+        case 17009, 17004: // ERROR_WRONG_PASSWORD / USER_NOT_FOUND
+            alertMessage = AppErrors.User.emailOrPasswordInvalid.errorDescriptionGerman
+        default:
+            alertMessage = (error as? LocalizedError)?.errorDescription ?? AppErrors.User.unknownError.errorDescriptionGerman
         }
-        authState.showError = true
-    }
-    
-    /// Resets all states to their default values
-    /// - Used during logout to ensure clean state
-    private func resetState() {
-        authState = AuthState()
-        userState = UserState()
-    }
-    
-    /// Sets up a Firebase listener for authentication state changes
-    /// - Uses weak self to avoid memory leaks
-    private func setupAuthStateListener() {
-        authStateHandle = Auth.auth().addStateDidChangeListener { [weak self] (_: Auth, user: User?) in
-            guard let self = self else { return }
-            Task { @MainActor in
-                self.authState.isLoggedIn = user != nil
-                if user != nil {
-                    await self.loadUserProfile()
-                }
-            }
-        }
-    }
-    
-    /// Removes Firebase listeners when the class is deinitialized
-    /// - Prevents memory leaks and unnecessary callback executions
-    deinit {
-        if let handle = authStateHandle {
-            Auth.auth().removeStateDidChangeListener(handle)
-        }
-    }
-    
-    // MARK: - State Structs
-    /// Model for authentication state
-    struct AuthState {
-        var isLoading = false
-        var isLoggedIn = false
-        var isRegistered = false
-        var showError = false
-        var errorMessage: String?
-        var errorMessages: [AppErrors.User] = []
-    }
-    
-    /// Model for user state
-    struct UserState {
-        var profile: Profile?
-        var balance: Double = Constants.defaultStartMoney
-        var birthday: Timestamp?
     }
 }

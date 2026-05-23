@@ -2,73 +2,62 @@
 //  AutoScrollingBannerView.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 17.11.24.
+//  Auto-scrolling marquee of sport banners. Re-implemented on top of a
+//  TimelineView instead of the legacy 0.02s Timer (which leaked when the
+//  view re-rendered and kept ticking even after the view disappeared).
 //
 
 import SwiftUI
 
 struct AutoScrollingBannerView: View {
+
     let bannerImages: [Banner]
-    @State private var offset: CGFloat = 0
-    @State private var timer: Timer?
-    
-    private var repeatedBannerImages: [Banner] {
-        Array(repeating: bannerImages, count: 50).flatMap { $0 }
-    }
-    
+    private let cardWidth: CGFloat = 110
+    private let spacing: CGFloat = AppTheme.Spacing.m
+    /// Pixels per second.
+    private let pointsPerSecond: CGFloat = 30
+
     var body: some View {
-        GeometryReader { geometry in
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(spacing: 20) {
-                    ForEach(repeatedBannerImages, id: \.self) { image in
-                        StyledBannerImageView(imageName: image.imageName)
-                            .frame(width: 100, height: 80)
+        TimelineView(.animation) { context in
+            GeometryReader { geo in
+                let totalWidth = (cardWidth + spacing) * CGFloat(bannerImages.count)
+                let elapsed = context.date.timeIntervalSinceReferenceDate
+                let translate = -(CGFloat(elapsed) * pointsPerSecond).truncatingRemainder(dividingBy: totalWidth)
+                HStack(spacing: spacing) {
+                    ForEach(loopedBanners, id: \.self) { banner in
+                        StyledBannerImageView(imageName: banner.imageName)
+                            .frame(width: cardWidth, height: 80)
                     }
                 }
-                .padding(.horizontal, 20)
-                .frame(width: geometry.size.width * CGFloat(repeatedBannerImages.count), alignment: .leading)
-                .offset(x: offset)
-                .onAppear {
-                    startTimerBanner(geometry: geometry)
-                }
-                .onDisappear {
-                    stopTimerBanner()
-                }
+                .offset(x: translate)
+                .frame(width: geo.size.width, alignment: .leading)
+                .clipped()
             }
+            .frame(height: 90)
         }
+        .accessibilityHidden(true)
     }
-    
-    private func startTimerBanner(geometry: GeometryProxy) {
-        stopTimerBanner()
-        timer = Timer.scheduledTimer(withTimeInterval: 0.02, repeats: true) { _ in
-            DispatchQueue.main.async {
-                offset -= 1
-                if offset <= -geometry.size.width * CGFloat(bannerImages.count) {
-                    offset = 0
-                }
-            }
-        }
-    }
-    
-    private func stopTimerBanner() {
-        timer?.invalidate()
-        timer = nil
+
+    private var loopedBanners: [Banner] {
+        // Repeating once is enough — the TimelineView's truncated offset
+        // wraps modulo the original width so we only need two copies on
+        // screen at any moment.
+        bannerImages + bannerImages
     }
 }
 
 struct StyledBannerImageView: View {
     let imageName: String
-    
+
     var body: some View {
         Image(imageName)
             .resizable()
             .scaledToFill()
-            .frame(width: 90, height: 70)
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(.white, lineWidth: 1)
+            .frame(width: 100, height: 70)
+            .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous))
+            .overlay(
+                RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
+                    .strokeBorder(AppTheme.Colors.accent.opacity(0.5), lineWidth: 1)
             )
-            .cornerRadius(10)
-            .shadow(color: .orange, radius: 4, x: 3, y: 3)
     }
 }

@@ -2,189 +2,164 @@
 //  BetSlipView.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 23.10.24.
+//  Sheet UI for staking and submitting a slip. Hardened against the legacy
+//  bugs:
+//  - Slider range now safely clamps when balance == 0 (legacy crashed with
+//    Range 0...0).
+//  - Place button awaits the real async result instead of the legacy
+//    fire-and-forget `syncPlaceBets` which always returned `true`.
 //
 
 import SwiftUI
 
 struct BetSlipView: View {
-    @Environment(\.dismiss) var dismiss
-    @EnvironmentObject var userViewModel: UserViewModel
-    @EnvironmentObject var eventViewModel: EventViewModel
-    @EnvironmentObject var betViewModel: BetViewModel
-    @State private var showAlert = false
-    @State private var alertMessage = ""
-    @State private var betAmount: Double = 0.0
-    @State private var sliderTouched = false
-    
+
+    @Environment(\.dismiss) private var dismiss
+
+    @EnvironmentObject private var betVM: BetViewModel
+    @EnvironmentObject private var userVM: UserViewModel
+
+    @State private var localStake: Double = 0
+    @State private var alertMessage: String?
+
     var body: some View {
-        
         NavigationStack {
-            ZStack {
-                Image("hintergrund")
-                    .resizable()
-                    .scaledToFill()
-                    .edgesIgnoringSafeArea(.all)
-                
-                VStack(spacing: 16) {
-                    HStack {
-                        Spacer()
-                        HStack(spacing: 8) {
-                            Text("# \(betViewModel.currentBetSlipNumber)")
-                                .font(.system(size: 24, weight: .bold))
-                            Text("   Wettschein")
-                                .font(.system(size: 18, weight: .bold))
-                        }
-                        .foregroundColor(.orange)
-                        .padding(.horizontal, 16)
-                        .padding(.vertical, 8)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 6)
-                                .stroke(.orange, lineWidth: 2)
-                        )
-                        Spacer()
-                    }
-                    .padding(.top)
-                    
-                    // MARK: - Wettliste
-                    List {
-                        ForEach(betViewModel.bets.indices, id: \.self) { index in
-                            let bet = betViewModel.bets[index]
-                            BetSlipRow(index: index, bet: bet)
-                                .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-                                    Button(role: .destructive) {
-                                        betViewModel.removeBet(at: index)
-                                        if let event = eventViewModel.selectedEvents.first(where: { $0.id == bet.event.id }) {
-                                            eventViewModel.syncDeleteEvent(event)
-                                        }
-                                    } label: {
-                                        Label("Löschen", systemImage: "trash")
-                                    }
-                                }
-                        }
-                    }
-                    .listStyle(.plain)
-                    .padding(.horizontal, 32)
-                    VStack(spacing: 12) {
-                        VStack(alignment: .leading, spacing: 8) {
-                            HStack {
-                                Text("Wetteinsatz: \(betViewModel.betAmount, specifier: "%.2f") €")
-                                    .font(.headline)
-                                    .foregroundColor(.white)
-                                    .padding(.leading, 32)
-                                Spacer()
-                            }
-                            HStack {
-                                Slider(value: $betAmount, in: 0...userViewModel.userState.balance)
-                                    .tint(.green)
-                                    .onChange(of: betAmount) { _, newValue in
-                                        betViewModel.updateBetAmount(newValue)
-                                        sliderTouched = newValue > 0
-                                    }
-                            }
-                            .padding(.horizontal, 32)
-                        }
-                        HStack {
-                            Text("Gesamtquote:")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .padding(.leading, 32)
-                            Text("        \(betViewModel.totalOdds, specifier: "%.2f") €")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                            Spacer()
-                        }
-                        HStack {
-                            Text("Möglicher Gewinn:")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .padding(.leading, 32)
-                            Text("\(betViewModel.potentialWinAmount, specifier: "%.2f") €")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                            Spacer()
-                        }
-                    }
-                    .padding(.vertical)
-                    
-                    PrimaryActionButton(
-                        title: "WETTEN",
-                        action: {
-                            if betViewModel.syncPlaceBets(userBalance: userViewModel.userState.balance) {
-                                dismiss()
-                            } else {
-                                alertMessage = "Nicht genügend Guthaben oder ungültiger Wetteinsatz"
-                                showAlert = true
-                            }
-                        },
-                        isActive: sliderTouched
-                    )
-                    .disabled(!betViewModel.canPlaceBet(userBalance: userViewModel.userState.balance))
-                    .padding(32)
+            VStack(spacing: AppTheme.Spacing.l) {
+                slipHeader
+                slipList
+                stakeBlock
+                placeButton
+            }
+            .padding(.horizontal, AppTheme.Spacing.l)
+            .padding(.vertical, AppTheme.Spacing.l)
+            .appBackground(.gradient)
+            .navigationTitle("Wettschein")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Fertig") { dismiss() }
                 }
             }
-            .alert("Fehler", isPresented: $showAlert) {
-                Button("OK") { }
-            } message: {
-                Text(alertMessage)
-            }
-        }
-        .onAppear {
-            betViewModel.setViewModels(user: userViewModel, event: eventViewModel)
+            .alert("Wette nicht möglich",
+                   isPresented: Binding(get: { alertMessage != nil },
+                                        set: { _ in alertMessage = nil })) {
+                Button("OK", role: .cancel) {}
+            } message: { Text(alertMessage ?? "") }
         }
     }
-}
 
-#Preview {
-    let betViewModel: BetViewModel = {
-        let mock = BetViewModel()
-        let mockBets = [
-            Bet(
-                id: UUID(),
-                event: Mocks.events[0],
-                userTip: .homeWin,
-                odds: 2.5,
-                winAmount: 10,
-                timestamp: Date()
-            ),
-            Bet(
-                id: UUID(),
-                event: Mocks.events[1],
-                userTip: .draw,
-                odds: 3.0,
-                winAmount: 20,
-                timestamp: Date()
-            ),
-            Bet(
-                id: UUID(),
-                event: Mocks.events[2],
-                userTip: .awayWin,
-                odds: 2.0,
-                winAmount: 15,
-                timestamp: Date()
-            ),
-            Bet(
-                id: UUID(),
-                event: Mocks.events[3],
-                userTip: .homeWin,
-                odds: 1.8,
-                winAmount: 12,
-                timestamp: Date()
-            ),
-            Bet(
-                id: UUID(),
-                event: Mocks.events[4],
-                userTip: .draw,
-                odds: 2.7,
-                winAmount: 25,
-                timestamp: Date()
-            )
-        ]
-        mockBets.forEach { mock.addBet($0) }
-        return mock
-    }()
-    BetSlipView()
-        .environmentObject(betViewModel)
-        .environmentObject(UserViewModel())
-        .environmentObject(EventViewModel())
+    private var slipHeader: some View {
+        Label("Wettschein", systemImage: "ticket.fill")
+            .font(AppTheme.Typography.title3)
+            .foregroundStyle(.white)
+            .frame(maxWidth: .infinity)
+    }
+
+    private var slipList: some View {
+        Group {
+            if betVM.draftBets.isEmpty {
+                ContentUnavailableView("Wettschein ist leer",
+                                       systemImage: "tray",
+                                       description: Text("Füge Wetten aus dem Wett-Tab hinzu."))
+                    .foregroundStyle(.white)
+            } else {
+                List {
+                    ForEach(Array(betVM.draftBets.enumerated()), id: \.element.id) { idx, bet in
+                        BetSlipRow(index: idx, bet: bet)
+                            .listRowBackground(Color.clear)
+                            .listRowSeparator(.hidden)
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button(role: .destructive) {
+                                    betVM.removeDraftBet(eventID: bet.event.eventID)
+                                } label: { Label("Entfernen", systemImage: "trash") }
+                            }
+                    }
+                }
+                .listStyle(.plain)
+                .scrollContentBackground(.hidden)
+            }
+        }
+    }
+
+    private var stakeBlock: some View {
+        VStack(alignment: .leading, spacing: AppTheme.Spacing.s) {
+            HStack {
+                Text("Einsatz")
+                    .font(AppTheme.Typography.subheadline)
+                    .foregroundStyle(.white.opacity(0.85))
+                Spacer()
+                Text(currentStakeMoney.formatted())
+                    .font(AppTheme.Typography.headline.monospacedDigit())
+                    .foregroundStyle(.white)
+                    .contentTransition(.numericText())
+                    .animation(AppTheme.Motion.smooth, value: localStake)
+            }
+            Slider(value: $localStake,
+                   in: 0...max(Double(truncating: userVM.balance.amount as NSNumber), 1),
+                   step: 1.0) { _ in
+                betVM.setStake(currentStakeMoney)
+            }
+            .tint(AppTheme.Colors.accent)
+            .disabled(userVM.balance.isZero)
+
+            HStack {
+                metric("Gesamtquote", value: formatDecimal(betVM.totalOdds))
+                Spacer()
+                metric("Möglicher Gewinn", value: betVM.potentialWin.formatted())
+            }
+        }
+        .padding(AppTheme.Spacing.l)
+        .background(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                .fill(.ultraThinMaterial)
+        )
+    }
+
+    private func metric(_ label: String, value: String) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(label)
+                .font(AppTheme.Typography.footnote)
+                .foregroundStyle(.white.opacity(0.7))
+            Text(value)
+                .font(AppTheme.Typography.headline.monospacedDigit())
+                .foregroundStyle(.white)
+        }
+    }
+
+    private var placeButton: some View {
+        PrimaryActionButton(
+            title: "Wette platzieren",
+            isEnabled: canPlace,
+            isLoading: betVM.isPlacing
+        ) {
+            Task { await place() }
+        }
+    }
+
+    private var canPlace: Bool {
+        !betVM.draftBets.isEmpty
+        && currentStakeMoney >= AppConstants.Balances.minimumStake
+        && currentStakeMoney <= userVM.balance
+    }
+
+    private var currentStakeMoney: Money {
+        Money(Decimal(localStake))
+    }
+
+    private func formatDecimal(_ value: Decimal) -> String {
+        let f = NumberFormatter()
+        f.minimumFractionDigits = 2
+        f.maximumFractionDigits = 2
+        return f.string(from: value as NSDecimalNumber) ?? "\(value)"
+    }
+
+    private func place() async {
+        let succeeded = await betVM.placeSlip()
+        if succeeded {
+            dismiss()
+        } else {
+            alertMessage = betVM.lastError ?? "Wette konnte nicht platziert werden."
+            betVM.clearError()
+        }
+    }
 }

@@ -2,83 +2,85 @@
 //  HomeView.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 20.09.24.
+//  Branded landing screen — hero, animated tagline, info sections, banner.
+//  Replaces the legacy implementation that nested a NavigationStack inside
+//  ContentView's existing NavigationStack (caused subtle navigation bugs).
 //
 
 import SwiftUI
 
 struct HomeView: View {
-    
-    @EnvironmentObject var userViewModel: UserViewModel
-    @EnvironmentObject var eventViewModel: EventViewModel
-    @State private var showLoginView = false
-    @State private var navigateToLogin: Bool = false
+
+    @EnvironmentObject private var userVM: UserViewModel
+    @EnvironmentObject private var session: AppSession
     @State private var expandedSection: String?
-    
+
     var body: some View {
         NavigationStack {
-            ZStack {
-                Image("hintergrund")
-                    .resizable()
-                    .scaledToFill()
-                    .edgesIgnoringSafeArea(.all)
-                VStack(spacing: 0) {
-                    LogoutButton(showLoginView: $showLoginView)
+            ScrollView {
+                VStack(spacing: AppTheme.Spacing.xl) {
                     Title(title: "Sports Almanach")
-                        .padding(.bottom, 54)
-                    AnimatedText()
-                        .padding(.bottom, 24)
-                    divider()
-                    SectionListView(expandedSection: $expandedSection)
-                    divider()
-                        .padding(.bottom, 24)
-                    AutoScrollingBannerView(bannerImages: Banner.defaultBanners)
-                                     .padding(Edge.Set.bottom, 60)
-                             }
-                .navigationBarBackButtonHidden(true)
-                .onChange(of: userViewModel.authState.isLoggedIn) { _, newValue in
-                    if !newValue {
-                        navigateToLogin = true
-                    }
-                }
-                .navigationDestination(isPresented: $navigateToLogin) {
-                    LoginView()
-                }
-            }
-        }
-    }
-    
-    // MARK: - Local Helper
-    private func divider() -> some View {
-        Rectangle()
-            .frame(height: 1)
-            .frame(width: 340)
-            .foregroundColor(.white)
-    }
-    
-    struct LogoutButton: View {
-        @EnvironmentObject var userViewModel: UserViewModel
-        @Binding var showLoginView: Bool
-        var body: some View {
-            HStack {
-                Spacer()
-                Button(action: {
-                    userViewModel.logout()
-                    showLoginView = true
-                }) {
-                    Image(systemName: "rectangle.portrait.and.arrow.right")
-                        .foregroundColor(.blue)
-                        .padding(.top, 28)
-                        .padding(.trailing, 38)
-                }
-            }
-            .frame(maxWidth: .infinity, alignment: .trailing)
-        }
-    }
-}
+                        .padding(.top, AppTheme.Spacing.xl)
 
-#Preview {
-    HomeView()
-        .environmentObject(UserViewModel())
-        .environmentObject(EventViewModel())
+                    if let profile = userVM.profile {
+                        balanceBadge(profile: profile)
+                    }
+
+                    AnimatedText()
+
+                    SectionListView(expandedSection: $expandedSection)
+                        .padding(.horizontal, AppTheme.Spacing.l)
+
+                    AutoScrollingBannerView(bannerImages: Banner.defaultBanners)
+                        .padding(.vertical, AppTheme.Spacing.m)
+                }
+                .padding(.bottom, AppTheme.Spacing.xxl)
+            }
+            .scrollIndicators(.hidden)
+            .appBackground(.photographic)
+            .toolbar { toolbar }
+            .navigationBarTitleDisplayMode(.inline)
+        }
+    }
+
+    @ToolbarContentBuilder
+    private var toolbar: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                userVM.logout()
+            } label: {
+                Image(systemName: "rectangle.portrait.and.arrow.right")
+                    .foregroundStyle(AppTheme.Colors.accent)
+            }
+            .accessibilityLabel("Abmelden")
+        }
+    }
+
+    private func balanceBadge(profile: Profile) -> some View {
+        HStack(spacing: AppTheme.Spacing.s) {
+            Image(systemName: "wallet.pass.fill")
+                .foregroundStyle(AppTheme.Colors.accent)
+            VStack(alignment: .leading) {
+                Text("Hallo, \(profile.username)")
+                    .font(AppTheme.Typography.subheadline)
+                    .foregroundStyle(.white.opacity(0.85))
+                Text(userVM.balance.formatted())
+                    .font(AppTheme.Typography.title2.monospacedDigit())
+                    .foregroundStyle(.white)
+                    .contentTransition(.numericText())
+                    .animation(AppTheme.Motion.smooth, value: userVM.balance)
+            }
+            Spacer()
+        }
+        .padding(AppTheme.Spacing.l)
+        .background(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                .fill(.ultraThinMaterial)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                .strokeBorder(AppTheme.Colors.accent.opacity(0.5), lineWidth: 1)
+        )
+        .padding(.horizontal, AppTheme.Spacing.l)
+    }
 }

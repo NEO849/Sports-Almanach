@@ -1,128 +1,110 @@
 //
-//  EventsView.swift
+//  EventView.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 20.09.24.
+//  Browse fixtures for a chosen league + season, drill into details, or add
+//  to the bet candidates. The legacy file had a generic SelectionMenu inline
+//  and a hard-coded id=4328 league filter; both gone now.
 //
 
 import SwiftUI
 
 struct EventView: View {
-    
-    @EnvironmentObject var eventViewModel: EventViewModel // "Source of Truth"
-    
-    // @State, damit UI aktualisiert wird
-    @State private var selectedLeague: League = .premierLeague
-    @State private var selectedSeason: Season = .defaultSeason
-    @State private var selectedSport: Sport = .defaultSport
-    @State private var isLoading = false
-    
+
+    @EnvironmentObject private var eventVM: EventViewModel
+
     var body: some View {
         NavigationStack {
             ZStack {
-                Image("hintergrund")
-                    .resizable()
-                    .scaledToFill()
-                    .edgesIgnoringSafeArea(.all)
-                VStack {
-                    HStack(spacing: 12) {
-                        Group {
-                            SelectionMenu(
-                                selection: $selectedSport,
-                                options: Sport.allCases,
-                                placeholder: "Sport"
-                            )
-                            SelectionMenu(
-                                selection: $selectedLeague,
-                                options: League.allCases,
-                                placeholder: "Liga"
-                            )
-                            SelectionMenu(
-                                selection: $selectedSeason,
-                                options: Season.allCases,
-                                placeholder: "Saison",
-                                onSelect: {
-                                    Task { await loadEvents() }
-                                },
-                                textColor: .green
-                            )
-                        }
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 42)
-                    }
-                    .padding(.top, 38)
-                    .padding(.horizontal, 20)
-                    
-                    if isLoading {
-                        ProgressView("Lade Events...")
-                            .padding()
-                    } else {
-                        List(eventViewModel.events, id: \.id) { event in
-                            EventRow(event: event)
-                        }
-                        .listRowBackground(Color.clear)
-                        .listStyle(.plain)
-                    }
-                }
-                .deleteDisabled(true)
-            }
-            .navigationTitle("")
-        }
-        .task {
-            await loadEvents()
-        }
-        .onDisappear {
-            eventViewModel.cancelLoadingTasks()
-        }
-    }
-    
-    /// Lädt Events asynchron basierend auf der aktuellen Saison
-    private func loadEvents() async {
-        isLoading = true
-        await eventViewModel.loadEvents(season: selectedSeason)
-        isLoading = false
-    }
-}
-
-/// **Generische Auswahlmenü-View für Sport, Liga & Saison**
-struct SelectionMenu<T: Identifiable & CustomStringConvertible>: View {
-    @Binding var selection: T
-    let options: [T]
-    let placeholder: String
-    var onSelect: (() -> Void)?
-    var textColor: Color = .white // Default Farbe
-    
-    var body: some View {
-        Menu {
-            ForEach(options) { option in
-                Button(option.description) {
-                    selection = option
-                    onSelect?()
+                contentList
+                if eventVM.isLoading && eventVM.events.isEmpty {
+                    ProgressView("Lade Events…")
+                        .tint(AppTheme.Colors.accent)
+                        .foregroundStyle(.white)
                 }
             }
-        } label: {
-            HStack(spacing: 8) {
-                Text(selection.description)
-                    .foregroundColor(textColor)
-                    .font(.subheadline)
-                    .lineLimit(1)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                
-                Image(systemName: "chevron.down")
-                    .foregroundColor(.orange)
+            .appBackground(.photographic)
+            .navigationTitle("Events")
+            .toolbar { toolbar }
+            .task {
+                if eventVM.events.isEmpty {
+                    await eventVM.reload()
+                }
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 10)
+            .refreshable {
+                await eventVM.reload()
+            }
         }
-        .buttonStyle(.plain)
-        .background(
-            RoundedRectangle(cornerRadius: 8)
-                .stroke(Color.orange, lineWidth: 1)
-        )
     }
-}
 
-#Preview {
-    EventView()
-        .environmentObject(EventViewModel())
+    @ToolbarContentBuilder
+    private var toolbar: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            Menu {
+                Section("Liga") {
+                    ForEach(League.allCases) { league in
+                        Button(league.rawValue) {
+                            eventVM.selectedLeague = league
+                            Task { await eventVM.reload() }
+                        }
+                    }
+                }
+                Section("Saison") {
+                    ForEach(Season.allCases) { season in
+                        Button(season.rawValue) {
+                            eventVM.selectedSeason = season
+                            Task { await eventVM.reload() }
+                        }
+                    }
+                }
+            } label: {
+                Image(systemName: "slider.horizontal.3")
+                    .foregroundStyle(AppTheme.Colors.accent)
+            }
+            .accessibilityLabel("Filter")
+        }
+    }
+
+    private var contentList: some View {
+        List {
+            Section {
+                ForEach(eventVM.events) { event in
+                    NavigationLink {
+                        EventDetailView(event: event)
+                    } label: {
+                        EventRow(event: event)
+                    }
+                    .listRowBackground(Color.clear)
+                    .listRowSeparator(.hidden)
+                }
+            } header: {
+                filterChips
+                    .padding(.vertical, AppTheme.Spacing.s)
+            }
+        }
+        .listStyle(.plain)
+        .scrollContentBackground(.hidden)
+    }
+
+    private var filterChips: some View {
+        HStack(spacing: AppTheme.Spacing.s) {
+            chip(symbol: "trophy", text: eventVM.selectedLeague.shortName)
+            chip(symbol: "calendar", text: eventVM.selectedSeason.rawValue)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+    }
+
+    private func chip(symbol: String, text: String) -> some View {
+        Label(text, systemImage: symbol)
+            .font(AppTheme.Typography.footnote.weight(.semibold))
+            .padding(.horizontal, AppTheme.Spacing.m)
+            .padding(.vertical, AppTheme.Spacing.xs)
+            .background(
+                Capsule().fill(.ultraThinMaterial)
+            )
+            .overlay(
+                Capsule().strokeBorder(AppTheme.Colors.accent.opacity(0.55), lineWidth: 1)
+            )
+            .foregroundStyle(.white)
+    }
 }

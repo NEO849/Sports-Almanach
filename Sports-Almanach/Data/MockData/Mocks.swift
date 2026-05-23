@@ -1,36 +1,37 @@
 //
-//  MockEvents.swift
+//  Mocks.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 10.09.24.
+//  Centralized mock data for previews and tests, rewritten to match the new
+//  Domain types (Decimal-Money, EventSnapshot, BetStatus, etc.).
 //
 
 import Foundation
 
-/// Zentrale Struktur für alle Mock-Daten der App
-struct Mocks {
-    
-    // MARK: - Mock Events
-    static let events: [Event] = [
+public enum Mocks {
+
+    // MARK: - Events
+    public static let events: [Event] = [
         Event(
             id: "602129",
             name: "Liverpool vs Norwich",
             sport: "Soccer",
             leagueName: "English Premier League",
             leagueImage: "https://www.thesportsdb.com/images/media/league/badge/dsnjpz1679951317.png",
-            season: "2019-2020",
+            season: "2023-2024",
             homeTeam: "Liverpool",
             awayTeam: "Norwich",
-            date: "2019-08-09",
-            time: "19:00",
-            stadion: "Anfield",
-            image: "https://www.thesportsdb.com/images/media/event/thumb/mv7oni1565190477.jpg",
+            homeScore: 4,
+            awayScore: 1,
+            kickoffISO: "2024-08-09T19:00:00",
+            date: "2024-08-09",
+            time: "19:00:00",
+            stadium: "Anfield",
+            thumbnail: "https://www.thesportsdb.com/images/media/event/thumb/mv7oni1565190477.jpg",
             videoURL: "https://www.youtube.com/watch?v=5WWOpHQ1yJo",
             homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/vwpvry1467462651.png",
             awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/xtsxrt1421432888.png",
-            statusString: "Not Started",
-            homeScore: "4",
-            awayScore: "1"
+            status: .finished
         ),
         Event(
             id: "602130",
@@ -38,19 +39,20 @@ struct Mocks {
             sport: "Soccer",
             leagueName: "English Premier League",
             leagueImage: "https://www.thesportsdb.com/images/media/league/badge/dsnjpz1679951317.png",
-            season: "2019-2020",
+            season: "2023-2024",
             homeTeam: "Crystal Palace",
             awayTeam: "Arsenal",
-            date: "2019-08-10",
-            time: "16:00",
-            stadion: "Selhurst Park",
-            image: "https://www.thesportsdb.com/images/media/event/thumb/cgbjmr1565361856.jpg",
-            videoURL: "https://www.youtube.com/watch?v=VuEb0SzUNaI",
-            homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/crystal_palace_badge.png",
-            awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/arsenal_badge.png",
-            statusString: "Match Finished",
-            homeScore: "2",
-            awayScore: "2"
+            homeScore: 2,
+            awayScore: 2,
+            kickoffISO: "2024-08-10T16:00:00",
+            date: "2024-08-10",
+            time: "16:00:00",
+            stadium: "Selhurst Park",
+            thumbnail: "https://www.thesportsdb.com/images/media/event/thumb/cgbjmr1565361856.jpg",
+            videoURL: nil,
+            homeTeamBadge: nil,
+            awayTeamBadge: nil,
+            status: .finished
         ),
         Event(
             id: "602131",
@@ -58,214 +60,65 @@ struct Mocks {
             sport: "Soccer",
             leagueName: "English Premier League",
             leagueImage: "https://www.thesportsdb.com/images/media/league/badge/dsnjpz1679951317.png",
-            season: "2019-2020",
+            season: "2023-2024",
             homeTeam: "Manchester City",
             awayTeam: "Tottenham",
-            date: "2019-08-11",
+            homeScore: nil,
+            awayScore: nil,
+            kickoffISO: "2024-09-15T17:00:00",
+            date: "2024-09-15",
             time: "17:00:00",
-            stadion: "Etihad Stadium",
-            image: "https://www.thesportsdb.com/images/media/event/thumb/5rncnc1566644537.jpg",
-            videoURL: "https://www.youtube.com/watch?v=efgh5678",
-            homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/man_city_badge.png",
-            awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/tottenham_badge.png",
-            statusString: "Match Finished",
-            homeScore: "1",
-            awayScore: "2"
-        ),
-        Event(
-            id: "602132",
-            name: "Westham vs Norwich",
-            sport: "Soccer",
-            leagueName: "English Premier League",
-            leagueImage: "https://www.thesportsdb.com/images/media/league/badge/dsnjpz1679951317.png",
-            season: "2019-2020",
-            homeTeam: "Liverpool",
-            awayTeam: "Norwich",
-            date: "2019-08-09",
-            time: "19:00:00",
-            stadion: "Anfield",
-            image: "https://www.thesportsdb.com/images/media/event/thumb/ibh8sg1565615267.jpg",
-            videoURL: "https://www.youtube.com/watch?v=WzGN6uWqwQ4",
-            homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/west_ham_badge.png",
-            awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/norwich_badge.png",
-            statusString: "In Progress",
-            homeScore: "0",
-            awayScore: "0"
-        ),
-        Event(
-            id: "602133",
-            name: "Tottenham vs Arsenal",
-            sport: "Soccer",
-            leagueName: "English Premier League",
-            leagueImage: "https://www.thesportsdb.com/images/media/league/badge/dsnjpz1679951317.png",
-            season: "2019-2020",
-            homeTeam: "Crystal Palace",
-            awayTeam: "Arsenal",
-            date: "2019-08-10",
-            time: "16:00:00",
-            stadion: "Selhurst Park",
-            image: "https://www.thesportsdb.com/images/media/event/thumb/4i0t7z1565391099.jpg",
-            videoURL: "https://www.youtube.com/watch?v=DvEz6wC4r5w",
-            homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/tottenham_badge.png",
-            awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/arsenal_badge.png",
-            statusString: "Not Started",
-            homeScore: "8",
-            awayScore: "2"
-        ),
-        Event(
-            id: "602134",
-            name: "Manchester City vs Arsenal",
-            sport: "Soccer",
-            leagueName: "English Premier League",
-            leagueImage: "https://www.thesportsdb.com/images/media/league/badge/dsnjpz1679951317.png",
-            season: "2019-2020",
-            homeTeam: "Manchester City",
-            awayTeam: "Tottenham",
-            date: "2019-08-11",
-            time: "17:00:00",
-            stadion: "Etihad Stadium",
-            image: "https://www.thesportsdb.com/images/media/event/thumb/uq2d001566644674.jpg",
-            videoURL: "https://www.youtube.com/watch?v=EQe4D70MG3o",
-            homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/man_city_badge.png",
-            awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/arsenal_badge.png",
-            statusString: "In Progress",
-            homeScore: "5",
-            awayScore: "5"
-        ),
-        Event(
-            id: "602135",
-            name: "Norwich vs Tottenham",
-            sport: "Soccer",
-            leagueName: "English Premier League",
-            leagueImage: "https://www.thesportsdb.com/images/media/league/badge/dsnjpz1679951317.png",
-            season: "2019-2020",
-            homeTeam: "Manchester City",
-            awayTeam: "Tottenham",
-            date: "2019-08-11",
-            time: "17:00:00",
-            stadion: "Etihad Stadium",
-            image: "https://www.thesportsdb.com/images/media/event/thumb/eoxk8v1565427742.jpg",
-            videoURL: "https://www.youtube.com/watch?v=wthyUDmO1XU",
-            homeTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/man_city_badge.png",
-            awayTeamBadge: "https://www.thesportsdb.com/images/media/team/badge/arsenal_badge.png",
-            statusString: "Not Started",
-            homeScore: "0",
-            awayScore: "4"
+            stadium: "Etihad Stadium",
+            thumbnail: "https://www.thesportsdb.com/images/media/event/thumb/5rncnc1566644537.jpg",
+            videoURL: nil,
+            homeTeamBadge: nil,
+            awayTeamBadge: nil,
+            status: .scheduled
         )
     ]
-    
-    // MARK: - Mock Bets
-    static let bets: [Bet] = [
+
+    // MARK: - Bets
+    public static let bets: [Bet] = events.enumerated().map { idx, event in
         Bet(
             id: UUID(),
-            event: events[0],
-            userTip: .homeWin,
-            odds: 1.80,
-            winAmount: 18.0,
-            timestamp: Date(),
-            isWon: true
-        ),
-        Bet(
-            id: UUID(),
-            event: events[1],
-            userTip: .draw,
-            odds: 3.50,
-            winAmount: nil,
-            timestamp: Date(),
-            isWon: false
-        ),
-        Bet(
-            id: UUID(),
-            event: events[2],
-            userTip: .awayWin,
-            odds: 4.20,
-            winAmount: 42.0,
-            timestamp: Date(),
-            isWon: true
+            event: event.snapshot,
+            userTip: AnyOutcome(MatchOutcome.allCases[idx % MatchOutcome.allCases.count]),
+            odds: Decimal(string: ["1.80", "3.50", "4.20"][idx % 3]) ?? 2.0,
+            status: idx == 0 ? .won : (idx == 1 ? .pending : .lost),
+            winAmount: idx == 0 ? Money(18) : nil
         )
-    ]
-    
-    // MARK: - Mock BetSlips
-    static let betSlips: [BetSlip] = [
+    }
+
+    // MARK: - BetSlips
+    public static let betSlips: [BetSlip] = [
         BetSlip(
-            id: UUID(),
-            userId: "user1",
+            userID: "user1",
             slipNumber: 1,
             bets: [bets[0]],
-            createdAt: Date(),
-            isWon: true,
-            betAmount: 10.0,
-            winAmount: 18.0
+            stake: Money(10),
+            status: .won,
+            winAmount: Money(18)
         ),
         BetSlip(
-            id: UUID(),
-            userId: "user2",
+            userID: "user2",
             slipNumber: 2,
             bets: [bets[1]],
-            createdAt: Date(),
-            isWon: false,
-            betAmount: 10.0,
-            winAmount: nil
+            stake: Money(10),
+            status: .pending
         ),
         BetSlip(
-            id: UUID(),
-            userId: "user3",
+            userID: "user3",
             slipNumber: 3,
             bets: [bets[2]],
-            createdAt: Date(),
-            isWon: true,
-            betAmount: 10.0,
-            winAmount: 42.0
-        ),
-        BetSlip(
-            id: UUID(),
-            userId: "user4",
-            slipNumber: 4,
-            bets: [bets[0]],
-            createdAt: Date(),
-            isWon: true,
-            betAmount: 10.0,
-            winAmount: 18.0
-        ),
-        BetSlip(
-            id: UUID(),
-            userId: "user5",
-            slipNumber: 5,
-            bets: [bets[1]],
-            createdAt: Date(),
-            isWon: false,
-            betAmount: 10.0,
-            winAmount: nil
-        ),
-        BetSlip(
-            id: UUID(),
-            userId: "user6",
-            slipNumber: 6,
-            bets: [bets[2]],
-            createdAt: Date(),
-            isWon: true,
-            betAmount: 10.0,
-            winAmount: 42.0
+            stake: Money(10),
+            status: .lost
         )
     ]
-    
-    // MARK: - Mock Profiles
-    static let profiles: [Profile] = [
-        Profile(
-            id: "user1",
-            name: "Max",
-            email: "max@example.com",
-            birthday: Date(),
-            startMoney: 1000.0,
-            balance: 1500.0
-        ),
-        Profile(
-            id: "user2",
-            name: "Anna",
-            email: "anna@example.com",
-            birthday: Date(),
-            startMoney: 1000.0,
-            balance: 800.0
-        )
+
+    // MARK: - Profiles
+    public static let profiles: [Profile] = [
+        Profile(id: "user1", username: "Max",  email: "max@example.com",  birthday: Date(timeIntervalSince1970: 631152000), balance: Money(1500)),
+        Profile(id: "user2", username: "Anna", email: "anna@example.com", birthday: Date(timeIntervalSince1970: 662688000), balance: Money(800)),
+        Profile(id: "user3", username: "Theo", email: "theo@example.com", birthday: Date(timeIntervalSince1970: 725760000), balance: Money(2200))
     ]
 }
