@@ -1,210 +1,226 @@
 //
-//  Untitled.swift
+//  BetRepository.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 24.02.25.
+//  Firestore-backed BetRepository.
+//
+//  Two structural changes vs the legacy implementation:
+//
+//  1. **No N+1 fetch.** The legacy `loadBet(...)` called `eventRepo.fetchEvents`
+//     for *every single historical bet*, refetching the entire season each
+//     time. Bets now embed an `EventSnapshot` so history renders without any
+//     follow-up network calls.
+//
+//  2. **Atomic placement.** `placeSlip(_:debiting:from:)` uses a Firestore
+//     transaction so the stake debit and the slip creation either both happen
+//     or neither does. The legacy code debited the balance up front in a
+//     fire-and-forget Task and then attempted to save the slip — a single
+//     network failure left the user's balance debited with no slip stored.
 //
 
 import Foundation
 import FirebaseFirestore
 
-/// Verwaltung von Wetten und Wettscheinen in Firestore
-class BetRepository {
-    
-    private let dbase = Firestore.firestore()
-    private let eventRepo = EventRepository()
-    
-    // MARK: - BetSlip Management
-    /// Speichert einen neuen Wettschein in Firestore
-    @discardableResult
-    func saveBetSlip(_ betSlip: BetSlip, userId: String) async throws -> Bool {
-        do {
-            // Definiert eine eindeutige Document ID
-            let betSlipId = betSlip.id.uuidString
-            let betSlipRef = dbase.collection("BetSlips").document(betSlipId)
-            
-            let betSlipData: [String: Any] = [
-                "userId": userId,
-                "slipNumber": betSlip.slipNumber,
-                "createdAt": Timestamp(date: betSlip.createdAt),
-                "isWon": betSlip.isWon,
-                "betAmount": betSlip.betAmount,
-                "winAmount": betSlip.winAmount as Any
-            ]
-            
-            // Hauptdokument für Wettschein erstellen
-            try await betSlipRef.setData(betSlipData)
-            
-            // Einzelwetten als Sub-Collection speichern
-            for bet in betSlip.bets {
-                let betId = bet.id.uuidString
-                let betData: [String: Any] = [
-                    "eventId": bet.event.id,
-                    "userTip": bet.userTip.rawValue,
-                    "odds": bet.odds,
-                    "timestamp": Timestamp(date: bet.timestamp),
-                    "isWon": bet.isWon,
-                    "winAmount": bet.winAmount as Any
-                ]
-                try await betSlipRef.collection("bets").document(betId).setData(betData)
-            }
-            logSuccess("Wettschein \(betSlip.slipNumber) erfolgreich gespeichert")
-            return true
-            
-        } catch {
-            logError(error, context: "Fehler beim Speichern des Wettscheins")
-            throw error
-        }
+public final class BetRepository: BetRepositoryProtocol, @unchecked Sendable {
+
+    private let firestore: Firestore
+
+    /// Kept for the Phase-3 transition layer; future commits remove it.
+    private let eventRepository: EventRepositoryProtocol
+
+    public init(firestore: Firestore = .firestore(),
+                eventRepository: EventRepositoryProtocol) {
+        self.firestore = firestore
+        self.eventRepository = eventRepository
     }
-    
-    /// Aktualisiert den Status einer Einzelwette
-    func updateBetStatus(betSlipId: String, betId: String, isWon: Bool, winAmount: Double?) async throws {
-        do {
-            var updateData: [String: Any] = ["isWon": isWon]
-            if let winAmount = winAmount {
-                updateData["winAmount"] = winAmount
-            }
-            
-            try await dbase.collection("BetSlips")
-                .document(betSlipId)
-                .collection("bets")
-                .document(betId)
-                .updateData(updateData)
-                
-            logSuccess("Wettstatus aktualisiert: \(isWon ? "Gewonnen" : "Verloren")")
-        } catch {
-            logError(error, context: "Fehler beim Aktualisieren des Wettstatus")
-            throw error
+
+    // MARK: - Place
+
+    public func placeSlip(_ slip: BetSlip, debiting stake: Money, from userID: String) async throws {
+        let slipRef = slipsCollection.document(slip.id.uuidString)
+        let profileRef = firestore
+            .collection(AppConstants.FirestoreCollections.profiles)
+            .document(userID)
+
+        // Pre-encode payloads on the calling actor; the transaction block
+        // executes on Firestore's internal queue and shouldn't do encoding work.
+        let slipPayload = try Self.encode(slip: slip)
+        let betPayloads: [(String, [String: Any])] = try slip.bets.map { bet in
+            (bet.id.uuidString, try Self.encode(bet: bet))
         }
-    }
-    
-    /// Aktualisiert den Gesamtstatus eines Wettscheins
-    func updateBetSlipStatus(betSlipId: UUID, isWon: Bool, winAmount: Double?) async throws {
-        do {
-            var updateData: [String: Any] = ["isWon": isWon]
-            if let winAmount = winAmount {
-                updateData["winAmount"] = winAmount
+
+        try await firestore.runTransaction({ transaction, errorPointer -> Any? in
+            let profileSnap: DocumentSnapshot
+            do {
+                profileSnap = try transaction.getDocument(profileRef)
+            } catch let fetchError as NSError {
+                errorPointer?.pointee = fetchError
+                return nil
             }
-            try await dbase.collection("BetSlips")
-                .document(betSlipId.uuidString)
-                .updateData(updateData)
-            logSuccess("Wettschein-Status aktualisiert: \(isWon ? "Gewonnen" : "Verloren")")
-        } catch {
-            logError(error, context: "Fehler beim Aktualisieren des Wettschein-Status")
-            throw error
-        }
+
+            guard
+                let balanceData = profileSnap.data()?["balance"] as? [String: Any],
+                let currentBalance: Money = Self.decode(balanceData: balanceData)
+            else {
+                errorPointer?.pointee = AppErrors.Bet.balanceUnreadable as NSError
+                return nil
+            }
+
+            guard currentBalance >= stake else {
+                errorPointer?.pointee = AppErrors.Bet.insufficientFunds as NSError
+                return nil
+            }
+
+            let newBalance = currentBalance - stake
+            let encodedBalance: [String: Any]
+            do {
+                encodedBalance = try Self.encodeBalance(newBalance)
+            } catch {
+                errorPointer?.pointee = error as NSError
+                return nil
+            }
+            transaction.updateData(["balance": encodedBalance], forDocument: profileRef)
+
+            transaction.setData(slipPayload, forDocument: slipRef)
+            for (betID, payload) in betPayloads {
+                let betRef = slipRef
+                    .collection(AppConstants.FirestoreCollections.betSlipBetsSubcollection)
+                    .document(betID)
+                transaction.setData(payload, forDocument: betRef)
+            }
+            return nil
+        })
+
+        AppLogger.info("Placed slip #\(slip.slipNumber) for user \(userID)", category: .betting)
     }
-    
-    /// Lädt alle Wettscheine eines Benutzers
-    func loadBetSlips(userId: String) async throws -> [BetSlip] {
-        do {
-            let snapshot = try await dbase.collection("BetSlips")
-                .whereField("userId", isEqualTo: userId)
-                .order(by: "slipNumber", descending: true)
+
+    // MARK: - Load
+
+    public func loadSlips(userID: String) async throws -> [BetSlip] {
+        try await loadSlips(userID: userID, statusFilter: nil)
+    }
+
+    public func loadPendingSlips(userID: String) async throws -> [BetSlip] {
+        try await loadSlips(userID: userID, statusFilter: .pending)
+    }
+
+    private func loadSlips(userID: String, statusFilter: BetSlipStatus?) async throws -> [BetSlip] {
+        var query: Query = slipsCollection
+            .whereField("userID", isEqualTo: userID)
+            .order(by: "slipNumber", descending: true)
+
+        if let statusFilter {
+            query = query.whereField("status", isEqualTo: statusFilter.rawValue)
+        }
+
+        let snapshot = try await query.getDocuments()
+
+        var slips: [BetSlip] = []
+        slips.reserveCapacity(snapshot.documents.count)
+
+        for document in snapshot.documents {
+            guard let slip = try Self.decode(slipDocument: document) else { continue }
+            let betsSnapshot = try await document.reference
+                .collection(AppConstants.FirestoreCollections.betSlipBetsSubcollection)
                 .getDocuments()
-            
-            var betSlips: [BetSlip] = []
-            
-            for document in snapshot.documents {
-                let data = document.data()
-                
-                guard let slipNumber = data["slipNumber"] as? Int,
-                      let createdAt = (data["createdAt"] as? Timestamp)?.dateValue(),
-                      let isWon = data["isWon"] as? Bool,
-                      let betAmount = data["betAmount"] as? Double else {
-                    logError(AppErrors.Api.decodingFailed, context: "Fehler beim Dekodieren des Wettscheins")
-                    continue
-                }
-                
-                let winAmount = data["winAmount"] as? Double
-                
-                // Zugehörige Einzelwetten laden
-                let betsSnapshot = try await document.reference.collection("bets").getDocuments()
-                var bets: [Bet] = []
-                
-                for betDoc in betsSnapshot.documents {
-                    if let bet = try? await loadBet(from: betDoc) {
-                        bets.append(bet)
-                    }
-                }
-                
-                let betSlip = BetSlip(
-                    userId: userId,
-                    slipNumber: slipNumber,
-                    bets: bets,
-                    createdAt: createdAt,
-                    isWon: isWon,
-                    betAmount: betAmount,
-                    winAmount: winAmount
-                )
-                betSlips.append(betSlip)
+            let bets = betsSnapshot.documents.compactMap { try? Self.decode(betDocument: $0) }
+            var hydrated = slip
+            hydrated.bets = bets
+            slips.append(hydrated)
+        }
+        return slips
+    }
+
+    // MARK: - Settle
+
+    public func settleSlip(_ slip: BetSlip, creditingTo userID: String) async throws {
+        let slipRef = slipsCollection.document(slip.id.uuidString)
+        let profileRef = firestore
+            .collection(AppConstants.FirestoreCollections.profiles)
+            .document(userID)
+
+        let slipPayload = try Self.encode(slip: slip)
+        let betPayloads: [(String, [String: Any])] = try slip.bets.map { bet in
+            (bet.id.uuidString, try Self.encode(bet: bet))
+        }
+        let credit = slip.winAmount ?? .zero
+
+        try await firestore.runTransaction({ transaction, errorPointer -> Any? in
+            transaction.setData(slipPayload, forDocument: slipRef, merge: true)
+            for (betID, payload) in betPayloads {
+                let betRef = slipRef
+                    .collection(AppConstants.FirestoreCollections.betSlipBetsSubcollection)
+                    .document(betID)
+                transaction.setData(payload, forDocument: betRef, merge: true)
             }
-            logSuccess("\(betSlips.count) Wettscheine geladen")
-            return betSlips
-        } catch {
-            logError(error, context: "Fehler beim Laden der Wettscheine")
-            throw error
-        }
-    }
-    
-    /// Lädt eine einzelne Wette aus einem Firestore-Dokument
-    private func loadBet(from document: DocumentSnapshot) async throws -> Bet {
-        let data = document.data() ?? [:]
-        
-        guard let eventId = data["eventId"] as? String,
-              let userTipRaw = data["userTip"] as? Int,
-              let userTip = UserTip(rawValue: userTipRaw),
-              let odds = data["odds"] as? Double,
-              let timestamp = (data["timestamp"] as? Timestamp)?.dateValue(),
-              let isWon = data["isWon"] as? Bool else {
-            throw AppErrors.Api.decodingFailed
-        }
-        
-        let winAmount = data["winAmount"] as? Double
-        
-        // Zugehöriges Event laden
-        let event = try await loadEvent(withId: eventId)
-        
-        return Bet(
-            event: event,
-            userTip: userTip,
-            odds: odds,
-            winAmount: winAmount,
-            timestamp: timestamp,
-            isWon: isWon
-        )
-    }
-    
-    /// Lädt ein Event aus dem EventRepository
-    private func loadEvent(withId eventId: String) async throws -> Event {
-        do {
-            let events = try await eventRepo.fetchEvents(for: .defaultSeason)
-            guard let event = events.first(where: { $0.id == eventId }) else {
-                throw AppErrors.Api.decodingFailed
+            if credit.isPositive {
+                let profileSnap: DocumentSnapshot
+                do {
+                    profileSnap = try transaction.getDocument(profileRef)
+                } catch let fetchError as NSError {
+                    errorPointer?.pointee = fetchError
+                    return nil
+                }
+                guard
+                    let balanceData = profileSnap.data()?["balance"] as? [String: Any],
+                    let currentBalance: Money = Self.decode(balanceData: balanceData)
+                else {
+                    errorPointer?.pointee = AppErrors.Bet.balanceUnreadable as NSError
+                    return nil
+                }
+                let newBalance = currentBalance + credit
+                do {
+                    let encodedBalance = try Self.encodeBalance(newBalance)
+                    transaction.updateData(["balance": encodedBalance], forDocument: profileRef)
+                } catch {
+                    errorPointer?.pointee = error as NSError
+                    return nil
+                }
             }
-            return event
-        } catch {
-            logError(error, context: "Fehler beim Laden des Events")
-            throw error
-        }
+            return nil
+        })
     }
-    
-    // MARK: - Logging
-    private func logError(_ error: Error, context: String) {
-        #if DEBUG
-        print("🔴 \(context): \(error.localizedDescription)")
-        #endif
+
+    public func nextSlipNumber(forUser userID: String) async throws -> Int {
+        let snapshot = try await slipsCollection
+            .whereField("userID", isEqualTo: userID)
+            .order(by: "slipNumber", descending: true)
+            .limit(to: 1)
+            .getDocuments()
+        let last = snapshot.documents.first?.data()["slipNumber"] as? Int ?? 0
+        return last + 1
     }
-    
-    private func logSuccess(_ message: String) {
-        #if DEBUG
-        print("✅ \(message)")
-        #endif
+
+    private var slipsCollection: CollectionReference {
+        firestore.collection(AppConstants.FirestoreCollections.betSlips)
     }
-    
-    private func logInfo(_ message: String) {
-        #if DEBUG
-        print("ℹ️ \(message)")
-        #endif
+
+    // MARK: - Encoding helpers
+
+    private static func encode(slip: BetSlip) throws -> [String: Any] {
+        let encoder = Firestore.Encoder()
+        var data = try encoder.encode(slip)
+        data.removeValue(forKey: "bets") // bets stored as a sub-collection
+        return data
+    }
+
+    private static func encode(bet: Bet) throws -> [String: Any] {
+        try Firestore.Encoder().encode(bet)
+    }
+
+    private static func encodeBalance(_ money: Money) throws -> [String: Any] {
+        try Firestore.Encoder().encode(money)
+    }
+
+    private static func decode(balanceData: [String: Any]) -> Money? {
+        try? Firestore.Decoder().decode(Money.self, from: balanceData)
+    }
+
+    private static func decode(slipDocument: QueryDocumentSnapshot) throws -> BetSlip? {
+        try? slipDocument.data(as: BetSlip.self)
+    }
+
+    private static func decode(betDocument: QueryDocumentSnapshot) throws -> Bet? {
+        try? betDocument.data(as: Bet.self)
     }
 }

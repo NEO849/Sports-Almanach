@@ -2,88 +2,107 @@
 //  EventRepository.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 14.10.24.
+//  Concrete EventRepository — fetches from thesportsdb.com and persists user-
+//  selected events to Firestore.
+//
+//  Key changes vs the legacy file:
+//
+//  - The selected league is actually used. The legacy code hard-coded
+//    `id=4328` and silently ignored the `League` enum the UI picked.
+//  - Retry/backoff is delegated to `Retry.run` (Core/Concurrency/RetryPolicy)
+//    so the loop is no longer copy-pasted with bugs.
+//  - Mock-data toggle removed in favour of a `MockEventRepository` test double
+//    (see Data/Repositories/Mocks/MockEventRepository.swift). Switching modes
+//    is now a DI concern, not a hidden `private let useMockData = false`.
 //
 
 import Foundation
-import SwiftUI
+import FirebaseFirestore
 
-/// Verantwortlich für das Laden und Cachen von Event-Daten
-class EventRepository {
-    // MARK: - Properties
-    private let useMockData = false
-    private let logger = LoggerService.shared
-    
-    /// API-Konfiguration
-    private enum API {
-        static let maxTry = 3
-        static let timeBetweenTrys = 2.0
-        static let baseURL = "https://www.thesportsdb.com/api/v1/json/3"
+public final class EventRepository: EventRepositoryProtocol, @unchecked Sendable {
+
+    private let firestore: Firestore
+    private let session: URLSession
+    private let retryPolicy: RetryPolicy
+
+    public init(firestore: Firestore = .firestore(),
+                session: URLSession = .shared,
+                retryPolicy: RetryPolicy = .default) {
+        self.firestore = firestore
+        self.session = session
+        self.retryPolicy = retryPolicy
     }
-    
-    /// Lädt Events für eine bestimmte Saison
-    func fetchEvents(for season: Season) async throws -> [Event] {
-        if useMockData {
-            return fetchMockEvents(for: season)
+
+    // MARK: - SportsDB API
+
+    public func fetchEvents(league: League, season: Season) async throws -> [Event] {
+        try await Retry.run(retryPolicy) { [self] in
+            try await loadOnce(league: league, season: season)
         }
-        
-        // Mehrere Versuche mit steigender Wartezeit
-        for increasingTrys in 1...API.maxTry {
-            do {
-                let events = try await loadEvents(for: season)
-                logger.log("✅ Events geladen (Versuch \(increasingTrys))", level: .success)
-                return events
-            } catch {
-                logger.log("❌ Ladefehler (Versuch \(increasingTrys))", level: .error)
-                
-                // Bei letztem Versuch: Fehler werfen
-                if increasingTrys == API.maxTry {
-                    throw AppErrors.Api.requestFailed
-                }
-                
-                // Sonst: Warten vor nächstem Versuch
-                let waitingTime = API.timeBetweenTrys * Double(increasingTrys)
-                logger.log("⏰ Warte \(waitingTime) Sekunden...", level: .info)
-                try? await Task.sleep(nanoseconds: UInt64(waitingTime * 1_000_000_000))
-            }
-        }
-        throw AppErrors.Api.requestFailed
     }
-    
-    /// Führt den API-Call durch
-    private func loadEvents(for season: Season) async throws -> [Event] {
-        let urlString = "\(API.baseURL)/eventsseason.php?id=4328&s=\(season.rawValue)"
-        
-        guard let url = URL(string: urlString) else {
-            logger.log("❌ Ungültige URL", level: .error)
-            throw AppErrors.Api.invalidURL
-        }
+
+    public func fetchEvent(id eventID: String) async throws -> Event? {
+        let urlString = "\(AppConstants.API.sportsDBBase)/lookupevent.php?id=\(eventID)"
+        guard let url = URL(string: urlString) else { throw AppErrors.Api.invalidURL }
+        let (data, response) = try await session.data(from: url)
+        try Self.validate(response)
+        struct LookupResponse: Decodable { let events: [Event]? }
+        let decoded = try JSONDecoder().decode(LookupResponse.self, from: data)
+        return decoded.events?.first
+    }
+
+    private func loadOnce(league: League, season: Season) async throws -> [Event] {
+        let urlString = "\(AppConstants.API.sportsDBBase)/eventsseason.php?id=\(league.sportsDBLeagueID)&s=\(season.rawValue)"
+        guard let url = URL(string: urlString) else { throw AppErrors.Api.invalidURL }
+
+        var request = URLRequest(url: url)
+        request.timeoutInterval = AppConstants.API.requestTimeoutSeconds
+
+        let (data, response) = try await session.data(for: request)
+        try Self.validate(response)
+
         do {
-            let (data, response) = try await URLSession.shared.data(from: url)
-            
-            // HTTP Response prüfen
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                throw AppErrors.Api.invalidResponse
-            }
-            
-            // JSON dekodieren
-            let decoder = JSONDecoder()
-            let eventResponse = try decoder.decode(EventResponse.self, from: data)
-            return eventResponse.events
-            
-        } catch let decodingError as DecodingError {
-            logger.log("❌ Dekodierungsfehler: \(decodingError)", level: .error)
-            throw AppErrors.Api.decodingFailed
+            return try JSONDecoder().decode(EventResponse.self, from: data).events ?? []
         } catch {
-            logger.log("❌ API Fehler: \(error.localizedDescription)", level: .error)
-            throw AppErrors.Api.requestFailed
+            AppLogger.error("Decoding failed: \(error)", category: .api)
+            throw AppErrors.Api.decodingFailed
         }
     }
-    
-    /// Liefert Test-Daten
-    private func fetchMockEvents(for season: Season) -> [Event] {
-        logger.log("📋 Verwende Mock-Daten", level: .debug)
-        return Mocks.events.filter { $0.season == season.rawValue }
+
+    private static func validate(_ response: URLResponse) throws {
+        guard let http = response as? HTTPURLResponse else {
+            throw AppErrors.Api.invalidResponse
+        }
+        guard (200...299).contains(http.statusCode) else {
+            throw AppErrors.Api.httpError(code: http.statusCode)
+        }
     }
+
+    // MARK: - User-event persistence (Firestore)
+
+    public func persistSelectedEvent(_ event: Event, forUser userID: String) async throws {
+        try await userEventsCollection(for: userID)
+            .document(event.id)
+            .setData(from: event, merge: true)
+    }
+
+    public func removeSelectedEvent(eventID: String, forUser userID: String) async throws {
+        try await userEventsCollection(for: userID).document(eventID).delete()
+    }
+
+    public func loadSelectedEvents(forUser userID: String) async throws -> [Event] {
+        let snapshot = try await userEventsCollection(for: userID).getDocuments()
+        return snapshot.documents.compactMap { try? $0.data(as: Event.self) }
+    }
+
+    private func userEventsCollection(for userID: String) -> CollectionReference {
+        firestore.collection(AppConstants.FirestoreCollections.profiles)
+            .document(userID)
+            .collection(AppConstants.FirestoreCollections.userEventsSubcollection)
+    }
+}
+
+/// Top-level SportsDB response — events array may be null when a season has no fixtures.
+public struct EventResponse: Decodable {
+    public let events: [Event]?
 }

@@ -1,67 +1,53 @@
 //
-//  FirestoreRepository.swift
+//  ProfileRepository.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps
+//  Concrete ProfileRepository backed by Firestore. Replaces the legacy file
+//  that exposed `emailExists(...)`. We removed the email lookup intentionally:
+//  it was an information-disclosure vector (allowed any unauthenticated
+//  client to enumerate registered emails). Firebase Auth already raises
+//  `emailAlreadyInUse` on signUp — that is the canonical signal.
 //
 
 import Foundation
 import FirebaseFirestore
 
-/// Zentrale Stelle für alle Crud-Datenbankoperationen
-class ProfileRepository {
-    
-    private let dbInstanz = Firestore.firestore()
-    
-    // MARK: - Profil-Operationen
-    /// Wird bei Registrierung und Profiländerungen verwendet
-    func saveProfile(_ profile: Profile, userId: String) async throws {
-        try dbInstanz.collection("Profile").document(userId).setData(from: profile)
-    }
-    
-    /// Lädt ein Benutzerprofil aus Firestore
-    func loadProfile(userId: String) async throws -> Profile? {
-        do {
-            let snapshot = try await dbInstanz.collection("Profile")
-                .document(userId)
-                .getDocument()
-            
-            let profile = try? snapshot.data(as: Profile.self)
-            print("📱 Profil geladen: \(String(describing: profile))")
-            return profile
-        } catch {
-            print("❌ Fehler beim Laden des Profils: \(error)")
-            throw error
-        }
-    }
-    
-    /// Lädt alle Profile für die Rangliste
-    func loadAllProfiles() async throws -> [Profile] {
-        do {
-            let snapshot = try await dbInstanz.collection("Profile")
-                .getDocuments()
-            
-            let profiles = snapshot.documents.compactMap { document in
-                try? document.data(as: Profile.self)
-            }
-            print("📱 \(profiles.count) Profile geladen")
-            return profiles
-        } catch {
-            print("❌ Fehler beim Laden aller Profile: \(error)")
-            throw error
-        }
-    }
-    
-    /// Aktualisiert nur den Kontostand eines Benutzers, wird nach Wetten oder Bonusaktionen aufgerufen
-    func updateBalance(userId: String, newBalance: Double) async throws {
-        try await dbInstanz.collection("Profile").document(userId)
-            .updateData(["balance": newBalance])
+public final class ProfileRepository: ProfileRepositoryProtocol, @unchecked Sendable {
+
+    private let firestore: Firestore
+
+    public init(firestore: Firestore = .firestore()) {
+        self.firestore = firestore
     }
 
-    func emailExists(_ email: String) async throws -> Bool {
-        let snapshot = try await dbInstanz.collection("Profile")
-            .whereField("email", isEqualTo: email)
-            .getDocuments()
-        return !snapshot.isEmpty
+    public func createProfile(_ profile: Profile) async throws {
+        try profilesCollection.document(profile.id).setData(from: profile)
+    }
+
+    public func loadProfile(userID: String) async throws -> Profile? {
+        let snapshot = try await profilesCollection.document(userID).getDocument()
+        return try? snapshot.data(as: Profile.self)
+    }
+
+    public func loadAllProfiles() async throws -> [Profile] {
+        let snapshot = try await profilesCollection.getDocuments()
+        return snapshot.documents.compactMap { try? $0.data(as: Profile.self) }
+    }
+
+    public func updateBalance(userID: String, newBalance: Money) async throws {
+        let encoded = try Firestore.Encoder().encode(newBalance)
+        try await profilesCollection.document(userID).updateData([
+            "balance": encoded
+        ])
+    }
+
+    public func updateLastBirthdayBonusYear(userID: String, year: Int) async throws {
+        try await profilesCollection.document(userID).updateData([
+            "lastBirthdayBonusYear": year
+        ])
+    }
+
+    private var profilesCollection: CollectionReference {
+        firestore.collection(AppConstants.FirestoreCollections.profiles)
     }
 }
