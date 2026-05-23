@@ -1,0 +1,28 @@
+/* Tabs */
+"tab.home"        = "Home";
+"tab.events"      = "Events";
+"tab.bet"         = "Bets";
+"tab.statistics"  = "Stats";
+
+/* Match outcomes */
+"outcome.homeWin" = "1 (Home win)";
+"outcome.draw"    = "X (Draw)";
+"outcome.awayWin" = "2 (Away win)";
+
+/* Bet statuses */
+"bet.status.pending"             = "Pending";
+"bet.status.won"                 = "Won";
+"bet.status.lost"                = "Lost";
+"bet.status.void"                = "Voided";
+
+"betslip.status.pending"         = "Pending";
+"betslip.status.won"             = "Won";
+"betslip.status.lost"            = "Lost";
+"betslip.status.partiallyWon"    = "Partially won";
+
+/* Event statuses */
+"event.status.scheduled"   = "Scheduled";
+"event.status.inProgress"  = "Live";
+"event.status.finished"    = "Finished";
+"event.status.postponed"   = "Postponed";
+"event.status.cancelled"   = "Cancelled";

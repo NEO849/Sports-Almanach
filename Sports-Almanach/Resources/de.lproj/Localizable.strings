@@ -1,0 +1,28 @@
+/* Tabs */
+"tab.home"        = "Home";
+"tab.events"      = "Events";
+"tab.bet"         = "Wetten";
+"tab.statistics"  = "Statistik";
+
+/* Match outcomes */
+"outcome.homeWin" = "1 (Heimsieg)";
+"outcome.draw"    = "0 (Unentschieden)";
+"outcome.awayWin" = "2 (Auswärtssieg)";
+
+/* Bet statuses */
+"bet.status.pending"             = "Offen";
+"bet.status.won"                 = "Gewonnen";
+"bet.status.lost"                = "Verloren";
+"bet.status.void"                = "Erstattet";
+
+"betslip.status.pending"         = "Offen";
+"betslip.status.won"             = "Gewonnen";
+"betslip.status.lost"            = "Verloren";
+"betslip.status.partiallyWon"    = "Teilgewinn";
+
+/* Event statuses */
+"event.status.scheduled"   = "Geplant";
+"event.status.inProgress"  = "Live";
+"event.status.finished"    = "Beendet";
+"event.status.postponed"   = "Verschoben";
+"event.status.cancelled"   = "Abgesagt";
