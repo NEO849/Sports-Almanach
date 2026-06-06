@@ -33,8 +33,9 @@ struct StatisticSlipRow: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
-                .strokeBorder(AppTheme.Colors.accent.opacity(0.4), lineWidth: 1)
+                .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
         )
+        .appShadow(AppTheme.Shadow.small)
     }
 
     private var dateString: String {

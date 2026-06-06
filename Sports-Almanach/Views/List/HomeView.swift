@@ -37,7 +37,7 @@ struct HomeView: View {
                 .padding(.bottom, AppTheme.Spacing.xxl)
             }
             .scrollIndicators(.hidden)
-            .appBackground(.photographic)
+            .appBackground(.gradient)
             .toolbar { toolbar }
             .navigationBarTitleDisplayMode(.inline)
         }
@@ -79,7 +79,7 @@ struct HomeView: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
-                .strokeBorder(AppTheme.Colors.accent.opacity(0.5), lineWidth: 1)
+                .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
         )
         .padding(.horizontal, AppTheme.Spacing.l)
     }

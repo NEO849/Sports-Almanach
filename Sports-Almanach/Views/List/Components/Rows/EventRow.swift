@@ -26,8 +26,9 @@ struct EventRow: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
-                .strokeBorder(AppTheme.Colors.accent.opacity(0.45), lineWidth: 1)
+                .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
         )
+        .appShadow(AppTheme.Shadow.medium)
         .padding(.vertical, AppTheme.Spacing.xs)
         .swipeActions(edge: .leading, allowsFullSwipe: true) {
             Button {

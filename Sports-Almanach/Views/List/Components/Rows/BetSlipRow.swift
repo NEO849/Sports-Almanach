@@ -30,6 +30,11 @@ struct BetSlipRow: View {
             RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
                 .fill(.ultraThinMaterial)
         )
+        .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
+                .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
+        )
+        .appShadow(AppTheme.Shadow.small)
     }
 
     private var oddsChip: some View {

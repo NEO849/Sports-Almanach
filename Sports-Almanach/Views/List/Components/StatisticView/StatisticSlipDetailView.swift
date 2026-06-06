@@ -65,6 +65,11 @@ struct StatisticSlipDetailView: View {
             RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
                 .fill(.ultraThinMaterial)
         )
+        .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
+        )
+        .appShadow(AppTheme.Shadow.medium)
     }
 
     private var betList: some View {

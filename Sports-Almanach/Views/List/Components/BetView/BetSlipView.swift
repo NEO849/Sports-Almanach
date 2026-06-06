@@ -113,6 +113,11 @@ struct BetSlipView: View {
             RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
                 .fill(.ultraThinMaterial)
         )
+        .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
+        )
+        .appShadow(AppTheme.Shadow.medium)
     }
 
     private func metric(_ label: String, value: String) -> some View {

@@ -28,7 +28,7 @@ struct StatisticView: View {
                 .padding(.vertical, AppTheme.Spacing.l)
             }
             .scrollIndicators(.hidden)
-            .appBackground(.photographic)
+            .appBackground(.gradient)
             .navigationTitle("Statistik")
             .navigationBarTitleDisplayMode(.inline)
             .task {

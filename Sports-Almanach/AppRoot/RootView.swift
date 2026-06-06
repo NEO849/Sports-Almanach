@@ -30,5 +30,7 @@ struct RootView: View {
             }
         }
         .animation(AppTheme.Motion.smooth, value: session.phase)
+        .preferredColorScheme(.dark)
+        .tint(AppTheme.Colors.accent)
     }
 }

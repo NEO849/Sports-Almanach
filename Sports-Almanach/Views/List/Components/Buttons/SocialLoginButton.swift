@@ -2,6 +2,9 @@
 //  SocialLoginButton.swift
 //  Sports-Almanach
 //
+//  Secondary "glass" button for social providers — dark material pill with a
+//  brand-tinted hairline and the same tactile press feedback as the primary CTA.
+//
 
 import SwiftUI
 
@@ -20,13 +23,13 @@ struct SocialLoginButton: View {
         Button(action: action) {
             HStack(spacing: AppTheme.Spacing.s) {
                 Image(systemName: icon)
-                    .font(.title3)
+                    .font(.title3.weight(.semibold))
                 Text(title)
                     .font(AppTheme.Typography.subheadline.weight(.semibold))
             }
-            .foregroundStyle(.white)
+            .foregroundStyle(AppTheme.Colors.textPrimary)
             .padding(.horizontal, AppTheme.Spacing.l)
-            .frame(minHeight: 44)
+            .frame(minHeight: 48)
             .frame(maxWidth: .infinity)
             .background(
                 RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
@@ -34,9 +37,10 @@ struct SocialLoginButton: View {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
-                    .strokeBorder(AppTheme.Colors.accent.opacity(0.6), lineWidth: 1)
+                    .strokeBorder(AppTheme.Colors.accent.opacity(0.45), lineWidth: 1)
             )
         }
+        .buttonStyle(PressableButtonStyle())
         .accessibilityLabel("Mit \(title) anmelden")
     }
 }

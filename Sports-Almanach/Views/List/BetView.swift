@@ -23,7 +23,7 @@ struct BetView: View {
                 topBar
                 betCandidatesList
             }
-            .appBackground(.photographic)
+            .appBackground(.gradient)
             .navigationTitle("Wetten")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $presentingSlip) {
@@ -58,9 +58,11 @@ struct BetView: View {
                     .padding(.horizontal, AppTheme.Spacing.l)
                     .padding(.vertical, AppTheme.Spacing.s)
                     .background(
-                        Capsule().fill(AppTheme.Colors.accent)
+                        Capsule().fill(AppTheme.Gradients.brand)
                     )
+                    .accentGlow(opacity: 0.4)
             }
+            .buttonStyle(PressableButtonStyle())
             .accessibilityLabel("Wettschein öffnen")
         }
         .padding(.horizontal, AppTheme.Spacing.l)

@@ -33,8 +33,9 @@ struct BetRow: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
-                .strokeBorder(AppTheme.Colors.accent.opacity(0.45), lineWidth: 1)
+                .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
         )
+        .appShadow(AppTheme.Shadow.medium)
         .alert("Wette existiert bereits", isPresented: $showDuplicateAlert) {
             Button("OK", role: .cancel) {}
         }
@@ -104,12 +105,18 @@ struct BetRow: View {
             .padding(.vertical, AppTheme.Spacing.s)
             .frame(maxWidth: .infinity)
             .background(
-                Capsule().fill(selectedOutcome == nil
-                               ? AppTheme.Colors.accent.opacity(0.35)
-                               : AppTheme.Colors.accent)
+                Group {
+                    if selectedOutcome == nil {
+                        Capsule().fill(AppTheme.Colors.surfaceElevated)
+                    } else {
+                        Capsule().fill(AppTheme.Gradients.brand)
+                    }
+                }
             )
+            .accentGlow(opacity: selectedOutcome == nil ? 0 : 0.4)
         }
         .disabled(selectedOutcome == nil)
+        .animation(AppTheme.Motion.snappy, value: selectedOutcome)
         .accessibilityHint("Wette zum Wettschein hinzufügen")
     }
 

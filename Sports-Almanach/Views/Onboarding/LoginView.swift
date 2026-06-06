@@ -39,7 +39,7 @@ struct LoginView: View {
             .padding(.bottom, AppTheme.Spacing.xxl)
         }
         .scrollDismissesKeyboard(.immediately)
-        .appBackground(.photographic)
+        .appBackground(.gradient)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
         .alert("Fehler",
@@ -53,14 +53,20 @@ struct LoginView: View {
     // MARK: - Sections
 
     private var header: some View {
-        VStack(spacing: AppTheme.Spacing.s) {
+        VStack(spacing: AppTheme.Spacing.m) {
             Image(systemName: "sportscourt.fill")
-                .font(.system(size: 56))
-                .foregroundStyle(AppTheme.Colors.accent)
+                .font(.system(size: 60))
+                .foregroundStyle(AppTheme.Gradients.brand)
+                .accentGlow(radius: 24, opacity: 0.6)
                 .accessibilityHidden(true)
-            Text("Anmelden")
-                .font(AppTheme.Typography.largeTitle)
-                .foregroundStyle(.white)
+            VStack(spacing: AppTheme.Spacing.xxs) {
+                Text("Sports Almanach")
+                    .font(AppTheme.Typography.title3)
+                    .foregroundStyle(AppTheme.Colors.textSecondary)
+                Text("Anmelden")
+                    .font(AppTheme.Typography.largeTitle)
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+            }
         }
         .frame(maxWidth: .infinity)
     }
@@ -96,6 +102,7 @@ struct LoginView: View {
     private var primaryAction: some View {
         PrimaryActionButton(
             title: "Login",
+            icon: "arrow.right.circle.fill",
             isEnabled: isFormValid,
             isLoading: userVM.isLoading,
             action: { Task { await submit() } }
@@ -105,13 +112,13 @@ struct LoginView: View {
     private var registerLink: some View {
         HStack(spacing: AppTheme.Spacing.xs) {
             Text("Noch keinen Account?")
-                .foregroundStyle(.white.opacity(0.85))
+                .foregroundStyle(AppTheme.Colors.textSecondary)
             NavigationLink {
                 RegisterView()
             } label: {
                 Text("Hier registrieren")
-                    .underline()
-                    .foregroundStyle(AppTheme.Colors.info)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(AppTheme.Colors.accentBright)
             }
         }
         .font(AppTheme.Typography.subheadline)
@@ -122,7 +129,7 @@ struct LoginView: View {
             line
             Text("oder")
                 .font(AppTheme.Typography.footnote)
-                .foregroundStyle(.white.opacity(0.6))
+                .foregroundStyle(AppTheme.Colors.textTertiary)
                 .padding(.horizontal, AppTheme.Spacing.s)
             line
         }
@@ -130,7 +137,7 @@ struct LoginView: View {
     }
 
     private var line: some View {
-        Rectangle().fill(.white.opacity(0.4)).frame(height: 1)
+        Rectangle().fill(AppTheme.Colors.hairline).frame(height: 1)
     }
 
     private var socials: some View {

@@ -24,6 +24,7 @@ struct Sports_AlmanachApp: App {
 
     init() {
         FirebaseApp.configure()
+        AppTheme.configureUIKitAppearance()
         let session = AppSession(authService: AppContainer.shared.authService())
         _session = StateObject(wrappedValue: session)
         _userVM = StateObject(wrappedValue: UserViewModel(session: session))

@@ -36,7 +36,7 @@ struct RegisterView: View {
             .padding(.bottom, AppTheme.Spacing.xxl)
         }
         .scrollDismissesKeyboard(.immediately)
-        .appBackground(.photographic)
+        .appBackground(.gradient)
         .navigationBarTitleDisplayMode(.inline)
         .alert("Registrierung fehlgeschlagen",
                isPresented: Binding(get: { !userVM.formErrors.isEmpty || userVM.alertMessage != nil },
@@ -48,13 +48,14 @@ struct RegisterView: View {
     }
 
     private var header: some View {
-        VStack(spacing: AppTheme.Spacing.s) {
+        VStack(spacing: AppTheme.Spacing.m) {
             Image(systemName: "person.crop.circle.badge.plus")
-                .font(.system(size: 56))
-                .foregroundStyle(AppTheme.Colors.accent)
+                .font(.system(size: 60))
+                .foregroundStyle(AppTheme.Gradients.brand)
+                .accentGlow(radius: 24, opacity: 0.6)
             Text("Registrieren")
                 .font(AppTheme.Typography.largeTitle)
-                .foregroundStyle(.white)
+                .foregroundStyle(AppTheme.Colors.textPrimary)
         }
         .frame(maxWidth: .infinity)
     }
@@ -105,17 +106,20 @@ struct RegisterView: View {
     private var birthdayPicker: some View {
         VStack(alignment: .leading, spacing: AppTheme.Spacing.xs) {
             Text("Geburtsdatum")
-                .font(AppTheme.Typography.subheadline)
-                .foregroundStyle(.white.opacity(0.85))
+                .font(AppTheme.Typography.subheadline.weight(.semibold))
+                .foregroundStyle(AppTheme.Colors.textSecondary)
             HStack {
                 Image(systemName: "calendar")
+                    .font(.body.weight(.semibold))
                     .foregroundStyle(AppTheme.Colors.accent)
+                    .frame(width: 22)
                 DatePicker("",
                            selection: $birthday,
                            in: ...Date(),
                            displayedComponents: .date)
                     .datePickerStyle(.compact)
                     .labelsHidden()
+                    .tint(AppTheme.Colors.accent)
             }
             .padding(AppTheme.Spacing.m)
             .background(
@@ -124,17 +128,18 @@ struct RegisterView: View {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
-                    .strokeBorder(AppTheme.Colors.accent.opacity(0.6), lineWidth: 1)
+                    .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
             )
             Text("Mindestalter \(AppConstants.Validation.minimumAgeYears) Jahre.")
                 .font(AppTheme.Typography.footnote)
-                .foregroundStyle(.white.opacity(0.7))
+                .foregroundStyle(AppTheme.Colors.textTertiary)
         }
     }
 
     private var primaryAction: some View {
         PrimaryActionButton(
             title: "Registrieren",
+            icon: "checkmark.circle.fill",
             isEnabled: isFormValid,
             isLoading: userVM.isLoading,
             action: { Task { await submit() } }
@@ -147,8 +152,8 @@ struct RegisterView: View {
             LoginView()
         } label: {
             Text("Zurück zur Anmeldung")
-                .underline()
-                .foregroundStyle(AppTheme.Colors.info)
+                .fontWeight(.semibold)
+                .foregroundStyle(AppTheme.Colors.accentBright)
         }
         .font(AppTheme.Typography.subheadline)
     }

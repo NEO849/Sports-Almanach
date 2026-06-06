@@ -28,7 +28,7 @@ struct EventDetailView: View {
             .padding(AppTheme.Spacing.l)
         }
         .scrollIndicators(.hidden)
-        .appBackground(.photographic)
+        .appBackground(.gradient)
         .navigationTitle("Event-Details")
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -94,6 +94,11 @@ struct EventDetailView: View {
             RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
                 .fill(.ultraThinMaterial)
         )
+        .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
+        )
+        .appShadow(AppTheme.Shadow.medium)
     }
 
     private func teamColumn(name: String, badge: String?, score: Int?, label: String) -> some View {

@@ -23,7 +23,7 @@ struct EventView: View {
                         .foregroundStyle(.white)
                 }
             }
-            .appBackground(.photographic)
+            .appBackground(.gradient)
             .navigationTitle("Events")
             .toolbar { toolbar }
             .task {

@@ -29,6 +29,11 @@ struct StatisticRankRow: View {
             RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
                 .fill(.ultraThinMaterial)
         )
+        .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
+                .strokeBorder(rank <= 3 ? badgeColor.opacity(0.5) : AppTheme.Colors.strokeSubtle, lineWidth: 1)
+        )
+        .appShadow(AppTheme.Shadow.small)
     }
 
     private var badge: some View {
