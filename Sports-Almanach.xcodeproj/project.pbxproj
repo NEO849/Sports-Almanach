@@ -27,6 +27,8 @@
 		93974537AA0F8261FC5C1E46 /* BetSlip.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6124E9CB97F2F7913F0B59E /* BetSlip.swift */; };
 		A70D4E1C96FB73C81B60E79C /* AppContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2D04A3F80713FFAF57E8BD8 /* AppContainer.swift */; };
 		B50CD6102D838B6100A02643 /* BettingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B50CD60F2D838B5300A02643 /* BettingService.swift */; };
+		B524F9682FD4B43C00A4355D /* firestore 3.rules in Resources */ = {isa = PBXBuildFile; fileRef = B524F9672FD4B43C00A4355D /* firestore 3.rules */; };
+		B524F96A2FD4B4C500A4355D /* FIRESTORE_PERMISSION_FIX.md in Resources */ = {isa = PBXBuildFile; fileRef = B524F9692FD4B4C500A4355D /* FIRESTORE_PERMISSION_FIX.md */; };
 		B533F8462D307D1F00EC9B27 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B533F8452D307D1F00EC9B27 /* GoogleService-Info.plist */; };
 		B533F8482D307E6300EC9B27 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B533F8472D307E6300EC9B27 /* FirebaseAnalytics */; };
 		B533F84A2D307E6300EC9B27 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = B533F8492D307E6300EC9B27 /* FirebaseAnalyticsOnDeviceConversion */; };
@@ -111,6 +113,9 @@
 		B59DA04E2D9A16CF00DCA09E /* StatisticRankRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59DA04D2D9A16BB00DCA09E /* StatisticRankRow.swift */; };
 		B59DA0502D9A17E200DCA09E /* StatisticSlipDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59DA04F2D9A17DE00DCA09E /* StatisticSlipDetailView.swift */; };
 		B5A198612D52D1DF00619045 /* StatisticSlipRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A198602D52D1DF00619045 /* StatisticSlipRow.swift */; };
+		B5B6E2F42FD48F3100A4FA07 /* WETTEN_FEHLERANALYSE.md in Resources */ = {isa = PBXBuildFile; fileRef = B5B6E2F32FD48F3100A4FA07 /* WETTEN_FEHLERANALYSE.md */; };
+		B5B6E2F62FD4907300A4FA07 /* firestore 2.rules in Resources */ = {isa = PBXBuildFile; fileRef = B5B6E2F52FD4907300A4FA07 /* firestore 2.rules */; };
+		B5B6E2F82FD4909500A4FA07 /* SCHNELL_ANLEITUNG.md in Resources */ = {isa = PBXBuildFile; fileRef = B5B6E2F72FD4909500A4FA07 /* SCHNELL_ANLEITUNG.md */; };
 		B5C044782D30C84200590CD9 /* ProfileRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5C044772D30C83700590CD9 /* ProfileRepository.swift */; };
 		C1144A1BBFD750D092B8EF84 /* Money.swift in Sources */ = {isa = PBXBuildFile; fileRef = 889F4EB18C8FADA62836289A /* Money.swift */; };
 		CB524522A7EAA2363F4750B0 /* ProfileRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01B1499192F34A1FB07CB547 /* ProfileRepositoryProtocol.swift */; };
@@ -211,6 +216,8 @@
 		B1404C429AB06FADEF33EC6B /* BetStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetStatus.swift; sourceTree = "<group>"; };
 		B4AC4885BEAD82F58B24857B /* OddsCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OddsCalculator.swift; sourceTree = "<group>"; };
 		B50CD60F2D838B5300A02643 /* BettingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BettingService.swift; sourceTree = "<group>"; };
+		B524F9672FD4B43C00A4355D /* firestore 3.rules */ = {isa = PBXFileReference; lastKnownFileType = text; path = "firestore 3.rules"; sourceTree = "<group>"; };
+		B524F9692FD4B4C500A4355D /* FIRESTORE_PERMISSION_FIX.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FIRESTORE_PERMISSION_FIX.md; sourceTree = "<group>"; };
 		B533F8452D307D1F00EC9B27 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B5386C6E2FD488FE00B155FD /* firestore.rules */ = {isa = PBXFileReference; lastKnownFileType = text; path = firestore.rules; sourceTree = "<group>"; };
 		B5386C702FD4892100B155FD /* FIRESTORE_RULES_FIX.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = FIRESTORE_RULES_FIX.md; sourceTree = "<group>"; };
@@ -223,6 +230,9 @@
 		B59DA04D2D9A16BB00DCA09E /* StatisticRankRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticRankRow.swift; sourceTree = "<group>"; };
 		B59DA04F2D9A17DE00DCA09E /* StatisticSlipDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticSlipDetailView.swift; sourceTree = "<group>"; };
 		B5A198602D52D1DF00619045 /* StatisticSlipRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticSlipRow.swift; sourceTree = "<group>"; };
+		B5B6E2F32FD48F3100A4FA07 /* WETTEN_FEHLERANALYSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = WETTEN_FEHLERANALYSE.md; sourceTree = "<group>"; };
+		B5B6E2F52FD4907300A4FA07 /* firestore 2.rules */ = {isa = PBXFileReference; lastKnownFileType = text; path = "firestore 2.rules"; sourceTree = "<group>"; };
+		B5B6E2F72FD4909500A4FA07 /* SCHNELL_ANLEITUNG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = SCHNELL_ANLEITUNG.md; sourceTree = "<group>"; };
 		B5C044772D30C83700590CD9 /* ProfileRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileRepository.swift; sourceTree = "<group>"; };
 		DD734F829351F5CEA93F2A65 /* AppSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSession.swift; sourceTree = "<group>"; };
 		E6124E9CB97F2F7913F0B59E /* BetSlip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BetSlip.swift; sourceTree = "<group>"; };
@@ -628,6 +638,11 @@
 				B5386C702FD4892100B155FD /* FIRESTORE_RULES_FIX.md */,
 				B5386C722FD48BA400B155FD /* firestore.indexes.json */,
 				B5386C742FD48BE900B155FD /* firestore.indexes 2.json */,
+				B5B6E2F32FD48F3100A4FA07 /* WETTEN_FEHLERANALYSE.md */,
+				B5B6E2F52FD4907300A4FA07 /* firestore 2.rules */,
+				B5B6E2F72FD4909500A4FA07 /* SCHNELL_ANLEITUNG.md */,
+				B524F9672FD4B43C00A4355D /* firestore 3.rules */,
+				B524F9692FD4B4C500A4355D /* FIRESTORE_PERMISSION_FIX.md */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -805,15 +820,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B524F9682FD4B43C00A4355D /* firestore 3.rules in Resources */,
 				F0BB2F8F2CB74BB00034DB67 /* .swiftlint.yml in Resources */,
 				F04628802C88A759008FB346 /* Preview Assets.xcassets in Resources */,
+				B5B6E2F82FD4909500A4FA07 /* SCHNELL_ANLEITUNG.md in Resources */,
 				B533F8462D307D1F00EC9B27 /* GoogleService-Info.plist in Resources */,
 				B5386C6F2FD488FE00B155FD /* firestore.rules in Resources */,
 				B5386C752FD48BE900B155FD /* firestore.indexes 2.json in Resources */,
+				B524F96A2FD4B4C500A4355D /* FIRESTORE_PERMISSION_FIX.md in Resources */,
 				F05BC2D22CA7EA7D00562C51 /* splashintro.mp4 in Resources */,
+				B5B6E2F62FD4907300A4FA07 /* firestore 2.rules in Resources */,
 				F046287D2C88A758008FB346 /* Assets.xcassets in Resources */,
 				B5386C712FD4892100B155FD /* FIRESTORE_RULES_FIX.md in Resources */,
 				B5386C732FD48BA400B155FD /* firestore.indexes.json in Resources */,
+				B5B6E2F42FD48F3100A4FA07 /* WETTEN_FEHLERANALYSE.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
