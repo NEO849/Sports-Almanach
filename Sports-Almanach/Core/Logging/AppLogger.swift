@@ -37,7 +37,7 @@ public enum AppLogger {
         return new
     }
 
-    public static func debug(_ message: @autoclosure () -> String,
+    public static func debug(_ message: @escaping @autoclosure () -> String,
                              category: LogCategory = .lifecycle,
                              file: String = #fileID,
                              line: Int = #line) {
@@ -46,21 +46,21 @@ public enum AppLogger {
         #endif
     }
 
-    public static func info(_ message: @autoclosure () -> String,
+    public static func info(_ message: @escaping @autoclosure () -> String,
                             category: LogCategory = .lifecycle,
                             file: String = #fileID,
                             line: Int = #line) {
         logger(for: category).info("\(formatted(message(), file: file, line: line), privacy: .public)")
     }
 
-    public static func warning(_ message: @autoclosure () -> String,
+    public static func warning(_ message: @escaping @autoclosure () -> String,
                                category: LogCategory = .lifecycle,
                                file: String = #fileID,
                                line: Int = #line) {
         logger(for: category).warning("\(formatted(message(), file: file, line: line), privacy: .public)")
     }
 
-    public static func error(_ message: @autoclosure () -> String,
+    public static func error(_ message: @escaping @autoclosure () -> String,
                              category: LogCategory = .lifecycle,
                              file: String = #fileID,
                              line: Int = #line) {
@@ -69,7 +69,7 @@ public enum AppLogger {
 
     /// Use for failures we expect to investigate post-mortem (e.g. balance drift,
     /// repository corruption). Mark with `.fault` so it surfaces in Crashlytics.
-    public static func fault(_ message: @autoclosure () -> String,
+    public static func fault(_ message: @escaping @autoclosure () -> String,
                              category: LogCategory = .lifecycle,
                              file: String = #fileID,
                              line: Int = #line) {

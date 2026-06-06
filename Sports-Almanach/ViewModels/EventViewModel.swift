@@ -29,7 +29,7 @@ public final class EventViewModel: ObservableObject {
 
     @Published public var selectedLeague: League = .default
     @Published public var selectedSeason: Season = .default
-    @Published public var selectedSport: Sport = .default
+    @Published public var selectedSport: Sport = .defaultSport
 
     private let eventRepository: EventRepositoryProtocol
     private let session: AppSession
