@@ -180,3 +180,9 @@ struct RegisterView: View {
         )
     }
 }
+
+#if DEBUG
+#Preview("Register") {
+    NavigationStack { RegisterView() }.previewEnvironment()
+}
+#endif

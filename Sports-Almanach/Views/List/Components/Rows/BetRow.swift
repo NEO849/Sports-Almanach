@@ -152,3 +152,13 @@ struct BetRow: View {
         return formatter.string(from: value as NSDecimalNumber) ?? "\(value)"
     }
 }
+
+#if DEBUG
+#Preview("BetRow") {
+    BetRow(event: Mocks.events[2])
+        .padding()
+        .frame(maxHeight: .infinity)
+        .appBackground(.gradient)
+        .previewEnvironment()
+}
+#endif

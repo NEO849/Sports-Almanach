@@ -84,3 +84,14 @@ struct SectionView: View {
         .animation(AppTheme.Motion.snappy, value: expandedSection)
     }
 }
+
+#if DEBUG
+#Preview("SectionList") {
+    ScrollView {
+        SectionListView(expandedSection: .constant("Wetten"))
+            .padding()
+    }
+    .frame(maxHeight: .infinity)
+    .appBackground(.gradient)
+}
+#endif

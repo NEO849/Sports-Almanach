@@ -108,3 +108,18 @@ struct InputField: View {
         }
     }
 }
+
+#if DEBUG
+#Preview("InputField") {
+    VStack(spacing: AppTheme.Spacing.l) {
+        InputField(title: "Email", placeholder: "name@beispiel.de",
+                   systemImage: "envelope", text: .constant("max@beispiel.de"),
+                   contentType: .emailAddress, keyboard: .emailAddress)
+        InputField(title: "Passwort", placeholder: "Mindestens 8 Zeichen",
+                   systemImage: "lock", text: .constant("geheim123"), isSecure: true)
+    }
+    .padding()
+    .frame(maxHeight: .infinity)
+    .appBackground(.gradient)
+}
+#endif

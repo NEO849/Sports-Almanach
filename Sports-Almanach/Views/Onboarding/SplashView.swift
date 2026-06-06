@@ -75,3 +75,10 @@ struct SplashView: View {
         )
     }
 }
+
+#if DEBUG
+#Preview("Splash") {
+    SplashView(onFinished: {})
+        .preferredColorScheme(.dark)
+}
+#endif

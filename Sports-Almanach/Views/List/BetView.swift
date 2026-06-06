@@ -99,3 +99,9 @@ struct BetView: View {
         }
     }
 }
+
+#if DEBUG
+#Preview("Wetten") {
+    BetView().previewEnvironment()
+}
+#endif

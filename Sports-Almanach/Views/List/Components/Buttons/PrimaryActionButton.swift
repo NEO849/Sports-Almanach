@@ -94,3 +94,16 @@ struct PressableButtonStyle: ButtonStyle {
             .animation(AppTheme.Motion.snappy, value: configuration.isPressed)
     }
 }
+
+#if DEBUG
+#Preview("PrimaryActionButton") {
+    VStack(spacing: AppTheme.Spacing.l) {
+        PrimaryActionButton(title: "Login", icon: "arrow.right.circle.fill") {}
+        PrimaryActionButton(title: "Lädt", isLoading: true) {}
+        PrimaryActionButton(title: "Deaktiviert", isEnabled: false) {}
+    }
+    .padding()
+    .frame(maxHeight: .infinity)
+    .appBackground(.gradient)
+}
+#endif

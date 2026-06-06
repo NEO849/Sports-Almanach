@@ -44,3 +44,15 @@ struct SocialLoginButton: View {
         .accessibilityLabel("Mit \(title) anmelden")
     }
 }
+
+#if DEBUG
+#Preview("SocialLoginButton") {
+    VStack(spacing: AppTheme.Spacing.l) {
+        SocialLoginButton(title: "Google", icon: "g.circle.fill", platform: .google) {}
+        SocialLoginButton(title: "Apple", icon: "apple.logo", platform: .apple) {}
+    }
+    .padding()
+    .frame(maxHeight: .infinity)
+    .appBackground(.gradient)
+}
+#endif

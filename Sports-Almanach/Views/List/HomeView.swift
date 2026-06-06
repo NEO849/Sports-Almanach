@@ -84,3 +84,9 @@ struct HomeView: View {
         .padding(.horizontal, AppTheme.Spacing.l)
     }
 }
+
+#if DEBUG
+#Preview("Home") {
+    HomeView().previewEnvironment()
+}
+#endif

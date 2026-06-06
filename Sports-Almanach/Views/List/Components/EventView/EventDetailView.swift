@@ -154,3 +154,10 @@ struct EventDetailView: View {
         )
     }
 }
+
+#if DEBUG
+#Preview("Event-Detail") {
+    NavigationStack { EventDetailView(event: Mocks.events[0]) }
+        .previewEnvironment()
+}
+#endif

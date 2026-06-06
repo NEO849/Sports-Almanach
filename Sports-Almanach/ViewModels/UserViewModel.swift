@@ -209,3 +209,18 @@ public final class UserViewModel: ObservableObject {
         }
     }
 }
+
+#if DEBUG
+extension UserViewModel {
+    /// Pre-seeded ViewModel for Canvas previews (profile, balance, ranking).
+    static func preview(session: AppSession,
+                        profile: Profile? = Mocks.profiles.first,
+                        ranked: [Profile] = Mocks.profiles) -> UserViewModel {
+        let vm = UserViewModel(session: session, profileRepository: PreviewProfileRepository())
+        vm.profile = profile
+        vm.balance = profile?.balance ?? AppConstants.Balances.startingBalance
+        vm.rankedUsers = ranked.sorted { $0.balance > $1.balance }
+        return vm
+    }
+}
+#endif

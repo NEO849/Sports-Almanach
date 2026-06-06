@@ -72,3 +72,14 @@ struct StatisticSlipRow: View {
         }
     }
 }
+
+#if DEBUG
+#Preview("StatisticSlipRow") {
+    VStack(spacing: AppTheme.Spacing.m) {
+        ForEach(Mocks.betSlips) { StatisticSlipRow(betSlip: $0) }
+    }
+    .padding()
+    .frame(maxHeight: .infinity)
+    .appBackground(.gradient)
+}
+#endif

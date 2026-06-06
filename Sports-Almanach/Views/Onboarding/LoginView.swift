@@ -163,3 +163,9 @@ struct LoginView: View {
         await userVM.login(email: email, password: password)
     }
 }
+
+#if DEBUG
+#Preview("Login") {
+    NavigationStack { LoginView() }.previewEnvironment()
+}
+#endif

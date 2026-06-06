@@ -114,3 +114,10 @@ struct StatisticSlipDetailView: View {
         return f.string(from: value as NSDecimalNumber) ?? "\(value)"
     }
 }
+
+#if DEBUG
+#Preview("Wettschein-Detail") {
+    NavigationStack { StatisticSlipDetailView(betSlip: Mocks.betSlips[0]) }
+        .previewEnvironment()
+}
+#endif

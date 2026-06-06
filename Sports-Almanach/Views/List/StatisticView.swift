@@ -88,3 +88,9 @@ struct StatisticView: View {
             .frame(maxWidth: .infinity, alignment: .center)
     }
 }
+
+#if DEBUG
+#Preview("Statistik") {
+    StatisticView().previewEnvironment()
+}
+#endif

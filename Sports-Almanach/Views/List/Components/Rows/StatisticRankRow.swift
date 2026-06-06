@@ -56,3 +56,16 @@ struct StatisticRankRow: View {
         }
     }
 }
+
+#if DEBUG
+#Preview("StatisticRankRow") {
+    VStack(spacing: AppTheme.Spacing.m) {
+        StatisticRankRow(rank: 1, profile: Mocks.profiles[2])
+        StatisticRankRow(rank: 2, profile: Mocks.profiles[0])
+        StatisticRankRow(rank: 4, profile: Mocks.profiles[1])
+    }
+    .padding()
+    .frame(maxHeight: .infinity)
+    .appBackground(.gradient)
+}
+#endif

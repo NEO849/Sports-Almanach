@@ -62,3 +62,11 @@ struct StyledBannerImageView: View {
             .appShadow(AppTheme.Shadow.small)
     }
 }
+
+#if DEBUG
+#Preview("Banner") {
+    AutoScrollingBannerView(bannerImages: Banner.defaultBanners)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .appBackground(.gradient)
+}
+#endif

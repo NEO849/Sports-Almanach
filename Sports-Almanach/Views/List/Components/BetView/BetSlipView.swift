@@ -168,3 +168,9 @@ struct BetSlipView: View {
         }
     }
 }
+
+#if DEBUG
+#Preview("Wettschein") {
+    BetSlipView().previewEnvironment()
+}
+#endif

@@ -125,3 +125,24 @@ public final class BetViewModel: ObservableObject {
         lastError = nil
     }
 }
+
+#if DEBUG
+extension BetViewModel {
+    /// Pre-seeded ViewModel for Canvas previews (draft slip + history).
+    static func preview(session: AppSession,
+                        draft: [Bet] = Array(Mocks.bets.prefix(2)),
+                        history: [BetSlip] = Mocks.betSlips,
+                        stake: Money = Money(10)) -> BetViewModel {
+        let vm = BetViewModel(
+            session: session,
+            bettingService: PreviewServices.bettingService(),
+            betRepository: PreviewBetRepository(),
+            eventRepository: PreviewEventRepository()
+        )
+        vm.draftBets = draft
+        vm.loadedSlips = history
+        vm.setStake(stake)
+        return vm
+    }
+}
+#endif

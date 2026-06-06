@@ -108,3 +108,9 @@ struct EventView: View {
             .foregroundStyle(.white)
     }
 }
+
+#if DEBUG
+#Preview("Events") {
+    EventView().previewEnvironment()
+}
+#endif

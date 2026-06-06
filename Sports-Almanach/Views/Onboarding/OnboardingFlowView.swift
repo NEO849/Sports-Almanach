@@ -15,3 +15,9 @@ struct OnboardingFlowView: View {
         }
     }
 }
+
+#if DEBUG
+#Preview("Onboarding") {
+    OnboardingFlowView().previewEnvironment()
+}
+#endif

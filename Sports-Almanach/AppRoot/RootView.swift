@@ -34,3 +34,9 @@ struct RootView: View {
         .tint(AppTheme.Colors.accent)
     }
 }
+
+#if DEBUG
+#Preview("Root") {
+    RootView().previewEnvironment()
+}
+#endif

@@ -21,3 +21,11 @@ struct Title: View {
             .accessibilityAddTraits(.isHeader)
     }
 }
+
+#if DEBUG
+#Preview("Title") {
+    Title(title: "Sports Almanach")
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .appBackground(.gradient)
+}
+#endif

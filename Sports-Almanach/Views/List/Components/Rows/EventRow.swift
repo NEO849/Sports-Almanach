@@ -106,3 +106,13 @@ struct EventRow: View {
         return name
     }
 }
+
+#if DEBUG
+#Preview("EventRow") {
+    EventRow(event: Mocks.events[0])
+        .padding()
+        .frame(maxHeight: .infinity)
+        .appBackground(.gradient)
+        .previewEnvironment()
+}
+#endif

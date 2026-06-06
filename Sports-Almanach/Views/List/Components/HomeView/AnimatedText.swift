@@ -31,3 +31,12 @@ struct AnimatedText: View {
             }
     }
 }
+
+#if DEBUG
+#Preview("AnimatedText") {
+    AnimatedText()
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .appBackground(.gradient)
+}
+#endif

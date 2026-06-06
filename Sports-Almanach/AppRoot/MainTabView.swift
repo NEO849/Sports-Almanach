@@ -56,3 +56,9 @@ enum AppTab: String, Hashable, CaseIterable {
         }
     }
 }
+
+#if DEBUG
+#Preview("MainTab") {
+    MainTabView().previewEnvironment()
+}
+#endif
