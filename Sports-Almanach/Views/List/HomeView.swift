@@ -12,6 +12,7 @@ import SwiftUI
 struct HomeView: View {
 
     @EnvironmentObject private var userVM: UserViewModel
+    @EnvironmentObject private var betVM: BetViewModel
     @EnvironmentObject private var session: AppSession
     @State private var expandedSection: String?
 
@@ -40,6 +41,12 @@ struct HomeView: View {
             .appBackground(.gradient)
             .toolbar { toolbar }
             .navigationBarTitleDisplayMode(.inline)
+            .task {
+                // Settle any finished bets and pull the latest balance so the
+                // headline figure is always current when landing on Home.
+                await betVM.refreshHistory()
+                await userVM.refreshBalance()
+            }
         }
     }
 

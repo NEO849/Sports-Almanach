@@ -34,10 +34,12 @@ struct StatisticView: View {
             .task {
                 await userVM.loadAndSortRankedUsers()
                 await betVM.refreshHistory()
+                await userVM.refreshBalance()
             }
             .refreshable {
                 await userVM.loadAndSortRankedUsers()
                 await betVM.refreshHistory()
+                await userVM.refreshBalance()
             }
         }
     }

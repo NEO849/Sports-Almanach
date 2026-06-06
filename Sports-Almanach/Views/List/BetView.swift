@@ -31,6 +31,7 @@ struct BetView: View {
                     .presentationDetents([.large, .fraction(0.85)])
                     .presentationDragIndicator(.visible)
             }
+            .task { await userVM.refreshBalance() }
         }
     }
 

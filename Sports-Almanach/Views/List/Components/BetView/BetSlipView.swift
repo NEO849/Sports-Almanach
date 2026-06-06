@@ -161,6 +161,9 @@ struct BetSlipView: View {
     private func place() async {
         let succeeded = await betVM.placeSlip()
         if succeeded {
+            // placeSlip debits the stake (and may settle/credit a finished bet)
+            // inside Firestore transactions — pull the new balance into the UI.
+            await userVM.refreshBalance()
             dismiss()
         } else {
             alertMessage = betVM.lastError ?? "Wette konnte nicht platziert werden."
