@@ -90,8 +90,16 @@ service cloud.firestore {
       allow delete: if false;
 
       match /bets/{betID} {
-        allow read, write: if signedIn()
-                           && get(/databases/$(database)/documents/BetSlips/$(slipID)).data.userID == request.auth.uid;
+        // Placing a slip writes the parent slip AND its /bets in ONE atomic
+        // transaction. Inside that commit get()/exists() still see the
+        // pre-transaction state, so the parent slip does not exist yet while
+        // the bets are written — a plain get(parent).userID reads null and the
+        // whole transaction is denied. Allow the write when the parent is
+        // owned by the caller OR not yet created (being created in this commit).
+        allow read, write: if signedIn() && (
+          !exists(/databases/$(database)/documents/BetSlips/$(slipID))
+          || get(/databases/$(database)/documents/BetSlips/$(slipID)).data.userID == request.auth.uid
+        );
       }
     }
 
