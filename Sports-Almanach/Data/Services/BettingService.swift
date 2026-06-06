@@ -74,11 +74,36 @@ public final class BettingService: @unchecked Sendable {
                     updatedBets.append(bet)
                     continue
                 }
-                guard let event = try? await eventLookup(bet.event.eventID) else {
-                    updatedBets.append(bet)
-                    continue
+
+                // 1) Resolve from the result captured at placement time (offline,
+                //    deterministic). For a match that was already finished when the
+                //    bet was placed this immediately yields won/lost.
+                var resolved = Self.resolve(
+                    tip: bet.userTip,
+                    odds: bet.odds,
+                    homeScore: bet.event.homeScore,
+                    awayScore: bet.event.awayScore,
+                    isFinished: bet.event.isFinished == true,
+                    isVoided: false,
+                    stake: slip.stake,
+                    betCount: slip.bets.count
+                )
+
+                // 2) Still pending? The match may have finished AFTER placement —
+                //    best-effort live refetch (silently skipped if API unavailable).
+                if resolved.status == .pending, let event = try? await eventLookup(bet.event.eventID) {
+                    resolved = Self.resolve(
+                        tip: bet.userTip,
+                        odds: bet.odds,
+                        homeScore: event.homeScore,
+                        awayScore: event.awayScore,
+                        isFinished: event.status == .finished,
+                        isVoided: event.status == .cancelled || event.status == .postponed,
+                        stake: slip.stake,
+                        betCount: slip.bets.count
+                    )
                 }
-                let resolved = Self.resolve(bet: bet, with: event, stake: slip.stake, betCount: slip.bets.count)
+
                 if resolved.status != bet.status {
                     bet.status = resolved.status
                     bet.winAmount = resolved.winAmount
@@ -112,27 +137,31 @@ public final class BettingService: @unchecked Sendable {
 
     // MARK: - Per-bet resolution
 
-    /// Maps an event's outcome back to the user's tip.
+    /// Maps a final score back to the user's tip. Pure & source-agnostic: the
+    /// score/flags come either from the bet's embedded snapshot or a live refetch.
     /// Stake is split evenly between bets — used for `.partiallyWon` payouts.
-    private static func resolve(bet: Bet, with event: Event, stake: Money, betCount: Int) -> (status: BetStatus, winAmount: Money?) {
-        switch event.status {
-        case .cancelled, .postponed:
-            // Refund — void bet.
-            let perBet = stake * (1 / Decimal(betCount))
-            return (.void, perBet.rounded())
-        case .scheduled, .inProgress:
-            return (.pending, nil)
-        case .finished:
-            guard let actual = MatchOutcome.from(homeScore: event.homeScore, awayScore: event.awayScore) else {
-                return (.void, (stake * (1 / Decimal(betCount))).rounded())
-            }
-            if bet.userTip.stableID == actual.stableID {
-                let perBet = stake * (1 / Decimal(betCount))
-                let payout = (perBet * bet.odds).rounded()
-                return (.won, payout)
-            } else {
-                return (.lost, nil)
-            }
+    private static func resolve(tip: AnyOutcome,
+                                odds: Decimal,
+                                homeScore: Int?,
+                                awayScore: Int?,
+                                isFinished: Bool,
+                                isVoided: Bool,
+                                stake: Money,
+                                betCount: Int) -> (status: BetStatus, winAmount: Money?) {
+        let perBet = stake * (1 / Decimal(betCount))
+
+        if isVoided {
+            return (.void, perBet.rounded())            // cancelled / postponed → refund
         }
+        guard isFinished else {
+            return (.pending, nil)                      // not played yet
+        }
+        guard let actual = MatchOutcome.from(homeScore: homeScore, awayScore: awayScore) else {
+            return (.void, perBet.rounded())            // finished but no usable score
+        }
+        if tip.stableID == actual.stableID {
+            return (.won, (perBet * odds).rounded())    // correct tip → payout
+        }
+        return (.lost, nil)
     }
 }

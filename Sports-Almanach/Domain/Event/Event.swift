@@ -86,7 +86,10 @@ public struct Event: Identifiable, Codable, Hashable, Sendable {
             sport: sport,
             homeTeam: homeTeam,
             awayTeam: awayTeam,
-            kickoffISO: kickoffISO
+            kickoffISO: kickoffISO,
+            homeScore: homeScore,
+            awayScore: awayScore,
+            isFinished: status == .finished
         )
     }
 

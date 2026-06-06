@@ -98,13 +98,21 @@ public final class BetViewModel: ObservableObject {
 
     public func refreshHistory() async {
         guard let userID = session.currentUser?.id else { return }
+
+        // Settlement is best-effort and must NEVER block loading the history —
+        // otherwise a single settle failure hides the user's whole slip list.
         do {
             try await bettingService.settlePendingSlips(forUser: userID) { [eventRepository] eventID in
                 try await eventRepository.fetchEvent(id: eventID)
             }
+        } catch {
+            AppLogger.error("Settlement failed (continuing to load history): \(error.localizedDescription)", category: .betting)
+        }
+
+        do {
             loadedSlips = try await betRepository.loadSlips(userID: userID)
         } catch {
-            AppLogger.error("Bet history refresh failed: \(error.localizedDescription)", category: .betting)
+            AppLogger.error("Loading slip history failed: \(error.localizedDescription)", category: .betting)
         }
     }
 
