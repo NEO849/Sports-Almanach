@@ -14,6 +14,7 @@ struct LoginView: View {
 
     @EnvironmentObject private var userVM: UserViewModel
     @FocusState private var focused: Field?
+    @State private var showRegister = false
 
     @State private var email: String = ""
     @State private var password: String = ""
@@ -42,6 +43,9 @@ struct LoginView: View {
         .appBackground(.gradient)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
+        .navigationDestination(isPresented: $showRegister) {
+            RegisterView()
+        }
         .alert("Fehler",
                isPresented: Binding(get: { userVM.alertMessage != nil }, set: { _ in userVM.clearAlert() })) {
             Button("OK", role: .cancel) { password = "" }
@@ -113,8 +117,8 @@ struct LoginView: View {
         HStack(spacing: AppTheme.Spacing.xs) {
             Text("Noch keinen Account?")
                 .foregroundStyle(AppTheme.Colors.textSecondary)
-            NavigationLink {
-                RegisterView()
+            Button {
+                showRegister = true
             } label: {
                 Text("Hier registrieren")
                     .fontWeight(.semibold)

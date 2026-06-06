@@ -1,0 +1,51 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Helper function to check if user is accessing their own data
+    function isOwner(userID) {
+      return isAuthenticated() && request.auth.uid == userID;
+    }
+    
+    // Profile collection
+    match /Profile/{userID} {
+      // Users can read and write their own profile
+      allow read, write: if isOwner(userID);
+      
+      // User events subcollection
+      match /events/{eventID} {
+        allow read, write: if isOwner(userID);
+      }
+    }
+    
+    // BetSlips collection
+    match /BetSlips/{slipID} {
+      // Users can read their own bet slips
+      allow read: if isAuthenticated() && resource.data.userID == request.auth.uid;
+      
+      // Users can create bet slips for themselves
+      allow create: if isAuthenticated() && request.resource.data.userID == request.auth.uid;
+      
+      // Users can update their own bet slips (for settlement)
+      allow update: if isAuthenticated() && resource.data.userID == request.auth.uid;
+      
+      // Bets subcollection within a slip
+      match /bets/{betID} {
+        // Users can read and write bets in their own slips
+        allow read, write: if isAuthenticated() && 
+                              get(/databases/$(database)/documents/BetSlips/$(slipID)).data.userID == request.auth.uid;
+      }
+    }
+    
+    // Default: deny all other access
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -8,6 +8,7 @@ import SwiftUI
 struct RegisterView: View {
 
     @EnvironmentObject private var userVM: UserViewModel
+    @Environment(\.dismiss) private var dismiss
     @FocusState private var focused: Field?
 
     @State private var username = ""
@@ -148,8 +149,8 @@ struct RegisterView: View {
     }
 
     private var backToLogin: some View {
-        NavigationLink {
-            LoginView()
+        Button {
+            dismiss()
         } label: {
             Text("Zurück zur Anmeldung")
                 .fontWeight(.semibold)
