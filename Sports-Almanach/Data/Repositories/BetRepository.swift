@@ -190,13 +190,11 @@ public final class BetRepository: BetRepositoryProtocol, @unchecked Sendable {
         let credit = slip.winAmount ?? .zero
 
         try await firestore.runTransaction({ transaction, errorPointer -> Any? in
-            transaction.setData(slipPayload, forDocument: slipRef, merge: true)
-            for (betID, payload) in betPayloads {
-                let betRef = slipRef
-                    .collection(AppConstants.FirestoreCollections.betSlipBetsSubcollection)
-                    .document(betID)
-                transaction.setData(payload, forDocument: betRef, merge: true)
-            }
+            // 1) READS ZUERST. Firestore-Transaktionen verlangen, dass ALLE Reads
+            //    vor ALLEN Writes passieren. Der bisherige Code las das Profil NACH
+            //    den setData-Writes — das warf bei jedem Gewinn (credit > 0) und
+            //    ließ den Slip "pending" stehen (Gewinn nie gutgeschrieben).
+            var encodedNewBalance: [String: Any]? = nil
             if credit.isPositive {
                 let profileSnap: DocumentSnapshot
                 do {
@@ -212,14 +210,25 @@ public final class BetRepository: BetRepositoryProtocol, @unchecked Sendable {
                     errorPointer?.pointee = AppErrors.Bet.balanceUnreadable as NSError
                     return nil
                 }
-                let newBalance = currentBalance + credit
                 do {
-                    let encodedBalance = try Self.encodeBalance(newBalance)
-                    transaction.updateData(["balance": encodedBalance], forDocument: profileRef)
+                    encodedNewBalance = try Self.encodeBalance(currentBalance + credit)
                 } catch {
                     errorPointer?.pointee = error as NSError
                     return nil
                 }
+            }
+
+            // 2) WRITES DANACH. Slip + Bets aktualisieren und – falls gewonnen –
+            //    den Gewinn gutschreiben.
+            transaction.setData(slipPayload, forDocument: slipRef, merge: true)
+            for (betID, payload) in betPayloads {
+                let betRef = slipRef
+                    .collection(AppConstants.FirestoreCollections.betSlipBetsSubcollection)
+                    .document(betID)
+                transaction.setData(payload, forDocument: betRef, merge: true)
+            }
+            if let encodedNewBalance {
+                transaction.updateData(["balance": encodedNewBalance], forDocument: profileRef)
             }
             return nil
         })
