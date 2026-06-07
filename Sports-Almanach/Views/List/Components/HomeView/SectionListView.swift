@@ -2,99 +2,96 @@
 //  SectionListView.swift
 //  Sports-Almanach
 //
-//  Created by Michael Fleps on 17.11.24.
+//  Home "what's inside" accordion. Re-skinned onto the design system: token
+//  spacing, dark glass cards, a brand-orange chevron and a soft accent glow on
+//  the expanded card so the focus reads instantly.
 //
 
 import SwiftUI
 
 struct SectionListView: View {
     @Binding var expandedSection: String?
-    
+
+    private let sections: [(name: String, icon: String, blurb: String)] = [
+        ("Events", "calendar", "Hier findest du eine riesige Auswahl an Events von verschiedenen Sportarten."),
+        ("Event-Details", "play.rectangle.fill", "Infos jeglicher Art, das Spiel als Video verfolgen und deine Lieblingsszenen anschauen."),
+        ("Wetten", "dollarsign.circle.fill", "Zeig dein Können als Sport-Analyst, teste dein Wissen und wette auf spannende Spiele."),
+        ("Statistiken", "chart.line.uptrend.xyaxis", "Behalte den Überblick: Ranglisten und vieles mehr.")
+    ]
+
     var body: some View {
-        VStack(spacing: 10) {
-            SectionView(sectionName: "Events", expandedSection: $expandedSection)
-                .frame(minHeight: 80)
-            SectionView(sectionName: "Event-Details", expandedSection: $expandedSection)
-                .frame(minHeight: 80)
-            SectionView(sectionName: "Wetten", expandedSection: $expandedSection)
-                .frame(minHeight: 80)
-            SectionView(sectionName: "Statistiken", expandedSection: $expandedSection)
-                .frame(minHeight: 80)
+        VStack(spacing: AppTheme.Spacing.m) {
+            ForEach(sections, id: \.name) { section in
+                SectionView(
+                    sectionName: section.name,
+                    icon: section.icon,
+                    blurb: section.blurb,
+                    expandedSection: $expandedSection
+                )
+            }
         }
-        .padding(.horizontal, 32)
-        .padding(.vertical, 20)
     }
 }
 
 struct SectionView: View {
     let sectionName: String
+    let icon: String
+    let blurb: String
     @Binding var expandedSection: String?
-    
-    private var isExpanded: Bool {
-        expandedSection == sectionName
-    }
-    
-    // Opazität für nicht ausgewählte Sektionen
+
+    private var isExpanded: Bool { expandedSection == sectionName }
+
     private var sectionOpacity: Double {
-        expandedSection == nil || expandedSection == sectionName ? 1.0 : 0.3
+        expandedSection == nil || expandedSection == sectionName ? 1.0 : 0.35
     }
-    
+
     var body: some View {
-        VStack {
-            DisclosureGroup(isExpanded: Binding(
-                get: { isExpanded },
-                set: { expandedSection = $0 ? sectionName : nil }
-            )) {
-                switch sectionName {
-                case "Events":
-                    Text("Hier findest du eine riesige Auswahl an Events von verschiedenen Sportarten.")
-                        .font(.title3)
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                case "Event-Details":
-                    Text("Infos jeglicher Art, das Spiel als Video verfolgen und deine Lieblingsszenen anschauen.")
-                        .font(.title3)
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                case "Wetten":
-                    Text("Zeig dein Können als Sport-Analyst, teste dein Wissen und wette auf spannende Spiele.")
-                        .font(.title3)
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                case "Statistiken":
-                    Text("Behalte den Überblick Ranglisten uvm.")
-                        .font(.title3)
-                        .foregroundColor(.white)
-                        .multilineTextAlignment(.center)
-                        .padding()
-                default:
-                    Text("Default")
-                }
-            } label: {
-                HStack {
-                    Text(sectionName)
-                        .font(.headline)
-                        .foregroundColor(.orange)
-                        .padding()
-                    Spacer()
-                }
+        DisclosureGroup(isExpanded: Binding(
+            get: { isExpanded },
+            set: { expandedSection = $0 ? sectionName : nil }
+        )) {
+            Text(blurb)
+                .font(AppTheme.Typography.callout)
+                .foregroundStyle(AppTheme.Colors.textSecondary)
+                .multilineTextAlignment(.leading)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.top, AppTheme.Spacing.s)
+        } label: {
+            HStack(spacing: AppTheme.Spacing.m) {
+                Image(systemName: icon)
+                    .font(.headline)
+                    .foregroundStyle(AppTheme.Gradients.brand)
+                    .frame(width: 26)
+                Text(sectionName)
+                    .font(AppTheme.Typography.headline)
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+                Spacer()
             }
-            .padding()
-            .background(
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(isExpanded ? Color.black.opacity(0.4) : Color.black.opacity(0.1))
-                    .shadow(
-                        color: isExpanded ? .black : .orange,
-                        radius: isExpanded ? 10 : 1
-                    )
-            )
-            .cornerRadius(10)
-            .padding(.horizontal, 16)
-            .opacity(sectionOpacity)  // Dynamische Opazität für nicht ausgewählte Sektionen
-            .animation(.easeInOut, value: expandedSection)
         }
+        .tint(AppTheme.Colors.accent)
+        .padding(AppTheme.Spacing.l)
+        .background(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                .fill(.ultraThinMaterial)
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                .strokeBorder(isExpanded ? AppTheme.Colors.accent.opacity(0.55) : AppTheme.Colors.strokeSubtle,
+                              lineWidth: 1)
+        )
+        .shadow(color: AppTheme.Colors.accent.opacity(isExpanded ? 0.28 : 0), radius: 16, y: 8)
+        .opacity(sectionOpacity)
+        .animation(AppTheme.Motion.snappy, value: expandedSection)
     }
 }
+
+#if DEBUG
+#Preview("SectionList") {
+    ScrollView {
+        SectionListView(expandedSection: .constant("Wetten"))
+            .padding()
+    }
+    .frame(maxHeight: .infinity)
+    .appBackground(.gradient)
+}
+#endif

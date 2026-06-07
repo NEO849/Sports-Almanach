@@ -57,7 +57,16 @@ struct StyledBannerImageView: View {
             .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous))
             .overlay(
                 RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
-                    .strokeBorder(AppTheme.Colors.accent.opacity(0.5), lineWidth: 1)
+                    .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
             )
+            .appShadow(AppTheme.Shadow.small)
     }
 }
+
+#if DEBUG
+#Preview("Banner") {
+    AutoScrollingBannerView(bannerImages: Banner.defaultBanners)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .appBackground(.gradient)
+}
+#endif

@@ -128,6 +128,16 @@ public final class UserViewModel: ObservableObject {
         }
     }
 
+    /// Re-reads the profile from Firestore so the UI balance reflects
+    /// server-side changes made by the betting transactions (stake debit on
+    /// placement, win credit on settlement). The balance is debited/credited
+    /// inside BetRepository's transactions, which this ViewModel doesn't observe
+    /// directly — so call this after placing a slip and after settlement.
+    public func refreshBalance() async {
+        guard let userID = profile?.id ?? session.currentUser?.id else { return }
+        await loadProfile(userID: userID)
+    }
+
     /// Update the balance — Firestore first, then publish.
     @discardableResult
     public func setBalance(_ newBalance: Money) async -> Bool {
@@ -209,3 +219,18 @@ public final class UserViewModel: ObservableObject {
         }
     }
 }
+
+#if DEBUG
+extension UserViewModel {
+    /// Pre-seeded ViewModel for Canvas previews (profile, balance, ranking).
+    static func preview(session: AppSession,
+                        profile: Profile? = Mocks.profiles.first,
+                        ranked: [Profile] = Mocks.profiles) -> UserViewModel {
+        let vm = UserViewModel(session: session, profileRepository: PreviewProfileRepository())
+        vm.profile = profile
+        vm.balance = profile?.balance ?? AppConstants.Balances.startingBalance
+        vm.rankedUsers = ranked.sorted { $0.balance > $1.balance }
+        return vm
+    }
+}
+#endif

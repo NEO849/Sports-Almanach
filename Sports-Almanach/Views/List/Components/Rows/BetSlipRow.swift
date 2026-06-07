@@ -30,6 +30,11 @@ struct BetSlipRow: View {
             RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
                 .fill(.ultraThinMaterial)
         )
+        .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
+                .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
+        )
+        .appShadow(AppTheme.Shadow.small)
     }
 
     private var oddsChip: some View {
@@ -38,7 +43,7 @@ struct BetSlipRow: View {
             .padding(.horizontal, AppTheme.Spacing.s)
             .padding(.vertical, AppTheme.Spacing.xxs)
             .background(
-                Capsule().fill(.white)
+                RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous).fill(.white)
             )
             .foregroundStyle(.black)
     }
@@ -49,7 +54,7 @@ struct BetSlipRow: View {
             .padding(.horizontal, AppTheme.Spacing.s)
             .padding(.vertical, AppTheme.Spacing.xxs)
             .background(
-                Capsule().fill(outcomeColor.opacity(0.7))
+                RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous).fill(outcomeColor.opacity(0.7))
             )
             .foregroundStyle(.white)
     }
@@ -70,3 +75,15 @@ struct BetSlipRow: View {
         return f.string(from: value as NSDecimalNumber) ?? "\(value)"
     }
 }
+
+#if DEBUG
+#Preview("BetSlipRow") {
+    VStack(spacing: AppTheme.Spacing.m) {
+        BetSlipRow(index: 0, bet: Mocks.bets[0])
+        BetSlipRow(index: 1, bet: Mocks.bets[1])
+    }
+    .padding()
+    .frame(maxHeight: .infinity)
+    .appBackground(.gradient)
+}
+#endif

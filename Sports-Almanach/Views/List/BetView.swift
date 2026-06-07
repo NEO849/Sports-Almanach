@@ -23,7 +23,7 @@ struct BetView: View {
                 topBar
                 betCandidatesList
             }
-            .appBackground(.photographic)
+            .appBackground(.gradient)
             .navigationTitle("Wetten")
             .navigationBarTitleDisplayMode(.inline)
             .sheet(isPresented: $presentingSlip) {
@@ -31,6 +31,7 @@ struct BetView: View {
                     .presentationDetents([.large, .fraction(0.85)])
                     .presentationDragIndicator(.visible)
             }
+            .task { await userVM.refreshBalance() }
         }
     }
 
@@ -58,9 +59,11 @@ struct BetView: View {
                     .padding(.horizontal, AppTheme.Spacing.l)
                     .padding(.vertical, AppTheme.Spacing.s)
                     .background(
-                        Capsule().fill(AppTheme.Colors.accent)
+                        RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous).fill(AppTheme.Gradients.brand)
                     )
+                    .accentGlow(opacity: 0.4)
             }
+            .buttonStyle(PressableButtonStyle())
             .accessibilityLabel("Wettschein öffnen")
         }
         .padding(.horizontal, AppTheme.Spacing.l)
@@ -97,3 +100,9 @@ struct BetView: View {
         }
     }
 }
+
+#if DEBUG
+#Preview("Wetten") {
+    BetView().previewEnvironment()
+}
+#endif

@@ -29,7 +29,7 @@ public final class EventViewModel: ObservableObject {
 
     @Published public var selectedLeague: League = .default
     @Published public var selectedSeason: Season = .default
-    @Published public var selectedSport: Sport = .default
+    @Published public var selectedSport: Sport = .defaultSport
 
     private let eventRepository: EventRepositoryProtocol
     private let session: AppSession
@@ -119,3 +119,17 @@ public final class EventViewModel: ObservableObject {
         betCandidates.removeAll()
     }
 }
+
+#if DEBUG
+extension EventViewModel {
+    /// Pre-seeded ViewModel for Canvas previews (events + current selection).
+    static func preview(session: AppSession,
+                        events: [Event] = Mocks.events,
+                        selected: [Event] = Array(Mocks.events.prefix(2))) -> EventViewModel {
+        let vm = EventViewModel(session: session, eventRepository: PreviewEventRepository())
+        vm.events = events
+        vm.selectedEvents = selected
+        return vm
+    }
+}
+#endif

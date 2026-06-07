@@ -33,8 +33,9 @@ struct StatisticSlipRow: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
-                .strokeBorder(AppTheme.Colors.accent.opacity(0.4), lineWidth: 1)
+                .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
         )
+        .appShadow(AppTheme.Shadow.small)
     }
 
     private var dateString: String {
@@ -50,7 +51,7 @@ struct StatisticSlipRow: View {
             .padding(.horizontal, AppTheme.Spacing.s)
             .padding(.vertical, AppTheme.Spacing.xxs)
             .foregroundStyle(.white)
-            .background(Capsule().fill(badgeColor))
+            .background(RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous).fill(badgeColor))
     }
 
     @ViewBuilder
@@ -71,3 +72,14 @@ struct StatisticSlipRow: View {
         }
     }
 }
+
+#if DEBUG
+#Preview("StatisticSlipRow") {
+    VStack(spacing: AppTheme.Spacing.m) {
+        ForEach(Mocks.betSlips) { StatisticSlipRow(betSlip: $0) }
+    }
+    .padding()
+    .frame(maxHeight: .infinity)
+    .appBackground(.gradient)
+}
+#endif

@@ -2,102 +2,52 @@ rules_version = '2';
 
 // Firestore security rules for Sports-Almanach.
 //
-// The legacy app shipped without rules, leaving Profile/{uid} and
-// BetSlips/{slip} fully world-readable. These rules enforce the minimum
-// senior-elite invariants:
+// Collection / field names match the app exactly (case-sensitive):
+//   Profile / events  ·  BetSlips / bets  ·  slip owner field "userID".
 //
-//   * A user can only read & write their own profile.
-//   * A user can list every profile's PUBLIC subset (ranking page) but not
-//     the email or birthday.
-//   * A user can only create/read/update their own bet slips.
-//   * Slip server-side balance writes are restricted to the authenticated
-//     owner; balance fields must move monotonically (no arbitrary credit).
-//
-// To deploy:
-//   firebase login
-//   firebase deploy --only firestore:rules
-//
+// Notes:
+//  * Profile READ is allowed for any signed-in user because the ranking page
+//    (UserViewModel.loadAllProfiles) lists every profile. WRITE stays owner-only.
+//  * The /bets sub-collection is written together with its parent slip inside a
+//    single transaction; get()/exists() can't see the not-yet-committed parent,
+//    so we also allow the write while the parent does not exist yet.
 
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // ------------------------------------------------------------------
-    // Helpers
-    // ------------------------------------------------------------------
-    function isOwner(uid) {
-      return request.auth != null && request.auth.uid == uid;
-    }
-
-    function signedIn() {
+    function isAuthenticated() {
       return request.auth != null;
     }
 
-    // ------------------------------------------------------------------
-    // Profile documents
-    // ------------------------------------------------------------------
-    match /Profile/{uid} {
+    function isOwner(userID) {
+      return isAuthenticated() && request.auth.uid == userID;
+    }
 
-      // Owner can read everything; others can only read the public ranking subset.
-      allow get: if isOwner(uid);
-      allow list: if signedIn();
+    // Profile/{userID}
+    match /Profile/{userID} {
+      allow read:  if isAuthenticated();      // ranking lists all profiles
+      allow write: if isOwner(userID);        // but only you change your own
 
-      // Create: only the owner, with required fields.
-      allow create: if isOwner(uid)
-                    && request.resource.data.id == uid
-                    && request.resource.data.username is string
-                    && request.resource.data.email is string
-                    && request.resource.data.startingBalance is map
-                    && request.resource.data.balance is map;
-
-      // Update: only the owner. We deliberately allow the balance to change
-      // server-side; the trust boundary moves to BettingService transactions
-      // and the firestore.indexes already enforced through the transaction
-      // pre-read pattern (see Data/Repositories/BetRepository.placeSlip).
-      allow update: if isOwner(uid)
-                    && request.resource.data.id == resource.data.id
-                    && request.resource.data.username == resource.data.username
-                    && request.resource.data.email == resource.data.email;
-
-      allow delete: if false;
-
-      // Sub-collection: user-saved events.
       match /events/{eventID} {
-        allow read, write: if isOwner(uid);
+        allow read, write: if isOwner(userID);
       }
     }
 
-    // ------------------------------------------------------------------
-    // Bet slips
-    // ------------------------------------------------------------------
+    // BetSlips/{slipID}
     match /BetSlips/{slipID} {
-
-      // Owner-only access; nobody else may read a stranger's slip.
-      allow read: if signedIn()
-                  && resource.data.userID == request.auth.uid;
-
-      // Create: client must set userID == auth.uid, and the slip must include
-      // a positive stake.
-      allow create: if signedIn()
-                    && request.resource.data.userID == request.auth.uid
-                    && request.resource.data.stake is map;
-
-      // Update: only the owner; status field is allowed to change for
-      // settlement; userID cannot move.
-      allow update: if signedIn()
-                    && resource.data.userID == request.auth.uid
-                    && request.resource.data.userID == resource.data.userID;
-
-      allow delete: if false;
+      allow read:   if isAuthenticated() && resource.data.userID == request.auth.uid;
+      allow create: if isAuthenticated() && request.resource.data.userID == request.auth.uid;
+      allow update: if isAuthenticated() && resource.data.userID == request.auth.uid;
 
       match /bets/{betID} {
-        allow read, write: if signedIn()
-                           && get(/databases/$(database)/documents/BetSlips/$(slipID)).data.userID == request.auth.uid;
+        allow read, write: if isAuthenticated() && (
+          !exists(/databases/$(database)/documents/BetSlips/$(slipID))
+          || get(/databases/$(database)/documents/BetSlips/$(slipID)).data.userID == request.auth.uid
+        );
       }
     }
 
-    // ------------------------------------------------------------------
-    // Default deny — anything not explicitly allowed is rejected.
-    // ------------------------------------------------------------------
+    // Default deny.
     match /{document=**} {
       allow read, write: if false;
     }

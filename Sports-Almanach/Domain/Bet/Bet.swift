@@ -65,13 +65,23 @@ public struct EventSnapshot: Codable, Hashable, Sendable {
     /// ISO 8601 — keeps it parseable across locales without hand-rolled formats.
     public let kickoffISO: String
 
+    // Result captured at placement time. For an already-finished match these
+    // let settlement resolve the bet *offline* — no flaky second API call.
+    // Optional so historical bets (placed before this field existed) still decode.
+    public let homeScore: Int?
+    public let awayScore: Int?
+    public let isFinished: Bool?
+
     public init(eventID: String,
                 name: String,
                 leagueName: String,
                 sport: String,
                 homeTeam: String,
                 awayTeam: String,
-                kickoffISO: String) {
+                kickoffISO: String,
+                homeScore: Int? = nil,
+                awayScore: Int? = nil,
+                isFinished: Bool? = nil) {
         self.eventID = eventID
         self.name = name
         self.leagueName = leagueName
@@ -79,5 +89,8 @@ public struct EventSnapshot: Codable, Hashable, Sendable {
         self.homeTeam = homeTeam
         self.awayTeam = awayTeam
         self.kickoffISO = kickoffISO
+        self.homeScore = homeScore
+        self.awayScore = awayScore
+        self.isFinished = isFinished
     }
 }

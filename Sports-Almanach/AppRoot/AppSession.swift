@@ -88,3 +88,14 @@ public final class AppSession: ObservableObject {
         }
     }
 }
+
+#if DEBUG
+extension AppSession {
+    /// Authenticated session for Canvas previews — no Firebase, no live stream.
+    static func preview(user: SportsAlmanachUser = PreviewData.user) -> AppSession {
+        let session = AppSession(authService: PreviewAuthService(user: user))
+        session.phase = .authenticated(user)
+        return session
+    }
+}
+#endif

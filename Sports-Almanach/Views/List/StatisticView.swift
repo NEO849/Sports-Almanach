@@ -19,7 +19,7 @@ struct StatisticView: View {
                     sectionHeader("Rangliste", icon: "trophy.fill")
                     rankingList
 
-                    Divider().overlay(AppTheme.Colors.accent.opacity(0.5))
+                    Divider().overlay(AppTheme.Colors.hairline)
 
                     sectionHeader("Deine Wettscheine", icon: "ticket.fill")
                     betHistoryList
@@ -28,16 +28,18 @@ struct StatisticView: View {
                 .padding(.vertical, AppTheme.Spacing.l)
             }
             .scrollIndicators(.hidden)
-            .appBackground(.photographic)
+            .appBackground(.gradient)
             .navigationTitle("Statistik")
             .navigationBarTitleDisplayMode(.inline)
             .task {
                 await userVM.loadAndSortRankedUsers()
                 await betVM.refreshHistory()
+                await userVM.refreshBalance()
             }
             .refreshable {
                 await userVM.loadAndSortRankedUsers()
                 await betVM.refreshHistory()
+                await userVM.refreshBalance()
             }
         }
     }
@@ -88,3 +90,9 @@ struct StatisticView: View {
             .frame(maxWidth: .infinity, alignment: .center)
     }
 }
+
+#if DEBUG
+#Preview("Statistik") {
+    StatisticView().previewEnvironment()
+}
+#endif

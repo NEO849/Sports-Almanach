@@ -14,9 +14,12 @@ struct LoginView: View {
 
     @EnvironmentObject private var userVM: UserViewModel
     @FocusState private var focused: Field?
+    @State private var showRegister = false
 
     @State private var email: String = ""
     @State private var password: String = ""
+    // Rein visueller Zustand für die Entrance-Animation (keine Logik).
+    @State private var appeared = false
 
     private enum Field { case email, password }
 
@@ -37,11 +40,18 @@ struct LoginView: View {
             }
             .padding(.horizontal, AppTheme.Spacing.xl)
             .padding(.bottom, AppTheme.Spacing.xxl)
+            // Ruhige Entrance: leichtes Auf-/Einblenden, kein Bouncen.
+            .opacity(appeared ? 1 : 0)
+            .offset(y: appeared ? 0 : 14)
         }
         .scrollDismissesKeyboard(.immediately)
-        .appBackground(.photographic)
+        .appBackground(.gradient)
+        .onAppear { withAnimation(.easeOut(duration: 0.45)) { appeared = true } }
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarBackButtonHidden(true)
+        .navigationDestination(isPresented: $showRegister) {
+            RegisterView()
+        }
         .alert("Fehler",
                isPresented: Binding(get: { userVM.alertMessage != nil }, set: { _ in userVM.clearAlert() })) {
             Button("OK", role: .cancel) { password = "" }
@@ -53,14 +63,34 @@ struct LoginView: View {
     // MARK: - Sections
 
     private var header: some View {
-        VStack(spacing: AppTheme.Spacing.s) {
-            Image(systemName: "sportscourt.fill")
-                .font(.system(size: 56))
-                .foregroundStyle(AppTheme.Colors.accent)
-                .accessibilityHidden(true)
-            Text("Anmelden")
-                .font(AppTheme.Typography.largeTitle)
-                .foregroundStyle(.white)
+        VStack(spacing: AppTheme.Spacing.l) {
+            // Kantiger, dunkler "Tech-Chip" — Orange nur als gezielter Akzent,
+            // keine große Leuchtfläche.
+            ZStack {
+                RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                    .fill(AppTheme.Colors.surfaceSecondary)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                            .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
+                    )
+                    .frame(width: 78, height: 78)
+                Image(systemName: "sportscourt.fill")
+                    .font(.system(size: 34, weight: .semibold))
+                    .foregroundStyle(AppTheme.Colors.accent)
+                    .symbolEffect(.bounce, value: appeared)
+            }
+            .accentGlow(radius: 16, opacity: 0.25)
+            .accessibilityHidden(true)
+
+            VStack(spacing: AppTheme.Spacing.xs) {
+                Text("SPORTS ALMANACH")
+                    .font(AppTheme.Typography.caption.weight(.semibold))
+                    .kerning(2.5)
+                    .foregroundStyle(AppTheme.Colors.textTertiary)
+                Text("Anmelden")
+                    .font(AppTheme.Typography.largeTitle)
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+            }
         }
         .frame(maxWidth: .infinity)
     }
@@ -96,6 +126,7 @@ struct LoginView: View {
     private var primaryAction: some View {
         PrimaryActionButton(
             title: "Login",
+            icon: "arrow.right.circle.fill",
             isEnabled: isFormValid,
             isLoading: userVM.isLoading,
             action: { Task { await submit() } }
@@ -105,13 +136,13 @@ struct LoginView: View {
     private var registerLink: some View {
         HStack(spacing: AppTheme.Spacing.xs) {
             Text("Noch keinen Account?")
-                .foregroundStyle(.white.opacity(0.85))
-            NavigationLink {
-                RegisterView()
+                .foregroundStyle(AppTheme.Colors.textSecondary)
+            Button {
+                showRegister = true
             } label: {
                 Text("Hier registrieren")
-                    .underline()
-                    .foregroundStyle(AppTheme.Colors.info)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(AppTheme.Colors.accentBright)
             }
         }
         .font(AppTheme.Typography.subheadline)
@@ -122,7 +153,7 @@ struct LoginView: View {
             line
             Text("oder")
                 .font(AppTheme.Typography.footnote)
-                .foregroundStyle(.white.opacity(0.6))
+                .foregroundStyle(AppTheme.Colors.textTertiary)
                 .padding(.horizontal, AppTheme.Spacing.s)
             line
         }
@@ -130,7 +161,7 @@ struct LoginView: View {
     }
 
     private var line: some View {
-        Rectangle().fill(.white.opacity(0.4)).frame(height: 1)
+        Rectangle().fill(AppTheme.Colors.hairline).frame(height: 1)
     }
 
     private var socials: some View {
@@ -156,3 +187,9 @@ struct LoginView: View {
         await userVM.login(email: email, password: password)
     }
 }
+
+#if DEBUG
+#Preview("Login") {
+    NavigationStack { LoginView() }.previewEnvironment()
+}
+#endif

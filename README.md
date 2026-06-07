@@ -14,6 +14,39 @@ A SwiftUI sports almanac with Firebase auth and play-money betting. Browse
 fixtures from `thesportsdb.com`, mark events you care about, stake virtual
 EUR on combo bets, and watch slips settle once matches finish.
 
+## Screenshots
+
+<table>
+  <tr>
+    <td align="center">
+      <img src="Images/sportsA_splash_1.png" width="220" alt="Splash" /><br/>
+      <sub><b>Splash</b></sub>
+    </td>
+    <td align="center">
+      <img src="Images/sportsA_home_2.png" width="220" alt="Home" /><br/>
+      <sub><b>Home</b></sub>
+    </td>
+    <td align="center">
+      <img src="Images/sportsA_events_3.png" width="220" alt="Events" /><br/>
+      <sub><b>Events</b></sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="Images/sportsA_events-detail_4.png" width="220" alt="Event-Details" /><br/>
+      <sub><b>Event-Details</b></sub>
+    </td>
+    <td align="center">
+      <img src="Images/sportsA_bet_5.png" width="220" alt="Wetten" /><br/>
+      <sub><b>Wetten</b></sub>
+    </td>
+    <td align="center">
+      <img src="Images/sportsA_betslip_6.png" width="220" alt="Wettschein" /><br/>
+      <sub><b>Wettschein</b></sub>
+    </td>
+  </tr>
+</table>
+
 ## What this fork rebuilt
 
 | Layer | Before | After |

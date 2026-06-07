@@ -83,6 +83,7 @@ public enum AppErrors {
         case balanceUnreadable
         case slipNotFound
         case eventNotFinished
+        case permissionDenied
 
         public var errorDescription: String? {
             switch self {
@@ -92,6 +93,7 @@ public enum AppErrors {
             case .balanceUnreadable:  return "Kontostand konnte nicht gelesen werden."
             case .slipNotFound:       return "Wettschein nicht gefunden."
             case .eventNotFinished:   return "Event hat noch kein Ergebnis."
+            case .permissionDenied:   return "Keine Berechtigung für diese Aktion. Bitte Firestore Security Rules überprüfen."
             }
         }
     }

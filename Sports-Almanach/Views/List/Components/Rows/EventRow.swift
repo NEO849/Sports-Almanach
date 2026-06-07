@@ -26,8 +26,9 @@ struct EventRow: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
-                .strokeBorder(AppTheme.Colors.accent.opacity(0.45), lineWidth: 1)
+                .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
         )
+        .appShadow(AppTheme.Shadow.medium)
         .padding(.vertical, AppTheme.Spacing.xs)
         .swipeActions(edge: .leading, allowsFullSwipe: true) {
             Button {
@@ -94,7 +95,7 @@ struct EventRow: View {
             .padding(.horizontal, AppTheme.Spacing.s)
             .padding(.vertical, AppTheme.Spacing.xxs)
             .background(
-                Capsule().fill(event.status.color)
+                RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous).fill(event.status.color)
             )
     }
 
@@ -105,3 +106,13 @@ struct EventRow: View {
         return name
     }
 }
+
+#if DEBUG
+#Preview("EventRow") {
+    EventRow(event: Mocks.events[0])
+        .padding()
+        .frame(maxHeight: .infinity)
+        .appBackground(.gradient)
+        .previewEnvironment()
+}
+#endif

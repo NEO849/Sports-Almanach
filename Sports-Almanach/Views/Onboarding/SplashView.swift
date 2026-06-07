@@ -58,20 +58,29 @@ struct SplashView: View {
         }
     }
 
+    // Ruhiger, hochwertiger Footer: kein Orange-Rahmen mehr, gedämpfte Typo
+    // mit feinem Tracking und einem dünnen Akzent-Strich als einziger Farbe.
     private var signature: some View {
-        VStack(spacing: AppTheme.Spacing.xxs) {
-            Text("© 2024 Michael F. J. / AI-Data-F3 Team")
-                .font(AppTheme.Typography.caption)
-                .foregroundStyle(AppTheme.Colors.accent)
+        VStack(spacing: AppTheme.Spacing.s) {
+            Capsule()
+                .fill(AppTheme.Colors.accent)
+                .frame(width: 28, height: 2)
+                .opacity(0.8)
+            Text("© 2024 MICHAEL F. J. · AI-DATA-F3")
+                .font(AppTheme.Typography.caption2.weight(.medium))
+                .kerning(1.5)
+                .foregroundStyle(AppTheme.Colors.textTertiary)
             Text("Version 2.0")
-                .font(AppTheme.Typography.caption)
-                .foregroundStyle(AppTheme.Colors.accent.opacity(0.8))
+                .font(AppTheme.Typography.caption2)
+                .foregroundStyle(AppTheme.Colors.textTertiary.opacity(0.7))
         }
-        .padding(.horizontal, AppTheme.Spacing.m)
-        .padding(.vertical, AppTheme.Spacing.s)
-        .overlay(
-            RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous)
-                .strokeBorder(AppTheme.Colors.accent.opacity(0.7), lineWidth: 1)
-        )
+        .multilineTextAlignment(.center)
     }
 }
+
+#if DEBUG
+#Preview("Splash") {
+    SplashView(onFinished: {})
+        .preferredColorScheme(.dark)
+}
+#endif

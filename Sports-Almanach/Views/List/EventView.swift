@@ -23,7 +23,7 @@ struct EventView: View {
                         .foregroundStyle(.white)
                 }
             }
-            .appBackground(.photographic)
+            .appBackground(.gradient)
             .navigationTitle("Events")
             .toolbar { toolbar }
             .task {
@@ -100,11 +100,17 @@ struct EventView: View {
             .padding(.horizontal, AppTheme.Spacing.m)
             .padding(.vertical, AppTheme.Spacing.xs)
             .background(
-                Capsule().fill(.ultraThinMaterial)
+                RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous).fill(.ultraThinMaterial)
             )
             .overlay(
-                Capsule().strokeBorder(AppTheme.Colors.accent.opacity(0.55), lineWidth: 1)
+                RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous).strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
             )
             .foregroundStyle(.white)
     }
 }
+
+#if DEBUG
+#Preview("Events") {
+    EventView().previewEnvironment()
+}
+#endif

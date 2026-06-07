@@ -29,11 +29,16 @@ struct StatisticRankRow: View {
             RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
                 .fill(.ultraThinMaterial)
         )
+        .overlay(
+            RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
+                .strokeBorder(rank <= 3 ? badgeColor.opacity(0.5) : AppTheme.Colors.strokeSubtle, lineWidth: 1)
+        )
+        .appShadow(AppTheme.Shadow.small)
     }
 
     private var badge: some View {
         ZStack {
-            Circle()
+            RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous)
                 .fill(badgeColor)
                 .frame(width: 32, height: 32)
             Text("\(rank)")
@@ -51,3 +56,16 @@ struct StatisticRankRow: View {
         }
     }
 }
+
+#if DEBUG
+#Preview("StatisticRankRow") {
+    VStack(spacing: AppTheme.Spacing.m) {
+        StatisticRankRow(rank: 1, profile: Mocks.profiles[2])
+        StatisticRankRow(rank: 2, profile: Mocks.profiles[0])
+        StatisticRankRow(rank: 4, profile: Mocks.profiles[1])
+    }
+    .padding()
+    .frame(maxHeight: .infinity)
+    .appBackground(.gradient)
+}
+#endif

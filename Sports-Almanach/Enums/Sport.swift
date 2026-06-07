@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Sport: String, Identifiable, CaseIterable, CustomStringConvertible {
+public enum Sport: String, Identifiable, CaseIterable, CustomStringConvertible {
     case soccer = "Soccer"
     case tennis = "Tennis"
     case golf = "Golf"
@@ -15,10 +15,10 @@ enum Sport: String, Identifiable, CaseIterable, CustomStringConvertible {
     case iceHockey = "Ice Hockey"
     case basketball = "Basketball"
     
-    var id: String { rawValue }
+    public var id: String { rawValue }
     
     // CustomStringConvertible Konformität
-    var description: String { rawValue }
+    public var description: String { rawValue }
     
-    static var defaultSport: Sport { return .soccer }
+    public static var defaultSport: Sport { return .soccer }
 }

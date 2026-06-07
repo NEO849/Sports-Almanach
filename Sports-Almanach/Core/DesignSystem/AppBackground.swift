@@ -2,24 +2,23 @@
 //  AppBackground.swift
 //  Sports-Almanach
 //
-//  Single shared background surface — replaces the 6+ duplicated
-//  `Image("hintergrund").resizable().scaledToFill().edgesIgnoringSafeArea(.all)`
-//  blocks across the legacy Views.
+//  Gemeinsame Hintergrund-Fläche (rein visuell). Designziel: sehr dunkel und
+//  ruhig — tiefes Schwarz mit warmem Unterton, dezente Vignette für Tiefe und
+//  nur ein sehr leiser, weit oben sitzender Glow als Energie-Akzent. Kein
+//  dominanter Orange-Verlauf mehr.
 //
 
 import SwiftUI
 
-/// Applies the app's brand background. Compositing layer with a subtle scrim
-/// preserves contrast against any foreground content (iOS-HIG: readable text
-/// over imagery requires explicit overlay treatment).
+/// Wendet den Marken-Hintergrund an.
 public struct AppBackground: ViewModifier {
 
     public enum Style {
-        /// Original photographic background with a darken-scrim for legibility.
+        /// Fotografischer Hintergrund mit dunklem Scrim (Legacy-kompatibel).
         case photographic
-        /// Solid surface using semantic system background — dark/light mode aware.
+        /// Solide, fast schwarze Fläche.
         case solid
-        /// Branded gradient — preferred for hero sections.
+        /// Marken-Backdrop: tiefes Schwarz + Vignette + sehr dezenter Glow. Default.
         case gradient
     }
 
@@ -42,31 +41,40 @@ public struct AppBackground: ViewModifier {
                     .resizable()
                     .scaledToFill()
                     .clipped()
-                // Scrim — keeps text readable regardless of image content.
+                // Kräftiger, neutraler Scrim — Foto deutlich abdunkeln.
                 LinearGradient(
-                    colors: [.black.opacity(0.55), .black.opacity(0.30), .black.opacity(0.55)],
+                    colors: [.black.opacity(0.86), .black.opacity(0.62), .black.opacity(0.9)],
                     startPoint: .top,
                     endPoint: .bottom
                 )
+                AppTheme.Gradients.vignette
             }
+
         case .solid:
-            AppTheme.Colors.surfacePrimary
+            AppTheme.Brand.black
+
         case .gradient:
-            LinearGradient(
-                colors: [
-                    AppTheme.Colors.surfacePrimary,
-                    AppTheme.Colors.accent.opacity(0.18),
-                    AppTheme.Colors.surfacePrimary
-                ],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
+            ZStack {
+                // 1) Sehr dunkler Basis-Verlauf (Schwarz → warmes Schwarz → Schwarz)
+                AppTheme.Gradients.backdrop
+
+                // 2) Leiser warmer Glow, weit oben — Energie ohne Lautstärke
+                AppTheme.Gradients.glow
+                    .scaleEffect(1.2)
+                    .offset(y: -300)
+                    .blendMode(.plusLighter)
+                    .opacity(0.55)
+
+                // 3) Vignette — verdunkelt die Ränder, lenkt den Blick zur Mitte
+                AppTheme.Gradients.vignette
+                    .blendMode(.multiply)
+            }
         }
     }
 }
 
 public extension View {
-    func appBackground(_ style: AppBackground.Style = .photographic) -> some View {
+    func appBackground(_ style: AppBackground.Style = .gradient) -> some View {
         modifier(AppBackground(style: style))
     }
 }

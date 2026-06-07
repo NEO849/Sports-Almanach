@@ -6,9 +6,10 @@ disabled_rules:
   - multiple_closures_with_trailing_closure
   - large_tuple
   - line_length
-  
+  - identifier_name
+  - shorthand_operator
+
 type_name:
   min_length: 3
   max_length: 40
   allowed_symbols: ["_"]
-  

@@ -3,8 +3,8 @@
 //  Sports-Almanach
 //
 //  Senior-elite primary CTA — single source of truth for "the big button".
-//  Accepts an explicit `isLoading` so callers don't need to juggle inner
-//  ProgressViews, and falls back to a system-feedback haptic on tap.
+//  Brand-orange gradient, an outer accent glow, a tactile press-in animation and
+//  an integrated loading state so callers never juggle their own ProgressView.
 //
 
 import SwiftUI
@@ -12,15 +12,18 @@ import SwiftUI
 struct PrimaryActionButton: View {
 
     let title: String
+    let icon: String?
     let isEnabled: Bool
     let isLoading: Bool
     let action: () -> Void
 
     init(title: String,
+         icon: String? = nil,
          isEnabled: Bool = true,
          isLoading: Bool = false,
          action: @escaping () -> Void) {
         self.title = title
+        self.icon = icon
         self.isEnabled = isEnabled
         self.isLoading = isLoading
         self.action = action
@@ -29,10 +32,17 @@ struct PrimaryActionButton: View {
     var body: some View {
         Button(action: trigger) {
             ZStack {
-                Text(title.uppercased())
-                    .font(AppTheme.Typography.headline)
-                    .foregroundStyle(.white)
-                    .opacity(isLoading ? 0 : 1)
+                HStack(spacing: AppTheme.Spacing.s) {
+                    if let icon {
+                        Image(systemName: icon)
+                            .font(.headline.weight(.bold))
+                    }
+                    Text(title.uppercased())
+                        .font(AppTheme.Typography.headline.weight(.bold))
+                        .kerning(0.5)
+                }
+                .foregroundStyle(.white)
+                .opacity(isLoading ? 0 : 1)
 
                 if isLoading {
                     ProgressView()
@@ -40,13 +50,15 @@ struct PrimaryActionButton: View {
                         .tint(.white)
                 }
             }
-            .frame(maxWidth: .infinity, minHeight: 52)
+            .frame(maxWidth: .infinity, minHeight: 54)
             .background(background)
         }
-        .buttonStyle(.plain)
+        .buttonStyle(PressableButtonStyle())
         .disabled(!isEnabled || isLoading)
-        .opacity(isEnabled ? 1 : 0.5)
+        .opacity(isEnabled ? 1 : 0.45)
+        .saturation(isEnabled ? 1 : 0.6)
         .animation(AppTheme.Motion.snappy, value: isEnabled)
+        .animation(AppTheme.Motion.snappy, value: isLoading)
         .accessibilityLabel(title)
         .accessibilityAddTraits(.isButton)
     }
@@ -58,13 +70,41 @@ struct PrimaryActionButton: View {
 
     private var background: some View {
         RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
-            .fill(
-                LinearGradient(
-                    colors: [AppTheme.Colors.accent, AppTheme.Colors.accent.opacity(0.7)],
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                )
+            .fill(AppTheme.Gradients.brand)
+            .overlay(
+                RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
+                    .fill(AppTheme.Gradients.edgeHighlight)
+                    .blendMode(.plusLighter)
+                    .opacity(0.5)
             )
-            .shadow(color: AppTheme.Colors.accent.opacity(0.3), radius: 12, y: 6)
+            .overlay(
+                RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
+                    .strokeBorder(.white.opacity(0.14), lineWidth: 1)
+            )
+            // Dezenter Akzent-Glow statt großer Leuchtfläche.
+            .shadow(color: AppTheme.Colors.accent.opacity(isEnabled ? 0.28 : 0), radius: 12, y: 6)
     }
 }
+
+/// Tactile press-in feedback reused by the app's prominent buttons.
+struct PressableButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.97 : 1.0)
+            .brightness(configuration.isPressed ? -0.04 : 0)
+            .animation(AppTheme.Motion.snappy, value: configuration.isPressed)
+    }
+}
+
+#if DEBUG
+#Preview("PrimaryActionButton") {
+    VStack(spacing: AppTheme.Spacing.l) {
+        PrimaryActionButton(title: "Login", icon: "arrow.right.circle.fill") {}
+        PrimaryActionButton(title: "Lädt", isLoading: true) {}
+        PrimaryActionButton(title: "Deaktiviert", isEnabled: false) {}
+    }
+    .padding()
+    .frame(maxHeight: .infinity)
+    .appBackground(.gradient)
+}
+#endif

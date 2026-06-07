@@ -12,6 +12,7 @@ import SwiftUI
 struct HomeView: View {
 
     @EnvironmentObject private var userVM: UserViewModel
+    @EnvironmentObject private var betVM: BetViewModel
     @EnvironmentObject private var session: AppSession
     @State private var expandedSection: String?
 
@@ -37,9 +38,15 @@ struct HomeView: View {
                 .padding(.bottom, AppTheme.Spacing.xxl)
             }
             .scrollIndicators(.hidden)
-            .appBackground(.photographic)
+            .appBackground(.gradient)
             .toolbar { toolbar }
             .navigationBarTitleDisplayMode(.inline)
+            .task {
+                // Settle any finished bets and pull the latest balance so the
+                // headline figure is always current when landing on Home.
+                await betVM.refreshHistory()
+                await userVM.refreshBalance()
+            }
         }
     }
 
@@ -79,8 +86,14 @@ struct HomeView: View {
         )
         .overlay(
             RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
-                .strokeBorder(AppTheme.Colors.accent.opacity(0.5), lineWidth: 1)
+                .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
         )
         .padding(.horizontal, AppTheme.Spacing.l)
     }
 }
+
+#if DEBUG
+#Preview("Home") {
+    HomeView().previewEnvironment()
+}
+#endif

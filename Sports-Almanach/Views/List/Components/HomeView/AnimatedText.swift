@@ -19,10 +19,10 @@ struct AnimatedText: View {
             .padding(.vertical, AppTheme.Spacing.s)
             .padding(.horizontal, AppTheme.Spacing.l)
             .background(
-                Capsule().fill(.ultraThinMaterial)
+                RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous).fill(.ultraThinMaterial)
             )
             .overlay(
-                Capsule().strokeBorder(AppTheme.Colors.accent.opacity(0.55), lineWidth: 1)
+                RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous).strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
             )
             .opacity(visible ? 1 : 0)
             .offset(y: visible ? 0 : 18)
@@ -31,3 +31,12 @@ struct AnimatedText: View {
             }
     }
 }
+
+#if DEBUG
+#Preview("AnimatedText") {
+    AnimatedText()
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .appBackground(.gradient)
+}
+#endif
