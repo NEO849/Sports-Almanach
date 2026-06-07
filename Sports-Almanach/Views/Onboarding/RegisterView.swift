@@ -15,7 +15,16 @@ struct RegisterView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var passwordRepeat = ""
-    @State private var birthday: Date = Calendar.current.date(byAdding: .year, value: -25, to: Date()) ?? Date()
+    // Neutral default (1 Jan, 25 years ago). NOT "today minus 25 years" — that
+    // would land on today's day/month and hand every new tester the birthday
+    // bonus on first login. Users pick their real date in the DatePicker.
+    @State private var birthday: Date = {
+        var components = DateComponents()
+        components.year = Calendar.current.component(.year, from: Date()) - 25
+        components.month = 1
+        components.day = 1
+        return Calendar.current.date(from: components) ?? Date()
+    }()
 
     private enum Field { case username, email, password, passwordRepeat }
 

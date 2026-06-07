@@ -153,15 +153,18 @@ public final class BettingService: @unchecked Sendable {
         if isVoided {
             return (.void, perBet.rounded())            // cancelled / postponed → refund
         }
-        guard isFinished else {
-            return (.pending, nil)                      // not played yet
+
+        // A match with BOTH scores is decided — resolve on the score itself
+        // rather than the free API's status string, which is frequently empty
+        // or garbled and would otherwise leave a finished match stuck "pending".
+        if let actual = MatchOutcome.from(homeScore: homeScore, awayScore: awayScore) {
+            return tip.stableID == actual.stableID
+                ? (.won, (perBet * odds).rounded())     // correct tip → payout
+                : (.lost, nil)
         }
-        guard let actual = MatchOutcome.from(homeScore: homeScore, awayScore: awayScore) else {
-            return (.void, perBet.rounded())            // finished but no usable score
-        }
-        if tip.stableID == actual.stableID {
-            return (.won, (perBet * odds).rounded())    // correct tip → payout
-        }
-        return (.lost, nil)
+
+        // No score yet. If the status nonetheless says finished, treat as void
+        // (no usable result); otherwise it's simply not played yet.
+        return isFinished ? (.void, perBet.rounded()) : (.pending, nil)
     }
 }
