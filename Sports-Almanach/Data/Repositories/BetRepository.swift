@@ -270,7 +270,15 @@ public final class BetRepository: BetRepositoryProtocol, @unchecked Sendable {
     }
 
     private static func decode(slipDocument: QueryDocumentSnapshot) throws -> BetSlip? {
-        try? slipDocument.data(as: BetSlip.self)
+        // Das Slip-Dokument speichert die Wetten als Subcollection — der 'bets'-
+        // Schlüssel wird beim Schreiben entfernt. BetSlip.bets ist nicht-optional,
+        // daher würde data(as:) hier mit keyNotFound("bets") scheitern und der
+        // Slip würde verworfen -> KEIN Wettschein in der Historie und das
+        // Settlement fände keine pending-Slips. Wir ergänzen einen leeren Default;
+        // loadSlips hydratisiert die echten Wetten anschließend aus der Subcollection.
+        var data = slipDocument.data()
+        if data["bets"] == nil { data["bets"] = [[String: Any]]() }
+        return try? Firestore.Decoder().decode(BetSlip.self, from: data)
     }
 
     private static func decode(betDocument: QueryDocumentSnapshot) throws -> Bet? {
