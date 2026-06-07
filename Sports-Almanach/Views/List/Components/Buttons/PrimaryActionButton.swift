@@ -79,9 +79,10 @@ struct PrimaryActionButton: View {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
-                    .strokeBorder(.white.opacity(0.18), lineWidth: 1)
+                    .strokeBorder(.white.opacity(0.14), lineWidth: 1)
             )
-            .shadow(color: AppTheme.Colors.accent.opacity(isEnabled ? 0.45 : 0), radius: 16, y: 8)
+            // Dezenter Akzent-Glow statt großer Leuchtfläche.
+            .shadow(color: AppTheme.Colors.accent.opacity(isEnabled ? 0.28 : 0), radius: 12, y: 6)
     }
 }
 

@@ -37,7 +37,7 @@ struct SocialLoginButton: View {
             )
             .overlay(
                 RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
-                    .strokeBorder(AppTheme.Colors.accent.opacity(0.45), lineWidth: 1)
+                    .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
             )
         }
         .buttonStyle(PressableButtonStyle())

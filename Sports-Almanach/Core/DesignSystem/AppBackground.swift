@@ -2,25 +2,23 @@
 //  AppBackground.swift
 //  Sports-Almanach
 //
-//  Single shared background surface — replaces the 6+ duplicated
-//  `Image("hintergrund")...` blocks across the legacy Views.
-//
-//  The brand backdrop is a near-black gradient lit by a soft orange glow in the
-//  upper third — the "floodlit stadium" feel — so foreground content always sits
-//  on a calm, high-contrast surface.
+//  Gemeinsame Hintergrund-Fläche (rein visuell). Designziel: sehr dunkel und
+//  ruhig — tiefes Schwarz mit warmem Unterton, dezente Vignette für Tiefe und
+//  nur ein sehr leiser, weit oben sitzender Glow als Energie-Akzent. Kein
+//  dominanter Orange-Verlauf mehr.
 //
 
 import SwiftUI
 
-/// Applies the app's brand background.
+/// Wendet den Marken-Hintergrund an.
 public struct AppBackground: ViewModifier {
 
     public enum Style {
-        /// Original photographic background with a darken-scrim for legibility.
+        /// Fotografischer Hintergrund mit dunklem Scrim (Legacy-kompatibel).
         case photographic
-        /// Solid near-black surface.
+        /// Solide, fast schwarze Fläche.
         case solid
-        /// Branded black→charcoal gradient with a warm orange glow. The default hero.
+        /// Marken-Backdrop: tiefes Schwarz + Vignette + sehr dezenter Glow. Default.
         case gradient
     }
 
@@ -43,13 +41,13 @@ public struct AppBackground: ViewModifier {
                     .resizable()
                     .scaledToFill()
                     .clipped()
-                // Warm scrim — darkens the photo and ties it to the brand palette.
+                // Kräftiger, neutraler Scrim — Foto deutlich abdunkeln.
                 LinearGradient(
-                    colors: [.black.opacity(0.78), .black.opacity(0.45), .black.opacity(0.82)],
+                    colors: [.black.opacity(0.86), .black.opacity(0.62), .black.opacity(0.9)],
                     startPoint: .top,
                     endPoint: .bottom
                 )
-                AppTheme.Brand.orange.opacity(0.10).blendMode(.plusLighter)
+                AppTheme.Gradients.vignette
             }
 
         case .solid:
@@ -57,13 +55,19 @@ public struct AppBackground: ViewModifier {
 
         case .gradient:
             ZStack {
+                // 1) Sehr dunkler Basis-Verlauf (Schwarz → warmes Schwarz → Schwarz)
                 AppTheme.Gradients.backdrop
-                // Floodlight glow, anchored to the top so hero content is lit.
+
+                // 2) Leiser warmer Glow, weit oben — Energie ohne Lautstärke
                 AppTheme.Gradients.glow
-                    .scaleEffect(1.4)
-                    .offset(y: -260)
+                    .scaleEffect(1.2)
+                    .offset(y: -300)
                     .blendMode(.plusLighter)
-                    .opacity(0.9)
+                    .opacity(0.55)
+
+                // 3) Vignette — verdunkelt die Ränder, lenkt den Blick zur Mitte
+                AppTheme.Gradients.vignette
+                    .blendMode(.multiply)
             }
         }
     }

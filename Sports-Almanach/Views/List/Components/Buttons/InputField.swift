@@ -66,11 +66,12 @@ struct InputField: View {
             )
             .background(
                 RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous)
-                    .fill(AppTheme.Colors.accent.opacity(isFocused ? 0.08 : 0))
+                    .fill(AppTheme.Colors.accent.opacity(isFocused ? 0.05 : 0))
             )
             .overlay(border)
-            .shadow(color: AppTheme.Colors.accent.opacity(isFocused ? 0.35 : 0),
-                    radius: isFocused ? 12 : 0, x: 0, y: 0)
+            // Dezenter, warmer Fokus-Glow — Akzent, nicht Lautstärke.
+            .shadow(color: AppTheme.Colors.accent.opacity(isFocused ? 0.22 : 0),
+                    radius: isFocused ? 8 : 0, x: 0, y: 0)
             .animation(AppTheme.Motion.snappy, value: isFocused)
         }
         .contentShape(Rectangle())

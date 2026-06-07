@@ -25,6 +25,8 @@ struct RegisterView: View {
         components.day = 1
         return Calendar.current.date(from: components) ?? Date()
     }()
+    // Rein visueller Zustand für die Entrance-Animation (keine Logik).
+    @State private var appeared = false
 
     private enum Field { case username, email, password, passwordRepeat }
 
@@ -44,9 +46,13 @@ struct RegisterView: View {
             }
             .padding(.horizontal, AppTheme.Spacing.xl)
             .padding(.bottom, AppTheme.Spacing.xxl)
+            // Ruhige Entrance: leichtes Auf-/Einblenden, kein Bouncen.
+            .opacity(appeared ? 1 : 0)
+            .offset(y: appeared ? 0 : 14)
         }
         .scrollDismissesKeyboard(.immediately)
         .appBackground(.gradient)
+        .onAppear { withAnimation(.easeOut(duration: 0.45)) { appeared = true } }
         .navigationBarTitleDisplayMode(.inline)
         .alert("Registrierung fehlgeschlagen",
                isPresented: Binding(get: { !userVM.formErrors.isEmpty || userVM.alertMessage != nil },
@@ -58,14 +64,33 @@ struct RegisterView: View {
     }
 
     private var header: some View {
-        VStack(spacing: AppTheme.Spacing.m) {
-            Image(systemName: "person.crop.circle.badge.plus")
-                .font(.system(size: 60))
-                .foregroundStyle(AppTheme.Gradients.brand)
-                .accentGlow(radius: 24, opacity: 0.6)
-            Text("Registrieren")
-                .font(AppTheme.Typography.largeTitle)
-                .foregroundStyle(AppTheme.Colors.textPrimary)
+        VStack(spacing: AppTheme.Spacing.l) {
+            // Kantiger, dunkler "Tech-Chip" — konsistent zur LoginView.
+            ZStack {
+                RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                    .fill(AppTheme.Colors.surfaceSecondary)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
+                            .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
+                    )
+                    .frame(width: 78, height: 78)
+                Image(systemName: "person.crop.circle.badge.plus")
+                    .font(.system(size: 34, weight: .semibold))
+                    .foregroundStyle(AppTheme.Colors.accent)
+                    .symbolEffect(.bounce, value: appeared)
+            }
+            .accentGlow(radius: 16, opacity: 0.25)
+            .accessibilityHidden(true)
+
+            VStack(spacing: AppTheme.Spacing.xs) {
+                Text("SPORTS ALMANACH")
+                    .font(AppTheme.Typography.caption.weight(.semibold))
+                    .kerning(2.5)
+                    .foregroundStyle(AppTheme.Colors.textTertiary)
+                Text("Registrieren")
+                    .font(AppTheme.Typography.largeTitle)
+                    .foregroundStyle(AppTheme.Colors.textPrimary)
+            }
         }
         .frame(maxWidth: .infinity)
     }

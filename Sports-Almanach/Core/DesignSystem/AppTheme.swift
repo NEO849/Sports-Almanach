@@ -2,117 +2,125 @@
 //  AppTheme.swift
 //  Sports-Almanach
 //
-//  Central design tokens (color, gradient, spacing, typography, radius, shadow).
-//  All views should consume tokens — never hardcode colors or magic numbers.
+//  Zentrale, rein visuelle Design-Tokens (Farbe, Verlauf, Abstand, Radius,
+//  Schatten, Typografie, Animation). KEINE Geschäfts-/Daten-/API-Logik.
 //
-//  Visual language: a dark "stadium at night" theme — deep blacks and warm
-//  charcoals lit by a single confident orange brand accent. Every surface is
-//  built from these tokens so the look stays consistent across every screen.
+//  Designrichtung: dunkle, edle, technische Premium-Sport-App. Tiefes Schwarz /
+//  Anthrazit / Graphit mit warmem Schwarz-Braun-Unterton; Orange/Amber NUR als
+//  kontrollierter Akzent. Kantig statt rund, Tiefe durch Layer + Vignette +
+//  dezente Glows.
 //
 
 import SwiftUI
 import UIKit
 
-/// Single source of truth for the visual language.
-/// Driven by semantic intent (primary/secondary/destructive) rather than raw hue,
-/// so theming happens in exactly one place.
+/// Single source of truth für die visuelle Sprache.
 public enum AppTheme {
 
-    // MARK: - Brand palette (raw hues — prefer the semantic tokens below)
+    // MARK: - Brand-Palette (Rohtöne — bevorzugt die semantischen Tokens unten)
     public enum Brand {
-        /// The signature orange. Used for the primary accent everywhere.
-        public static let orange       = Color(hex: 0xFF7A00)
-        public static let orangeBright = Color(hex: 0xFF9D2E)
-        public static let orangeDeep   = Color(hex: 0xE2560A)
-        public static let amber        = Color(hex: 0xFFB347)
+        /// Gedämpftes Orange — der einzige laute Ton, sparsam eingesetzt.
+        public static let orange       = Color(hex: 0xD96523)
+        /// Warmes Amber — für Highlights/aktive Zustände.
+        public static let amber        = Color(hex: 0xE49A4C)
+        public static let orangeDeep   = Color(hex: 0xA8481A)
 
-        /// Neutral spine — near-black to warm charcoal to graphite.
-        public static let black     = Color(hex: 0x0A0A0B)
-        public static let ink       = Color(hex: 0x121214)
-        public static let charcoal  = Color(hex: 0x1B1B1F)
-        public static let graphite  = Color(hex: 0x26262B)
-        public static let slate     = Color(hex: 0x34343B)
+        /// Neutrale Achse — von tiefem Schwarz über warmes Schwarz zu Graphit.
+        public static let black        = Color(hex: 0x050506)
+        public static let warmBlack    = Color(hex: 0x0C0A08)   // Schwarz mit Braun-Unterton
+        public static let ink          = Color(hex: 0x0E0E11)
+        public static let charcoal     = Color(hex: 0x16161A)
+        public static let graphite     = Color(hex: 0x1E1E23)
+        public static let slate        = Color(hex: 0x2A2A30)
     }
 
-    // MARK: - Colors (semantic)
+    // MARK: - Colors (semantisch)
     public enum Colors {
-        /// Brand accent — primary CTAs, focus rings, highlights.
+        /// Akzent — CTAs, Fokus, wichtige Werte. Gedämpft gehalten.
         public static let accent       = Brand.orange
-        public static let accentBright = Brand.orangeBright
+        public static let accentBright = Brand.amber
         public static let accentDeep   = Brand.orangeDeep
 
-        /// Surface levels — dark, elevation increases with the index.
+        /// Oberflächen-Ebenen (Elevation steigt mit dem Index).
         public static let surfacePrimary   = Brand.ink
         public static let surfaceSecondary = Brand.charcoal
         public static let surfaceTertiary  = Brand.graphite
         public static let surfaceElevated  = Brand.slate
 
-        /// Foreground hierarchy.
-        public static let textPrimary   = Color.white
-        public static let textSecondary = Color(hex: 0xB4B4BD)
-        public static let textTertiary  = Color(hex: 0x7C7C85)
+        /// Vordergrund-Hierarchie — Weiß bewusst leicht gedämpft (kein 100%-Weiß).
+        public static let textPrimary   = Color(hex: 0xF1F1F3)
+        public static let textSecondary = Color(hex: 0x9B9BA3)
+        public static let textTertiary  = Color(hex: 0x646469)
 
-        /// Hairlines & strokes.
-        public static let hairline      = Color.white.opacity(0.08)
-        public static let strokeSubtle  = Color.white.opacity(0.12)
+        /// Outlines / Hairlines — sehr dezent.
+        public static let hairline      = Color.white.opacity(0.06)
+        public static let strokeSubtle  = Color.white.opacity(0.10)
 
-        /// Functional colors.
-        public static let success     = Color(hex: 0x32D74B)
+        /// Funktionsfarben (gedämpft, nicht grell).
+        public static let success     = Color(hex: 0x3BBF6B)
         public static let warning     = Brand.amber
-        public static let destructive = Color(hex: 0xFF453A)
-        public static let info        = Color(hex: 0x0A84FF)
+        public static let destructive = Color(hex: 0xD2483F)
+        public static let info        = Color(hex: 0x3D7FB8)
 
-        /// Outcome colors — consistent across BetRow, BetSlipRow, StatisticSlipRow.
-        public static let homeWin = Color(hex: 0x32D74B)
+        /// Outcome-Farben — konsistent über BetRow/BetSlipRow/StatisticSlipRow.
+        public static let homeWin = Color(hex: 0x3BBF6B)
         public static let draw    = Brand.amber
-        public static let awayWin = Color(hex: 0x0A84FF)
+        public static let awayWin = Color(hex: 0x3D7FB8)
 
-        /// Win/loss state.
-        public static let won     = Color(hex: 0x32D74B)
-        public static let lost    = Color(hex: 0xFF453A)
-        public static let pending = Brand.orange
+        /// Win/Loss-Zustand.
+        public static let won     = Color(hex: 0x3BBF6B)
+        public static let lost    = Color(hex: 0xD2483F)
+        public static let pending = Brand.amber
     }
 
-    // MARK: - Gradients
+    // MARK: - Gradients (subtil halten)
     public enum Gradients {
-        /// The hero brand gradient — diagonal orange used on the primary CTA & accents.
+        /// CTA-Verlauf — gedämpftes Orange, diagonal, nicht zu gesättigt.
         public static let brand = LinearGradient(
-            colors: [Brand.orangeBright, Brand.orange, Brand.orangeDeep],
+            colors: [Brand.amber, Brand.orange, Brand.orangeDeep],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
 
-        /// Full-screen app backdrop — black with a warm spotlight from the top.
+        /// Vollflächiger App-Hintergrund — sehr dunkel, nur ein Hauch warmer Ton.
         public static let backdrop = LinearGradient(
-            colors: [Brand.black, Brand.ink, Color(hex: 0x171311), Brand.black],
+            colors: [Brand.black, Brand.warmBlack, Brand.ink, Brand.black],
             startPoint: .top,
             endPoint: .bottom
         )
 
-        /// Subtle elevated-surface fill for cards/rows.
+        /// Dezente Füllung für Cards/Rows (Glas-Anmutung).
         public static let surface = LinearGradient(
-            colors: [Color.white.opacity(0.07), Color.white.opacity(0.02)],
+            colors: [Color.white.opacity(0.05), Color.white.opacity(0.015)],
             startPoint: .topLeading,
             endPoint: .bottomTrailing
         )
 
-        /// Glass stroke that catches the light along the top edge of a card.
+        /// Lichtkante an der Oberkante einer Card.
         public static let edgeHighlight = LinearGradient(
-            colors: [Color.white.opacity(0.22), Color.white.opacity(0.04), Color.clear],
+            colors: [Color.white.opacity(0.14), Color.white.opacity(0.02), Color.clear],
             startPoint: .top,
             endPoint: .bottom
         )
 
-        /// Warm radial glow placed behind hero content.
+        /// Sehr dezenter warmer Glow hinter Hero-Inhalten (klein + leise).
         public static let glow = RadialGradient(
-            colors: [Brand.orange.opacity(0.45), Brand.orange.opacity(0.0)],
+            colors: [Brand.orange.opacity(0.22), Brand.orange.opacity(0.0)],
             center: .center,
             startRadius: 2,
-            endRadius: 320
+            endRadius: 260
+        )
+
+        /// Vignette — verdunkelt die Ränder, schafft Tiefe & Fokus zur Mitte.
+        public static let vignette = RadialGradient(
+            colors: [Color.clear, Color.black.opacity(0.55)],
+            center: .center,
+            startRadius: 140,
+            endRadius: 540
         )
     }
 
-    // MARK: - Spacing — 4pt grid
+    // MARK: - Spacing — 4pt-Raster
     public enum Spacing {
         public static let xxs: CGFloat = 2
         public static let xs: CGFloat = 4
@@ -124,17 +132,17 @@ public enum AppTheme {
         public static let xxxl: CGFloat = 48
     }
 
-    // MARK: - Radius
+    // MARK: - Radius — bewusst kantig
     public enum Radius {
-        public static let s: CGFloat = 8
-        public static let m: CGFloat = 12
-        public static let l: CGFloat = 16
-        public static let xl: CGFloat = 24
-        public static let pill: CGFloat = 999
+        public static let s: CGFloat = 6      // kleine Elemente, Chips
+        public static let m: CGFloat = 10     // Buttons, Inputs
+        public static let l: CGFloat = 12     // Cards, Rows
+        public static let xl: CGFloat = 16    // große Container (Maximum)
+        public static let pill: CGFloat = 999 // nur für winzige Status-Badges
     }
 
     // MARK: - Typography
-    /// Uses Apple's Dynamic Type so the app respects user accessibility preferences.
+    /// Dynamic Type bleibt erhalten; Gewichte präziser für eine technische Anmutung.
     public enum Typography {
         public static let largeTitle = Font.largeTitle.weight(.bold)
         public static let title = Font.title.weight(.bold)
@@ -149,13 +157,13 @@ public enum AppTheme {
         public static let caption2 = Font.caption2
     }
 
-    // MARK: - Shadows
+    // MARK: - Shadows (auf Schwarz dezent halten)
     public enum Shadow {
-        public static let small  = ShadowStyle(radius: 6,  x: 0, y: 3,  opacity: 0.35)
-        public static let medium = ShadowStyle(radius: 16, x: 0, y: 8,  opacity: 0.45)
-        public static let large  = ShadowStyle(radius: 30, x: 0, y: 16, opacity: 0.55)
-        /// Coloured glow used under accent elements.
-        public static let glow   = ShadowStyle(radius: 18, x: 0, y: 8,  opacity: 0.55)
+        public static let small  = ShadowStyle(radius: 5,  x: 0, y: 2,  opacity: 0.40)
+        public static let medium = ShadowStyle(radius: 14, x: 0, y: 7,  opacity: 0.50)
+        public static let large  = ShadowStyle(radius: 26, x: 0, y: 14, opacity: 0.55)
+        /// Akzent-Glow — bewusst leise.
+        public static let glow   = ShadowStyle(radius: 14, x: 0, y: 6,  opacity: 0.40)
     }
 
     public struct ShadowStyle {
@@ -167,33 +175,36 @@ public enum AppTheme {
 
     // MARK: - Animation
     public enum Motion {
-        public static let snappy = Animation.spring(response: 0.35, dampingFraction: 0.85)
+        /// Ruhiger, technischer Default — kein Überschwingen.
+        public static let snappy = Animation.spring(response: 0.34, dampingFraction: 0.92)
         public static let smooth = Animation.easeInOut(duration: 0.25)
-        public static let bouncy = Animation.spring(response: 0.5, dampingFraction: 0.65)
+        /// Dezent federnd (nur sparsam einsetzen).
+        public static let bouncy = Animation.spring(response: 0.45, dampingFraction: 0.78)
     }
 
-    // MARK: - UIKit appearance
-    /// Themes the UIKit-backed chrome (tab bar, nav bar) once at launch so the
-    /// SwiftUI surfaces and the system bars share one dark/orange identity.
+    // MARK: - UIKit-Appearance
+    /// Themt die UIKit-Chrome (Tab-/Navigationsleiste) einmalig beim Start, damit
+    /// SwiftUI-Flächen und Systemleisten dieselbe dunkle Identität teilen.
     public static func configureUIKitAppearance() {
-        let orange = UIColor(red: 1.0, green: 0x7A/255, blue: 0.0, alpha: 1)
-        let ink    = UIColor(red: 0x12/255, green: 0x12/255, blue: 0x14/255, alpha: 1)
-        let gray   = UIColor(red: 0x7C/255, green: 0x7C/255, blue: 0x85/255, alpha: 1)
+        let orange = UIColor(red: 0xD9/255, green: 0x65/255, blue: 0x23/255, alpha: 1)
+        let amber  = UIColor(red: 0xE4/255, green: 0x9A/255, blue: 0x4C/255, alpha: 1)
+        let ink    = UIColor(red: 0x0E/255, green: 0x0E/255, blue: 0x11/255, alpha: 1)
+        let gray   = UIColor(red: 0x64/255, green: 0x64/255, blue: 0x69/255, alpha: 1)
 
-        // Tab bar — opaque dark with an orange selected state.
+        // Tab-Bar — opak dunkel, Amber als aktiver Zustand.
         let tab = UITabBarAppearance()
         tab.configureWithOpaqueBackground()
         tab.backgroundColor = ink
-        tab.shadowColor = UIColor.white.withAlphaComponent(0.08)
+        tab.shadowColor = UIColor.white.withAlphaComponent(0.06)
         let item = tab.stackedLayoutAppearance
-        item.selected.iconColor = orange
-        item.selected.titleTextAttributes = [.foregroundColor: orange]
+        item.selected.iconColor = amber
+        item.selected.titleTextAttributes = [.foregroundColor: amber]
         item.normal.iconColor = gray
         item.normal.titleTextAttributes = [.foregroundColor: gray]
         UITabBar.appearance().standardAppearance = tab
         UITabBar.appearance().scrollEdgeAppearance = tab
 
-        // Nav bar — transparent over the gradient, white titles, orange buttons.
+        // Nav-Bar — transparent über dem Verlauf, weiße Titel, Orange-Buttons.
         let nav = UINavigationBarAppearance()
         nav.configureWithTransparentBackground()
         nav.titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -205,10 +216,10 @@ public enum AppTheme {
     }
 }
 
-// MARK: - Color hex convenience
+// MARK: - Color hex-Komfort
 
 public extension Color {
-    /// Build an opaque color from a 0xRRGGBB literal — keeps the palette readable.
+    /// Opake Farbe aus 0xRRGGBB — hält die Palette lesbar.
     init(hex: UInt32, opacity: Double = 1.0) {
         let r = Double((hex >> 16) & 0xFF) / 255.0
         let g = Double((hex >> 8) & 0xFF) / 255.0
@@ -217,20 +228,20 @@ public extension Color {
     }
 }
 
-// MARK: - View modifiers for ergonomic token use
+// MARK: - View-Modifier für ergonomische Token-Nutzung
 
 public extension View {
-    /// Applies a token-driven shadow.
+    /// Token-gesteuerter Schatten.
     func appShadow(_ style: AppTheme.ShadowStyle = AppTheme.Shadow.small) -> some View {
         shadow(color: .black.opacity(style.opacity), radius: style.radius, x: style.x, y: style.y)
     }
 
-    /// Coloured accent glow — for hero elements and active controls.
-    func accentGlow(_ color: Color = AppTheme.Colors.accent, radius: CGFloat = 18, opacity: Double = 0.5) -> some View {
-        shadow(color: color.opacity(opacity), radius: radius, x: 0, y: 8)
+    /// Dezenter Akzent-Glow — nur für Hero-Elemente / aktive Controls.
+    func accentGlow(_ color: Color = AppTheme.Colors.accent, radius: CGFloat = 14, opacity: Double = 0.35) -> some View {
+        shadow(color: color.opacity(opacity), radius: radius, x: 0, y: 6)
     }
 
-    /// Standard elevated card surface — dark glass with a top edge-highlight.
+    /// Standard-Card — dunkles Glas mit dezenter Oberkante + Hairline.
     func appCard(padding: CGFloat = AppTheme.Spacing.l,
                  radius: CGFloat = AppTheme.Radius.l) -> some View {
         self
