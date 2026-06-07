@@ -38,7 +38,7 @@ struct StatisticRankRow: View {
 
     private var badge: some View {
         ZStack {
-            Circle()
+            RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous)
                 .fill(badgeColor)
                 .frame(width: 32, height: 32)
             Text("\(rank)")

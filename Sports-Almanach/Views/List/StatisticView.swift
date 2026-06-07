@@ -19,7 +19,7 @@ struct StatisticView: View {
                     sectionHeader("Rangliste", icon: "trophy.fill")
                     rankingList
 
-                    Divider().overlay(AppTheme.Colors.accent.opacity(0.5))
+                    Divider().overlay(AppTheme.Colors.hairline)
 
                     sectionHeader("Deine Wettscheine", icon: "ticket.fill")
                     betHistoryList

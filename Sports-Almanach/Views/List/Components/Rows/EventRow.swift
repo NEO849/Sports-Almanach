@@ -95,7 +95,7 @@ struct EventRow: View {
             .padding(.horizontal, AppTheme.Spacing.s)
             .padding(.vertical, AppTheme.Spacing.xxs)
             .background(
-                Capsule().fill(event.status.color)
+                RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous).fill(event.status.color)
             )
     }
 

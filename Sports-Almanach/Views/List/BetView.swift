@@ -59,7 +59,7 @@ struct BetView: View {
                     .padding(.horizontal, AppTheme.Spacing.l)
                     .padding(.vertical, AppTheme.Spacing.s)
                     .background(
-                        Capsule().fill(AppTheme.Gradients.brand)
+                        RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous).fill(AppTheme.Gradients.brand)
                     )
                     .accentGlow(opacity: 0.4)
             }

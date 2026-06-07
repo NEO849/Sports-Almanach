@@ -51,7 +51,7 @@ struct StatisticSlipRow: View {
             .padding(.horizontal, AppTheme.Spacing.s)
             .padding(.vertical, AppTheme.Spacing.xxs)
             .foregroundStyle(.white)
-            .background(Capsule().fill(badgeColor))
+            .background(RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous).fill(badgeColor))
     }
 
     @ViewBuilder

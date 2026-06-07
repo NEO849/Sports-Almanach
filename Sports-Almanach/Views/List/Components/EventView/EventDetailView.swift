@@ -74,7 +74,7 @@ struct EventDetailView: View {
             .foregroundStyle(.white)
             .padding(.horizontal, AppTheme.Spacing.s)
             .padding(.vertical, AppTheme.Spacing.xxs)
-            .background(Capsule().fill(event.status.color))
+            .background(RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous).fill(event.status.color))
     }
 
     private var teamsBlock: some View {
@@ -133,7 +133,7 @@ struct EventDetailView: View {
             .clipShape(RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous))
             .overlay(
                 RoundedRectangle(cornerRadius: AppTheme.Radius.l, style: .continuous)
-                    .strokeBorder(AppTheme.Colors.accent.opacity(0.6), lineWidth: 1)
+                    .strokeBorder(AppTheme.Colors.strokeSubtle, lineWidth: 1)
             )
     }
 

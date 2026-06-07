@@ -43,7 +43,7 @@ struct BetSlipRow: View {
             .padding(.horizontal, AppTheme.Spacing.s)
             .padding(.vertical, AppTheme.Spacing.xxs)
             .background(
-                Capsule().fill(.white)
+                RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous).fill(.white)
             )
             .foregroundStyle(.black)
     }
@@ -54,7 +54,7 @@ struct BetSlipRow: View {
             .padding(.horizontal, AppTheme.Spacing.s)
             .padding(.vertical, AppTheme.Spacing.xxs)
             .background(
-                Capsule().fill(outcomeColor.opacity(0.7))
+                RoundedRectangle(cornerRadius: AppTheme.Radius.s, style: .continuous).fill(outcomeColor.opacity(0.7))
             )
             .foregroundStyle(.white)
     }

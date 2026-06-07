@@ -107,9 +107,9 @@ struct BetRow: View {
             .background(
                 Group {
                     if selectedOutcome == nil {
-                        Capsule().fill(AppTheme.Colors.surfaceElevated)
+                        RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous).fill(AppTheme.Colors.surfaceElevated)
                     } else {
-                        Capsule().fill(AppTheme.Gradients.brand)
+                        RoundedRectangle(cornerRadius: AppTheme.Radius.m, style: .continuous).fill(AppTheme.Gradients.brand)
                     }
                 }
             )
