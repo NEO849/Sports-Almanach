@@ -74,7 +74,7 @@ struct BetView: View {
     private var betCandidatesList: some View {
         if eventVM.selectedEvents.isEmpty {
             ContentUnavailableView {
-                Label("Noch keine Events ausgewählt", systemImage: "bullseye")
+                Label("", systemImage: "bullseye")
                     .foregroundStyle(.white)
             } description: {
                 Text("Wähle Events im Events-Tab aus, um Wetten zu platzieren.")

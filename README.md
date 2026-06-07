@@ -19,30 +19,38 @@ EUR on combo bets, and watch slips settle once matches finish.
 <table>
   <tr>
     <td align="center">
-      <img src="Images/sportsA_splash_1.png" width="220" alt="Splash" /><br/>
-      <sub><b>Splash</b></sub>
+      <img src="Images/sport_login_1.png" width="200" alt="Login" /><br/>
+      <sub><b>Login</b></sub>
     </td>
     <td align="center">
-      <img src="Images/sportsA_home_2.png" width="220" alt="Home" /><br/>
+      <img src="Images/sport_register_2.png" width="200" alt="Registrieren" /><br/>
+      <sub><b>Registrieren</b></sub>
+    </td>
+    <td align="center">
+      <img src="Images/sport_home_3.png" width="200" alt="Home" /><br/>
       <sub><b>Home</b></sub>
     </td>
     <td align="center">
-      <img src="Images/sportsA_events_3.png" width="220" alt="Events" /><br/>
+      <img src="Images/sport_events_4.png" width="200" alt="Events" /><br/>
       <sub><b>Events</b></sub>
     </td>
   </tr>
   <tr>
     <td align="center">
-      <img src="Images/sportsA_events-detail_4.png" width="220" alt="Event-Details" /><br/>
+      <img src="Images/sport_events_detail_5.png" width="200" alt="Event-Details" /><br/>
       <sub><b>Event-Details</b></sub>
     </td>
     <td align="center">
-      <img src="Images/sportsA_bet_5.png" width="220" alt="Wetten" /><br/>
+      <img src="Images/sport_bet_6.png" width="200" alt="Wetten" /><br/>
       <sub><b>Wetten</b></sub>
     </td>
     <td align="center">
-      <img src="Images/sportsA_betslip_6.png" width="220" alt="Wettschein" /><br/>
+      <img src="Images/sport_betSlip_7.png" width="200" alt="Wettschein" /><br/>
       <sub><b>Wettschein</b></sub>
+    </td>
+    <td align="center">
+      <img src="Images/sport_historie_8.png" width="200" alt="Historie" /><br/>
+      <sub><b>Historie</b></sub>
     </td>
   </tr>
 </table>
